@@ -36,3 +36,10 @@ models:
   ChairManType:
     name: string:100 unique
     description: text nullable
+  EducationalLevel:
+    name: string:100 unique
+    description: text nullable
+  FieldOfStudy:
+    educational_level_id: id foreign
+    name: string:255 unique
+    description: text nullable
