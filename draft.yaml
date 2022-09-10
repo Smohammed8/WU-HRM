@@ -47,7 +47,7 @@ models:
     name: string:255 unique
     description: text nullable
   Religion:
-    name:string:255 unique
+    name: string:255 unique
 
   Organization:
     name: string:255 unique
