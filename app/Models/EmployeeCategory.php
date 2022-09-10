@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmployeeCategory extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     /**
@@ -17,6 +18,7 @@ class EmployeeCategory extends Model
     protected $fillable = [
         'name',
     ];
+
 
     /**
      * The attributes that should be cast to native types.

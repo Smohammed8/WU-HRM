@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pension extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     /**
