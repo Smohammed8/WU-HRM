@@ -171,9 +171,27 @@ models:
     name: string:255
     level: integer max:100 min:0
     description: text nullable
-
-
-
-
-
-
+  EmployeeLanguage:
+    employee_id: id foreign
+    language_id: id foreign
+    speaking: enum:Basic,Fair,Good,Fluent,"Mather Taunt"
+    reading: enum:Excellent,Good,Fair,Poor,No
+    writing: enum:Excellent,Good,Fair,Poor,No
+    comment: text nullable
+  EmployeeAddress:
+    employee_id: id foreign
+    address_type: enum:Home,Work,Other
+    name: string:255
+  EmployeeContact:
+    employee_id: id foreign
+    contact_type: enum:Emergency,Other
+    contact_name: string:255
+    contact: string:255
+  EmployeeFamily:
+    employee_id: id foreign
+    family_relationship_id: id foreign
+    first_name: string:255
+    father_name: string:255
+    grand_father_name: string:255
+    gender: enum:Male,Female
+    dob: date
