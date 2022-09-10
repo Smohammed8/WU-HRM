@@ -1,4 +1,7 @@
 models:
+  UploadFile:
+    name: string:255
+    path: string:255
   EmployeeTitle:
     title: string:50 unique
     accronomy: string:40 unique
@@ -43,3 +46,134 @@ models:
     educational_level_id: id foreign
     name: string:255 unique
     description: text nullable
+  Religion:
+    name:string:255 unique
+
+  Organization:
+    name: string:255 unique
+    email: string:255 unique
+    mission: text nullable
+    vision: text nullable
+    motto: text nullable
+    logo: id foreign:upload_files nullable
+    web_address: string:255 unique nullable
+    fax: string:100 nullable
+    telephone: string:100 nullable
+    pobox: string:100 nullable
+    seal: id foreign:upload_files nullable
+    president_signature: id foreign:upload_files nullable
+    account_number: string:255 nullable
+    header: string:255 nullable
+    footer: string:255 nullable
+  JobTitleCategory:
+    name: string:255 unique
+    description: text nullable
+  JobTitle:
+    name: string:255 unique
+    description: text nullable
+    job_title_category_id: id foreign
+  Unit:
+    name: string:255 unique
+    acronym: string:100 unique
+    email: string:255 nullable
+    telephone: string:255 nullable
+    extension_line: string:255 nullable
+    location: string:255 nullable
+    seal: id foreign:upload_files nullable
+    teter: id foreign:upload_files nullable
+    vision: text nullable
+    mission: text nullable
+    objective: text nullable
+    building_number: string:255 nullable
+    office_number: string:255 nullable
+    motto: text nullable
+    value_list: text nullable
+    parent_unit_id: id foreign:units nullable
+    reports_to_id: id foreign:units nullable
+    organization_id: id foreign
+    chair_man_type_id: integer nullable
+  EmploymentType:
+    name: string:100 unique
+    description: text nullable
+  EmploymentStatus:
+    name: string:100 unique
+    description: text nullable
+
+  Employee:
+    first_name: string:255
+    father_name: string:255
+    grand_father_name: string:255
+    gender: enum:Male,Female
+    date_of_birth: date
+    photo: id foreign:upload_files nullable
+    birth_city: string:255
+    passport: string:255 nullable
+    driving_licence: id foreign:upload_files nullable
+    blood_group: enum:A,B,AB,O nullable
+    eye_color: enum:Amber,Blue,Brown,Gray,Green,Hazel,Red nullable
+    phone_number: string:100 nullable
+    alternate_email: string:255 nullable
+    rfid: string:100 nullable
+    employment_identity: integer nullable
+    marital_status_id: id foreign
+    ethnicity_id: id foreign
+    religion_id: id foreign
+
+    unit_id: id foreign
+    employement_date: date
+    salary_step: enum:Base,I,II,III,IV,V,Vi,VII,VIII,IX,Celing nullable
+    job_title_id: id foreign
+    employment_type_id: id foreign
+    pention_number: integer nullable
+    employment_status_id: id foreign nullable
+    static_salary: decimal(10,2)
+    uas_user_id: int nullable
+  InternalExperience:
+    employee_id: id foreign
+    unit_id: id foreign
+    job_title_id: id foreign
+    position: string:255
+    start_date: date
+    end_date: date nullable
+  ExternalExperience:
+    employee_id: id foreign
+    unit_id: id foreign
+    job_title: string:255
+    company_name: string:255
+    start_date: date
+    end_date: date
+    comment: text nullable
+  TrainingAndStudy:
+    employee_id: id foreign
+    name: string:255
+    nationality_id: id foreign
+    educational_level_id: id foreign
+    inistitution: string:255
+    city: string:255
+    is_contract: boolean
+    date_of_leave: date
+    end_of_study: date
+  EmployeeCertificate:
+    employee_id: id foreign
+    skill_type_id: id foreign
+    name: string:255
+    address: string:255 nullable
+    certificate_date: date
+    duration: integer nullable
+    comment: text nullable
+  License:
+    employee_id: id foreign
+    license_type_id: id foreign
+    upload_file_id: id foreign
+  Skill:
+    employee_id: id foreign
+    skill_type_id: id foreign
+    name: string:255
+    level: integer max:100 min:0
+    description: text nullable
+
+
+
+
+
+
