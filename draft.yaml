@@ -1,47 +1,17 @@
-# models:
-# 	Employee:
-# 		first_name: string:255
-#     father_name: string:255
-# 		grand_father_name
-# 		gender
-# 		date_of_birth
-# 		pention_number
-# 		employement_date
-# 		photo
-# 		driving_licence
-# 		driving_licence
-# 		salary_step
-# 		blood_group
-# 		eye_color
-# 		allowed_unit_job
-# 		user
-# 		unit
-# 		category
-# 		identity
-# 		phone_number
-# 		contacts [Collection]
-# 		address [collection]
-# 		employment_identity
-# 		old_id
-# 		rfid
-# 	Unit:
-# 		name
-# 		acronym
-# 		telephone
-# 		email
-# 		extension_line
-# 		location
-# 		seal
-# 		teter
-# 		units
-# 		# reportMe[]
-# 		reportMe
-# 		unit
-# 		reportsTo
-# 		# unitCategory[]
-# 		# organization[]
-# 	Category:
-# 		name
-# 		is_sharable
-# 		units
-# 		unitJobs
+models:
+  EmployeeTitle:
+    title: string:50 unique
+    accronomy: string:40 unique
+  MaritalStatus:
+    name: string:100 unique
+  FamilyRelationship:
+    name: string:255
+    gender: enum:Male,Female
+  Nationality:
+    nation: string:255
+    code: string:20
+    label: string:255
+  Language:
+    name: string:255
+    nationality_id:
+
