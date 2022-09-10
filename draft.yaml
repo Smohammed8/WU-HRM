@@ -5,13 +5,34 @@ models:
   MaritalStatus:
     name: string:100 unique
   FamilyRelationship:
-    name: string:255
+    name: string:255 unique
     gender: enum:Male,Female
   Nationality:
-    nation: string:255
+    nation: string:255 unique
     code: string:20
     label: string:255
   Language:
-    name: string:255
-    nationality_id:
-
+    name: string:255 unique
+    nationality_id: id foreign
+  Region:
+    name: string:100 unique
+    nationality_id: id foreign
+  Ethnicity:
+    name: string:100 unique
+    region_id: id foreign
+  SkillType:
+    name: string:255 unique
+  LicenseType:
+    name: string:255 unique
+    description: text nullable
+  EmployeeCategory:
+    name: string:255 unique
+  Pension:
+    name: string:255 unqique
+    gender: enum:Male,Female
+    year: integer default 60
+    extend_year: integer default 0
+    employee_category_id: id foreign
+  ChairManType:
+    name: string:100 unique
+    description: text nullable
