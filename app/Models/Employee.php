@@ -45,6 +45,36 @@ class Employee extends Model
         'uas_user_id',
     ];
 
+    public function setNameAttribute()
+    {
+        return 'sd';
+    }
+    public function setPhotoAttribute($value)
+    {
+        dd('sd1');
+        // $attribute_name = "image";
+        // $disk = "public";
+        // $destination_path = "folder_1/subfolder_1";
+
+        // $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+
+        // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+    }
+
+
+    public function setDrivingLicenceAttribute($value)
+    {
+        $fileName = $value;
+        $disk = "public";
+        $destination_path = "employee/driving_license_uploads";
+        $attribute_name = "image";
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+        // dump($content);
+        // dump($value);
+        // dd('sd2');
+        // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -64,6 +94,7 @@ class Employee extends Model
         'employment_type_id' => 'integer',
         'employment_status_id' => 'integer',
     ];
+
 
     public function photo()
     {
