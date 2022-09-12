@@ -23,7 +23,7 @@ class MaritalStatusFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->unique()->randomElement(['Divorce','Married','Single','Widow']),
         ];
     }
 }
