@@ -54,12 +54,12 @@ class EmployeeCrudController extends CrudController
         // insert item in the db
         // dd($request->input('photo'));
         //Upload Image
-        $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'],Constants::EMPLOYEE_PHOTO_UPLOAD_PATH);
+        $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'], Constants::EMPLOYEE_PHOTO_UPLOAD_PATH);
         $inputs['photo'] = $photoFile->id;
         //CHecking driving license
         $drivingLicense = $inputs['driving_licence'];
-        if($drivingLicense!=null){
-            $inputs['driving_licence'] = UploadFileCrudController::fileUpload($request->file('driving_licence'),Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH)->id;
+        if ($drivingLicense != null) {
+            $inputs['driving_licence'] = UploadFileCrudController::fileUpload($request->file('driving_licence'), Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH)->id;
         }
 
         $item = $this->crud->create($inputs);
