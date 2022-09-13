@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Constants;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\EmploymentStatus;
@@ -10,6 +11,9 @@ use App\Models\JobTitle;
 use App\Models\MaritalStatus;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class EmployeeCrudController
@@ -37,6 +41,33 @@ class EmployeeCrudController extends CrudController
     }
 
     /**
+     * Store a newly created resource in the database.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+        $inputs = $this->crud->getStrippedSaveRequest();
+        // insert item in the db
+        // dd($request->input('photo'));
+        $uploadPath = Constants::EMPLOYEE_PHOTO_UPLOAD_PATH;
+        $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'],$uploadPath);
+        $inputs['photo'] = $photoFile->id;
+        $item = $this->crud->create($inputs);
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        // show a success message
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return $this->crud->performSaveAction($item->getKey());
+    }
+    /**
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
@@ -47,8 +78,8 @@ class EmployeeCrudController extends CrudController
         // CRUD::column('first_name');
         // CRUD::column('father_name');
         // CRUD::column('grand_father_name');
-        CRUD::column('name')->type('closure')->function(function($entry){
-            return $entry->first_name.' '.$entry->father_name.' '.$entry->grand_father_name;
+        CRUD::column('name')->type('closure')->function(function ($entry) {
+            return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
         // CRUD::column('first_name')->label('Name');
 
@@ -92,10 +123,10 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        CRUD::setValidation(EmployeeRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud;
         CRUD::field('photo')->type('image')->aspectRatio(1)->crop(true)->size(4);
-        CRUD::setValidation(EmployeeRequest::class);
         CRUD::field('first_name')->size(4);
         CRUD::field('father_name')->size(4);
         CRUD::field('grand_father_name')->size(4);
