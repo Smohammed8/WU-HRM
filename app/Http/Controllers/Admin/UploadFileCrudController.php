@@ -34,16 +34,16 @@ class UploadFileCrudController extends CrudController
         CRUD::setEntityNameStrings('upload file', 'upload files');
     }
 
-    // public static function fileUpload($file, $path = 'misc')
-    // {
-    //     $fileModel = new File;
-    //     $fileName = time() . '_' . $file->getClientOriginalName();
-    //     $filePath = $file->storeAs($path, $fileName, 'public');
-    //     $fileModel->name = time() . '_' . $file->getClientOriginalName();
-    //     $fileModel->file_path = '/storage/' . $filePath;
-    //     $fileModel->save();
-    //     return $fileModel;
-    // }
+    public static function fileUpload($file, $path = 'misc')
+    {
+        $fileModel = new UploadFile();
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs($path, $fileName, 'public');
+        $fileModel->name = time() . '_' . $file->getClientOriginalName();
+        $fileModel->path = '/storage/' . $filePath;
+        $fileModel->save();
+        return $fileModel;
+    }
 
     // public static function deleteFile(File $file)
     // {

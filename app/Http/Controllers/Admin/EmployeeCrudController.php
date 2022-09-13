@@ -53,9 +53,15 @@ class EmployeeCrudController extends CrudController
         $inputs = $this->crud->getStrippedSaveRequest();
         // insert item in the db
         // dd($request->input('photo'));
-        $uploadPath = Constants::EMPLOYEE_PHOTO_UPLOAD_PATH;
-        $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'],$uploadPath);
+        //Upload Image
+        $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'],Constants::EMPLOYEE_PHOTO_UPLOAD_PATH);
         $inputs['photo'] = $photoFile->id;
+        //CHecking driving license
+        $drivingLicense = $inputs['driving_licence'];
+        if($drivingLicense!=null){
+            $inputs['driving_licence'] = UploadFileCrudController::fileUpload($request->file('driving_licence'),Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH)->id;
+        }
+
         $item = $this->crud->create($inputs);
         $this->data['entry'] = $this->crud->entry = $item;
 
@@ -134,7 +140,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('date_of_birth')->size(4);
         CRUD::field('birth_city')->size(4);
         CRUD::field('passport')->size(4);
-        CRUD::field('driving_licence')->size(4)->type('upload');
+        CRUD::field('driving_licence')->size(4)->type('upload')->upload(true);
         CRUD::field('blood_group')->type('enum')->size(4);
         CRUD::field('eye_color')->type('enum')->size(4);
         CRUD::field('phone_number')->size(4);
