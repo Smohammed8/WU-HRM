@@ -16,7 +16,6 @@ class JobTitleCategoryRequest extends FormRequest
         // only allow updates if the user is logged in
         return backpack_auth()->check();
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,9 +25,10 @@ class JobTitleCategoryRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'name' => 'required|unique|regex:/^[a-zA-Z]+$/u|min:5|max:50',
+            'description'=>'regex:/^[a-zA-Z]+$/u|min:20|max:255',
         ];
     }
-
     /**
      * Get the validation attributes that apply to the request.
      *
@@ -40,7 +40,6 @@ class JobTitleCategoryRequest extends FormRequest
             //
         ];
     }
-
     /**
      * Get the validation messages that apply to the request.
      *

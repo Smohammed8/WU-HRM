@@ -16,7 +16,6 @@ class LanguageRequest extends FormRequest
         // only allow updates if the user is logged in
         return backpack_auth()->check();
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,6 +25,9 @@ class LanguageRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+
+            'name'=>'required|unique|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'nationality_id' =>'required',
         ];
     }
 

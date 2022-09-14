@@ -16,7 +16,6 @@ class FieldOfStudyRequest extends FormRequest
         // only allow updates if the user is logged in
         return backpack_auth()->check();
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,10 +24,11 @@ class FieldOfStudyRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:100',
+            'educational_level_id' =>'required',
+            'description'=> 'regex:/^[a-zA-Z]+$/u|min:20|max:255',
         ];
     }
-
     /**
      * Get the validation attributes that apply to the request.
      *

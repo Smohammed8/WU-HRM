@@ -26,6 +26,14 @@ class EmployeeFamilyRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+
+            'employee_id' =>'required',
+            'family_relationship_id' =>'required',
+            'first_name' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
+            'father_name' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
+            'grand_father_name' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
+            'gender' =>'required',
+            'dob' =>'required',
         ];
     }
 
