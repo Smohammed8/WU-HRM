@@ -150,4 +150,18 @@ class Employee extends Model
     {
         return $this->hasMany(ExternalExperience::class);
     }
+
+    /**
+     * Get all of the addresses for the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(EmployeeAddress::class);
+    }
+
+     public function getEmployeeAddressesListAttribute() {
+        return json_encode($this->addresses);
+    }
 }

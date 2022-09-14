@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Constants;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
+use App\Models\EmployeeAddress;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\ExternalExperience;
@@ -28,6 +29,9 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; } //IMPORTANT HERE
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -207,12 +211,65 @@ class EmployeeCrudController extends CrudController
         CRUD::field('salary_step')->tab($tabName)->type('enum')->size(3);
         CRUD::field('pention_number')->tab($tabName)->size(3);
         CRUD::field('employment_status_id')->tab($tabName)->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->tab($tabName)->size(3);
-        $tabName = 'Work Experience';
+        $tabName = 'Employee Address';
+        CRUD::field('employee_addresses_list')
+        ->type('repeatable')
+        ->label('Employee Address')
+        ->fields([
+            [
+                'name'    => 'id',
+                'type'    => 'hidden',
+            ],
+            [
+                'name'    => 'address_type',
+                'type'    => 'select_from_array',
+                'options'     => ['home' => 'Home', 'work' => 'Work','other'=>'Other'],
+            ],
+            [
+                'name'    => 'name',
+                'type'    => 'text',
+            ],
+        ])->tab($tabName);
         // dd($this->crud->getCurrentEntry());
-        $this->crud->addColumn([ 'name' => 'externalExperiences.company_name','tab'=>$tabName]);
+        // $this->crud->addColumn([ 'name' => 'externalExperiences.company_name','tab'=>$tabName]);
 
         // CRUD::field('passport')->tab($tabName)->size(3);
         // CRUD::field('rfid')->tab($tabName)->size(3);
         // CRUD::field('uas_user_id')->tab($tabName)->size(3);
+    }
+
+
+    public function update()
+    {
+        $items = collect(json_decode(request('employee_addresses_list'), true));
+
+        $response = $this->traitUpdate();
+
+        $employee_id = $this->crud->entry->id;
+        $created_ids = [];
+
+        $items->each(function($item, $key) use ($employee_id, &$created_ids) {
+            $item['employee_id'] = $employee_id;
+
+            if ($item['id']) {
+                $comment = EmployeeAddress::find($item['id']);
+                $comment->update($item);
+            } else {
+
+               $created_ids[] = EmployeeAddress::create($item)->id;
+            }
+
+        });
+
+        // delete removed Comments
+        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
+        $related_items_in_db = $this->crud->entry->addresses;
+
+        $related_items_in_db->each(function($item, $key) use ($related_items_in_request) {
+            if (!$related_items_in_request->contains($item['id'])) {
+                $item->delete();
+            }
+        });
+        return $response;
     }
 }
