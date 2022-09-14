@@ -113,13 +113,4 @@
             class='nav-icon la la-question'></i> Training and studies</a></li>
 
 
-<!-- Users, Roles, Permissions -->
-<li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i> Employee vita </a>
-    <ul class="nav-dropdown-items">
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('employee/create') }}"><i class="nav-icon la la-plus"></i>
-                <span> New employee </span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('employee') }}"><i
-                    class="nav-icon la la-list"></i> <span>Employee list</span></a></li>
-    </ul>
-</li>
+
