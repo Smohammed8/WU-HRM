@@ -26,6 +26,10 @@ class LicenseRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+
+            'employee_id'  => 'required',
+            'license_type_id'  => 'required',
+            'upload_file_id'  => 'required'
         ];
     }
 

@@ -25,7 +25,8 @@ class EmploymentTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name'=>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'description' => 'regex:/^[a-zA-Z]+$/u|min:20|max:255'
         ];
     }
 

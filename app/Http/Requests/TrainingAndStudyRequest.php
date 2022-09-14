@@ -26,6 +26,16 @@ class TrainingAndStudyRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+
+            'employee_id' =>'required',
+            'name' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'nationality_id' =>'required',
+            'educational_level_id' =>'required',
+            'inistitution'=>'required|regex:/^[a-zA-Z]+$/u|min:5|max:100',
+            'city' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:100',
+            'is_contract' =>'required',
+            'date_of_leave'=>'required|date',
+            'end_of_study'=>'required|date',
         ];
     }
 
