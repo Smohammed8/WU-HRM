@@ -42,7 +42,7 @@ class UnitRequest extends FormRequest
             'office_number'=>'required',
             'motto'=>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
             'value_list'=>'required|regex:/^[a-zA-Z]+$/u|min:10|max:255',
-            'parent_unit_id'=>'required',
+          //  'parent_unit_id'=>'required',
             'reports_to_id' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
             'organization_id' =>'required',
             'chair_man_type_id'=>'required',

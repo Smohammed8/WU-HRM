@@ -22,11 +22,15 @@ use Prologue\Alerts\Facades\Alert;
  */
 class EmployeeCrudController extends CrudController
 {
+
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+   // use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -119,7 +123,95 @@ class EmployeeCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
+
+
+
+        $this->crud->addFilter([
+            'type'  => 'date_range',
+            'name'  => 'employement_date ',
+            'label' => 'By hire date '
+          ],
+          false,
+          function ($value) { // if the filter is active, apply these constraints
+            $dates = json_decode($value);
+            $this->crud->addClause('where', ' employement_date ', '>=', $dates->from);
+            $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
+          });
+
+
+        $this->crud->addFilter([
+            'name'  => 'unit_id',
+            'type'  => 'select2_multiple',
+            'label' => 'Filter by office'
+
+        ], function() {
+            return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
+        }, function($values) {
+            $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
+        });
+
+
+        $this->crud->addFilter([
+            'name'  => 'employment_type_id',
+            'type'  => 'select2_multiple',
+            'label' => 'Filter by type'
+
+        ], function() {
+            return \App\Models\EmploymentType::all()->pluck('name', 'id')->toArray();
+        }, function($values) {
+            $this->crud->addClause('whereIn', 'employment_type_id', json_decode($values));
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'job_title_id',
+            'type'  => 'select2_multiple',
+            'label' => 'By job title'
+
+        ], function() {
+            return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
+        }, function($values) {
+            $this->crud->addClause('whereIn', 'job_title_id', json_decode($values));
+        });
+
+
+
+
+
+
+    $this->crud->addFilter([
+    'name'       => 'static_salary ',
+    'type'       => 'range',
+    'label'      => 'By Gross salary',
+    'label_from' => 'min value',
+    'label_to'   => 'max value',
+    'size' =>5
+  ],
+  false,
+  function($value) { // if the filter is active
+      $range = json_decode($value);
+      if ($range->from) {
+          $this->crud->addClause('where', 'static_salary ', '>=', (float) $range->from);
+      }
+      if ($range->to) {
+          $this->crud->addClause('where', 'static_salary ', '<=', (float) $range->to);
+      }
+  });
+
+
+        // $this->crud->addFilter([
+        //     'name'  => 'problem_id',
+        //     'type'  => 'select2_multiple',
+        //     'label' => 'Filter by client request'
+
+        // ], function() {
+        //     return \App\Models\Problem::all()->pluck('name', 'id')->toArray();
+        // }, function($values) {
+        //     $this->crud->addClause('whereIn', 'problem_id', json_decode($values));
+        // });
     }
+
+
+
 
     /**
      * Define what happens when the Create operation is loaded.
@@ -155,10 +247,11 @@ class EmployeeCrudController extends CrudController
         CRUD::field('salary_step')->type('enum')->size(4);
         CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
         CRUD::field('employment_type_id')->type('select')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(4);
-        CRUD::field('pention_number')->size(4);
+        CRUD::field('pention_number')->size(4)->type('number');
         CRUD::field('employment_status_id')->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(4);
-        CRUD::field('static_salary')->size(4);
+        CRUD::field('static_salary')->size(4)->type('number');
         CRUD::field('uas_user_id')->size(4);
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -166,6 +259,9 @@ class EmployeeCrudController extends CrudController
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
+
+
+
 
     /**
      * Define what happens when the Update operation is loaded.
