@@ -3,7 +3,6 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i>
     Home </a></li>
 
-
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
         {{ trans('backpack::base.dashboard') }}</a></li>
 
@@ -19,10 +18,35 @@
                     class="nav-icon la la-key"></i> <span>Permissions</span></a></li>
     </ul>
 </li>
+
+
+<!-- Users, Roles, Permissions -->
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-sitemap"></i> Structure </a>
+    <ul class="nav-dropdown-items">
+
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'><i
+            class='nav-icon la la-caret-right'></i> Organizations</a></li>
+
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('unit') }}'><i
+                class='nav-icon la la-caret-right'></i>
+          Organizational  Units</a></li>
+
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'><i  class='nav-icon la la-caret-right'></i>
+               Job titles</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'><i class='nav-icon la la-caret-right'></i> Job title categories</a></li>
+
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'><i
+        class='nav-icon la la-caret-right'></i> Employment types</a></li>
+
+
+    </ul>
+</li>
+
+
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-gear"></i> Setting</a>
     <ul class="nav-dropdown-items">
-
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i
                     class='nav-icon la la-caret-right'></i> Chair man types</a></li>
@@ -36,22 +60,19 @@
                     class='nav-icon la la-caret-right'></i>
                 Ethnicities</a></li>
 
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-category') }}'><i
                     class='nav-icon la la-caret-right'></i> Employee categories</a></li>
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-status') }}'><i
                     class='nav-icon la la-caret-right'></i> Employment status </a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'><i
-                    class='nav-icon la la-caret-right'></i> Employment types</a></li>
+
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('field-of-study') }}'><i
                     class='nav-icon la la-caret-right'></i> Field of studies</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'><i
-                    class='nav-icon la la-caret-right'></i>
-                Job titles</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'><i
-                    class='nav-icon la la-caret-right'></i> Job title categories</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
+
+
+
+
+                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
                     class='nav-icon la la-caret-right'></i> Languages</a></li>
 
 
@@ -70,9 +91,7 @@
                 Skills</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skill-type') }}'><i
                     class='nav-icon la la-caret-right'></i> Skill types</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('unit') }}'><i
-                    class='nav-icon la la-caret-right'></i>
-                Units</a></li>
+
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('upload-file') }}'><i
                     class='nav-icon la la-caret-right'></i> Upload files</a></li>
     </ul>
@@ -105,8 +124,7 @@
             class='nav-icon la la-question'></i> Family relationships</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('internal-experience') }}'><i
             class='nav-icon la la-question'></i> Internal experiences</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'><i
-            class='nav-icon la la-question'></i> Organizations</a></li>
+
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'><i
             class='nav-icon la la-question'></i> Pensions</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('training-and-study') }}'><i
