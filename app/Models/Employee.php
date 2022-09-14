@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
@@ -139,5 +140,14 @@ class Employee extends Model
     public function employmentStatus()
     {
         return $this->belongsTo(EmploymentStatus::class);
+    }
+    /**
+     * Get all of the externalExperiences for the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function externalExperiences(): HasMany
+    {
+        return $this->hasMany(ExternalExperience::class);
     }
 }

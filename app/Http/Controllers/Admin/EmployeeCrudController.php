@@ -7,6 +7,7 @@ use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
+use App\Models\ExternalExperience;
 use App\Models\JobTitle;
 use App\Models\MaritalStatus;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -38,6 +39,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setModel(\App\Models\Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
+
     }
 
     /**
@@ -131,7 +133,6 @@ class EmployeeCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
-        $this->crud;
         CRUD::field('photo')->type('image')->aspectRatio(1)->crop(true)->size(4);
         CRUD::field('first_name')->size(4);
         CRUD::field('father_name')->size(4);
@@ -175,6 +176,43 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        $tabName = 'Personal Information';
+        // $this->setupCreateOperation();
+        $this->crud->setUpdateContentClass('col-md-12');
+        CRUD::setValidation(EmployeeRequest::class);
+        $this->crud->setCreateContentClass('col-md-12');
+        CRUD::field('photo')->tab($tabName)->type('image')->aspectRatio(1)->crop(true)->size(3);
+        CRUD::field('first_name')->tab($tabName)->size(3);
+        CRUD::field('father_name')->tab($tabName)->size(3);
+        CRUD::field('grand_father_name')->tab($tabName)->size(3);
+        CRUD::field('gender')->type('enum')->tab($tabName)->size(3);
+        CRUD::field('date_of_birth')->tab($tabName)->size(3);
+        CRUD::field('birth_city')->tab($tabName)->size(3);
+        CRUD::field('employment_identity')->tab($tabName)->label('Employee ID Number')->size(3);
+        CRUD::field('marital_status_id')->tab($tabName)->type('select')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->tab($tabName)->size(3);
+        CRUD::field('phone_number')->tab($tabName)->size(3);
+        CRUD::field('ethnicity_id')->tab($tabName)->size(3);
+        CRUD::field('eye_color')->tab($tabName)->type('enum')->size(3);
+        CRUD::field('religion_id')->tab($tabName)->size(3);
+        CRUD::field('blood_group')->tab($tabName)->type('enum')->size(3);
+        CRUD::field('alternate_email')->tab($tabName)->type('email')->size(3);
+        CRUD::field('driving_licence')->tab($tabName)->size(3)->type('upload')->upload(true);
+
+        $tabName = 'Employee Job';
+        CRUD::field('job_title_id')->tab($tabName)->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(3);
+        CRUD::field('unit_id')->tab($tabName)->size(3);
+        CRUD::field('employement_date')->tab($tabName)->size(3);
+        CRUD::field('employment_type_id')->tab($tabName)->type('select')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(3);
+        CRUD::field('static_salary')->tab($tabName)->size(3);
+        CRUD::field('salary_step')->tab($tabName)->type('enum')->size(3);
+        CRUD::field('pention_number')->tab($tabName)->size(3);
+        CRUD::field('employment_status_id')->tab($tabName)->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->tab($tabName)->size(3);
+        $tabName = 'Work Experience';
+        // dd($this->crud->getCurrentEntry());
+        $this->crud->addColumn([ 'name' => 'externalExperiences.company_name','tab'=>$tabName]);
+
+        // CRUD::field('passport')->tab($tabName)->size(3);
+        // CRUD::field('rfid')->tab($tabName)->size(3);
+        // CRUD::field('uas_user_id')->tab($tabName)->size(3);
     }
 }
