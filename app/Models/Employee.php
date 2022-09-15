@@ -164,4 +164,19 @@ class Employee extends Model
      public function getEmployeeAddressesListAttribute() {
         return json_encode($this->addresses);
     }
+    /**
+     * Get all of the licenses  for the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function licenses (): HasMany
+    {
+        return $this->hasMany(License::class);
+    }
+
+    
+
+    public function getLicensesListAttribute() {
+        return json_encode($this->licenses);
+    }
 }

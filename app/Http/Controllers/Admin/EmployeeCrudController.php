@@ -10,6 +10,8 @@ use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\ExternalExperience;
 use App\Models\JobTitle;
+use App\Models\License;
+use App\Models\LicenseType;
 use App\Models\MaritalStatus;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -228,6 +230,25 @@ class EmployeeCrudController extends CrudController
             [
                 'name'    => 'name',
                 'type'    => 'text',
+            ],
+        ])->tab($tabName);
+        $tabName = 'Employee Licenses';
+        CRUD::field('licenses_list')
+        ->type('repeatable')
+        ->label('Employee Licenses')
+        ->fields([
+            [
+                'name'    => 'id',
+                'type'    => 'hidden',
+            ],
+            [
+                'name'    => 'license_type_id',
+                'type'    => 'select_from_array',
+                'options'=> LicenseType::get()->pluck('name','id')->toArray()
+            ],
+            [
+                'name'    => 'upload_file_id',
+                'type'    => 'upload',
             ],
         ])->tab($tabName);
         // dd($this->crud->getCurrentEntry());
