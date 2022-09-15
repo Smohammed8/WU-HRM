@@ -124,7 +124,7 @@ class EmployeeCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
 
-
+         // $this->crud->denyAccess('delete');
 
         $this->crud->addFilter([
             'type'  => 'date_range',
@@ -172,12 +172,6 @@ class EmployeeCrudController extends CrudController
         }, function($values) {
             $this->crud->addClause('whereIn', 'job_title_id', json_decode($values));
         });
-
-
-
-
-
-
     $this->crud->addFilter([
     'name'       => 'static_salary ',
     'type'       => 'range',
