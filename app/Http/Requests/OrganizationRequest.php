@@ -27,21 +27,21 @@ class OrganizationRequest extends FormRequest
         return [
             // 'name' => 'required|min:5|max:255'
 
-            'name' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'name' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
             'email' =>'required|email',
-            'mission'=>'required|regex:/^[a-zA-Z]+$/u|min:5|max:100',
-            'vision' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:100',
-            'motto' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:100',
+            'mission'=>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',
+            'vision' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',
+            'motto' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',
             'logo' =>'required|image|mimes:png,jpg,jpeg,gif,svg|max:2048|dimensions:min_width=50,min_height=70',
-            'web_address' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'web_address' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
             'fax' =>'required|numeric|digits:10',
             'telephone' =>'required|numeric|digits:10',
             'pobox'=>'required|numeric',
             'seal' =>'required|image|mimes:png,jpg,jpeg,gif,svg|max:2048|dimensions:min_width=50,min_height=50',
             'president_signature'=>'required|image|mimes:png,jpg,jpeg,gif,svg|max:2048|dimensions:min_width=50,min_height=50',
-            'account_number' =>'required|numeric|digits:13',
-            'header' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
-            'footer' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'account_number' =>'nullable|numeric|digits:13',
+            'header' =>'nullable|regex:/^[a-z A-Z]+$/u|min:5|max:255',
+            'footer' =>'nullable|regex:/^[a-z A-Z]+$/u|min:5|max:255',
         ];
     }
 

@@ -32,7 +32,8 @@ class EmployeeLanguageRequest extends FormRequest
             'speaking' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'reading' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'writing' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'comment'=>'required|regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            'comment'=>'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',
+
         ];
     }
 

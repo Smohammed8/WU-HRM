@@ -33,7 +33,7 @@ class EmployeeCertificateRequest extends FormRequest
             'address'  => 'required',
             'certificate_date'  => 'required',
             'duration' => 'required',
-            'comment'=>'regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            'comment' => 'nullable|regex:/^[a-z A-Z]+$/u|min:5|max:50',
 
         ];
     }

@@ -27,9 +27,9 @@ class NationalityRequest extends FormRequest
         return [
             // 'name' => 'required|min:5|max:255'
 
-            'nation' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'nation' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
             'code' =>'required|regex:/^[a-zA-Z]+$/u|min:2|max:10',
-            'label' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'label' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
         ];
     }
 
