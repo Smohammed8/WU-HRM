@@ -171,7 +171,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('religion_id')->tab($tabName)->size(3);
         CRUD::field('blood_group')->tab($tabName)->type('enum')->size(3);
         CRUD::field('alternate_email')->tab($tabName)->type('email')->size(3);
-        CRUD::field('driving_licence')->tab($tabName)->size(3)->type('upload')->upload(true);
+        CRUD::field('driving_licence')->tab($tabName)->size(12)->type('upload')->prefix('storage/')->upload(true);
 
         $tabName = 'Employee Job';
         CRUD::field('job_title_id')->tab($tabName)->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(3);
@@ -229,37 +229,37 @@ class EmployeeCrudController extends CrudController
     }
 
 
-    public function update()
-    {
-        $items = collect(json_decode(request('employee_addresses_list'), true));
+    // public function update()
+    // {
+    //     $items = collect(json_decode(request('employee_addresses_list'), true));
 
-        $response = $this->traitUpdate();
+    //     $response = $this->traitUpdate();
 
-        $employee_id = $this->crud->entry->id;
-        $created_ids = [];
+    //     $employee_id = $this->crud->entry->id;
+    //     $created_ids = [];
 
-        $items->each(function($item, $key) use ($employee_id, &$created_ids) {
-            $item['employee_id'] = $employee_id;
+    //     $items->each(function($item, $key) use ($employee_id, &$created_ids) {
+    //         $item['employee_id'] = $employee_id;
 
-            if ($item['id']) {
-                $comment = EmployeeAddress::find($item['id']);
-                $comment->update($item);
-            } else {
+    //         if ($item['id']) {
+    //             $comment = EmployeeAddress::find($item['id']);
+    //             $comment->update($item);
+    //         } else {
 
-               $created_ids[] = EmployeeAddress::create($item)->id;
-            }
+    //            $created_ids[] = EmployeeAddress::create($item)->id;
+    //         }
 
-        });
+    //     });
 
-        // delete removed Comments
-        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
-        $related_items_in_db = $this->crud->entry->addresses;
+    //     // delete removed Comments
+    //     $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
+    //     $related_items_in_db = $this->crud->entry->addresses;
 
-        $related_items_in_db->each(function($item, $key) use ($related_items_in_request) {
-            if (!$related_items_in_request->contains($item['id'])) {
-                $item->delete();
-            }
-        });
-        return $response;
-    }
+    //     $related_items_in_db->each(function($item, $key) use ($related_items_in_request) {
+    //         if (!$related_items_in_request->contains($item['id'])) {
+    //             $item->delete();
+    //         }
+    //     });
+    //     return $response;
+    // }
 }

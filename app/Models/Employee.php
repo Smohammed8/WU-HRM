@@ -53,11 +53,6 @@ class Employee extends Model
 
     public function setPhotoAttribute($value)
     {
-        // $disk = "public";
-        // $destination_path = Constants::EMPLOYEE_PHOTO_UPLOAD_PATH;
-        // $attribute_name = "photo";
-        // $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
-        // dd('sd');
         $attribute_name = "photo";
         // or use your own disk, defined in config/filesystems.php
         $disk = config('backpack.base.root_disk_name');
@@ -96,14 +91,27 @@ class Employee extends Model
             $this->attributes[$attribute_name] = 'storage/'. $public_destination_path.'/'.$filename;
         }
     }
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($obj) {
+            Storage::disk('public_folder')->delete($obj->image);
+        });
+    }
     public function setDrivingLicenceAttribute($value)
     {
         $disk = "public";
         $destination_path = Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH;
         $attribute_name = "driving_licence";
         $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
-        // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
     }
+
+    // public function getDrivingLicenceAttribute()
+    // {
+    //     if(array_key_exists('driving_licence',$this->attributes))
+    //         return ($this->attributes['driving_licence']);
+    //     return null;
+    // }
 
     /**
      * The attributes that should be cast to native types.
@@ -113,8 +121,8 @@ class Employee extends Model
     protected $casts = [
         'id' => 'integer',
         'date_of_birth' => 'date',
-        'photo' => 'integer',
-        'driving_licence' => 'integer',
+        'photo' => 'string',
+        'driving_licence' => 'string',
         'marital_status_id' => 'integer',
         'ethnicity_id' => 'integer',
         'religion_id' => 'integer',
@@ -127,8 +135,11 @@ class Employee extends Model
 
     public function getPhotoAttribute()
     {
-        return asset($this->attributes['photo']);
+        if(array_key_exists('photo',$this->attributes))
+            return asset($this->attributes['photo']);
+        return null;
     }
+
     // public function photo()
     // {
     //     // return $this->belongsTo(UploadFile::class);
