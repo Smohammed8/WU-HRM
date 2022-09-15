@@ -31,8 +31,8 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; } //IMPORTANT HERE
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; } //IMPORTANT HERE
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
 
 
     /**
@@ -48,39 +48,6 @@ class EmployeeCrudController extends CrudController
 
     }
 
-    // /**
-    //  * Store a newly created resource in the database.
-    //  *
-    //  * @return \Illuminate\Http\RedirectResponse
-    //  */
-    // public function store()
-    // {
-    //     $this->crud->hasAccessOrFail('create');
-    //     // execute the FormRequest authorization and validation, if one is required
-    //     $request = $this->crud->validateRequest();
-    //     $inputs = $this->crud->getStrippedSaveRequest();
-    //     // insert item in the db
-    //     // dd($request->input('photo'));
-    //     //Upload Image
-    //     $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'], Constants::EMPLOYEE_PHOTO_UPLOAD_PATH);
-    //     $inputs['photo'] = $photoFile->id;
-    //     //CHecking driving license
-    //     $drivingLicense = $inputs['driving_licence'];
-    //     if ($drivingLicense != null) {
-    //         $inputs['driving_licence'] = UploadFileCrudController::fileUpload($request->file('driving_licence'), Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH)->id;
-    //     }
-
-    //     $item = $this->crud->create($inputs);
-    //     $this->data['entry'] = $this->crud->entry = $item;
-
-    //     // show a success message
-    //     Alert::success(trans('backpack::crud.insert_success'))->flash();
-
-    //     // save the redirect choice for next time
-    //     $this->crud->setSaveAction();
-
-    //     return $this->crud->performSaveAction($item->getKey());
-    // }
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -89,6 +56,7 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
         // CRUD::column('first_name');
         // CRUD::column('father_name');
         // CRUD::column('grand_father_name');
@@ -139,20 +107,20 @@ class EmployeeCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
-        CRUD::field('photo')->type('upload')->size(4);
+        CRUD::field('photo')->size(4)->type('image')->aspect_ratio(1)->crop(true)->upload(true);
         CRUD::field('first_name')->size(4);
         CRUD::field('father_name')->size(4);
         CRUD::field('grand_father_name')->size(4);
         CRUD::field('gender')->type('enum')->size(4);
         CRUD::field('date_of_birth')->size(4);
         CRUD::field('birth_city')->size(4);
-        CRUD::field('passport')->size(4);
+        // CRUD::field('passport')->size(4);
         CRUD::field('driving_licence')->size(4)->type('upload')->upload(true);
         CRUD::field('blood_group')->type('enum')->size(4);
         CRUD::field('eye_color')->type('enum')->size(4);
         CRUD::field('phone_number')->size(4);
         CRUD::field('alternate_email')->type('email')->size(4);
-        CRUD::field('rfid')->size(4);
+        // CRUD::field('rfid')->size(4);
         CRUD::field('employment_identity')->label('Employee ID Number')->size(4);
         CRUD::field('marital_status_id')->type('select')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(4);
         CRUD::field('ethnicity_id')->size(4);
@@ -162,10 +130,10 @@ class EmployeeCrudController extends CrudController
         CRUD::field('salary_step')->type('enum')->size(4);
         CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
         CRUD::field('employment_type_id')->type('select')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(4);
-        CRUD::field('pention_number')->size(4);
+        // CRUD::field('pention_number')->size(4);
         CRUD::field('employment_status_id')->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(4);
-        CRUD::field('static_salary')->size(4);
-        CRUD::field('uas_user_id')->size(4);
+        CRUD::field('static_salary')->type('number')->size(4);
+        // CRUD::field('uas_user_id')->size(4);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -182,12 +150,13 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
+        // dd($this->crud->getCurrentEntry());
         $tabName = 'Personal Information';
         // $this->setupCreateOperation();
         $this->crud->setUpdateContentClass('col-md-12');
         CRUD::setValidation(EmployeeRequest::class);
+        CRUD::field('photo')->size(4)->tab($tabName)->type('image')->aspect_ratio(1)->crop(true)->upload(true);
         $this->crud->setCreateContentClass('col-md-12');
-        CRUD::field('photo')->tab($tabName)->type('image')->aspectRatio(1)->crop(true)->size(3);
         CRUD::field('first_name')->tab($tabName)->size(3);
         CRUD::field('father_name')->tab($tabName)->size(3);
         CRUD::field('grand_father_name')->tab($tabName)->size(3);

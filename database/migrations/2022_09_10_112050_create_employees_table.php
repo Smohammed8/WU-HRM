@@ -22,10 +22,10 @@ class CreateEmployeesTable extends Migration
             $table->string('grand_father_name', 255);
             $table->enum('gender', ["Male","Female"]);
             $table->date('date_of_birth');
-            $table->foreignId('photo')->nullable()->constrained('upload_files');
+            $table->string('photo')->nullable();
             $table->string('birth_city', 255);
             $table->string('passport', 255)->nullable();
-            $table->foreignId('driving_licence')->nullable()->constrained('upload_files');
+            $table->string('driving_licence')->nullable();
             $table->enum('blood_group', ["A","B","AB","O"])->nullable();
             $table->enum('eye_color', ["Amber","Blue","Brown","Gray","Green","Hazel","Red"])->nullable();
             $table->string('phone_number', 100)->nullable();

@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Constants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
 class Employee extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -46,33 +49,59 @@ class Employee extends Model
         'uas_user_id',
     ];
 
-    public function setNameAttribute()
-    {
-        return 'sd';
-    }
+
+
     public function setPhotoAttribute($value)
     {
-        dd('sd1');
-        // $attribute_name = "image";
         // $disk = "public";
-        // $destination_path = "folder_1/subfolder_1";
-
+        // $destination_path = Constants::EMPLOYEE_PHOTO_UPLOAD_PATH;
+        // $attribute_name = "photo";
         // $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+        // dd('sd');
+        $attribute_name = "photo";
+        // or use your own disk, defined in config/filesystems.php
+        $disk = config('backpack.base.root_disk_name');
+        $disk = 'public';
+        // destination path relative to the disk above
+        $destination_path = Constants::EMPLOYEE_PHOTO_UPLOAD_PATH;
 
-        // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+        // if the image was erased
+        if ($value==null) {
+            // delete the image from disk
+            Storage::disk($disk)->delete($this->{$attribute_name});
+            // set null in the database column
+            $this->attributes[$attribute_name] = null;
+        }
+
+        // if a base64 was sent, store it in the db
+        if (Str::startsWith($value, 'data:image'))
+        {
+            // 0. Make the image
+            $image = Image::make($value)->encode('jpg', 90);
+
+            // 1. Generate a filename.
+            $filename = md5($value.time()).'.jpg';
+
+            // 2. Store the image on disk.
+            Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
+
+            // 3. Delete the previous image, if there was one.
+            Storage::disk($disk)->delete($this->{$attribute_name});
+
+            // 4. Save the public path to the database
+            // but first, remove "public/" from the path, since we're pointing to it
+            // from the root folder; that way, what gets saved in the db
+            // is the public URL (everything that comes after the domain name)
+            $public_destination_path = Str::replaceFirst('public/', '', $destination_path);
+            $this->attributes[$attribute_name] = 'storage/'. $public_destination_path.'/'.$filename;
+        }
     }
-
-
     public function setDrivingLicenceAttribute($value)
     {
-        $fileName = $value;
         $disk = "public";
-        $destination_path = "employee/driving_license_uploads";
-        $attribute_name = "image";
+        $destination_path = Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH;
+        $attribute_name = "driving_licence";
         $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
-        // dump($content);
-        // dump($value);
-        // dd('sd2');
         // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
     }
 
@@ -96,16 +125,19 @@ class Employee extends Model
         'employment_status_id' => 'integer',
     ];
 
-
-    public function photo()
+    public function getPhotoAttribute()
     {
-        return $this->belongsTo(UploadFile::class);
+        return asset($this->attributes['photo']);
     }
+    // public function photo()
+    // {
+    //     // return $this->belongsTo(UploadFile::class);
+    // }
 
-    public function drivingLicence()
-    {
-        return $this->belongsTo(UploadFile::class);
-    }
+    // public function drivingLicence()
+    // {
+    //     return $this->belongsTo(UploadFile::class);
+    // }
 
     public function maritalStatus()
     {
@@ -173,8 +205,6 @@ class Employee extends Model
     {
         return $this->hasMany(License::class);
     }
-
-    
 
     public function getLicensesListAttribute() {
         return json_encode($this->licenses);
