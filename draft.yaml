@@ -105,10 +105,10 @@ models:
     grand_father_name: string:255
     gender: enum:Male,Female
     date_of_birth: date
-    photo: id foreign:upload_files.id nullable
+    photo: string:255 nullable
     birth_city: string:255
     passport: string:255 nullable
-    driving_licence: id foreign:upload_files.id nullable
+    driving_licence: string:255 nullable
     blood_group: enum:A,B,AB,O nullable
     eye_color: enum:Amber,Blue,Brown,Gray,Green,Hazel,Red nullable
     phone_number: string:100 nullable

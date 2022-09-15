@@ -48,39 +48,39 @@ class EmployeeCrudController extends CrudController
 
     }
 
-    /**
-     * Store a newly created resource in the database.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store()
-    {
-        $this->crud->hasAccessOrFail('create');
-        // execute the FormRequest authorization and validation, if one is required
-        $request = $this->crud->validateRequest();
-        $inputs = $this->crud->getStrippedSaveRequest();
-        // insert item in the db
-        // dd($request->input('photo'));
-        //Upload Image
-        $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'], Constants::EMPLOYEE_PHOTO_UPLOAD_PATH);
-        $inputs['photo'] = $photoFile->id;
-        //CHecking driving license
-        $drivingLicense = $inputs['driving_licence'];
-        if ($drivingLicense != null) {
-            $inputs['driving_licence'] = UploadFileCrudController::fileUpload($request->file('driving_licence'), Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH)->id;
-        }
+    // /**
+    //  * Store a newly created resource in the database.
+    //  *
+    //  * @return \Illuminate\Http\RedirectResponse
+    //  */
+    // public function store()
+    // {
+    //     $this->crud->hasAccessOrFail('create');
+    //     // execute the FormRequest authorization and validation, if one is required
+    //     $request = $this->crud->validateRequest();
+    //     $inputs = $this->crud->getStrippedSaveRequest();
+    //     // insert item in the db
+    //     // dd($request->input('photo'));
+    //     //Upload Image
+    //     $photoFile = UploadFileCrudController::uploadBase64($inputs['photo'], Constants::EMPLOYEE_PHOTO_UPLOAD_PATH);
+    //     $inputs['photo'] = $photoFile->id;
+    //     //CHecking driving license
+    //     $drivingLicense = $inputs['driving_licence'];
+    //     if ($drivingLicense != null) {
+    //         $inputs['driving_licence'] = UploadFileCrudController::fileUpload($request->file('driving_licence'), Constants::EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH)->id;
+    //     }
 
-        $item = $this->crud->create($inputs);
-        $this->data['entry'] = $this->crud->entry = $item;
+    //     $item = $this->crud->create($inputs);
+    //     $this->data['entry'] = $this->crud->entry = $item;
 
-        // show a success message
-        Alert::success(trans('backpack::crud.insert_success'))->flash();
+    //     // show a success message
+    //     Alert::success(trans('backpack::crud.insert_success'))->flash();
 
-        // save the redirect choice for next time
-        $this->crud->setSaveAction();
+    //     // save the redirect choice for next time
+    //     $this->crud->setSaveAction();
 
-        return $this->crud->performSaveAction($item->getKey());
-    }
+    //     return $this->crud->performSaveAction($item->getKey());
+    // }
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -139,7 +139,7 @@ class EmployeeCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
-        CRUD::field('photo')->type('image')->aspectRatio(1)->crop(true)->size(4);
+        CRUD::field('photo')->type('upload')->size(4);
         CRUD::field('first_name')->size(4);
         CRUD::field('father_name')->size(4);
         CRUD::field('grand_father_name')->size(4);
