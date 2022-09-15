@@ -52,6 +52,7 @@ class EmployeeRequest extends FormRequest
             // 'employment_status_id' =>'required',
             // 'static_salary'=>'required',
             // 'uas_user_id' =>'required',
+            'employeeAddresses.name' => 'nullable|string'
         ];
     }
 

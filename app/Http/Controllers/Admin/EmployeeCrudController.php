@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants;
+use App\Http\Requests\EmployeeAddressRequest;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\EmployeeAddress;
@@ -17,6 +18,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Prologue\Alerts\Facades\Alert;
 
 /**
@@ -31,8 +33,7 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; } //IMPORTANT HERE
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
 
 
     /**
@@ -183,7 +184,8 @@ class EmployeeCrudController extends CrudController
         CRUD::field('pention_number')->tab($tabName)->size(3);
         CRUD::field('employment_status_id')->tab($tabName)->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->tab($tabName)->size(3);
         $tabName = 'Employee Address';
-        CRUD::field('employee_addresses_list')
+
+        CRUD::field('employeeAddresses')
         ->type('repeatable')
         ->label('Employee Address')
         ->fields([
@@ -194,7 +196,7 @@ class EmployeeCrudController extends CrudController
             [
                 'name'    => 'address_type',
                 'type'    => 'select_from_array',
-                'options'     => ['home' => 'Home', 'work' => 'Work','other'=>'Other'],
+                'options'     => ['Home' => 'Home', 'Work' => 'Work','Other'=>'Other'],
             ],
             [
                 'name'    => 'name',
@@ -202,64 +204,62 @@ class EmployeeCrudController extends CrudController
             ],
         ])->tab($tabName);
         $tabName = 'Employee Licenses';
-        CRUD::field('licenses_list')
-        ->type('repeatable')
-        ->label('Employee Licenses')
-        ->fields([
-            [
-                'name'    => 'id',
-                'type'    => 'hidden',
-            ],
-            [
-                'name'    => 'license_type_id',
-                'type'    => 'select_from_array',
-                'options'=> LicenseType::get()->pluck('name','id')->toArray()
-            ],
-            [
-                'name'    => 'upload_file_id',
-                'type'    => 'upload',
-            ],
-        ])->tab($tabName);
+        // CRUD::field('employeeAddresses')
+        // ->type('repeatable')
+        // ->label('Employee Licenses')
+        // ->fields([
+        //     [
+        //         'name'    => 'id',
+        //         'type'    => 'hidden',
+        //     ],
+        //     [
+        //         'name'    => 'license_type_id',
+        //         'type'    => 'select_from_array',
+        //         'options'=> LicenseType::get()->pluck('name','id')->toArray()
+        //     ],
+        //     [
+        //         'name'    => 'upload_file_id',
+        //         'type'    => 'upload',
+        //     ],
+        // ])->tab($tabName);
         // dd($this->crud->getCurrentEntry());
         // $this->crud->addColumn([ 'name' => 'externalExperiences.company_name','tab'=>$tabName]);
-
         // CRUD::field('passport')->tab($tabName)->size(3);
         // CRUD::field('rfid')->tab($tabName)->size(3);
         // CRUD::field('uas_user_id')->tab($tabName)->size(3);
     }
 
 
-    // public function update()
-    // {
-    //     $items = collect(json_decode(request('employee_addresses_list'), true));
+    public function update()
+    {
+        $items = collect(json_decode(request('employeeAddresses'), true));
+        // $employeeAddressRequest = new EmployeeAddressRequest();
+        // $employeeAddressRules = $employeeAddressRequest->rules();
+        $response = $this->traitUpdate();
 
-    //     $response = $this->traitUpdate();
+        $employee_id = $this->crud->entry->id;
+        $created_ids = [];
 
-    //     $employee_id = $this->crud->entry->id;
-    //     $created_ids = [];
+        $items->each(function($item, $key) use ($employee_id, &$created_ids) {
+            $item['employee_id'] = $employee_id;
+            if ($item['id']) {
+                $comment = EmployeeAddress::find($item['id']);
+                $comment->update($item);
+            } else {
+               $created_ids[] = EmployeeAddress::create($item)->id;
+            }
+        });
 
-    //     $items->each(function($item, $key) use ($employee_id, &$created_ids) {
-    //         $item['employee_id'] = $employee_id;
+        // delete removed Comments
+        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
+        $related_items_in_db = $this->crud->entry->addresses;
 
-    //         if ($item['id']) {
-    //             $comment = EmployeeAddress::find($item['id']);
-    //             $comment->update($item);
-    //         } else {
+        $related_items_in_db?->each(function($item, $key) use ($related_items_in_request) {
+            if (!$related_items_in_request->contains($item['id'])) {
+                $item->delete();
+            }
+        });
 
-    //            $created_ids[] = EmployeeAddress::create($item)->id;
-    //         }
-
-    //     });
-
-    //     // delete removed Comments
-    //     $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
-    //     $related_items_in_db = $this->crud->entry->addresses;
-
-    //     $related_items_in_db->each(function($item, $key) use ($related_items_in_request) {
-    //         if (!$related_items_in_request->contains($item['id'])) {
-    //             $item->delete();
-    //         }
-    //     });
-    //     return $response;
-    // }
+        return $response;
+    }
 }

@@ -199,7 +199,7 @@ class Employee extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function addresses(): HasMany
+    public function employeeAddresses(): HasMany
     {
         return $this->hasMany(EmployeeAddress::class);
     }
