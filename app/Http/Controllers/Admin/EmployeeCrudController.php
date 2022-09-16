@@ -269,7 +269,8 @@ class EmployeeCrudController extends CrudController
     {
         $licenses = License::paginate(10);
         $this->data['licenses'] = $licenses;
-
+        $employeeAddresses = EmployeeAddress::where('employee_id',$this->crud->getCurrentEntryId())->paginate(10);
+        $this->data['employeeAddresses'] = $employeeAddresses;
         // by default the Show operation will try to show all columns in the db table,
         // but we can easily take over, and have full control of what columns are shown,
         // by changing this config for the Show operation

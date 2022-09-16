@@ -70,15 +70,15 @@
 	</div>
 </div> --}}
 <div class="row">
-    <div class="card col-md-12">
+    <div class="card col-md-12 mb-2">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2" style="border-right:1px solid black;">
                     <img width="150" src="{{ $crud->entry->photo }}" alt="">
                 </div>
                 <div class="col-md-9">
                     <div class="row justify-content-between">
-                        <div class="col-md-6" style="border-left:1px solid black;">
+                        <div class="col-md-6">
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Employee Name : </b>  </label>
                                 <label for="">{{ $crud->entry->name }}</label>
@@ -130,17 +130,50 @@
     </div>
 </div>
 
-<div class="tab-container mb-2">
-    <div class="nav-tabs-custom" id="form_tabs">
-        <ul class="nav nav-tabs " role="tablist">
-            <li role="presentation" class="nav-item">
-                <a href="#tab_basic_info" aria-controls="tab_basic_info" role="tab" tab_name="basic_info" data-toggle="tab" class="nav-link  active" >{{ 'Basic Info' }}</a>
-            </li>
-        </ul>
-        <div class="tab-content p-0">
-            <div role="tabpanel" class="tab-pane " id="tab_basic_info">
-                <div class="row">
+<div class="tab-container mb-2 row">
+    <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
+        <div class="col-md-2  p-0 m-0" style="border-right:1px solid black;">
+            <ul class="nav nav-tabs nav-stacked flex-column " role="tablist">
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" >{{ 'Employee Job' }}</a>
+                </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab" tab_name="employee_address" data-toggle="tab" class="nav-link " >{{ 'Employee Address' }}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content box m-0 col-md-10 p-0 v-pills-tabContent">
+            <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
+                <h3>Employee Job</h3>
+                <div class="card no-padding no-border">
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Address Type</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employeeAddresses as $employeeAddress)
+                                <tr>
+                                    <td>{{ $employeeAddress->name }}</td>
+                                    <td>{{ $employeeAddress->address_type }}</td>
+                                    <td>
+                                        <a href="{{ route('employee-address.edit', ['id'=>$employeeAddress->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $employeeAddresses->links() }}
+                      </div>
                 </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab_employee_address">
+                <h3>Employee Address</h3>
+
             </div>
         </div>
     </div>
