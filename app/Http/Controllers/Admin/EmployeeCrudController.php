@@ -34,6 +34,7 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
 
     /**
@@ -46,7 +47,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setModel(\App\Models\Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
-
+        $this->crud->setShowView('employee.show');
     }
 
     /**
@@ -185,25 +186,26 @@ class EmployeeCrudController extends CrudController
         CRUD::field('employment_status_id')->tab($tabName)->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->tab($tabName)->size(3);
         $tabName = 'Employee Address';
 
-        CRUD::field('employeeAddresses')
-        ->type('repeatable')
-        ->label('Employee Address')
-        ->fields([
-            [
-                'name'    => 'id',
-                'type'    => 'hidden',
-            ],
-            [
-                'name'    => 'address_type',
-                'type'    => 'select_from_array',
-                'options'     => ['Home' => 'Home', 'Work' => 'Work','Other'=>'Other'],
-            ],
-            [
-                'name'    => 'name',
-                'type'    => 'text',
-            ],
-        ])->tab($tabName);
-        $tabName = 'Employee Licenses';
+
+        // CRUD::field('employeeAddresses')
+        // ->type('repeatable')
+        // ->label('Employee Address')
+        // ->fields([
+        //     [
+        //         'name'    => 'id',
+        //         'type'    => 'hidden',
+        //     ],
+        //     [
+        //         'name'    => 'address_type',
+        //         'type'    => 'select_from_array',
+        //         'options'     => ['Home' => 'Home', 'Work' => 'Work','Other'=>'Other'],
+        //     ],
+        //     [
+        //         'name'    => 'name',
+        //         'type'    => 'text',
+        //     ],
+        // ])->tab($tabName);
+        // $tabName = 'Employee Licenses';
         // CRUD::field('employeeAddresses')
         // ->type('repeatable')
         // ->label('Employee Licenses')
@@ -262,4 +264,47 @@ class EmployeeCrudController extends CrudController
 
         return $response;
     }
+
+    protected function setupShowOperation()
+    {
+        $licenses = License::paginate(10);
+        $this->data['licenses'] = $licenses;
+
+        // by default the Show operation will try to show all columns in the db table,
+        // but we can easily take over, and have full control of what columns are shown,
+        // by changing this config for the Show operation
+        // $this->crud->set('show.setFromDb', false);
+
+        // example logic
+        // $this->crud->addColumn([
+        //     'name' => 'table',
+        //     'label' => 'Table',
+        //     'type' => 'table',
+        //     'columns' => [
+        //         'name'  => 'Name',
+        //         'desc'  => 'Description',
+        //         'price' => 'Price',
+        //     ]
+        // ]);
+        // $this->crud->addColumn([
+        //     'name' => 'fake_table',
+        //     'label' => 'Fake Table',
+        //     'type' => 'table',
+        //     'columns' => [
+        //         'name'  => 'Name',
+        //         'desc'  => 'Description',
+        //         'price' => 'Price',
+        //     ],
+        // ]);
+        // $this->crud->addColumn('text');
+        // $this->crud->removeColumn('date');
+        // $this->crud->removeColumn('extras');
+
+        // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
+        // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
+        // and we plan to change behaviour in the next version; see this Github issue for more details
+        // https://github.com/Laravel-Backpack/CRUD/issues/3108
+    }
+
+
 }
