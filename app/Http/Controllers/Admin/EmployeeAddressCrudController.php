@@ -64,7 +64,7 @@ class EmployeeAddressCrudController extends CrudController
     {
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(EmployeeAddressRequest::class);
-        CRUD::field('employee_id')->type('hidden');
+        CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('address_type')->type('enum');
         CRUD::field('name');
         $this->data['breadcrumbs']=[
