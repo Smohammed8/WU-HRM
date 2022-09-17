@@ -271,36 +271,6 @@ class EmployeeCrudController extends CrudController
         $this->data['licenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id',$this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
-        // by default the Show operation will try to show all columns in the db table,
-        // but we can easily take over, and have full control of what columns are shown,
-        // by changing this config for the Show operation
-        // $this->crud->set('show.setFromDb', false);
-
-        // example logic
-        // $this->crud->addColumn([
-        //     'name' => 'table',
-        //     'label' => 'Table',
-        //     'type' => 'table',
-        //     'columns' => [
-        //         'name'  => 'Name',
-        //         'desc'  => 'Description',
-        //         'price' => 'Price',
-        //     ]
-        // ]);
-        // $this->crud->addColumn([
-        //     'name' => 'fake_table',
-        //     'label' => 'Fake Table',
-        //     'type' => 'table',
-        //     'columns' => [
-        //         'name'  => 'Name',
-        //         'desc'  => 'Description',
-        //         'price' => 'Price',
-        //     ],
-        // ]);
-        // $this->crud->addColumn('text');
-        // $this->crud->removeColumn('date');
-        // $this->crud->removeColumn('extras');
-
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
         // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
         // and we plan to change behaviour in the next version; see this Github issue for more details

@@ -160,7 +160,7 @@
                                     <td>{{ $employeeAddress->name }}</td>
                                     <td>{{ $employeeAddress->address_type }}</td>
                                     <td>
-                                        <a href="{{ route('employee-address.edit', ['id'=>$employeeAddress->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="{{ route('{employee}/employee-address.edit', ['employee'=>$crud->entry->id,'id'=>$employeeAddress->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
                                     </td>
                                 </tr>
                             @endforeach

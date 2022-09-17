@@ -19,7 +19,7 @@ Route::group([
     Route::crud('chair-man-type', 'ChairManTypeCrudController');
     Route::crud('educational-level', 'EducationalLevelCrudController');
     Route::crud('employee', 'EmployeeCrudController');
-    Route::crud('employee-address', 'EmployeeAddressCrudController');
+    Route::crud('{employee}/employee-address', 'EmployeeAddressCrudController');
     Route::crud('employee-category', 'EmployeeCategoryCrudController');
     Route::crud('employee-certificate', 'EmployeeCertificateCrudController');
     Route::crud('employee-contact', 'EmployeeContactCrudController');
