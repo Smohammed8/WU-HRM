@@ -37,7 +37,7 @@ class EmployeeRequest extends FormRequest
             'blood_group' =>'required',
             'eye_color' =>'required',
             'phone_number' => 'required|numeric|digits:10|unique:employees,phone_number',
-            'alternate_email' => 'required|email|unique:employees,alternate_email',
+            'alternate_email' => 'nullable|email|unique:employees,alternate_email',
             'rfid' => 'required|numeric|unique:employees,rfid',
             'employment_identity' => 'required|numeric|unique:employees,employment_identity',
             'marital_status_id' =>'required',

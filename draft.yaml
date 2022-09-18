@@ -195,3 +195,22 @@ models:
     grand_father_name: string:255
     gender: enum:Male,Female
     dob: date
+  # Evaluation:
+  #    employee_id: id foreign
+  #    year: integer
+  #    obtained_mark: integer
+  #    recorded_by: id foreign:users
+  # Application:
+  #    employee_id: id foreign
+  #    current_job_title_id:  id foreign
+  #    applied_job_title_id:  id foreign
+  #    --
+
+  # Placement
+  #    employee_id: id foreign
+  #    application_id: id foreign:applications
+  #    unit_id: id foreign:units
+  #    job_title_id: id foreign
+  #    status:  string:50  nullable
+  #    approved_by_id: id foreign:users  nullable
+

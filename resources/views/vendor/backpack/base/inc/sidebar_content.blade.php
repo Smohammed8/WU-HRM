@@ -1,9 +1,9 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i>
+<li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-home nav-icon"></i>
     Home </a></li>
 
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
+<li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
         {{ trans('backpack::base.dashboard') }}</a></li>
 
 <!-- Users, Roles, Permissions -->
@@ -25,6 +25,8 @@
     <ul class="nav-dropdown-items">
  <!-- la la-angle-double-right ,la la-graduation-cap
 -->
+{{-- @if(backpack_user()->hasPermissionTo('structure.show')) --}}
+{{-- @if(backpack_user()->hasRole('Admin')) --}}
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'><i
             class='nav-icon la la-caret-right'></i> Organizations</a></li>
 
@@ -41,7 +43,7 @@
     </ul>
 </li>
 
-
+{{-- @endif --}}
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-wrench"></i> Setting</a>
     <ul class="nav-dropdown-items">

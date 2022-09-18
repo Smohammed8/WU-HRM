@@ -233,16 +233,16 @@ class EmployeeCrudController extends CrudController
         CRUD::field('alternate_email')->type('email')->size(4);
         CRUD::field('rfid')->size(4);
         CRUD::field('employment_identity')->label('Employee ID Number')->size(4);
-        CRUD::field('marital_status_id')->type('select')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(4);
+        CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(4);
         CRUD::field('ethnicity_id')->size(4);
         CRUD::field('religion_id')->size(4);
         CRUD::field('unit_id')->size(4);
         CRUD::field('employement_date')->size(4);
         CRUD::field('salary_step')->type('enum')->size(4);
-        CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        CRUD::field('employment_type_id')->type('select')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(4);
+        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
+        CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(4);
         CRUD::field('pention_number')->size(4)->type('number');
-        CRUD::field('employment_status_id')->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(4);
+        CRUD::field('employment_status_id')->type('select2')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(4);
         CRUD::field('static_salary')->size(4)->type('number');
         CRUD::field('uas_user_id')->size(4);
 
