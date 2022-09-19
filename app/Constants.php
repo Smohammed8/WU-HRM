@@ -2,6 +2,7 @@
 namespace App;
 class Constants
 {
+<<<<<<< HEAD
     const EMPLOYEE_PHOTO_UPLOAD_PATH = '/employee/photo/';
     const EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH = '/employee/driver_license/';
     // Employee constant
@@ -13,4 +14,8 @@ class Constants
     const LEFT_FOR_PENSION =6;
     */
 
+=======
+    const EMPLOYEE_PHOTO_UPLOAD_PATH = 'uploads/employee/photo';
+    const EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH = 'uploads/employee/driver_license';
+>>>>>>> origin/abdi
 }

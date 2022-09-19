@@ -55,13 +55,13 @@ models:
     mission: text nullable
     vision: text nullable
     motto: text nullable
-    logo: id foreign:upload_files.id nullable
+    logo: string:255 nullable
     web_address: string:255 unique nullable
     fax: string:100 nullable
     telephone: string:100 nullable
     pobox: string:100 nullable
-    seal: id foreign:upload_files.id nullable
-    president_signature: id foreign:upload_files.id nullable
+    seal: string:255 nullable
+    president_signature: string:255 nullable
     account_number: string:255 nullable
     header: string:255 nullable
     footer: string:255 nullable
@@ -79,8 +79,8 @@ models:
     telephone: string:255 nullable
     extension_line: string:255 nullable
     location: string:255 nullable
-    seal: id foreign:upload_files.id nullable
-    teter: id foreign:upload_files.id nullable
+    seal: string:255 nullable
+    teter: string:255 nullable
     vision: text nullable
     mission: text nullable
     objective: text nullable
@@ -105,10 +105,10 @@ models:
     grand_father_name: string:255
     gender: enum:Male,Female
     date_of_birth: date
-    photo: id foreign:upload_files.id nullable
+    photo: string:255 nullable
     birth_city: string:255
     passport: string:255 nullable
-    driving_licence: id foreign:upload_files.id nullable
+    driving_licence: string:255 nullable
     blood_group: enum:A,B,AB,O nullable
     eye_color: enum:Amber,Blue,Brown,Gray,Green,Hazel,Red nullable
     phone_number: string:100 nullable
@@ -164,7 +164,7 @@ models:
   License:
     employee_id: id foreign
     license_type_id: id foreign
-    upload_file_id: id foreign
+    license_file: string:255
   Skill:
     employee_id: id foreign
     skill_type_id: id foreign

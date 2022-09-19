@@ -22,13 +22,13 @@ class CreateOrganizationsTable extends Migration
             $table->text('mission')->nullable();
             $table->text('vision')->nullable();
             $table->text('motto')->nullable();
-            $table->foreignId('logo')->nullable()->constrained('upload_files');
+            $table->string('logo')->nullable();
             $table->string('web_address', 255)->unique()->nullable();
             $table->string('fax', 100)->nullable();
             $table->string('telephone', 100)->nullable();
             $table->string('pobox', 100)->nullable();
-            $table->foreignId('seal')->nullable()->constrained('upload_files');
-            $table->foreignId('president_signature')->nullable()->constrained('upload_files');
+            $table->string('seal')->nullable();
+            $table->string('president_signature')->nullable();
             $table->string('account_number', 255)->nullable();
             $table->string('header', 255)->nullable();
             $table->string('footer', 255)->nullable();

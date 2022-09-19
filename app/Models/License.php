@@ -18,7 +18,7 @@ class License extends Model
     protected $fillable = [
         'employee_id',
         'license_type_id',
-        'upload_file_id',
+        'license_file',
     ];
 
     /**
@@ -30,7 +30,7 @@ class License extends Model
         'id' => 'integer',
         'employee_id' => 'integer',
         'license_type_id' => 'integer',
-        'upload_file_id' => 'integer',
+        'license_file' => 'integer',
     ];
 
     public function employee()

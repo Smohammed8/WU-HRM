@@ -23,8 +23,8 @@ class CreateUnitsTable extends Migration
             $table->string('telephone', 255)->nullable();
             $table->string('extension_line', 255)->nullable();
             $table->string('location', 255)->nullable();
-            $table->foreignId('seal')->nullable()->constrained('upload_files');
-            $table->foreignId('teter')->nullable()->constrained('upload_files');
+            $table->string('seal')->nullable();
+            $table->string('teter')->nullable();
             $table->text('vision')->nullable();
             $table->text('mission')->nullable();
             $table->text('objective')->nullable();

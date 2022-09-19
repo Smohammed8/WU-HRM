@@ -19,7 +19,7 @@ class CreateLicensesTable extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained();
             $table->foreignId('license_type_id')->constrained();
-            $table->foreignId('upload_file_id')->constrained();
+            $table->string('license_file');
             $table->timestamps();
         });
 
