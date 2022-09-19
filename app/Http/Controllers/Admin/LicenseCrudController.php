@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LicenseRequest;
+use App\Models\EmploymentType;
+use App\Models\LicenseType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -27,28 +29,29 @@ class LicenseCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\License::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/license');
+        $employeeId = \Route::current()->parameter('employee');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/license');
         CRUD::setEntityNameStrings('license', 'licenses');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
-    protected function setupListOperation()
-    {
-        CRUD::column('employee_id');
-        CRUD::column('license_type_id');
-        CRUD::column('license_file');
+    // /**
+    //  * Define what happens when the List operation is loaded.
+    //  *
+    //  * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+    //  * @return void
+    //  */
+    // protected function setupListOperation()
+    // {
+    //     // CRUD::column('employee_id');
+    //     // CRUD::column('license_type_id');
+    //     // CRUD::column('license_file');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
-    }
+    //     /**
+    //      * Columns can be defined using the fluent syntax or array syntax:
+    //      * - CRUD::column('price')->type('number');
+    //      * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+    //      */
+    // }
 
     /**
      * Define what happens when the Create operation is loaded.
@@ -58,11 +61,17 @@ class LicenseCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(LicenseRequest::class);
-
-        CRUD::field('employee_id');
-        CRUD::field('license_type_id');
-        CRUD::field('license_file');
+        CRUD::field('employee_id')->type('hidden')->value($employeeId);
+        CRUD::field('license_type_id')->type('select')->entity('licenseType')->model(LicenseType::class)->attribute('name');
+        CRUD::field('license_file')->type('upload')->upload(true);
+        $this->data['breadcrumbs']=[
+            trans('backpack::crud.admin') => backpack_url('dashboard'),
+            'Employees' => route('employee.index'),
+            'Preview' => route('employee.show',['id'=>$employeeId]),
+            'Employee Address' => false,
+        ];
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

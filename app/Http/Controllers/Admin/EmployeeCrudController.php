@@ -268,7 +268,7 @@ class EmployeeCrudController extends CrudController
     protected function setupShowOperation()
     {
         $licenses = License::paginate(10);
-        $this->data['licenses'] = $licenses;
+        $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id',$this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work

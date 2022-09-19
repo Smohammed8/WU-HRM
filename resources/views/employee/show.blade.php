@@ -140,10 +140,18 @@
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab" tab_name="employee_address" data-toggle="tab" class="nav-link " >{{ 'Employee Address' }}</a>
                 </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_licence" aria-controls="tab_employee_licence" role="tab" tab_name="employee_licence" data-toggle="tab" class="nav-link " >{{ 'Employee licenses' }}</a>
+                </li>
+
             </ul>
         </div>
         <div class="tab-content box m-0 col-md-10 p-0 v-pills-tabContent">
-            <div role="tabpanel" class="tab-pane active" id="tab_employee_address">
+
+            <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
+                <h3>Employee Job</h3>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab_employee_address">
                 <h3>Employee Address</h3>
                 <div class=" no-padding no-border">
                     <div class="">
@@ -168,11 +176,11 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            @empty($employeeAddresses->items)
+                            @if(count($employeeAddresses)==0)
                                 <tr>
                                     <td colspan="3" class="text-center">No Employee Address</td>
                                 </tr>
-                            @endempty
+                            @endif
                         </tbody>
                       </table>
                       <div>
@@ -180,8 +188,43 @@
                       </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="tab_employee_job">
-                <h3>Employee Job</h3>
+
+            <div role="tabpanel" class="tab-pane" id="tab_employee_licence">
+                <h3>Employee Licence</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/license.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Licence'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Licence Type</th>
+                            <th>Downloadable File</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employeeLicenses as $employeeLicence)
+                                <tr>
+                                    <td>{{ $employeeLicence->licenseType->name }}</td>
+                                    <td><a href="{{ $employeeLicence->license_file }}" target="_blank">Download Document</a></td>
+                                    <td>
+                                        <a href="{{ route('{employee}/license.edit', ['employee'=>$crud->entry->id,'id'=>$employeeLicence->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/license.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeLicence->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($employeeLicenses)==0)
+                                <tr>
+                                    <td colspan="3" class="text-center">No Employee Licence</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $employeeLicenses->links() }}
+                      </div>
+                </div>
             </div>
         </div>
     </div>

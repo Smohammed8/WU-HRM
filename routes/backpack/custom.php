@@ -36,7 +36,7 @@ Route::group([
     Route::crud('job-title', 'JobTitleCrudController');
     Route::crud('job-title-category', 'JobTitleCategoryCrudController');
     Route::crud('language', 'LanguageCrudController');
-    Route::crud('license', 'LicenseCrudController');
+    Route::crud('{employee}/license', 'LicenseCrudController');
     Route::crud('license-type', 'LicenseTypeCrudController');
     Route::crud('marital-status', 'MaritalStatusCrudController');
     Route::crud('nationality', 'NationalityCrudController');
