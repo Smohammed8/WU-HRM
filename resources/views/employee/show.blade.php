@@ -132,7 +132,7 @@
 
 <div class="tab-container mb-2 row">
     <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
-        <div class="col-md-2  p-0 m-0" style="border-right:1px solid black;">
+        <div class="col-md-3  p-0 m-0" style="border-right:1px solid black;">
             <ul class="nav nav-tabs nav-stacked flex-column " role="tablist">
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" >{{ 'Employee Job' }}</a>
@@ -143,10 +143,13 @@
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_licence" aria-controls="tab_employee_licence" role="tab" tab_name="employee_licence" data-toggle="tab" class="nav-link " >{{ 'Employee licenses' }}</a>
                 </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_certificate" aria-controls="tab_employee_certificate" role="tab" tab_name="employee_certificate" data-toggle="tab" class="nav-link " >{{ 'Employee Certificate' }}</a>
+                </li>
 
             </ul>
         </div>
-        <div class="tab-content box m-0 col-md-10 p-0 v-pills-tabContent">
+        <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
 
             <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
                 <h3>Employee Job</h3>
@@ -188,7 +191,6 @@
                       </div>
                 </div>
             </div>
-
             <div role="tabpanel" class="tab-pane" id="tab_employee_licence">
                 <h3>Employee Licence</h3>
                 <div class=" no-padding no-border">
@@ -223,6 +225,44 @@
                       </table>
                       <div>
                         {{ $employeeLicenses->links() }}
+                      </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="tab_employee_certificate">
+                <h3>Employee Certificate</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/employee-certificate.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Certificate'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Skill Type</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employeeCertificates as $employeeCertificate)
+                                <tr>
+                                    <td>{{ $employeeCertificate->name }}</td>
+                                    <td>{{ $employeeCertificate->skillType->name }}</td>
+                                    <td>
+                                        <a href="{{ route('{employee}/employee-certificate.edit', ['employee'=>$crud->entry->id,'id'=>$employeeCertificate->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-certificate.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeCertificate->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($employeeCertificates)==0)
+                                <tr>
+                                    <td colspan="3" class="text-center">No Employee Licence</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $employeeCertificates->links() }}
                       </div>
                 </div>
             </div>

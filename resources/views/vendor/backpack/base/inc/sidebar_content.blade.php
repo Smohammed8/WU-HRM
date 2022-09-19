@@ -85,14 +85,6 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i
             class='nav-icon la la-question'></i>
         Employees</a></li>
-
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('license') }}'><i
-            class='nav-icon la la-question'></i>
-        Licenses</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-address') }}'><i
-            class='nav-icon la la-question'></i> Employee addresses</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-certificate') }}'><i
-            class='nav-icon la la-question'></i> Employee certificates</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-contact') }}'><i
             class='nav-icon la la-question'></i> Employee contacts</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-family') }}'><i

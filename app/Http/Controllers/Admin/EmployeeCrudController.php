@@ -7,6 +7,7 @@ use App\Http\Requests\EmployeeAddressRequest;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\EmployeeAddress;
+use App\Models\EmployeeCertificate;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\ExternalExperience;
@@ -271,6 +272,8 @@ class EmployeeCrudController extends CrudController
         $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id',$this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
+        $employeeCertificates = EmployeeCertificate::paginate(10);
+        $this->data['employeeCertificates'] = $employeeCertificates;
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
         // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
         // and we plan to change behaviour in the next version; see this Github issue for more details
