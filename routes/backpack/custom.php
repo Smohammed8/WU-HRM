@@ -46,7 +46,7 @@ Route::group([
     Route::crud('religion', 'ReligionCrudController');
     Route::crud('skill', 'SkillCrudController');
     Route::crud('skill-type', 'SkillTypeCrudController');
-    Route::crud('training-and-study', 'TrainingAndStudyCrudController');
+    Route::crud('{employee}/training-and-study', 'TrainingAndStudyCrudController');
     Route::crud('unit', 'UnitCrudController');
     Route::crud('upload-file', 'UploadFileCrudController');
 }); // this should be the absolute last line of this file

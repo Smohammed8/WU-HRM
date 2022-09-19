@@ -162,7 +162,9 @@
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_external_experience" aria-controls="tab_employee_external_experience" role="tab" tab_name="employee_external_experience" data-toggle="tab" class="nav-link " >{{ 'External Experience' }}</a>
                 </li>
-
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_training_and_experience" aria-controls="tab_training_and_experience" role="tab" tab_name="training_and_experience" data-toggle="tab" class="nav-link " >{{ 'Training And Studies' }}</a>
+                </li>
             </ul>
         </div>
         <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
@@ -488,6 +490,54 @@
                       </table>
                       <div>
                         {{ $externalExperiences->links() }}
+                      </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="tab_training_and_experience">
+                <h3>Training and Studies</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/training-and-study.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Training and Studies'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Education Level</th>
+                            <th>Country</th>
+                            <th>Inistitution</th>
+                            <th>City</th>
+                            <th>Leave date</th>
+                            <th>Study End</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($trainingAndStudies as $trainingAndStudy)
+                                <tr>
+                                    <td>{{ $trainingAndStudy->name }}</td>
+                                    <td>{{ $trainingAndStudy->educationalLevel->name }}</td>
+                                    <td>{{ $trainingAndStudy->nationality->label }}</td>
+                                    <td>{{ $trainingAndStudy->inistitution }}</td>
+                                    <td>{{ $trainingAndStudy->city }}</td>
+                                    <td>{{ $trainingAndStudy->date_of_leave->format('Y M, d') }}</td>
+                                    <td>{{ $trainingAndStudy->end_of_study->format('Y M, d') }}</td>
+                                    <td>
+                                        <a href="{{ route('{employee}/training-and-study.edit', ['employee'=>$crud->entry->id,'id'=>$trainingAndStudy->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/training-and-study.destroy', ['employee'=>$crud->entry->id,'id'=>$trainingAndStudy->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($trainingAndStudies)==0)
+                                <tr>
+                                    <td colspan="7" class="text-center">No External Experience</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $trainingAndStudies->links() }}
                       </div>
                 </div>
             </div>

@@ -19,6 +19,7 @@ use App\Models\JobTitle;
 use App\Models\License;
 use App\Models\LicenseType;
 use App\Models\MaritalStatus;
+use App\Models\TrainingAndStudy;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\File;
@@ -288,6 +289,8 @@ class EmployeeCrudController extends CrudController
         $this->data['internalExperiences'] = $internalExperiences;
         $externalExperiences = ExternalExperience::paginate(10);
         $this->data['externalExperiences'] = $externalExperiences;
+        $trainingAndStudies = TrainingAndStudy::paginate(10);
+        $this->data['trainingAndStudies'] = $trainingAndStudies;
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
         // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
         // and we plan to change behaviour in the next version; see this Github issue for more details
