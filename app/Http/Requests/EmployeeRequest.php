@@ -25,7 +25,6 @@ class EmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-<<<<<<< HEAD
             'first_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'father_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'grand_father_name' => 'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
@@ -53,36 +52,6 @@ class EmployeeRequest extends FormRequest
             'employment_status_id' =>'required',
             'static_salary'=>'required',
             'uas_user_id' =>'required',
-=======
-            // 'first_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            // 'father_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            // 'grand_father_name' => 'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            // 'gender'=>'required',
-            // 'date_of_birth' =>'required',
-            // 'photo' =>'required|image|mimes:png,jpg,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100',
-            // 'birth_city' =>'required',
-            // 'passport' =>'required',
-            // 'driving_licence' =>'required',
-            // 'blood_group' =>'required',
-            // 'eye_color' =>'required',
-            // 'phone_number'=>'required|numeric|digits:10',
-            // 'alternate_email'=>'required|email',
-            // 'rfid' =>'required|numeric',
-            // 'employment_identity' =>'required',
-            // 'marital_status_id' =>'required',
-            // 'ethnicity_id' =>'required',
-            // 'religion_id' =>'required',
-            // 'unit_id' =>'required',
-            // 'employement_date'=>'required|date',
-            // 'salary_step' =>'required',
-            // 'job_title_id' =>'required',
-            // 'employment_type_id' =>'required',
-            // 'pention_number' =>'required|numeric',
-            // 'employment_status_id' =>'required',
-            // 'static_salary'=>'required',
-            // 'uas_user_id' =>'required',
-            'employeeAddresses.name' => 'nullable|string'
->>>>>>> origin/abdi
         ];
     }
 
