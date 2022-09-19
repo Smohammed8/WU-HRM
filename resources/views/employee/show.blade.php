@@ -1,3 +1,5 @@
+
+
 @extends(backpack_view('blank'))
 
 @php
@@ -74,7 +76,15 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-2" style="border-right:1px solid black;">
-                    <img width="150" src="{{ $crud->entry->photo }}" alt="">
+
+                    @if(isset($crud->entry->photo ))
+                    <img src="{{ asset('image//profile.jpg')}}" alt="profile Pic" height="160" width="150">
+
+                        @else
+                        <img width="150" src="{{ $crud->entry->photo }}" alt="">
+
+                        @endif
+
                 </div>
                 <div class="col-md-9">
                     <div class="row justify-content-between">
@@ -131,39 +141,54 @@
 </div>
 
 <div class="tab-container mb-2 row">
-    <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
+    <div class="nav-tabs-custom p-0 d-flex  col-md-12" style="border-radius:2%; border-top-color: blue; border-top-width:2px;" id="form_tabs">
         <div class="col-md-3  p-0 m-0" style="border-right:1px solid black;">
+
             <ul class="nav nav-tabs nav-stacked flex-column " role="tablist">
-                {{-- <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" >{{ 'Employee Job' }}</a>
-                </li> --}}
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab" tab_name="employee_address" data-toggle="tab" class="nav-link " >{{ 'Employee Address' }}</a>
-                </li>
-                <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_licence" aria-controls="tab_employee_licence" role="tab" tab_name="employee_licence" data-toggle="tab" class="nav-link " >{{ 'Employee licenses' }}</a>
-                </li>
-                <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_certificate" aria-controls="tab_employee_certificate" role="tab" tab_name="employee_certificate" data-toggle="tab" class="nav-link " >{{ 'Employee Certificate' }}</a>
+                    <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" > <i class="la la la-suitcase" style="font-size: 20px"> </i> &nbsp; {{ 'Employee Job' }}</a>
                 </li>
 
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_contact" aria-controls="tab_employee_contact" role="tab" tab_name="employee_contact" data-toggle="tab" class="nav-link " >{{ 'Employee Contact' }}</a>
+                    <a href="" aria-controls="" role="tab" tab_name="employee_educ" data-toggle="tab" class="nav-link " > <i class="la la la-mortar-board" style="font-size: 20px;"> </i>&nbsp; {{ 'Education' }}</a>
+                </li>
+
+                <li role="presentation" class="nav-item">
+                    <a href="" aria-controls="" role="tab" tab_name="employee_skill" data-toggle="tab" class="nav-link " > <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill' }}</a>
+                </li>
+
+
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab" tab_name="employee_address" data-toggle="tab" class="nav-link " > <i class="la la-envelope-o" style="font-size: 20px"> </i>&nbsp; {{ ' Address' }}</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_language" aria-controls="tab_employee_language" role="tab" tab_name="employee_language" data-toggle="tab" class="nav-link " >{{ 'Employee Language' }}</a>
+                    <a href="#tab_employee_licence" aria-controls="tab_employee_licence" role="tab" tab_name="employee_licence" data-toggle="tab" class="nav-link " > <i class="la la-gavel"  style="font-size: 20px"> </i> {{ 'Licenses' }}</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_family" aria-controls="tab_employee_family" role="tab" tab_name="employee_family" data-toggle="tab" class="nav-link " >{{ 'Employee Family' }}</a>
+                    <a href="#tab_employee_certificate" aria-controls="tab_employee_certificate" role="tab" tab_name="employee_certificate" data-toggle="tab" class="nav-link " > <i class="la la-book"  style="font-size: 20px"> </i>{{ 'Certification' }}</a>
+                </li>
+
+                <li role="presentation" class="nav-item">
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience" role="tab" tab_name="employee_internal_experience" data-toggle="tab" class="nav-link " >{{ 'Internal Experience' }}</a>
+                    <a href="#tab_employee_language" aria-controls="tab_employee_language" role="tab" tab_name="employee_language" data-toggle="tab" class="nav-link " > <i class="la la-globe" style="font-size: 20px"> </i> {{ 'Language' }}</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_external_experience" aria-controls="tab_employee_external_experience" role="tab" tab_name="employee_external_experience" data-toggle="tab" class="nav-link " >{{ 'External Experience' }}</a>
+                    <a href="#tab_employee_family" aria-controls="tab_employee_family" role="tab" tab_name="employee_family" data-toggle="tab" class="nav-link " >  <i class="la la-users" style="font-size: 20px"> </i>  {{ 'Families' }}</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_training_and_experience" aria-controls="tab_training_and_experience" role="tab" tab_name="training_and_experience" data-toggle="tab" class="nav-link " >{{ 'Training And Studies' }}</a>
+                    <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience" role="tab" tab_name="employee_internal_experience" data-toggle="tab" class="nav-link " > <i class="la la-map" style="font-size: 20px"> </i>  {{ 'Internal Experience' }}</a>
+                </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_external_experience" aria-controls="tab_employee_external_experience" role="tab" tab_name="employee_external_experience" data-toggle="tab" class="nav-link " > <i class="la la-flag" style="font-size: 20px"> </i> {{ 'External Experience' }}</a>
+                </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_training_and_experience" aria-controls="tab_training_and_experience" role="tab" tab_name="training_and_experience" data-toggle="tab" class="nav-link " > <i class="la la la-check-circle " style="font-size: 20px"> </i>  {{ 'Training and Studies' }}</a>
+                </li>
+
+                <li role="presentation" class="nav-item">
+                    <a href="#" aria-controls="" role="tab" tab_name="" data-toggle="tab" class="nav-link " > <i class="la
+                        la la-university" style="font-size: 20px"> </i>  {{ 'Memebership' }}</a>
                 </li>
             </ul>
         </div>

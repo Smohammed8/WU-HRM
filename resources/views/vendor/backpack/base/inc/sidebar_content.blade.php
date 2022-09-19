@@ -51,6 +51,10 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i
                     class='nav-icon la la-caret-right'></i> Chair man types</a></li>
 
+                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'>
+                        <i class='nav-icon la la-caret-right'></i> Pensions</a></li>
+
+
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('educational-level') }}'><i
                     class='nav-icon la la-caret-right'></i> Educational levels</a></li>
 
@@ -96,27 +100,3 @@
             class='nav-icon la la-question'></i>
         Employees</a></li>
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('license') }}'><i
-            class='nav-icon la la-question'></i>
-        Licenses</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-address') }}'><i
-            class='nav-icon la la-question'></i> Employee addresses</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-certificate') }}'><i
-            class='nav-icon la la-question'></i> Employee certificates</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-contact') }}'><i
-            class='nav-icon la la-question'></i> Employee contacts</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-family') }}'><i
-            class='nav-icon la la-question'></i> Employee families</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-language') }}'><i
-            class='nav-icon la la-question'></i> Employee languages</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('external-experience') }}'><i
-            class='nav-icon la la-question'></i> External experiences</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-relationship') }}'><i
-            class='nav-icon la la-question'></i> Family relationships</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('internal-experience') }}'><i
-            class='nav-icon la la-question'></i> Internal experiences</a></li>
-
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'><i
-            class='nav-icon la la-question'></i> Organizations</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'><i
-            class='nav-icon la la-question'></i> Pensions</a></li>
