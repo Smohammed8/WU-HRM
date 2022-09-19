@@ -159,6 +159,9 @@
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience" role="tab" tab_name="employee_internal_experience" data-toggle="tab" class="nav-link " >{{ 'Internal Experience' }}</a>
                 </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_external_experience" aria-controls="tab_employee_external_experience" role="tab" tab_name="employee_external_experience" data-toggle="tab" class="nav-link " >{{ 'External Experience' }}</a>
+                </li>
 
             </ul>
         </div>
@@ -400,7 +403,6 @@
                       </div>
                 </div>
             </div>
-
             <div role="tabpanel" class="tab-pane" id="tab_employee_internal_experience">
                 <h3>Employee Internal Experience</h3>
                 <div class=" no-padding no-border">
@@ -441,6 +443,51 @@
                       </table>
                       <div>
                         {{ $internalExperiences->links() }}
+                      </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="tab_employee_external_experience">
+                <h3>Employee External Experience</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/external-experience.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee External Experience'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Company Name</th>
+                            <th>Unit</th>
+                            <th>Job Title</th>
+                            <th>Position</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($externalExperiences as $externalExperience)
+                                <tr>
+                                    <td>{{ $externalExperience->unit->name }}</td>
+                                    <td>{{ $externalExperience->job_title }}</td>
+                                    <td>{{ $externalExperience->position }}</td>
+                                    <td>{{ $externalExperience->start_date->format('Y/m/d') }}</td>
+                                    <td>{{ $externalExperience->end_date->format('Y/m/d') }}</td>
+                                    <td>
+                                        <a href="{{ route('{employee}/external-experience.edit', ['employee'=>$crud->entry->id,'id'=>$externalExperience->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/external-experience.destroy', ['employee'=>$crud->entry->id,'id'=>$externalExperience->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($externalExperiences)==0)
+                                <tr>
+                                    <td colspan="7" class="text-center">No External Experience</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $externalExperiences->links() }}
                       </div>
                 </div>
             </div>

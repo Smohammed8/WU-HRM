@@ -74,12 +74,9 @@
             class='nav-icon la la-question'></i> Family relationships</a></li>
     </ul>
 </li>
-
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i
             class='nav-icon la la-question'></i>
         Employees</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('external-experience') }}'><i
-            class='nav-icon la la-question'></i> External experiences</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'><i
             class='nav-icon la la-question'></i> Organizations</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'><i
