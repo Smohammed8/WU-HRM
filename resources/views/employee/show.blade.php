@@ -134,9 +134,9 @@
     <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
         <div class="col-md-3  p-0 m-0" style="border-right:1px solid black;">
             <ul class="nav nav-tabs nav-stacked flex-column " role="tablist">
-                <li role="presentation" class="nav-item">
+                {{-- <li role="presentation" class="nav-item">
                     <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" >{{ 'Employee Job' }}</a>
-                </li>
+                </li> --}}
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab" tab_name="employee_address" data-toggle="tab" class="nav-link " >{{ 'Employee Address' }}</a>
                 </li>
@@ -150,15 +150,24 @@
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_contact" aria-controls="tab_employee_contact" role="tab" tab_name="employee_contact" data-toggle="tab" class="nav-link " >{{ 'Employee Contact' }}</a>
                 </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_language" aria-controls="tab_employee_language" role="tab" tab_name="employee_language" data-toggle="tab" class="nav-link " >{{ 'Employee Language' }}</a>
+                </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_family" aria-controls="tab_employee_family" role="tab" tab_name="employee_family" data-toggle="tab" class="nav-link " >{{ 'Employee Family' }}</a>
+                </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience" role="tab" tab_name="employee_internal_experience" data-toggle="tab" class="nav-link " >{{ 'Internal Experience' }}</a>
+                </li>
 
             </ul>
         </div>
         <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
 
-            <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
+            {{-- <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
                 <h3>Employee Job</h3>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="tab_employee_address">
+            </div> --}}
+            <div role="tabpanel" class="tab-pane active" id="tab_employee_address">
                 <h3>Employee Address</h3>
                 <div class=" no-padding no-border">
                     <div class="">
@@ -260,7 +269,7 @@
                             @endforeach
                             @if(count($employeeCertificates)==0)
                                 <tr>
-                                    <td colspan="3" class="text-center">No Employee Licence</td>
+                                    <td colspan="4" class="text-center">No Employee Licence</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -299,13 +308,139 @@
                             @endforeach
                             @if(count($employeeContacts)==0)
                                 <tr>
-                                    <td colspan="3" class="text-center">No Employee Licence</td>
+                                    <td colspan="3" class="text-center">No Employee Contact</td>
                                 </tr>
                             @endif
                         </tbody>
                       </table>
                       <div>
                         {{ $employeeContacts->links() }}
+                      </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab_employee_language">
+                <h3>Employee Languages</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/employee-language.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Langauge'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Langauge</th>
+                            <th>Speaking</th>
+                            <th>Reading</th>
+                            <th>Writing</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employeeLanguages as $employeeLanguage)
+                                <tr>
+                                    <td>{{ $employeeLanguage->language->name }}</td>
+                                    <td>{{ $employeeLanguage->speaking }}</td>
+                                    <td>{{ $employeeLanguage->reading }}</td>
+                                    <td>{{ $employeeLanguage->writing }}</td>
+                                    <td>
+                                        <a href="{{ route('{employee}/employee-language.edit', ['employee'=>$crud->entry->id,'id'=>$employeeLanguage->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-language.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeLanguage->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($employeeLanguages)==0)
+                                <tr>
+                                    <td colspan="5" class="text-center">No Employee Language</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $employeeLanguages->links() }}
+                      </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab_employee_family">
+                <h3>Employee Families</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/employee-family.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Family'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Family Name</th>
+                            <th>Family Relation</th>
+                            <th>Gender</th>
+                            <th>Date of Birth</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employeeFamilies as $employeeFamily)
+                                <tr>
+                                    <td>{{ $employeeFamily->name }}</td>
+                                    <td>{{ $employeeFamily->familyRelationship->name }}</td>
+                                    <td>{{ $employeeFamily->gender }}</td>
+                                    <td>{{ $employeeFamily->dob??'Not Specified' }}</td>
+                                    <td>
+                                        <a href="{{ route('{employee}/employee-family.edit', ['employee'=>$crud->entry->id,'id'=>$employeeFamily->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-family.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeFamily->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($employeeFamilies)==0)
+                                <tr>
+                                    <td colspan="5" class="text-center">No Employee Family</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $employeeFamilies->links() }}
+                      </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="tab_employee_internal_experience">
+                <h3>Employee Internal Experience</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/internal-experience.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Internal Experience'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Unit</th>
+                            <th>Job Title</th>
+                            <th>Position</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($internalExperiences as $internalExperience)
+                                <tr>
+                                    <td>{{ $internalExperience->unit->name }}</td>
+                                    <td>{{ $internalExperience->jobTitle->name }}</td>
+                                    <td>{{ $internalExperience->position }}</td>
+                                    <td>{{ $internalExperience->start_date->format('Y/m/d') }}</td>
+                                    <td>{{ $internalExperience->end_date->format('Y/m/d') }}</td>
+                                    <td>
+                                        <a href="{{ route('{employee}/internal-experience.edit', ['employee'=>$crud->entry->id,'id'=>$internalExperience->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/internal-experience.destroy', ['employee'=>$crud->entry->id,'id'=>$internalExperience->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($internalExperiences)==0)
+                                <tr>
+                                    <td colspan="6" class="text-center">No Internal Experience</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $internalExperiences->links() }}
                       </div>
                 </div>
             </div>

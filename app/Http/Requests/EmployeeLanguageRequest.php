@@ -29,10 +29,10 @@ class EmployeeLanguageRequest extends FormRequest
 
             'employee_id' =>'required',
             'language_id' =>'required',
-            'speaking' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'reading' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'writing' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'comment'=>'required|regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            // 'speaking' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
+            // 'reading' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
+            // 'writing' =>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
+            // 'comment'=>'required|regex:/^[a-zA-Z]+$/u|min:20|max:255',
         ];
     }
 

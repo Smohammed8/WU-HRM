@@ -37,6 +37,11 @@ class EmployeeFamily extends Model
         'dob' => 'date',
     ];
 
+    public function getNameAttribute()
+    {
+        return $this->attributes['first_name'].''.$this->attributes['father_name'].''.$this->attributes['grand_father_name'];
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);
