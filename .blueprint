@@ -1,103 +1,16 @@
 created:
-    - database/factories/UploadFileFactory.php
-    - database/factories/EmployeeTitleFactory.php
-    - database/factories/MaritalStatusFactory.php
-    - database/factories/FamilyRelationshipFactory.php
-    - database/factories/NationalityFactory.php
-    - database/factories/LanguageFactory.php
-    - database/factories/RegionFactory.php
-    - database/factories/EthnicityFactory.php
-    - database/factories/SkillTypeFactory.php
-    - database/factories/LicenseTypeFactory.php
-    - database/factories/EmployeeCategoryFactory.php
-    - database/factories/PensionFactory.php
-    - database/factories/ChairManTypeFactory.php
-    - database/factories/EducationalLevelFactory.php
-    - database/factories/FieldOfStudyFactory.php
-    - database/factories/ReligionFactory.php
-    - database/factories/OrganizationFactory.php
-    - database/factories/JobTitleCategoryFactory.php
-    - database/factories/JobTitleFactory.php
-    - database/factories/UnitFactory.php
-    - database/factories/EmploymentTypeFactory.php
-    - database/factories/EmploymentStatusFactory.php
-    - database/factories/EmployeeFactory.php
-    - database/factories/InternalExperienceFactory.php
-    - database/factories/ExternalExperienceFactory.php
-    - database/factories/TrainingAndStudyFactory.php
-    - database/factories/EmployeeCertificateFactory.php
-    - database/factories/LicenseFactory.php
-    - database/factories/SkillFactory.php
-    - database/factories/EmployeeLanguageFactory.php
-    - database/factories/EmployeeAddressFactory.php
-    - database/factories/EmployeeContactFactory.php
-    - database/factories/EmployeeFamilyFactory.php
-    - database/migrations/2022_09_10_112028_create_upload_files_table.php
-    - database/migrations/2022_09_10_112029_create_employee_titles_table.php
-    - database/migrations/2022_09_10_112030_create_marital_statuses_table.php
-    - database/migrations/2022_09_10_112031_create_family_relationships_table.php
-    - database/migrations/2022_09_10_112032_create_nationalities_table.php
-    - database/migrations/2022_09_10_112033_create_languages_table.php
-    - database/migrations/2022_09_10_112034_create_regions_table.php
-    - database/migrations/2022_09_10_112035_create_ethnicities_table.php
-    - database/migrations/2022_09_10_112036_create_skill_types_table.php
-    - database/migrations/2022_09_10_112037_create_license_types_table.php
-    - database/migrations/2022_09_10_112038_create_employee_categories_table.php
-    - database/migrations/2022_09_10_112039_create_pensions_table.php
-    - database/migrations/2022_09_10_112040_create_chair_man_types_table.php
-    - database/migrations/2022_09_10_112041_create_educational_levels_table.php
-    - database/migrations/2022_09_10_112042_create_field_of_studies_table.php
-    - database/migrations/2022_09_10_112043_create_religions_table.php
-    - database/migrations/2022_09_10_112044_create_organizations_table.php
-    - database/migrations/2022_09_10_112045_create_job_title_categories_table.php
-    - database/migrations/2022_09_10_112046_create_job_titles_table.php
-    - database/migrations/2022_09_10_112047_create_units_table.php
-    - database/migrations/2022_09_10_112048_create_employment_types_table.php
-    - database/migrations/2022_09_10_112049_create_employment_statuses_table.php
-    - database/migrations/2022_09_10_112050_create_employees_table.php
-    - database/migrations/2022_09_10_112051_create_internal_experiences_table.php
-    - database/migrations/2022_09_10_112052_create_external_experiences_table.php
-    - database/migrations/2022_09_10_112053_create_training_and_studies_table.php
-    - database/migrations/2022_09_10_112054_create_employee_certificates_table.php
-    - database/migrations/2022_09_10_112055_create_licenses_table.php
-    - database/migrations/2022_09_10_112056_create_skills_table.php
-    - database/migrations/2022_09_10_112057_create_employee_languages_table.php
-    - database/migrations/2022_09_10_112058_create_employee_addresses_table.php
-    - database/migrations/2022_09_10_112059_create_employee_contacts_table.php
-    - database/migrations/2022_09_10_112100_create_employee_families_table.php
-    - app/Models/UploadFile.php
-    - app/Models/EmployeeTitle.php
-    - app/Models/MaritalStatus.php
-    - app/Models/FamilyRelationship.php
-    - app/Models/Nationality.php
-    - app/Models/Language.php
-    - app/Models/Region.php
-    - app/Models/Ethnicity.php
-    - app/Models/SkillType.php
-    - app/Models/LicenseType.php
-    - app/Models/EmployeeCategory.php
-    - app/Models/Pension.php
-    - app/Models/ChairManType.php
-    - app/Models/EducationalLevel.php
-    - app/Models/FieldOfStudy.php
-    - app/Models/Religion.php
-    - app/Models/Organization.php
-    - app/Models/JobTitleCategory.php
-    - app/Models/JobTitle.php
-    - app/Models/Unit.php
-    - app/Models/EmploymentType.php
-    - app/Models/EmploymentStatus.php
-    - app/Models/Employee.php
-    - app/Models/InternalExperience.php
-    - app/Models/ExternalExperience.php
-    - app/Models/TrainingAndStudy.php
-    - app/Models/EmployeeCertificate.php
-    - app/Models/License.php
-    - app/Models/Skill.php
-    - app/Models/EmployeeLanguage.php
-    - app/Models/EmployeeAddress.php
-    - app/Models/EmployeeContact.php
-    - app/Models/EmployeeFamily.php
+    - database/factories/EvaluationLevelFactory.php
+    - database/factories/EvaluationCategoryFactory.php
+    - database/factories/EvalutionCreteriaFactory.php
+    - database/factories/EmployeeEvaluationFactory.php
+    - database/migrations/2022_09_19_201535_create_evaluation_levels_table.php
+    - database/migrations/2022_09_19_201536_create_evaluation_categories_table.php
+    - database/migrations/2022_09_19_201537_create_evalution_creterias_table.php
+    - database/migrations/2022_09_19_201538_create_employee_evaluations_table.php
+    - app/Models/EvaluationLevel.php
+    - app/Models/EvaluationCategory.php
+    - app/Models/EvalutionCreteria.php
+    - app/Models/EmployeeEvaluation.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -132,3 +45,7 @@ models:
     EmployeeAddress: { employee_id: 'id foreign', address_type: 'enum:Home,Work,Other', name: 'string:255' }
     EmployeeContact: { employee_id: 'id foreign', contact_type: 'enum:Emergency,Other', contact_name: 'string:255', contact: 'string:255' }
     EmployeeFamily: { employee_id: 'id foreign', family_relationship_id: 'id foreign', first_name: 'string:255', father_name: 'string:255', grand_father_name: 'string:255', gender: 'enum:Male,Female', dob: date }
+    EvaluationLevel: { name: 'string:100', weight: integer, discription: 'text nullable' }
+    EvaluationCategory: { name: text, percent: integer, discription: 'text nullable' }
+    EvalutionCreteria: { evaluation_category_id: 'id foreign', percent: integer, name: text }
+    EmployeeEvaluation: { employee_id: 'id foreign', evalution_creteria_id: 'id foreign', evaluation_level_id: 'id foreign' }

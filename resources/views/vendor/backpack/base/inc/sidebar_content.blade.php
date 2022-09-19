@@ -93,10 +93,24 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('upload-file') }}'><i
                     class='nav-icon la la-caret-right'></i> Upload files</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-relationship') }}'><i
-            class='nav-icon la la-question'></i> Family relationships</a></li>
+            class='nav-icon la la-caret-right'></i> Family relationships</a></li>
     </ul>
 </li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i
-            class='nav-icon la la-question'></i>
+            class='nav-icon la la-list'></i>
         Employees</a></li>
 
+
+
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-flag"></i> Evaluation </a>
+    <ul class="nav-dropdown-items">
+
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-evaluation') }}'><i class='nav-icon la la-caret-right'></i> Evaluation Result</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-category') }}'><i class='nav-icon la la-caret-right'></i> Evaluation category</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-level') }}'><i class='nav-icon la la-caret-right'></i> Evaluation levels</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evalution-creteria') }}'><i class='nav-icon la la-caret-right'></i> Evalution creterias</a></li>
+
+    </ul>
+</li>

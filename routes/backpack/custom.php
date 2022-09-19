@@ -49,4 +49,17 @@ Route::group([
     Route::crud('{employee}/training-and-study', 'TrainingAndStudyCrudController');
     Route::crud('unit', 'UnitCrudController');
     Route::crud('upload-file', 'UploadFileCrudController');
+    Route::crud('employee-address', 'EmployeeAddressCrudController');
+    Route::crud('employee-certificate', 'EmployeeCertificateCrudController');
+    Route::crud('employee-contact', 'EmployeeContactCrudController');
+    Route::crud('employee-evaluation', 'EmployeeEvaluationCrudController');
+    Route::crud('employee-family', 'EmployeeFamilyCrudController');
+    Route::crud('employee-language', 'EmployeeLanguageCrudController');
+    Route::crud('evaluation-category', 'EvaluationCategoryCrudController');
+    Route::crud('evaluation-level', 'EvaluationLevelCrudController');
+    Route::crud('evalution-creteria', 'EvalutionCreteriaCrudController');
+    Route::crud('external-experience', 'ExternalExperienceCrudController');
+    Route::crud('internal-experience', 'InternalExperienceCrudController');
+    Route::crud('license', 'LicenseCrudController');
+    Route::crud('training-and-study', 'TrainingAndStudyCrudController');
 }); // this should be the absolute last line of this file
