@@ -22,7 +22,7 @@ Route::group([
     Route::crud('{employee}/employee-address', 'EmployeeAddressCrudController');
     Route::crud('employee-category', 'EmployeeCategoryCrudController');
     Route::crud('{employee}/employee-certificate', 'EmployeeCertificateCrudController');
-    Route::crud('employee-contact', 'EmployeeContactCrudController');
+    Route::crud('{employee}/employee-contact', 'EmployeeContactCrudController');
     Route::crud('employee-family', 'EmployeeFamilyCrudController');
     Route::crud('employee-language', 'EmployeeLanguageCrudController');
     Route::crud('employee-title', 'EmployeeTitleCrudController');

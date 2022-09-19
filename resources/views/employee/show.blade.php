@@ -147,6 +147,10 @@
                     <a href="#tab_employee_certificate" aria-controls="tab_employee_certificate" role="tab" tab_name="employee_certificate" data-toggle="tab" class="nav-link " >{{ 'Employee Certificate' }}</a>
                 </li>
 
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_contact" aria-controls="tab_employee_contact" role="tab" tab_name="employee_contact" data-toggle="tab" class="nav-link " >{{ 'Employee Contact' }}</a>
+                </li>
+
             </ul>
         </div>
         <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
@@ -263,6 +267,45 @@
                       </table>
                       <div>
                         {{ $employeeCertificates->links() }}
+                      </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab_employee_contact">
+                <h3>Employee Contact</h3>
+                <div class=" no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/employee-contact.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Contact'}}</span></a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Contact Name</th>
+                            <th>Contact Type</th>
+                            <th>Contact</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employeeContacts as $employeeContact)
+                                <tr>
+                                    <td>{{ $employeeContact->contact_name }}</td>
+                                    <td>{{ $employeeContact->contact_type }}</td>
+                                    <td>{{ $employeeContact->contact }}</td>
+                                    <td>
+                                        <a href="{{ route('{employee}/employee-contact.edit', ['employee'=>$crud->entry->id,'id'=>$employeeContact->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-contact.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeContact->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if(count($employeeContacts)==0)
+                                <tr>
+                                    <td colspan="3" class="text-center">No Employee Licence</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                      </table>
+                      <div>
+                        {{ $employeeContacts->links() }}
                       </div>
                 </div>
             </div>
