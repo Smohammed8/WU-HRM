@@ -81,5 +81,3 @@
             class='nav-icon la la-question'></i> Organizations</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'><i
             class='nav-icon la la-question'></i> Pensions</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('training-and-study') }}'><i
-            class='nav-icon la la-question'></i> Training and studies</a></li>
