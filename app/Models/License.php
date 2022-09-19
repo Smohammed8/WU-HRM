@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +33,20 @@ class License extends Model
         'license_type_id' => 'integer',
         'license_file' => 'integer',
     ];
+
+    public function setLicenseFileAttribute($value)
+    {
+        $disk = "public";
+        $destination_path = Constants::EMPLOYEE_LICESNSES_UPLOAD_PATH;
+        $attribute_name = "license_file";
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+
+    public function getLicenseFileAttribute($value)
+    {
+        return asset('storage/'.($this->attributes['license_file']??''));
+    }
 
     public function employee()
     {

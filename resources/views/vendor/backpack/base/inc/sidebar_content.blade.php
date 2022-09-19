@@ -59,11 +59,7 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('ethnicity') }}'><i
                     class='nav-icon la la-caret-right'></i>
                 Ethnicities</a></li>
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-category') }}'><i
-                    class='nav-icon la la-caret-right'></i> Employee categories</a></li>
-
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-status') }}'><i
                     class='nav-icon la la-caret-right'></i> Employment status </a></li>
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('field-of-study') }}'><i
@@ -74,8 +70,6 @@
 
                     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
                     class='nav-icon la la-caret-right'></i> Languages</a></li>
-
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('marital-status') }}'><i
                     class='nav-icon la la-caret-right'></i> Marital statuses</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('license-type') }}'><i
@@ -94,13 +88,10 @@
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('upload-file') }}'><i
                     class='nav-icon la la-caret-right'></i> Upload files</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-relationship') }}'><i
+            class='nav-icon la la-question'></i> Family relationships</a></li>
     </ul>
 </li>
-
-
-
-
-
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i
             class='nav-icon la la-question'></i>
         Employees</a></li>
@@ -125,10 +116,7 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('internal-experience') }}'><i
             class='nav-icon la la-question'></i> Internal experiences</a></li>
 
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'><i
+            class='nav-icon la la-question'></i> Organizations</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'><i
             class='nav-icon la la-question'></i> Pensions</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('training-and-study') }}'><i
-            class='nav-icon la la-question'></i> Training and studies</a></li>
-
-
-

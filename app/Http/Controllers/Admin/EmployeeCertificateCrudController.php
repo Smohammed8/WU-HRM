@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EmployeeCertificateRequest;
+use App\Models\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -13,7 +14,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class EmployeeCertificateCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -21,67 +22,75 @@ class EmployeeCertificateCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\EmployeeCertificate::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/employee-certificate');
+        $employeeId = \Route::current()->parameter('employee');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/employee-certificate');
         CRUD::setEntityNameStrings('employee certificate', 'employee certificates');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     * 
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
-    protected function setupListOperation()
-    {
-        CRUD::column('employee_id');
-        CRUD::column('skill_type_id');
-        CRUD::column('name');
-        CRUD::column('address');
-        CRUD::column('certificate_date');
-        CRUD::column('duration');
-        CRUD::column('comment');
+    // /**
+    //  * Define what happens when the List operation is loaded.
+    //  *
+    //  * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+    //  * @return void
+    //  */
+    // protected function setupListOperation()
+    // {
+    //     CRUD::column('employee_id');
+    //     CRUD::column('skill_type_id');
+    //     CRUD::column('name');
+    //     CRUD::column('address');
+    //     CRUD::column('certificate_date');
+    //     CRUD::column('duration');
+    //     CRUD::column('comment');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
-         */
-    }
+    //     /**
+    //      * Columns can be defined using the fluent syntax or array syntax:
+    //      * - CRUD::column('price')->type('number');
+    //      * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+    //      */
+    // }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EmployeeCertificateRequest::class);
+        $employeeId = \Route::current()->parameter('employee');
+        $this->data['breadcrumbs']=[
+            trans('backpack::crud.admin') => backpack_url('dashboard'),
+            'Employees' => route('employee.index'),
+            'Preview' => route('employee.show',['id'=>$employeeId]),
+            'Employee Address' => false,
+        ];
+        CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
-        CRUD::field('employee_id');
-        CRUD::field('skill_type_id');
+        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name');
         CRUD::field('name');
         CRUD::field('address');
         CRUD::field('certificate_date');
-        CRUD::field('duration');
+        // CRUD::field('duration');
         CRUD::field('comment');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

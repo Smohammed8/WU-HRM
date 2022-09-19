@@ -7,13 +7,19 @@ use App\Http\Requests\EmployeeAddressRequest;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\EmployeeAddress;
+use App\Models\EmployeeCertificate;
+use App\Models\EmployeeContact;
+use App\Models\EmployeeFamily;
+use App\Models\EmployeeLanguage;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\ExternalExperience;
+use App\Models\InternalExperience;
 use App\Models\JobTitle;
 use App\Models\License;
 use App\Models\LicenseType;
 use App\Models\MaritalStatus;
+use App\Models\TrainingAndStudy;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\File;
@@ -35,6 +41,7 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
 
     /**
@@ -47,7 +54,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setModel(\App\Models\Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
-
+        $this->crud->setShowView('employee.show');
     }
 
     /**
@@ -272,25 +279,26 @@ class EmployeeCrudController extends CrudController
         CRUD::field('employment_status_id')->tab($tabName)->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->tab($tabName)->size(3);
         $tabName = 'Employee Address';
 
-        CRUD::field('employeeAddresses')
-        ->type('repeatable')
-        ->label('Employee Address')
-        ->fields([
-            [
-                'name'    => 'id',
-                'type'    => 'hidden',
-            ],
-            [
-                'name'    => 'address_type',
-                'type'    => 'select_from_array',
-                'options'     => ['Home' => 'Home', 'Work' => 'Work','Other'=>'Other'],
-            ],
-            [
-                'name'    => 'name',
-                'type'    => 'text',
-            ],
-        ])->tab($tabName);
-        $tabName = 'Employee Licenses';
+
+        // CRUD::field('employeeAddresses')
+        // ->type('repeatable')
+        // ->label('Employee Address')
+        // ->fields([
+        //     [
+        //         'name'    => 'id',
+        //         'type'    => 'hidden',
+        //     ],
+        //     [
+        //         'name'    => 'address_type',
+        //         'type'    => 'select_from_array',
+        //         'options'     => ['Home' => 'Home', 'Work' => 'Work','Other'=>'Other'],
+        //     ],
+        //     [
+        //         'name'    => 'name',
+        //         'type'    => 'text',
+        //     ],
+        // ])->tab($tabName);
+        // $tabName = 'Employee Licenses';
         // CRUD::field('employeeAddresses')
         // ->type('repeatable')
         // ->label('Employee Licenses')
@@ -349,4 +357,32 @@ class EmployeeCrudController extends CrudController
 
         return $response;
     }
+
+    protected function setupShowOperation()
+    {
+        $licenses = License::paginate(10);
+        $this->data['employeeLicenses'] = $licenses;
+        $employeeAddresses = EmployeeAddress::where('employee_id',$this->crud->getCurrentEntryId())->paginate(10);
+        $this->data['employeeAddresses'] = $employeeAddresses;
+        $employeeCertificates = EmployeeCertificate::paginate(10);
+        $this->data['employeeCertificates'] = $employeeCertificates;
+        $employeeContacts = EmployeeContact::paginate(10);
+        $this->data['employeeContacts'] = $employeeContacts;
+        $employeeLanguages = EmployeeLanguage::paginate(10);
+        $this->data['employeeLanguages'] = $employeeLanguages;
+        $employeeFamilies = EmployeeFamily::paginate(10);
+        $this->data['employeeFamilies'] = $employeeFamilies;
+        $internalExperiences = InternalExperience::paginate(10);
+        $this->data['internalExperiences'] = $internalExperiences;
+        $externalExperiences = ExternalExperience::paginate(10);
+        $this->data['externalExperiences'] = $externalExperiences;
+        $trainingAndStudies = TrainingAndStudy::paginate(10);
+        $this->data['trainingAndStudies'] = $trainingAndStudies;
+        // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
+        // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
+        // and we plan to change behaviour in the next version; see this Github issue for more details
+        // https://github.com/Laravel-Backpack/CRUD/issues/3108
+    }
+
+
 }

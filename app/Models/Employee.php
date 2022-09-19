@@ -133,6 +133,11 @@ class Employee extends Model
         'employment_status_id' => 'integer',
     ];
 
+    public function getNameAttribute()
+    {
+        return $this->attributes['first_name'].' '.$this->attributes['father_name'].' '.$this->attributes['grand_father_name'];
+    }
+
     public function getPhotoAttribute()
     {
         if(array_key_exists('photo',$this->attributes))
