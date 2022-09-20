@@ -72,7 +72,7 @@
 	</div>
 </div> --}}
 <div class="row">
-    <div class="card col-md-12 mb-2">
+    <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-2" style="border-right:1px solid black;">
@@ -141,11 +141,13 @@
 </div>
 
 <div class="tab-container mb-2 row">
-    <div class="nav-tabs-custom p-0 d-flex  col-md-12" style="border-radius:2%; border-top-color: blue; border-top-width:2px;" id="form_tabs">
-        <div class="col-md-3  p-0 m-0" style="border-right:1px solid black;">
+    <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
+        <div class="col-md-3  p-0 m-0" style="border-left-radius:2%;  border-left:2px solid blue;">
 
-            <ul class="nav nav-tabs nav-stacked flex-column " role="tablist">
-                <li role="presentation" class="nav-item">
+
+
+            <ul class="nav nav-tabs nav-stacked flex-column "  role="tablist">
+                <li role="presentation"  class="nav-item">
                     <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" > <i class="la la la-suitcase" style="font-size: 20px"> </i> &nbsp; {{ 'Employee Job' }}</a>
                 </li>
 
