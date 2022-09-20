@@ -14,9 +14,21 @@
 @endphp
 
 @section('header')
+
+
 	<section class="container-fluid d-print-none">
-    	<a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
-		<h2>
+
+
+
+        <a href="index.html" target="_self" class="btn  btn-sm btn-outline-primary float-right"> <i class="la  la-balance-scale"></i> Efficiency</a>
+        <a href=""  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-minus"></i> Leave</a>
+        <a href=""  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-plus"></i> Back </a>
+        <a href=""  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-exclamation-circle"></i> Decipline</a>
+        <a href=""  target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-up"></i> Promotion</a>
+        <a href=""  target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-down"></i> Demotion</a>
+    	<a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-print"></i></a>
+
+        <h2>
 	        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
 	        <small>{!! $crud->getSubheading() ?? mb_ucfirst(trans('backpack::crud.preview')).' '.$crud->entity_name !!}.</small>
 	        @if ($crud->hasAccess('list'))
@@ -27,52 +39,18 @@
 @endsection
 
 @section('content')
-{{-- <div class="row">
-	<div class="{{ $crud->getShowContentClass() }}">
 
-	  <div class="">
-	  	@if ($crud->model->translationEnabled())
-			<div class="row">
-				<div class="col-md-12 mb-2">
 
-					<div class="btn-group float-right">
-					<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{{trans('backpack::crud.language')}}: {{ $crud->model->getAvailableLocales()[request()->input('locale')?request()->input('locale'):App::getLocale()] }} &nbsp; <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						@foreach ($crud->model->getAvailableLocales() as $key => $locale)
-							<a class="dropdown-item" href="{{ url($crud->route.'/'.$entry->getKey().'/show') }}?locale={{ $key }}">{{ $locale }}</a>
-						@endforeach
-					</ul>
-					</div>
-				</div>
-			</div>
-	    @endif
-	    <div class="card no-padding no-border">
-            <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
-                <thead>
-                  <tr>
-                  </tr>
-                </thead>
-                <tbody>
-                    @foreach ($licenses as $license)
-                        <tr>
-                            <td>{{ $license->licenseType->name }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                  <tr>
-                  </tr>
-                </tfoot>
-              </table>
-	    </div>
-	  </div>
 
-	</div>
-</div> --}}
+
 <div class="row">
     <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+<!-- //////////////////////////////////////////// -->
+
+
+
+<!-- //////////////////////////////////////////////-->
+
         <div class="card-body">
             <div class="row">
                 <div class="col-md-2" style="border-right:1px solid black;">
@@ -109,7 +87,14 @@
                                 <label for=""><b>Religion : </b></label>
                                 <label for="">{{ $crud->entry->religion->name }}</label>
                             </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b>Last Efficinecy : </b></label>
+                                <label for="">{{ '-'}}</label>
+                            </div>
                         </div>
+
+
                         <div class="col-md-6" style="border-left:1px solid black;">
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Blood group : </b>  </label>
@@ -131,23 +116,30 @@
                                 <label for=""><b>Employee ID Number : </b></label>
                                 <label for="">{{ $crud->entry->employment_identity }}</label>
                             </div>
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Gross Salary : </b></label>
+                                <label for=""> ETB {{ number_format($crud->entry->static_salary,2) }}</label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+
         </div>
+
+
     </div>
+
 </div>
+
+
 
 <div class="tab-container mb-2 row">
     <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
-        <div class="col-md-3  p-0 m-0" style="border-left-radius:2%;  border-left:2px solid blue;">
-
-
-
+        <div class="col-md-3  p-0 m-0" >
             <ul class="nav nav-tabs nav-stacked flex-column "  role="tablist">
-                <li role="presentation"  class="nav-item">
+                <li role="presentation"  class="nav-item" >
                     <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" > <i class="la la la-suitcase" style="font-size: 20px"> </i> &nbsp; {{ 'Employee Job' }}</a>
                 </li>
 
@@ -194,14 +186,17 @@
                 </li>
             </ul>
         </div>
+
+
+
         <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
 
             {{-- <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
                 <h3>Employee Job</h3>
             </div> --}}
             <div role="tabpanel" class="tab-pane active" id="tab_employee_address">
-                <h3>Employee Address</h3>
-                <div class=" no-padding no-border">
+                <h5>Employee Address</h5>
+                <div class="no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/employee-address.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Address'}}</span></a>
                     </div>
@@ -237,7 +232,7 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_employee_licence">
-                <h3>Employee Licence</h3>
+                <h5>Employee Licence</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/license.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Licence'}}</span></a>
@@ -275,7 +270,7 @@
             </div>
 
             <div role="tabpanel" class="tab-pane" id="tab_employee_certificate">
-                <h3>Employee Certificate</h3>
+                <h5>Employee Certificate</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/employee-certificate.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Certificate'}}</span></a>
@@ -312,7 +307,7 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_employee_contact">
-                <h3>Employee Contact</h3>
+                <h5>Employee Contact</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/employee-contact.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Contact'}}</span></a>
@@ -351,7 +346,7 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_employee_language">
-                <h3>Employee Languages</h3>
+                <h5>Employee Languages</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/employee-language.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Langauge'}}</span></a>
@@ -392,7 +387,7 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_employee_family">
-                <h3>Employee Families</h3>
+                <h5>Employee Families</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/employee-family.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Family'}}</span></a>
@@ -433,7 +428,7 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_employee_internal_experience">
-                <h3>Employee Internal Experience</h3>
+                <h5>Employee Internal Experience</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/internal-experience.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Internal Experience'}}</span></a>
@@ -477,7 +472,7 @@
             </div>
 
             <div role="tabpanel" class="tab-pane" id="tab_employee_external_experience">
-                <h3>Employee External Experience</h3>
+                <h5>Employee External Experience</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/external-experience.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee External Experience'}}</span></a>
@@ -522,7 +517,7 @@
             </div>
 
             <div role="tabpanel" class="tab-pane" id="tab_training_and_experience">
-                <h3>Training and Studies</h3>
+                <h5>Training and Studies</h5>
                 <div class=" no-padding no-border">
                     <div class="">
                         <a href="{{ route('{employee}/training-and-study.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Training and Studies'}}</span></a>

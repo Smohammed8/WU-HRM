@@ -26,6 +26,14 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Prologue\Alerts\Facades\Alert;
+use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
+use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
+use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
+use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
+
+
+
+
 
 /**
  * Class EmployeeCrudController
@@ -50,6 +58,8 @@ class EmployeeCrudController extends CrudController
      * @return void
      */
     public function setup()
+
+
     {
         CRUD::setModel(\App\Models\Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
@@ -323,6 +333,7 @@ class EmployeeCrudController extends CrudController
         // CRUD::field('rfid')->tab($tabName)->size(3);
         // CRUD::field('uas_user_id')->tab($tabName)->size(3);
     }
+
 
 
     public function update()
