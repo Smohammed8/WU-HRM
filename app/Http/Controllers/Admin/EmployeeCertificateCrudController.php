@@ -74,10 +74,10 @@ class EmployeeCertificateCrudController extends CrudController
         ];
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
-        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name');
-        CRUD::field('name');
-        CRUD::field('address');
-        CRUD::field('certificate_date');
+        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name')->size(6);
+        CRUD::field('name')->size(6);
+        CRUD::field('address')->size(6);
+        CRUD::field('certificate_date')->size(6);
         // CRUD::field('duration');
         CRUD::field('comment');
 

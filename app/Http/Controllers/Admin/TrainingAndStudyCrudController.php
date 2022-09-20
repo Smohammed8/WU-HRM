@@ -76,14 +76,14 @@ class TrainingAndStudyCrudController extends CrudController
             'Employee Address' => false,
         ];
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('name');
-        CRUD::field('nationality_id');
-        CRUD::field('educational_level_id')->type('select2')->model(EducationalLevel::class)->attribute('name');
-        CRUD::field('inistitution');
-        CRUD::field('city');
-        CRUD::field('is_contract');
-        CRUD::field('date_of_leave');
-        CRUD::field('end_of_study');
+        CRUD::field('name')->size(6);
+        CRUD::field('nationality_id')->size(6);
+        CRUD::field('educational_level_id')->type('select2')->model(EducationalLevel::class)->attribute('name')->size(6);
+        CRUD::field('inistitution')->size(6);
+        CRUD::field('city')->size(6);
+        CRUD::field('is_contract')->size(6);
+        CRUD::field('date_of_leave')->size(6);
+        CRUD::field('end_of_study')->size(6);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

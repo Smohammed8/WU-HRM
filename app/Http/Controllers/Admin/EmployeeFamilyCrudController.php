@@ -74,12 +74,12 @@ class EmployeeFamilyCrudController extends CrudController
             'Employee Address' => false,
         ];
         CRUD::setValidation(EmployeeFamilyRequest::class);
-        CRUD::field('family_relationship_id')->type('select')->entity('familyRelationship')->model(FamilyRelationship::class)->attribute('name');
-        CRUD::field('first_name');
-        CRUD::field('father_name');
-        CRUD::field('grand_father_name');
-        CRUD::field('gender')->type('enum');
-        CRUD::field('dob');
+        CRUD::field('family_relationship_id')->type('select')->entity('familyRelationship')->model(FamilyRelationship::class)->attribute('name')->size(6);
+        CRUD::field('first_name')->size(6);
+        CRUD::field('father_name')->size(6);
+        CRUD::field('grand_father_name')->size(6);
+        CRUD::field('gender')->type('enum')->size(6);
+        CRUD::field('dob')->size(6);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

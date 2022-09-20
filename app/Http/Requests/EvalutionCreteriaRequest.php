@@ -26,7 +26,8 @@ class EvalutionCreteriaRequest extends FormRequest
     {
         return [
             'evaluation_category_id' => 'required',
-            'name' =>  'required|unique:evalution_creterias,name|regex:/^[a-z A-Z]+$/u|min:2|max:255',
+            'name' => 'required|min:5|max:255',
+         //   'name' =>  'required|unique:evalution_creterias,name|regex:/^[a-z A-Z]+$/u|min:2|max:255',
             'percent' => 'required|numeric|min:3|max:50',
             'discription '=>  'nullable|regex:/^[a-z A-Z]+$/u|min:5|max:255',
         ];

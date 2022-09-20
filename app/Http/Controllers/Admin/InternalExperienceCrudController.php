@@ -66,11 +66,11 @@ class InternalExperienceCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(InternalExperienceRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('unit_id');
-        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name');
-        CRUD::field('position');
-        CRUD::field('start_date');
-        CRUD::field('end_date');
+        CRUD::field('unit_id')->size(6);
+        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+        CRUD::field('position')->size(6);
+        CRUD::field('start_date')->size(6);
+        CRUD::field('end_date')->size(6);
         $this->data['breadcrumbs']=[
             trans('backpack::crud.admin') => backpack_url('dashboard'),
             'Employees' => route('employee.index'),

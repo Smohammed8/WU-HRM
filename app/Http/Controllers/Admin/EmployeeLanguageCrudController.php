@@ -74,10 +74,10 @@ class EmployeeLanguageCrudController extends CrudController
 
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
-        CRUD::field('language_id');
-        CRUD::field('speaking')->type('enum');
-        CRUD::field('reading')->type('enum');
-        CRUD::field('writing')->type('enum');
+        CRUD::field('language_id')->size(6);
+        CRUD::field('speaking')->type('enum')->size(6);
+        CRUD::field('reading')->type('enum')->size(6);
+        CRUD::field('writing')->type('enum')->size(6);
         CRUD::field('comment');
 
         /**

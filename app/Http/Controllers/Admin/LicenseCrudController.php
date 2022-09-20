@@ -64,8 +64,8 @@ class LicenseCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(LicenseRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('license_type_id')->type('select')->entity('licenseType')->model(LicenseType::class)->attribute('name');
-        CRUD::field('license_file')->type('upload')->upload(true);
+        CRUD::field('license_type_id')->type('select')->entity('licenseType')->model(LicenseType::class)->attribute('name')->size(6);
+        CRUD::field('license_file')->type('upload')->upload(true)->size(6);
         $this->data['breadcrumbs']=[
             trans('backpack::crud.admin') => backpack_url('dashboard'),
             'Employees' => route('employee.index'),
