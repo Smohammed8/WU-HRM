@@ -138,7 +138,7 @@
                     <a href="#tab_employee_job" aria-controls="tab_employee_job" role="tab" tab_name="employee_job" data-toggle="tab" class="nav-link active" >{{ 'Employee Job' }}</a>
                 </li> --}}
                 <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab" tab_name="employee_address" data-toggle="tab" class="nav-link " >{{ 'Employee Address' }}</a>
+                    <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab" tab_name="employee_address" data-toggle="tab" class="nav-link active " >{{ 'Employee Address' }}</a>
                 </li>
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_licence" aria-controls="tab_employee_licence" role="tab" tab_name="employee_licence" data-toggle="tab" class="nav-link " >{{ 'Employee licenses' }}</a>
