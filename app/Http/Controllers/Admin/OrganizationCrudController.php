@@ -21,7 +21,7 @@ class OrganizationCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +33,7 @@ class OrganizationCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -58,13 +58,13 @@ class OrganizationCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -72,32 +72,32 @@ class OrganizationCrudController extends CrudController
     {
         CRUD::setValidation(OrganizationRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('email');
-        CRUD::field('mission');
-        CRUD::field('vision');
-        CRUD::field('motto');
-        CRUD::field('logo');
-        CRUD::field('web_address');
-        CRUD::field('fax');
-        CRUD::field('telephone');
-        CRUD::field('pobox');
-        CRUD::field('seal');
-        CRUD::field('president_signature');
-        CRUD::field('account_number');
-        CRUD::field('header');
-        CRUD::field('footer');
+        CRUD::field('name')->size(4);
+        CRUD::field('email')->size(4);
+        CRUD::field('mission')->size(4);
+        CRUD::field('vision')->size(4);
+        CRUD::field('motto')->size(4);
+        CRUD::field('logo')->size(4);
+        CRUD::field('web_address')->size(4);
+        CRUD::field('fax')->size(4);
+        CRUD::field('telephone')->size(4);
+        CRUD::field('pobox')->size(4);
+        CRUD::field('seal')->size(4);
+        CRUD::field('president_signature')->size(4);
+        CRUD::field('account_number')->size(4);
+        CRUD::field('header')->size(4);
+        CRUD::field('footer')->size(4);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

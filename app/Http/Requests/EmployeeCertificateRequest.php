@@ -27,13 +27,13 @@ class EmployeeCertificateRequest extends FormRequest
         return [
             // 'name' => 'required|min:5|max:255'
 
-            // 'employee_id'  => 'required',
-            // 'skill_type_id' => 'required',
-            // 'name' => 'required|unique|regex:/^[a-zA-Z]+$/u|min:5|max:50',
-            // 'address'  => 'required',
-            // 'certificate_date'  => 'required',
-            // 'duration' => 'required',
-            // 'comment'=>'regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            'employee_id'  => 'required',
+            'skill_type_id' => 'required',
+            'name' => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50',
+            'address'  => 'required',
+            'certificate_date'  => 'required',
+            'duration' => 'required',
+            'comment' => 'nullable|regex:/^[a-z A-Z]+$/u|min:5|max:50',
 
         ];
     }

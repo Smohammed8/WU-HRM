@@ -75,11 +75,11 @@ class ExternalExperienceCrudController extends CrudController
         CRUD::setValidation(ExternalExperienceRequest::class);
 
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('unit_id');
-        CRUD::field('job_title');
-        CRUD::field('company_name');
-        CRUD::field('start_date');
-        CRUD::field('end_date');
+        CRUD::field('unit_id')->size(6);
+        CRUD::field('job_title')->size(6);
+        CRUD::field('company_name')->size(6);
+        CRUD::field('start_date')->size(6);
+        CRUD::field('end_date')->size(6);
         CRUD::field('comment');
 
         /**

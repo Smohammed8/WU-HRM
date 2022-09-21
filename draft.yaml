@@ -1,3 +1,4 @@
+
 models:
   UploadFile:
     name: string:255
@@ -195,3 +196,34 @@ models:
     grand_father_name: string:255
     gender: enum:Male,Female
     dob: date
+#///////////////////////////////////////////////////////
+  Application:
+     employee_id: id foreign
+     current_job_title_id:  id foreign
+     applied_job_title_id:  id foreign
+
+  Placement:
+     employee_id: id foreign
+     application_id: id foreign:applications
+     unit_id: id foreign:units
+     job_title_id: id foreign
+     status:  string:50  nullable
+     approved_by_id: id foreign:users  nullable
+
+#///////////////////////////////////////////
+   EvaluationLevel:
+       name: string:100
+       weight: integer
+       discription: text nullable
+    EvaluationCategory:
+        name: text
+        percent: integer
+        discription: text nullable
+    EvalutionCreteria:
+        evaluation_category_id: id foreign
+        percent: integer
+        name: text
+    EmployeeEvaluation:
+        employee_id: id foreign
+        evalution_creteria_id: id foreign
+        evaluation_level_id: id foreign

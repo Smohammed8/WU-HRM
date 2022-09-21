@@ -65,8 +65,8 @@ class EmployeeAddressCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(EmployeeAddressRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('address_type')->type('enum');
-        CRUD::field('name');
+        CRUD::field('address_type')->type('enum')->size(6);
+        CRUD::field('name')->size(6);
         $this->data['breadcrumbs']=[
             trans('backpack::crud.admin') => backpack_url('dashboard'),
             'Employees' => route('employee.index'),

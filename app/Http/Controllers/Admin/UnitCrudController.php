@@ -21,7 +21,7 @@ class UnitCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +33,7 @@ class UnitCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -62,13 +62,13 @@ class UnitCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -76,36 +76,42 @@ class UnitCrudController extends CrudController
     {
         CRUD::setValidation(UnitRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('acronym');
-        CRUD::field('email');
-        CRUD::field('telephone');
-        CRUD::field('extension_line');
-        CRUD::field('location');
-        CRUD::field('seal');
-        CRUD::field('teter');
-        CRUD::field('vision');
-        CRUD::field('mission');
-        CRUD::field('objective');
-        CRUD::field('building_number');
-        CRUD::field('office_number');
-        CRUD::field('motto');
-        CRUD::field('value_list');
-        CRUD::field('parent_unit_id');
-        CRUD::field('reports_to_id');
-        CRUD::field('organization_id');
-        CRUD::field('chair_man_type_id');
+        CRUD::field('name')->size(6);
+        CRUD::field('acronym')->size(6);
+        CRUD::field('email')->size(6);
+        CRUD::field('telephone')->size(6);
+        CRUD::field('extension_line')->size(6);
+        CRUD::field('location')->size(6);
+        CRUD::field('seal')->size(6);
+        CRUD::field('teter')->size(6);
+        CRUD::field('vision')->size(6);
+        CRUD::field('mission')->size(6);
+        CRUD::field('objective')->size(6);
+        CRUD::field('building_number')->size(6);
+        CRUD::field('office_number')->size(6);
+        CRUD::field('motto')->size(6);
+        CRUD::field('value_list')->size(6);
+        CRUD::field('parent_unit_id')->size(6);
+
+        //CRUD::field('parent_unit_id')->size(6)->type('select')->entity('unit')->model(Unit::class)->attribute('name');
+        CRUD::field('reports_to_id')->size(6);
+        CRUD::field('organization_id')->size(6);
+        CRUD::field('chair_man_type_id')->size(6);
+
+
+
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

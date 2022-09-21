@@ -29,9 +29,9 @@ class SkillRequest extends FormRequest
 
             'employee_id'  => 'required',
             'skill_type_id'  => 'required',
-            'name' =>'required|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'name' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
             'level'  => 'required',
-            'description' => 'regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            'description' => 'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',
         ];
     }
 

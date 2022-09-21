@@ -141,7 +141,7 @@ class Employee extends Model
     public function getPhotoAttribute()
     {
         if(array_key_exists('photo',$this->attributes))
-            return asset($this->attributes['photo']);
+            return asset($this->attributes['photo']??'image/profile.jpg');
         return null;
     }
 

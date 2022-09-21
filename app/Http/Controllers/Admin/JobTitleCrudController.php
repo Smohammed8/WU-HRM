@@ -41,8 +41,9 @@ class JobTitleCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        CRUD::column('description');
+
         CRUD::column('job_title_category_id');
+        CRUD::column('description');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -61,11 +62,11 @@ class JobTitleCrudController extends CrudController
     {
         CRUD::setValidation(JobTitleRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('description');
-        CRUD::field('job_title_category_id')->type('select')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name');
+        CRUD::field('job_title_category_id')->type('select2')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name')->size(6);
+        CRUD::field('name')->size(6);
 
-        /**
+        CRUD::field('description');
+         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));

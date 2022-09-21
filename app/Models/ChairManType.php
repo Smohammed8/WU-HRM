@@ -20,6 +20,13 @@ class ChairManType extends Model
         'description',
     ];
 
+
+    public function getProfile($crud = false){
+        return '<a class ="btn btn-sm btn-link" target="blank" href="http://google.com" </a>';
+
+        # code...
+    }
+
     /**
      * The attributes that should be cast to native types.
      *

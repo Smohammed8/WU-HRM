@@ -25,9 +25,9 @@ class EmployeeAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'employee_id'=>'required',
-            // 'address_type'=>'required',
-            'name' => 'required',
+            'employee_id'=>'required',
+            'address_type'=>'required',
+            'name' => 'required|unique:employee_addresses|regex:/^[a-z A-Z]+$/u|min:5|max:50',
         ];
     }
 

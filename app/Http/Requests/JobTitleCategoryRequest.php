@@ -25,8 +25,9 @@ class JobTitleCategoryRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-            'name' => 'required|unique|regex:/^[a-zA-Z]+$/u|min:5|max:50',
-            'description'=>'regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            'name' => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50',
+            'unit_id' => 'required',
+            'description'=>'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',
         ];
     }
     /**

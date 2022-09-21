@@ -27,7 +27,7 @@ class ReligionRequest extends FormRequest
         return [
             // 'name' => 'required|min:5|max:255'
 
-            'name' =>'required|unique|regex:/^[a-zA-Z]+$/u|min:5|max:30',
+            'name' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
 
         ];
     }
