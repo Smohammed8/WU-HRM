@@ -9,10 +9,14 @@ use App\Models\Employee;
 use App\Models\EmployeeAddress;
 use App\Models\EmployeeCertificate;
 use App\Models\EmployeeContact;
+use App\Models\EmployeeEvaluation;
+use App\Models\EvaluationCategory;
+use App\Models\EvaluationLevel;
 use App\Models\EmployeeFamily;
 use App\Models\EmployeeLanguage;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
+use App\Models\EvalutionCreteria;
 use App\Models\ExternalExperience;
 use App\Models\InternalExperience;
 use App\Models\JobTitle;
@@ -22,6 +26,8 @@ use App\Models\MaritalStatus;
 use App\Models\TrainingAndStudy;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -336,6 +342,7 @@ class EmployeeCrudController extends CrudController
 
 
 
+
     public function update()
     {
         $items = collect(json_decode(request('employeeAddresses'), true));
@@ -389,6 +396,13 @@ class EmployeeCrudController extends CrudController
         $this->data['externalExperiences'] = $externalExperiences;
         $trainingAndStudies = TrainingAndStudy::paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
+
+        $employeeEvaluations= EmployeeEvaluation::paginate(10);
+        $this->data['employeeEvaluations'] = $employeeEvaluations;
+        $evalutionCreterias=  EvalutionCreteria::paginate(20);
+        $this->data['evalutionCreterias'] = $evalutionCreterias;
+
+
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
         // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
         // and we plan to change behaviour in the next version; see this Github issue for more details

@@ -18,15 +18,12 @@
 
 
 @section('header')
-
-
 	<section class="container-fluid d-print-none">
-
 
         <button type="button"  data-toggle="modal" data-target="#efficiency"  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la  la-balance-scale"></i> Efficiency </button>
         <button type="button"  data-toggle="modal" data-target="#leav"  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-minus"></i> Leave</button>
         <button type="button"  data-toggle="modal" data-target="#back" target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-plus"></i> Back </button>
-        <button type="button"  data-toggle="modal" data-target="#decipline" target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-exclamation-circle"></i> Decipline</button>
+        <button type="button"  data-toggle="modal" data-target="#decipline" target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-exclamation-circle"></i> Discipline</button>
         <button type="button"  data-toggle="modal" data-target="#promotion" target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-up"></i> Promotion</button>
         <button type="button"  data-toggle="modal" data-target="#demotion" target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-down"></i> Demotion</button>
     	{{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-print"></i></a> --}}
@@ -575,7 +572,11 @@
     <div class="modal-dialog modal-full" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title" id="exampleModalLabel"> Employee Name </h6>
+             <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry->name }} </h6>
+
+
+
+
 
            <div class="row">
 
@@ -596,122 +597,67 @@
         </div>
 
         <style>
-            table, tr, td{
+           table, tr, td{
                 line-height: 5px;
 
             }
-
-
         </style>
         <!-------- //////////////////////////// -->
           <div class="collapse" id="collapseExample">
             <div class="card card-body">
                 <!--- ////////////////////// Evalution form ----------->
-                <form action="" id="EmploymentApplication100" method="post">
-
-                    <table class="table" cellpadding="0" cellspacing="0">
-                    <tr> <td style="width: 50%">
-                    <label for="First_Name"><b> Employee Evalution Criteria</b></label><br /><br>
-                    <hr>
-                   <p> የመንግስት ፖሊሲዎችና ስትራቴጂዎች በዩኒቨርስቲው ራዕይ ዙሪያ ያለዉ ያላት ግንዛቤ:- </p>
-                    </td>
-
-                    <td style="width: 50%">
-                    <label for="Evaluation Levels"><b>Evaluation Levels </b></label><br /><br>
-                    <hr>
-                    <input name="level" type="radio" value="4"  />  Excellent(4) &nbsp;
-                    <input name="level" type="radio" value="3" />  Very good(3)  &nbsp;
-                    <input name="level" type="radio" value="2" />  Good(2)  &nbsp;
-                    <input name="level" type="radio" value="1" />  Poor(1)  &nbsp;
-                    </td>
-                 </tr>
-
-                 <tr>
-                     <td style="width: 50%">
-
-                   <p> የመንግስት ፖሊሲዎችና ስትራቴጂዎች በዩኒቨርስቲው ራዕይ ዙሪያ ያለዉ ያላት ግንዛቤ:- </p>
-                    </td>
-
-                    <td style="width: 50%">
-
-                    <input name="level" type="radio" value="4"  />  Excellent(4) &nbsp;
-                    <input name="level" type="radio" value="3" />  Very good(3)  &nbsp;
-                    <input name="level" type="radio" value="2" />  Good(2)  &nbsp;
-                    <input name="level" type="radio" value="1" />  Poor(1)  &nbsp;
-                    </td>
-                 </tr>
-                 <tr> <td style="width: 50%">
-
-                   <p> የመንግስት ፖሊሲዎችና ስትራቴጂዎች በዩኒቨርስቲው ራዕይ ዙሪያ ያለዉ ያላት ግንዛቤ:- </p>
-                    </td>
-
-                    <td style="width: 50%">
-
-                    <input name="level" type="radio" value="4"  />  Excellent(4) &nbsp;
-                    <input name="level" type="radio" value="3" />  Very good(3)  &nbsp;
-                    <input name="level" type="radio" value="2" />  Good(2)  &nbsp;
-                    <input name="level" type="radio" value="1" />  Poor(1)  &nbsp;
-                    </td>
-                 </tr>
-                 <tr> <td style="width: 50%">
-
-                   <p> የመንግስት ፖሊሲዎችና ስትራቴጂዎች በዩኒቨርስቲው ራዕይ ዙሪያ ያለዉ ያላት ግንዛቤ:- </p>
-                    </td>
-
-                    <td style="width: 50%">
-
-                    <input name="level" type="radio" value="4"  />  Excellent(4) &nbsp;
-                    <input name="level" type="radio" value="3" />  Very good(3)  &nbsp;
-                    <input name="level" type="radio" value="2" />  Good(2)  &nbsp;
-                    <input name="level" type="radio" value="1" />  Poor(1)  &nbsp;
-                    </td>
-                 </tr>
-                 <tr> <td style="width: 50%">
-
-                   <p> የመንግስት ፖሊሲዎችና ስትራቴጂዎች በዩኒቨርስቲው ራዕይ ዙሪያ ያለዉ ያላት ግንዛቤ:- </p>
-                    </td>
-
-                    <td style="width: 50%">
-
-                    <input name="level" type="radio" value="4"  />  Excellent(4) &nbsp;
-                    <input name="level" type="radio" value="3" />  Very good(3)  &nbsp;
-                    <input name="level" type="radio" value="2" />  Good(2)  &nbsp;
-                    <input name="level" type="radio" value="1" />  Poor(1)  &nbsp;
-                    </td>
-                 </tr>
-                 <tr> <td style="width: 50%">
-
-                   <p> የመንግስት ፖሊሲዎችና ስትራቴጂዎች በዩኒቨርስቲው ራዕይ ዙሪያ ያለዉ ያላት ግንዛቤ:- </p>
-                    </td>
-
-                    <td style="width: 50%">
-
-                    <input name="level" type="radio" value="4"  />  Excellent(4) &nbsp;
-                    <input name="level" type="radio" value="3" />  Very good(3)  &nbsp;
-                    <input name="level" type="radio" value="2" />  Good(2)  &nbsp;
-                    <input name="level" type="radio" value="1" />  Poor(1)  &nbsp;
-                    </td>
-                 </tr>
-                 <tr> <td style="width: 50%">
-
-                   <p> የመንግስት ፖሊሲዎችና ስትራቴጂዎች በዩኒቨርስቲው ራዕይ ዙሪያ ያለዉ ያላት ግንዛቤ:- </p>
-                    </td>
-
-                    <td style="width: 50%">
-
-                    <input name="level" type="radio" value="4"  />  Excellent(4) &nbsp;
-                    <input name="level" type="radio" value="3" />  Very good(3)  &nbsp;
-                    <input name="level" type="radio" value="2" />  Good(2)  &nbsp;
-                    <input name="level" type="radio" value="1" />  Poor(1)  &nbsp;
-                    </td>
-                 </tr>
+                <form action="{{ route('employeeEvaluation.create', []) }}" method="GET">
+                    @csrf
 
 
+                    <table class="table table-hover" cellpadding="0" cellspacing="0">
+                          <thead>
+
+                            <tr style="background-color: lightblue">
+                                <th>#</th>
+                            <th>  Employee Evalution Criteria</th>
+                            <th> Evaluation Levels  </th>
+
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <input type="hidden" name="employee" value="{{$crud->entry->id }}">
+
+                            @foreach ($evalutionCreterias as $evalutionCreteria)
+
+                            {{-- <input type="hidden" name="evalution[]" value="{{  $evalutionCreteria->id }}"> --}}
 
 
-                    </table>
-                    <button type="button" class="btn  btn-sm btn-primary float-right mr-1"> <i class="la la-plus"> </i>Save </button>
+                                <tr>
+                                    <td> {{$loop->index+1}}  </td>
+                                    <td>
+                                        <input  name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" />
+
+                                        {{  $evalutionCreteria->name }} [ {{  $evalutionCreteria->percent}}]</td>
+
+                                    <td>
+
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="4"  required />  Excellent(4) &nbsp;
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="3" required />  Very good(3)  &nbsp;
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="2"  required />  Good(2)  &nbsp;
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="1"  required />  Poor(1)  &nbsp;
+                                     </td>
+
+                                </tr>
+                         @endforeach
+                            @if(count($employeeEvaluations)==0)
+                                <tr>
+                                    <td colspan="7" class="text-center">No evaluations </td>
+                                </tr>
+                            @endif
+                            </tbody>
+
+                            </table>
+                    <button type="submit" name="save" class="btn  btn-sm btn-primary float-right mr-1"> <i class="la la-plus"> </i>Save </button>
                     </form>
+
 
             </div>
           </div>
@@ -721,9 +667,9 @@
             <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Employee Name</th>
-                    <th>Year</th>
-                    <th>Session </th>
+
+                    <th> Evalution Criteria</th>
+                    <th> Evalution level </th>
                     <th>Recorded by</th>
                     <th>Obtained Mark</th>
                     <th>Date</th>
@@ -731,26 +677,29 @@
                   </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($trainingAndStudies as $trainingAndStudy) --}}
+
+                    @foreach ($employeeEvaluations as $employeeEvaluation)
                         <tr>
-                            <td>{{ 'Seid Mohammed'}}</td>
-                            <td>{{ '2014' }}</td>
-                            <td>{{ 'Second half' }}</td>
+
+                            <td>{{  $employeeEvaluation->evalutionCreteria->name }}( {{ $employeeEvaluation->evalutionCreteria->percent }})</td>
+                            <td>{{ $employeeEvaluation->evaluationLevel->name }}({{ $employeeEvaluation->evaluationLevel->weight }})</td>
                             <td>{{ 'Hailu Chamir' }}</td>
-                            <td>{{ '45.3' }}</td>
-                            <td>{{ 'Sep 20,2022' }}</td>
+                            <td>{{ $employeeEvaluation->evaluationLevel->weight * $employeeEvaluation->evalutionCreteria->percent }} </td>
+                            <td>{{   $employeeEvaluation->created_at }}</td>
+
+
 
                             <td>
                                 <a href="" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
                                 <a href="javascript:void(0)" onclick="" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                             </td>
                         </tr>
-                    {{-- @endforeach
-                    @if(count($trainingAndStudies)==0)
+                 @endforeach
+                    @if(count($employeeEvaluations)==0)
                         <tr>
-                            <td colspan="7" class="text-center">No External Experience</td>
+                            <td colspan="7" class="text-center">No employee evaluation found</td>
                         </tr>
-                    @endif --}}
+                    @endif
                 </tbody>
               </table>
         </div>

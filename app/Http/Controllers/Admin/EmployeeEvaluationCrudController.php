@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EmployeeEvaluationRequest;
+use App\Models\EmployeeEvaluation;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\EvaluationLevel;
 use App\Models\EvalutionCreteria;
 use App\Models\Unit;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Database\DatabaseManager as DB;
 
 /**
  * Class EmployeeEvaluationCrudController
@@ -62,6 +67,23 @@ class EmployeeEvaluationCrudController extends CrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
+
+
+   public function create(Request $request){
+
+    // $evalution_id       = $request->get('evalution');
+    $criterai           = $request->get('criteria');
+    $employee           = $request->get('employee');
+    $level              = $request->get('level');
+
+    foreach ($criterai as $key => $id) {
+
+        EmployeeEvaluation::create(['evalution_creteria_id'=>$id, 'employee_id'=>$employee, 'evaluation_level_id'=>$request->get('level'.$id)[0]]);
+}
+
+   // return redirect()->route('employee')->with('message', 'Employee efficiency added successfully!');
+}
+
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EmployeeEvaluationRequest::class);
