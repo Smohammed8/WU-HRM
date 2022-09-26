@@ -239,4 +239,6 @@ models:
     educational_level_id: id foreign:educational_levels.id
     minimum_efficeny: decimal
     minimum_employee_profile_value: integer
-
+  RelatedWork:
+    minimum_requirement_id: id foreign:minimum_requirements.id
+    job_title_id: id foreign:job_titles.id
