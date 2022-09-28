@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 use App\Models\Employee;
@@ -30,9 +31,7 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::get('/login',[AuthController::class,'userLoginView'])->name('login');
 
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);

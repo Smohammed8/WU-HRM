@@ -6,33 +6,37 @@
             <br><br>
 
             <style>
-                #top{
+                #top {
 
-                    border-top : 3px solid  #000FF;
+                    border-top: 3px solid #000FF;
                 }
-
-                  </style>
+            </style>
             {{-- <h3 class="text-center mb-4">{{ trans('backpack::base.login') }}</h3> --}}
-            <div class="card"  style="border-radius:5%; border-top-color: blue; border-top-width:2px;">
+            <div class="card" style="border-radius:5%; border-top-color: blue; border-top-width:2px;">
 
-                 <div class="card-header text-center">
+                <div class="card-header text-center">
 
-                    <span>  <img src="{{ asset('image/logo.jpg') }}" alt="" style="width: 60px; height: 70px;">  </span>
-            <small> Human Resource Managment System(2022)
+                    <span> <img src="{{ asset('image/logo.jpg') }}" alt="" style="width: 60px; height: 70px;"> </span>
+                    <small> Human Resource Managment System(2022)
 
-                </small>
-                 </div>
+                    </small>
+                </div>
 
                 <div class="card-body">
-                    <p class="login-box-msg" style=" text-align:center;color:blue;"> <i class ="la la-hand-point-right"> </i> Sign in to start your session </p>
-                     <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('backpack.auth.login') }}">
+                    <p class="login-box-msg" style=" text-align:center;color:blue;"> <i class="la la-hand-point-right"> </i>
+                        Sign in to start your session </p>
+                    <form class="col-md-12 p-t-10" role="form" method="POST"
+                        action="{{ route('backpack.auth.login') }}">
                         {!! csrf_field() !!}
 
                         <div class="form-group">
-                            <label class="control-label" for="{{ $username }}"> <i class="la la-user"> </i> &nbsp; {{ config('backpack.base.authentication_column_name') }}</label>
+                            <label class="control-label" for="{{ $username }}"> <i class="la la-user"> </i> &nbsp;
+                                {{ config('backpack.base.authentication_column_name') }}</label>
 
                             <div>
-                                <input type="text" placeholder="Enter email " class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}" name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}">
+                                <input type="text" placeholder="Enter email "
+                                    class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}"
+                                    name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}">
 
                                 @if ($errors->has($username))
                                     <span class="invalid-feedback">
@@ -43,10 +47,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="password">  <i class="la la-lock"> </i> &nbsp; {{ trans('backpack::base.password') }}</label>
+                            <label class="control-label" for="password"> <i class="la la-lock"> </i> &nbsp;
+                                {{ trans('backpack::base.password') }}</label>
 
                             <div>
-                                <input type="password"  placeholder="Enter password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" id="password">
+                                <input type="password" placeholder="Enter password"
+                                    class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
+                                    id="password">
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback">
@@ -77,10 +84,13 @@
                 </div>
             </div>
             @if (backpack_users_have_email() && config('backpack.base.setup_password_recovery_routes', true))
-                <div class="text-center"><a href="{{ route('backpack.auth.password.reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a></div>
+                <div class="text-center"><a
+                        href="{{ route('backpack.auth.password.reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a>
+                </div>
             @endif
             @if (config('backpack.base.registration_open'))
-                <div class="text-center"><a href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register') }}</a></div>
+                <div class="text-center"><a
+                        href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register') }}</a></div>
             @endif
             <br><br>
         </div>
