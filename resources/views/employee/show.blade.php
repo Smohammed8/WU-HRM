@@ -13,20 +13,20 @@
   $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 @endphp
 
+<link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
+
+
 @section('header')
-
-
 	<section class="container-fluid d-print-none">
 
-
-
-        <a href="index.html" target="_self" class="btn  btn-sm btn-outline-primary float-right"> <i class="la  la-balance-scale"></i> Efficiency</a>
-        <a href=""  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-minus"></i> Leave</a>
-        <a href=""  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-plus"></i> Back </a>
-        <a href=""  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-exclamation-circle"></i> Decipline</a>
-        <a href=""  target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-up"></i> Promotion</a>
-        <a href=""  target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-down"></i> Demotion</a>
-    	<a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-print"></i></a>
+        <button type="button"  data-toggle="modal" data-target="#efficiency"  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la  la-balance-scale"></i> Efficiency </button>
+        <button type="button"  data-toggle="modal" data-target="#leav"  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-minus"></i> Leave</button>
+        <button type="button"  data-toggle="modal" data-target="#back" target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-plus"></i> Back </button>
+        <button type="button"  data-toggle="modal" data-target="#decipline" target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-exclamation-circle"></i> Discipline</button>
+        <button type="button"  data-toggle="modal" data-target="#promotion" target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-up"></i> Promotion</button>
+        <button type="button"  data-toggle="modal" data-target="#demotion" target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-down"></i> Demotion</button>
+    	{{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-print"></i></a> --}}
 
         <h2>
 	        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
@@ -567,8 +567,148 @@
     </div>
 </div>
 @endsection
+<!-- //////////////////////// Eficieny Modal  ///////////////////////////// -->
+<div class="modal fade modal-fullscreen" id="efficiency" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+             <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry->name }} </h6>
 
 
+
+
+
+           <div class="row">
+
+
+                <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <span aria-hidden="true"> <i class="la la-plus"></i> Add new </span>
+                </a>
+
+           <button type="button" class="btn  btn-sm btn-outline-primary pull-right mr-1" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">  <i class="la la-times"></i>  Close </span>
+             </button>
+
+<a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-print"></i> Print</a>
+
+
+           </div>
+
+        </div>
+
+        <style>
+           table, tr, td{
+                line-height: 5px;
+
+            }
+        </style>
+        <!-------- //////////////////////////// -->
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <!--- ////////////////////// Evalution form ----------->
+                <form action="{{ route('employeeEvaluation.create', []) }}" method="GET">
+                    @csrf
+
+
+                    <table class="table table-hover" cellpadding="0" cellspacing="0">
+                          <thead>
+
+                            <tr style="background-color: lightblue">
+                                <th>#</th>
+                            <th>  Employee Evalution Criteria</th>
+                            <th> Evaluation Levels  </th>
+
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <input type="hidden" name="employee" value="{{$crud->entry->id }}">
+
+                            @foreach ($evalutionCreterias as $evalutionCreteria)
+
+                            {{-- <input type="hidden" name="evalution[]" value="{{  $evalutionCreteria->id }}"> --}}
+
+
+                                <tr>
+                                    <td> {{$loop->index+1}}  </td>
+                                    <td>
+                                        <input  name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" />
+
+                                        {{  $evalutionCreteria->name }} [ {{  $evalutionCreteria->percent}}]</td>
+
+                                    <td>
+
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="4"  required />  Excellent(4) &nbsp;
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="3" required />  Very good(3)  &nbsp;
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="2"  required />  Good(2)  &nbsp;
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="1"  required />  Poor(1)  &nbsp;
+                                     </td>
+
+                                </tr>
+                         @endforeach
+                            @if(count($employeeEvaluations)==0)
+                                <tr>
+                                    <td colspan="7" class="text-center">No evaluations </td>
+                                </tr>
+                            @endif
+                            </tbody>
+
+                            </table>
+                    <button type="submit" name="save" class="btn  btn-sm btn-primary float-right mr-1"> <i class="la la-plus"> </i>Save </button>
+                    </form>
+
+
+            </div>
+          </div>
+
+<!-- ///////////////////////////////////////////////--->
+        <div class="modal-body">
+            <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                <thead>
+                  <tr>
+
+                    <th> Evalution Criteria</th>
+                    <th> Evalution level </th>
+                    <th>Recorded by</th>
+                    <th>Obtained Mark</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                    @foreach ($employeeEvaluations as $employeeEvaluation)
+                        <tr>
+
+                            <td>{{  $employeeEvaluation->evalutionCreteria->name }}( {{ $employeeEvaluation->evalutionCreteria->percent }})</td>
+                            <td>{{ $employeeEvaluation->evaluationLevel->name }}({{ $employeeEvaluation->evaluationLevel->weight }})</td>
+                            <td>{{ 'Hailu Chamir' }}</td>
+                            <td>{{ $employeeEvaluation->evaluationLevel->weight * $employeeEvaluation->evalutionCreteria->percent }} </td>
+                            <td>{{   $employeeEvaluation->created_at }}</td>
+
+
+
+                            <td>
+                                <a href="" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                <a href="javascript:void(0)" onclick="" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                            </td>
+                        </tr>
+                 @endforeach
+                    @if(count($employeeEvaluations)==0)
+                        <tr>
+                            <td colspan="7" class="text-center">No employee evaluation found</td>
+                        </tr>
+                    @endif
+                </tbody>
+              </table>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+<!---- //////////////////////////////////////////////////////////// -->
 @section('after_styles')
 	<link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/crud.css').'?v='.config('backpack.base.cachebusting_string') }}">
 	<link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/show.css').'?v='.config('backpack.base.cachebusting_string') }}">
@@ -664,4 +804,16 @@
         // make it so that the function above is run after each DataTable draw event
         // crud.addFunctionToDataTablesDrawEventQueue('deleteEntry');
     </script>
+  <script>
+    function createPopupWin(pageURL, pageTitle,
+                popupWinWidth, popupWinHeight) {
+        var left = (screen.width - popupWinWidth) / 2;
+        var top = (screen.height - popupWinHeight) / 4;
+
+        var myWindow = window.open(pageURL, pageTitle,
+                'resizable=yes, width=' + popupWinWidth
+                + ', height=' + popupWinHeight + ', top='
+                + top + ', left=' + left);
+    }
+</script>
 @endsection

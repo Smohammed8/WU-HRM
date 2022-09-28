@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EmployeeEvaluationRequest;
+use App\Models\EmployeeEvaluation;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\EvaluationLevel;
 use App\Models\EvalutionCreteria;
 use App\Models\Unit;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Database\DatabaseManager as DB;
 
 /**
  * Class EmployeeEvaluationCrudController
@@ -47,6 +52,8 @@ class EmployeeEvaluationCrudController extends CrudController
         CRUD::column('evaluation_level_id');
         CRUD::field('obtained_mark');
 
+
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -60,15 +67,50 @@ class EmployeeEvaluationCrudController extends CrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
+
+
+   public function create(Request $request){
+
+    // $evalution_id       = $request->get('evalution');
+    $criterai           = $request->get('criteria');
+    $employee           = $request->get('employee');
+    $level              = $request->get('level');
+
+    foreach ($criterai as $key => $id) {
+
+        EmployeeEvaluation::create(['evalution_creteria_id'=>$id, 'employee_id'=>$employee, 'evaluation_level_id'=>$request->get('level'.$id)[0]]);
+}
+
+   // return redirect()->route('employee')->with('message', 'Employee efficiency added successfully!');
+}
+
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EmployeeEvaluationRequest::class);
 
         CRUD::field('employee_id')->type('select2')->size(6);
-        CRUD::field('evalution_creteria_id')->type('select2')->entity('evalutionCreteria')->model(EvalutionCreteria::class)->attribute('name')->size(6);
-        CRUD::field('evaluation_level_id')->type('select2')->entity('evaluationLevel')->model(EvaluationLevel::class)->attribute('name')->size(6);
 
-        CRUD::field('obtained_mark')->size(6);
+        CRUD::field('evaluation_level_id')->type('select2')->entity('evaluationLevel')->model(EvaluationLevel::class)->attribute('name')->size(6);
+        CRUD::field('evalution_creteria_id')->type('select2')->entity('evalutionCreteria')->model(EvalutionCreteria::class)->attribute('name')->size(6);
+
+      //  CRUD::field('obtained_mark')->size(6);
+
+        $this->crud->addField([
+            'name'        => 'obtained_mark',
+            'label'       => 'Obtained mark[5]',
+            'type'        => 'radio',
+            'default'      => 0,
+            'options'     => [
+                             4 => " Excellent[4]",
+                             3 => "Very good[3]",
+                             2 => "Good [2]",
+                             1 => "Poor [1]"
+                             ],
+                             'inline' => true,
+                             'label' => 'Questions',
+
+        ]);
+
         CRUD::field('unit_id')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
         CRUD::field('comment');
 
