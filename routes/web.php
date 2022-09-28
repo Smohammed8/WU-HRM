@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
+use App\Http\Controllers\EmployeeController;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
 
@@ -27,11 +28,9 @@ Route::get('/dashboard', function () {
      return view('dashboard');
 })->name('dashboard');
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+Route::get('/home',[EmployeeController::class,'home'])->name('home');
 
-Route::get('/login',[AuthController::class,'userLoginView'])->name('login');
-
+Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
+Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);

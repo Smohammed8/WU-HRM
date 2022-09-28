@@ -9,4 +9,6 @@ class Constants
         0=>'OPEN',
         1=>'LOCK',
     ];
+    const USER_TYPE_EMPLOYEE = 'employee';
+    const PERMISSION_DASHBOARD = 'DASHBOARD';
 }
