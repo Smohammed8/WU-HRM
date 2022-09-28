@@ -1,16 +1,13 @@
 created:
-    - database/factories/EvaluationLevelFactory.php
-    - database/factories/EvaluationCategoryFactory.php
-    - database/factories/EvalutionCreteriaFactory.php
-    - database/factories/EmployeeEvaluationFactory.php
-    - database/migrations/2022_09_19_201535_create_evaluation_levels_table.php
-    - database/migrations/2022_09_19_201536_create_evaluation_categories_table.php
-    - database/migrations/2022_09_19_201537_create_evalution_creterias_table.php
-    - database/migrations/2022_09_19_201538_create_employee_evaluations_table.php
-    - app/Models/EvaluationLevel.php
-    - app/Models/EvaluationCategory.php
-    - app/Models/EvalutionCreteria.php
-    - app/Models/EmployeeEvaluation.php
+    - database/factories/PositionFactory.php
+    - database/factories/MinimumRequirementFactory.php
+    - database/factories/RelatedWorkFactory.php
+    - database/migrations/2022_09_26_045116_create_positions_table.php
+    - database/migrations/2022_09_26_045117_create_minimum_requirements_table.php
+    - database/migrations/2022_09_26_045118_create_related_works_table.php
+    - app/Models/Position.php
+    - app/Models/MinimumRequirement.php
+    - app/Models/RelatedWork.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -49,3 +46,6 @@ models:
     EvaluationCategory: { name: text, percent: integer, discription: 'text nullable' }
     EvalutionCreteria: { evaluation_category_id: 'id foreign', percent: integer, name: text }
     EmployeeEvaluation: { employee_id: 'id foreign', evalution_creteria_id: 'id foreign', evaluation_level_id: 'id foreign' }
+    Position: { unit_id: 'id foreign', job_title_id: 'id foreign:job_titles', total_employees: integer, available_for_placement: 'bool default:true', status: 'integer default:0' }
+    MinimumRequirement: { position_id: 'id foreign', experience: integer, educational_level_id: 'id foreign:educational_levels.id', minimum_efficeny: decimal, minimum_employee_profile_value: integer }
+    RelatedWork: { minimum_requirement_id: 'id foreign:minimum_requirements.id', job_title_id: 'id foreign:job_titles.id' }

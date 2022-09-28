@@ -62,4 +62,7 @@ Route::group([
     Route::crud('internal-experience', 'InternalExperienceCrudController');
     Route::crud('license', 'LicenseCrudController');
     Route::crud('training-and-study', 'TrainingAndStudyCrudController');
+    Route::crud('position', 'PositionCrudController');
+    Route::crud('{position}/minimum-requirement', 'MinimumRequirementCrudController');
+    Route::crud('{position}/{minimum_requirement}/related-work', 'RelatedWorkCrudController');
 }); // this should be the absolute last line of this file
