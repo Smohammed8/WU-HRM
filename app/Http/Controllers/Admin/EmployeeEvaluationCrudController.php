@@ -81,7 +81,7 @@ class EmployeeEvaluationCrudController extends CrudController
         EmployeeEvaluation::create(['evalution_creteria_id'=>$id, 'employee_id'=>$employee, 'evaluation_level_id'=>$request->get('level'.$id)[0]]);
 }
 
-   // return redirect()->route('employee')->with('message', 'Employee efficiency added successfully!');
+ return redirect()->route('employee.show',$employee)->with('message', 'Employee efficiency added successfully!');
 }
 
     protected function setupCreateOperation()
@@ -130,5 +130,22 @@ class EmployeeEvaluationCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+
+
+    }
+
+    protected function setupShowOperation()
+    {
+
+        $employeeEvaluations= EmployeeEvaluation::paginate(10);
+        $this->data['employeeEvaluations'] = $employeeEvaluations;
+        $evalutionCreterias=  EvalutionCreteria::paginate(20);
+        $this->data['evalutionCreterias'] = $evalutionCreterias;
+
+
+        // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
+        // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
+        // and we plan to change behaviour in the next version; see this Github issue for more details
+        // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
 }

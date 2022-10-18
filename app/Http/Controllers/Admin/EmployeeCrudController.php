@@ -12,6 +12,7 @@ use App\Models\EmployeeContact;
 use App\Models\EmployeeEvaluation;
 use App\Models\EvaluationCategory;
 use App\Models\EvaluationLevel;
+use App\Models\TypeOfLeave;
 use App\Models\EmployeeFamily;
 use App\Models\EmployeeLanguage;
 use App\Models\EmploymentStatus;
@@ -20,6 +21,7 @@ use App\Models\EvalutionCreteria;
 use App\Models\ExternalExperience;
 use App\Models\InternalExperience;
 use App\Models\JobTitle;
+use App\Models\Leave;
 use App\Models\License;
 use App\Models\LicenseType;
 use App\Models\MaritalStatus;
@@ -41,6 +43,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 
 
 
+
 /**
  * Class EmployeeCrudController
  * @package App\Http\Controllers\Admin
@@ -48,7 +51,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
  */
 class EmployeeCrudController extends CrudController
 {
-
+    use \Backpack\ReviseOperation\ReviseOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -378,29 +381,36 @@ class EmployeeCrudController extends CrudController
 
     protected function setupShowOperation()
     {
-        $licenses = License::paginate(10);
+        $licenses = License::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id',$this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
-        $employeeCertificates = EmployeeCertificate::paginate(10);
+        $employeeCertificates = EmployeeCertificate::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeCertificates'] = $employeeCertificates;
-        $employeeContacts = EmployeeContact::paginate(10);
+        $employeeContacts = EmployeeContact::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;
-        $employeeLanguages = EmployeeLanguage::paginate(10);
+        $employeeLanguages = EmployeeLanguage::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeLanguages'] = $employeeLanguages;
-        $employeeFamilies = EmployeeFamily::paginate(10);
+        $employeeFamilies = EmployeeFamily::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeFamilies'] = $employeeFamilies;
-        $internalExperiences = InternalExperience::paginate(10);
+        $internalExperiences = InternalExperience::orderBy('id', 'desc')->Paginate(10);
         $this->data['internalExperiences'] = $internalExperiences;
-        $externalExperiences = ExternalExperience::paginate(10);
+        $externalExperiences = ExternalExperience::orderBy('id', 'desc')->Paginate(10);
         $this->data['externalExperiences'] = $externalExperiences;
-        $trainingAndStudies = TrainingAndStudy::paginate(10);
+        $trainingAndStudies = TrainingAndStudy::orderBy('id', 'desc')->Paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
 
-        $employeeEvaluations= EmployeeEvaluation::paginate(10);
+        $employeeEvaluations= EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeEvaluations'] = $employeeEvaluations;
-        $evalutionCreterias=  EvalutionCreteria::paginate(20);
+
+        $evalutionCreterias=  EvalutionCreteria::orderBy('id', 'desc')->Paginate(10);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
+        $leaves =  Leave::orderBy('id', 'desc')->Paginate(1);
+        $this->data['leaves'] = $leaves;
+        $type_of_leaves =    TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
+        $this->data['type_of_leaves'] = $type_of_leaves;
+
+
 
 
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work

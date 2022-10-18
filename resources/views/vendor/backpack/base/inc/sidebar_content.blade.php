@@ -72,7 +72,7 @@
 
 
 
-                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
+      <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
                     class='nav-icon la la-caret-right'></i> Languages</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('marital-status') }}'><i
                     class='nav-icon la la-caret-right'></i> Marital statuses</a></li>
@@ -94,8 +94,14 @@
                     class='nav-icon la la-caret-right'></i> Upload files</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-relationship') }}'><i
             class='nav-icon la la-caret-right'></i> Family relationships</a></li>
+
+ <li class='nav-item'><a class='nav-link' href='{{ backpack_url('type-of-leave') }}'><i class='nav-icon la la-caret-right'></i> Type of leaves</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('type-of-misconduct') }}'><i class='nav-icon la la-caret-right'></i>Type of misconducts</a></li>
+
     </ul>
 </li>
+
+
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i
             class='nav-icon la la-list'></i>
         Employees</a></li>
@@ -114,3 +120,17 @@
 
     </ul>
 </li>
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-minus"></i> Empoyee Leave </a>
+    <ul class="nav-dropdown-items">
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('demotion') }}'> <i class='nav-icon la la-caret-right'></i>Demotions</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('leave') }}'> <i class='nav-icon la la-caret-right'></i> Leaves</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('misconduct') }}'><i class='nav-icon la la-caret-right'></i> Misconducts</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('promotion') }}'><i class='nav-icon la la-caret-right'></i> Promotions</a></li>
+
+
+    </ul>
+</li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i class='nav-icon la la-question'></i> Chair man types</a></li>

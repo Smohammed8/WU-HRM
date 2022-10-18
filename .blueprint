@@ -1,16 +1,22 @@
 created:
-    - database/factories/EvaluationLevelFactory.php
-    - database/factories/EvaluationCategoryFactory.php
-    - database/factories/EvalutionCreteriaFactory.php
-    - database/factories/EmployeeEvaluationFactory.php
-    - database/migrations/2022_09_19_201535_create_evaluation_levels_table.php
-    - database/migrations/2022_09_19_201536_create_evaluation_categories_table.php
-    - database/migrations/2022_09_19_201537_create_evalution_creterias_table.php
-    - database/migrations/2022_09_19_201538_create_employee_evaluations_table.php
-    - app/Models/EvaluationLevel.php
-    - app/Models/EvaluationCategory.php
-    - app/Models/EvalutionCreteria.php
-    - app/Models/EmployeeEvaluation.php
+    - database/factories/TypeOfLeaveFactory.php
+    - database/factories/LeaveFactory.php
+    - database/factories/TypeOfMisconductFactory.php
+    - database/factories/MisconductFactory.php
+    - database/factories/PromotionFactory.php
+    - database/factories/DemotionFactory.php
+    - database/migrations/2022_10_17_195124_create_type_of_leaves_table.php
+    - database/migrations/2022_10_17_195125_create_leaves_table.php
+    - database/migrations/2022_10_17_195126_create_type_of_misconducts_table.php
+    - database/migrations/2022_10_17_195127_create_misconducts_table.php
+    - database/migrations/2022_10_17_195128_create_promotions_table.php
+    - database/migrations/2022_10_17_195129_create_demotions_table.php
+    - app/Models/TypeOfLeave.php
+    - app/Models/Leave.php
+    - app/Models/TypeOfMisconduct.php
+    - app/Models/Misconduct.php
+    - app/Models/Promotion.php
+    - app/Models/Demotion.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -49,3 +55,9 @@ models:
     EvaluationCategory: { name: text, percent: integer, discription: 'text nullable' }
     EvalutionCreteria: { evaluation_category_id: 'id foreign', percent: integer, name: text }
     EmployeeEvaluation: { employee_id: 'id foreign', evalution_creteria_id: 'id foreign', evaluation_level_id: 'id foreign' }
+    TypeOfLeave: { name: 'string:100', description: 'text nullable' }
+    Leave: { employee_id: 'id foreign', type_of_leave_id: 'id foreign:type_of_leaves', created_by_id: 'id foreign:users', approved_by_id: 'id foreign:users nullable', due_date: 'date  nullable', status: 'string:50 defualt Left', description: 'text nullable' }
+    TypeOfMisconduct: { name: 'string:100', description: 'text nullable' }
+    Misconduct: { employee_id: 'id foreign', type_of_misconduct_id: 'id foreign:typeOfMisconducts', created_by_id: 'id foreign:users', attachement: 'string:255 nullable', action_taken: 'text nullable', serverity: 'enum:High,Medium,Low', description: 'text nullable' }
+    Promotion: { employee_id: 'id foreign', old_unit_id: 'id foreign:units', new_unit_id: 'id foreign:units', old_job_title_id: 'id foreign', new_job_title_id: 'id foreign', created_by_id: 'id foreign:users', reason_of_promotion: 'text nullable' }
+    Demotion: { employee_id: 'id foreign', old_unit_id: 'id foreign:units', new_unit_id: 'id foreign:units', old_job_title_id: 'id foreign', new_job_title_id: 'id foreign', created_by_id: 'id foreign:users', reason_of_demotion: 'text nullable' }

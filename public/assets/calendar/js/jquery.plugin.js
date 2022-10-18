@@ -243,7 +243,7 @@
 				var data = elem.data(this.name.toLowerCase()) || '';
 				data = data.replace(/(\\?)'/g, function(e, t) {
 					return t ? '\'' : '"';
-				}).replace(/([a-z A-Z0-9]+):/g, function(match, group, i) {
+				}).replace(/([a-zA-Z0-9]+):/g, function(match, group, i) {
 					var count = data.substring(0, i).match(/"/g); // Handle embedded ':'
 					return (!count || count.length % 2 === 0 ? '"' + group + '":' : group + ':');
 				}).replace(/\\:/g, ':');

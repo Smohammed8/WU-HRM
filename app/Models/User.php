@@ -6,16 +6,25 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Backpack\CRUD\app\Models\Traits\CrudTrait; // <------------------------------- this one
-use Spatie\Permission\Traits\HasRoles;// <---------------------- and this one
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Spatie\Permission\Traits\HasRoles;
+//use App\Models\LdapAuthenticatable;
+//use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
+
 
 use Laravel\Sanctum\HasApiTokens;
 
+//class User extends Authenticatable implements LdapAuthenticatable
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use CrudTrait; // <----- this
-    use HasRoles; // <-
+    use CrudTrait;
+    use HasRoles;
+    use HasFactory, Notifiable;
+    use HasRoles;
+    use CrudTrait;
+
 
     /**
      * The attributes that are mass assignable.

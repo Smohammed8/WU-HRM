@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
+use App\Http\Controllers\Admin\LeaveCrudController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 use App\Models\Employee;
@@ -34,5 +35,16 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-//Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);
+Route::resource('leave', LeaveCrudController::class);
+
+//Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+
+
+
+// Route::group(['middleware' => 'web', 'prefix' => config('backpack.base.route_prefix', 'namespace' => 'Backpack\Base\app\Http\Controllers')], function () {
+//     Route::auth();
+//     Route::get('logout', 'Auth\LoginController@logout');
+//     Route::get('dashboard', 'AdminController@dashboard');
+//     Route::get('/', 'AdminController@redirect');
+// });

@@ -16,16 +16,20 @@
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
 
+<link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}"/>
+<link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}" >
+<link rel="stylesheet" href="{{ asset('assets/calendar/css/redmond.calendars.picker.css')}}"/>
+
 
 @section('header')
 	<section class="container-fluid d-print-none">
 
-        <button type="button"  data-toggle="modal" data-target="#efficiency"  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la  la-balance-scale"></i> Efficiency </button>
-        <button type="button"  data-toggle="modal" data-target="#leav"  target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-minus"></i> Leave</button>
-        <button type="button"  data-toggle="modal" data-target="#back" target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-user-plus"></i> Back </button>
-        <button type="button"  data-toggle="modal" data-target="#decipline" target="_top" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-exclamation-circle"></i> Discipline</button>
-        <button type="button"  data-toggle="modal" data-target="#promotion" target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-up"></i> Promotion</button>
-        <button type="button"  data-toggle="modal" data-target="#demotion" target="_self" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-arrow-down"></i> Demotion</button>
+        <button type="button"  data-toggle="modal" data-target="#efficiency"  target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-balance-scale"></i> Efficiency </button>
+        <button type="button"  data-toggle="modal" data-target="#leave"  target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-user-minus"></i> Leave</button>
+        <button type="button"  data-toggle="modal" data-target="#back" target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-user-plus"></i> Back </button>
+        <button type="button"  data-toggle="modal" data-target="#decipline" target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-exclamation-circle"></i> Discipline</button>
+        <button type="button"  data-toggle="modal" data-target="#promotion" target="_self" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-arrow-up"></i> Promotion</button>
+        <button type="button"  data-toggle="modal" data-target="#demotion" target="_self" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-arrow-down"></i> Demotion</button>
     	{{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i class="la la-print"></i></a> --}}
 
         <h2>
@@ -92,6 +96,12 @@
                                 <label for=""><b>Last Efficinecy : </b></label>
                                 <label for="">{{ '-'}}</label>
                             </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Misconduct records : </b></label>
+                                <label for=""> {{ '0' }} </label>
+                            </div>
+
                         </div>
 
 
@@ -120,6 +130,13 @@
                                 <label for=""><b> Gross Salary : </b></label>
                                 <label for=""> ETB {{ number_format($crud->entry->static_salary,2) }}</label>
                             </div>
+
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Employee status : </b></label>
+                                <label for=""> {{ 'On annual leave' }}- {{ '07 days left' }} </label>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -567,6 +584,10 @@
     </div>
 </div>
 @endsection
+
+
+
+
 <!-- //////////////////////// Eficieny Modal  ///////////////////////////// -->
 <div class="modal fade modal-fullscreen" id="efficiency" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-full" role="document">
@@ -596,12 +617,7 @@
 
         </div>
 
-        <style>
-           table, tr, td{
-                line-height: 5px;
 
-            }
-        </style>
         <!-------- //////////////////////////// -->
           <div class="collapse" id="collapseExample">
             <div class="card card-body">
@@ -638,18 +654,29 @@
                                         {{  $evalutionCreteria->name }} [ {{  $evalutionCreteria->percent}}]</td>
 
                                     <td>
+                                        <select class="select2" name="level{{ $evalutionCreteria->id }}[]" required>
+                                            <option value=""> Select evaluation mark..   </option>
+                                            <option value="4"> Excellent[4] </option>
+                                            <option value="3"> Very Good[3] </option>
+                                            <option value="2"> Good[2] </option>
+                                            <option value="1"> Poor[1] </option>
 
-                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="4"  required />  Excellent(4) &nbsp;
+
+
+                                        </select>
+
+                                        {{-- <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="4"  required />  Excellent(4) &nbsp;
                                         <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="3" required />  Very good(3)  &nbsp;
                                         <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="2"  required />  Good(2)  &nbsp;
-                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="1"  required />  Poor(1)  &nbsp;
-                                     </td>
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="1"  required />  Poor(1)  &nbsp; --}}
+
+                                    </td>
 
                                 </tr>
                          @endforeach
                             @if(count($employeeEvaluations)==0)
                                 <tr>
-                                    <td colspan="7" class="text-center">No evaluations </td>
+                                    <td colspan="7" class="text-center">No evaluations found! </td>
                                 </tr>
                             @endif
                             </tbody>
@@ -664,10 +691,13 @@
 
 <!-- ///////////////////////////////////////////////--->
         <div class="modal-body">
-            <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
-                <thead>
-                  <tr>
 
+
+                <table id="crudTable" class="bg-white table table-sm table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+                <thead>
+                  <tr style="background-color: lightblue;">
+
+                    <th> #</th>
                     <th> Evalution Criteria</th>
                     <th> Evalution level </th>
                     <th>Recorded by</th>
@@ -676,12 +706,14 @@
                     <th>Action</th>
                   </tr>
                 </thead>
+
                 <tbody>
 
                     @foreach ($employeeEvaluations as $employeeEvaluation)
-                        <tr>
+                        <tr >
 
-                            <td>{{  $employeeEvaluation->evalutionCreteria->name }}( {{ $employeeEvaluation->evalutionCreteria->percent }})</td>
+                            <td> {{$loop->index+1}}  </td>
+                            <td >{{  $employeeEvaluation->evalutionCreteria->name }}( {{ $employeeEvaluation->evalutionCreteria->percent }})</td>
                             <td>{{ $employeeEvaluation->evaluationLevel->name }}({{ $employeeEvaluation->evaluationLevel->weight }})</td>
                             <td>{{ 'Hailu Chamir' }}</td>
                             <td>{{ $employeeEvaluation->evaluationLevel->weight * $employeeEvaluation->evalutionCreteria->percent }} </td>
@@ -691,7 +723,7 @@
 
                             <td>
                                 <a href="" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                <a href="javascript:void(0)" onclick="" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+
                             </td>
                         </tr>
                  @endforeach
@@ -702,6 +734,12 @@
                     @endif
                 </tbody>
               </table>
+
+              {{-- <ul class="pagination">
+                {{ $employeeEvaluations->links() }}
+            </ul> --}}
+
+
         </div>
 
 
@@ -709,6 +747,160 @@
     </div>
   </div>
 <!---- //////////////////////////////////////////////////////////// -->
+
+<!-- //////////////////////// Employee Leave Modal  ///////////////////////////// -->
+<div class="modal fade modal-fullscreen" id="leave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+             <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry->name }} </h6>
+
+
+
+
+
+           <div class="row">
+
+
+                <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <span aria-hidden="true"> <i class="la la-user-minus"></i> Add leave </span>
+                </a>
+
+           <button type="button" class="btn  btn-sm btn-outline-primary pull-right mr-1" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">  <i class="la la-times"></i>  Close </span>
+             </button>
+
+           </div>
+
+        </div>
+
+
+        <!-------- //////////////////////////// -->
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <!--- ////////////////////// leave form ----------->
+
+                <form action="{{ route('leave.create', []) }}" method="GET">
+                    @csrf
+
+                    <input type="hidden" name="employee" value="{{$crud->entry->id }}">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="form-group col-sm-12 col-md-4">
+                                <label for=""><i class="la la-user"></i>  Why an employee shall be leave?</label>
+                                <select name="leave_type" id="leave" class="form-control " required="required">
+                                    <option value="">Select leave type </option>
+                                    @foreach ($type_of_leaves as $type_of_leave)
+                                        <option value="{{ $type_of_leave->id }}">{{ $type_of_leave->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-4">
+                                <label for=""><i class="la la-calendar"></i>   Leave date </label>
+                              <input type="text" id="start"  autocomplete="off" class="form-control" name="ldate" required/>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-4">
+                                <label for=""><i class="la la-user-minus"></i>   Total duration upon leave-out(in days)</label>
+                              <input type="number" min="1"  max="724" class=" form-control" name="days" required>
+                            </div>
+
+
+
+
+                            <div class="form-group col-sm-12 col-md-12">
+                                <label for=""><i class="la la-envelope"></i>  Do you have comment?</label>
+                                <textarea type="text"  required="required" cols="15" rows="5" class="form-control" name="comment"> </textarea>
+                              </div>
+
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+                    <button type="submit" name="save" class="btn  btn-sm btn-primary float-right mr-1"> <i class="la la-plus"> </i>Save </button>
+                    </form>
+
+
+            </div>
+          </div>
+
+<!-- ///////////////////////////////////////////////--->
+        <div class="modal-body">
+
+            {{-- <table class="table table-hover table-sm" cellpadding="0" cellspacing="0"> --}}
+                <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
+
+                <thead>
+                  <tr style="background-color: lightblue;">
+
+                    <th> #</th>
+                    <th> Reason for leave </th>
+                    <th> Permitted by </th>
+                    <th> Date of leave </th>
+                    <th> Due date </th>
+                    <th> Remaining time </th>
+                    <th> Current status </th>
+                    <th> Action</th>
+                  </tr>
+                </thead>
+                <br>
+
+                <tbody>
+
+                    @foreach ($leaves as $leave)
+                        <tr>
+
+
+                            <td>{{ $loop->index+1  }}  </td>
+                            <td>{{ $leave->typeOfLeave->name }}</td>
+                            <td>{{ $leave->createdBy->name }}</td>
+                            <td>{{ Carbon\Carbon::parse($leave->leave_date)->format('d, F Y') }} </td>
+                            <td>{{ $leave->due_date->format( 'd, F Y') }} </td>
+                           @if($leave->status=='Leave out')
+                            <td> {{ date_diff(new \Datetime($leave->due_date),new \DateTime('now'))->format(" %y Years,%m Months,%d days"); }}</td>
+
+                            @else
+                            <td> {{ '-' }} </td>
+                            @endif
+                            <td> {{ $leave->status }} </td>
+                            <td>
+                                <a href="" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-edit"></i> Edit</a>
+                                <a href="" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-user-plus"></i> Check-in</a>
+                            </td>
+                        </tr>
+
+                 @endforeach
+                    @if(count($leaves)==0)
+                        <tr>
+                            <td colspan="7"  style="color:red;" class="text-center">No employee leaves!</td>
+                        </tr>
+                    @endif
+                </tbody>
+              </table>
+
+              {{-- <ul class="pagination">
+                {{ $leaves->links() }}
+            </ul> --}}
+
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+<!---- //////////////////////////////////////////////////////////// -->
+
+
 @section('after_styles')
 	<link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/crud.css').'?v='.config('backpack.base.cachebusting_string') }}">
 	<link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/show.css').'?v='.config('backpack.base.cachebusting_string') }}">
@@ -717,7 +909,14 @@
 @section('after_scripts')
 	<script src="{{ asset('packages/backpack/crud/js/crud.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 	<script src="{{ asset('packages/backpack/crud/js/show.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
+
+    <script src= "{{ asset('assets/select2/dist/js/select2.min.js') }}"></script>
     <script>
+        $(function () { // Initialize Select2 Elements
+      $('.select2').select2()
+        });
+        </script>
+   <script>
 
         if (typeof deleteEntry != 'function') {
           $("[data-button-type=delete]").unbind('click');
@@ -815,5 +1014,23 @@
                 + ', height=' + popupWinHeight + ', top='
                 + top + ', left=' + left);
     }
+</script>
+
+<script src=" {{ asset('assets/calendar/js/jquery.plugin.js')}}"></script>
+<script src=" {{ asset('assets/calendar/js/jquery.calendars.js')}}"></script>
+<script src=" {{ asset('assets/calendar/js/jquery.calendars.plus.js')}}"></script>
+<script src=" {{ asset('assets/calendar/js/jquery.calendars.picker.js')}}"></script>
+<script src=" {{ asset('assets/calendar/js/jquery.calendars.ethiopian.js')}}"></script>
+<script src=" {{ asset('assets/calendar/js/jquery.calendars.ethiopian-am.js')}}"></script>
+<script src=" {{ asset('assets/calendar/js/jquery.calendars.picker-am.js')}}"></script>
+
+
+
+
+
+<script>
+    var calendar = $.calendars.instance('ethiopian', 'am');
+   $('#start').calendarsPicker({calendar: calendar});
+  // $('#end').calendarsPicker({calendar: calendar});
 </script>
 @endsection

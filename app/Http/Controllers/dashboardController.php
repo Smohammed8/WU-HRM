@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
 
-        dd(  $users);
+      //  dd(  $users);
 
         return view('dashboard', compact( 'users', 'employees',
 
