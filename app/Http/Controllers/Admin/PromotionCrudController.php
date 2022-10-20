@@ -6,8 +6,10 @@ use App\Http\Requests\PromotionRequest;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\JobTitle;
+use App\Models\Promotion;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
 
 /**
  * Class PromotionCrudController
@@ -24,7 +26,7 @@ class PromotionCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -36,7 +38,7 @@ class PromotionCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -53,13 +55,13 @@ class PromotionCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -75,7 +77,7 @@ class PromotionCrudController extends CrudController
         CRUD::field('old_job_title_id')->size(6);
         CRUD::field('new_job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
 
-   
+
 
         CRUD::field('created_by_id')->type('select2')->entity('user')->model(User::class)->attribute('name')->size(6);
         CRUD::field('reason_of_promotion');
@@ -83,13 +85,36 @@ class PromotionCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+    }
+
+    public function create(Request $request){
+
+        $old_unit      = $request->get('old_uint');
+        $old_job        = $request->get('old_job');
+        $employee       = $request->get('employee');
+        $new_unit       = $request->get('new_unit');
+        $new_job        = $request->get('new_job');
+        $comment         = $request->get('comment');
+
+          Promotion::create(['old_unit_id'=>$old_unit,
+                           'new_unit_id'=>$new_unit,
+                           'employee_id'=>$employee,
+                           'old_job_title_id'=>$old_job,
+                           'new_job_title_id '=>$new_job,
+                           'crteated_by_id'=>1,
+                           'reason_of_promotion'=>$comment
+
+                        ]);
+
+
+     return redirect()->route('employee.show',$employee)->with('message', 'Demotion added successfully!');
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

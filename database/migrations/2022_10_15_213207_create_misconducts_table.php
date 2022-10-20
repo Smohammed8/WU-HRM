@@ -18,8 +18,8 @@ class CreateMisconductsTable extends Migration
         Schema::create('misconducts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained();
-            $table->foreignId('type_of_misconduct_id')->constrained('typeOfMisconducts');
-            $table->foreignId('created_by_id')->constrained('users');
+            $table->foreignId('type_of_misconduct_id')->constrained('type_of_misconducts');
+            $table->foreignId('created_by_id')->constrained('users')->nullable();
             $table->string('attachement', 255)->nullable();
             $table->text('action_taken')->nullable();
             $table->enum('serverity', ["High","Medium","Low"]);

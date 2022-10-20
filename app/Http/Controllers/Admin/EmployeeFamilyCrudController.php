@@ -6,7 +6,6 @@ use App\Http\Requests\EmployeeFamilyRequest;
 use App\Models\FamilyRelationship;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
 /**
  * Class EmployeeFamilyCrudController
  * @package App\Http\Controllers\Admin
@@ -19,7 +18,6 @@ class EmployeeFamilyCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -66,7 +64,6 @@ class EmployeeFamilyCrudController extends CrudController
     {
         $employeeId = \Route::current()->parameter('employee');
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-
         $this->data['breadcrumbs']=[
             trans('backpack::crud.admin') => backpack_url('dashboard'),
             'Employees' => route('employee.index'),
@@ -80,7 +77,6 @@ class EmployeeFamilyCrudController extends CrudController
         CRUD::field('grand_father_name')->size(6);
         CRUD::field('gender')->type('enum')->size(6);
         CRUD::field('dob')->size(6);
-
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

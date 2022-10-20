@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\DemotionRequest;
+use App\Models\Demotion;
 use App\Models\Unit;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
 
 /**
  * Class DemotionCrudController
@@ -23,7 +25,7 @@ class DemotionCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -35,7 +37,7 @@ class DemotionCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -52,13 +54,13 @@ class DemotionCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -79,13 +81,37 @@ class DemotionCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+    }
+
+
+    public function create(Request $request){
+
+        $old_unit      = $request->get('old_uint');
+        $old_job        = $request->get('old_job');
+        $employee       = $request->get('employee');
+        $new_unit       = $request->get('new_unit');
+        $new_job        = $request->get('new_job');
+        $comment         = $request->get('comment');
+
+          Demotion::create(['old_unit_id'=>$old_unit,
+                           'new_unit_id'=>$new_unit,
+                           'employee_id'=>$employee,
+                           'old_job_title_id'=>$old_job,
+                           'new_job_title_id '=>$new_job,
+                           'crteated_by_id'=>1,
+                           'reason_of_demotion'=>$comment
+
+                        ]);
+
+
+     return redirect()->route('employee.show',$employee)->with('message', 'Demotion added successfully!');
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

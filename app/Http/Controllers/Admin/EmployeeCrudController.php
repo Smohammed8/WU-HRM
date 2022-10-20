@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Constants;
 use App\Http\Requests\EmployeeAddressRequest;
 use App\Http\Requests\EmployeeRequest;
+use App\Models\Demotion;
 use App\Models\Employee;
 use App\Models\EmployeeAddress;
 use App\Models\EmployeeCertificate;
@@ -25,7 +26,11 @@ use App\Models\Leave;
 use App\Models\License;
 use App\Models\LicenseType;
 use App\Models\MaritalStatus;
+use App\Models\Misconduct;
+use App\Models\Promotion;
 use App\Models\TrainingAndStudy;
+use App\Models\TypeOfMisconduct;
+use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
@@ -405,10 +410,35 @@ class EmployeeCrudController extends CrudController
 
         $evalutionCreterias=  EvalutionCreteria::orderBy('id', 'desc')->Paginate(10);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
+
         $leaves =  Leave::orderBy('id', 'desc')->Paginate(1);
         $this->data['leaves'] = $leaves;
+
         $type_of_leaves =    TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_leaves'] = $type_of_leaves;
+        $this->data['employee.leave'] = $type_of_leaves;
+
+        $misconducts =    Misconduct::orderBy('id', 'desc')->Paginate(10);
+        $this->data['misconducts'] = $misconducts;
+
+        $demotions =    Demotion::orderBy('id', 'desc')->Paginate(10);
+        $this->data['demotions'] = $demotions;
+
+        $promotions =    Promotion::orderBy('id', 'desc')->Paginate(10);
+        $this->data['promotions'] = $promotions;
+
+        $demotions =    Demotion::orderBy('id', 'desc')->Paginate(10);
+        $this->data['demotions'] = $demotions;
+
+        $type_of_misconducts =    TypeOfMisconduct::orderBy('id', 'desc')->Paginate(10);
+        $this->data['type_of_misconducts'] = $type_of_misconducts;
+
+        $jobe_titles =    JobTitle::orderBy('id', 'desc')->Paginate(10);
+        $this->data['jobe_titles'] = $jobe_titles;
+
+        $units =    Unit::orderBy('id', 'desc')->Paginate(10);
+        $this->data['units'] = $units;
+
 
 
 

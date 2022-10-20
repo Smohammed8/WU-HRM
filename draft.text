@@ -266,6 +266,44 @@ models:
         new_job_title_id: id foreign
         created_by_id: id foreign:users
         reason_of_demotion: text nullable
+    TypeOfLeave:
+         name: string:100
+         description: text nullable
+    Leave:
+        employee_id: id foreign
+        type_of_leave_id: id foreign:type_of_leaves
+        created_by_id: id foreign:users
+        approved_by_id: id foreign:users nullable
+        due_date: date  nullable
+        status: string:50 defualt Left
+        description: text nullable
+    TypeOfMisconduct:
+        name: string:100
+        description: text nullable
+    Misconduct:
+        employee_id: id foreign
+        type_of_misconduct_id: id foreign:typeOfMisconducts
+        created_by_id: id foreign:users
+        attachement: string:255 nullable
+        action_taken: text nullable
+        serverity: enum:High,Medium,Low
+        description: text nullable
+    Promotion:
+        employee_id: id foreign
+        old_unit_id: id foreign:units
+        new_unit_id: id foreign:units
+        old_job_title_id: id foreign
+        new_job_title_id: id foreign
+        created_by_id: id foreign:users
+        reason_of_promotion: text nullable
+    Demotion:
+        employee_id: id foreign
+        old_unit_id: id foreign:units
+        new_unit_id: id foreign:units
+        old_job_title_id: id foreign
+        new_job_title_id: id foreign
+        created_by_id: id foreign:users
+        reason_of_demotion: text nullable
 
 
 

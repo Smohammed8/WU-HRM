@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MisconductRequest;
+use App\Models\Misconduct;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
+use Illuminate\Http\Request;
 
 /**
  * Class MisconductCrudController
@@ -21,7 +24,7 @@ class MisconductCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +36,7 @@ class MisconductCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -50,13 +53,13 @@ class MisconductCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -75,13 +78,40 @@ class MisconductCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
+
+    public function create(Request $request){
+
+        $misconduct_type         = $request->get('misconduct_type');
+        $employee       = $request->get('employee');
+        $severity        = $request->get('severity');
+        $file            = $request->get('file');
+        $comment            = $request->get('comment');
+        $status = 'Leave out';
+
+
+        Misconduct::create(['type_of_misconduct_id'=>$misconduct_type,
+                           'employee_id'=>$employee,
+                           'created_by_id'=>1,
+                           'created_at '=>now(),
+                           'attachement '=>$file,
+                           'action_taken '=>null,
+                           'serverity '=>$severity,
+                           'description'=>$comment
+
+                        ]);
+
+
+     return redirect()->route('employee.show',$employee)->with('message', 'Misconduct added successfully!');
+    }
+
+
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Demotion extends Model
 {
+
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     /**
@@ -56,12 +58,12 @@ class Demotion extends Model
 
     public function oldJobTitle()
     {
-        return $this->belongsTo(OldJobTitle::class);
+        return $this->belongsTo(JobTitle::class);
     }
 
     public function newJobTitle()
     {
-        return $this->belongsTo(NewJobTitle::class);
+        return $this->belongsTo(JobTitle::class);
     }
 
     public function createdBy()
