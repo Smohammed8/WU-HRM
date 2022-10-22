@@ -305,5 +305,16 @@ models:
         created_by_id: id foreign:users
         reason_of_demotion: text nullable
 
+    Evaluation:
+        employee_id: id foreign
+        quarter_id: id foreign
+        total_mark: integer
+        created_by_id: id foreign:users
+    Quarter:
+        name: string
+        start_date: date
+        end_date: date
+        description: text nullable
+
 
 

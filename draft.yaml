@@ -1,15 +1,14 @@
 
 models:
-    Evaluation:
-        employee_id: id foreign
-        quarter_id: id foreign
-        total_mark: integer
+    Form_style:
+        name: enum:"Select box","Radio button" nullable
         created_by_id: id foreign:users
-    Quarter:
-        name: string
-        start_date: date
-        end_date: date
-        description: text nullable
+    Evaluation_period:
+         name:  enum: On,Off nullable
+         created_by_id: id foreign:users
+    Salary_increament:
+        percentage: defualt: 0
+        created_by_id: id foreign:users
 
 
 

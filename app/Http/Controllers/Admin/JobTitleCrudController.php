@@ -42,7 +42,7 @@ class JobTitleCrudController extends CrudController
     {
         CRUD::column('name');
 
-        CRUD::column('job_title_category_id');
+        CRUD::column('job_title_category_id')->type('select')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name');
         CRUD::column('description');
 
         /**

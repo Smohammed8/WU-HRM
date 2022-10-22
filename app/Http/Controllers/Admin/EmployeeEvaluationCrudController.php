@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\EvaluationLevel;
 use App\Models\EvalutionCreteria;
 use App\Models\Unit;
+use App\Models\Evaluation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -71,14 +72,30 @@ class EmployeeEvaluationCrudController extends CrudController
 
    public function create(Request $request){
 
-    // $evalution_id       = $request->get('evalution');
+    $quarter            = $request->get('quarter');
+    $year               = $request->get('year');
     $criterai           = $request->get('criteria');
     $employee           = $request->get('employee');
     $level              = $request->get('level');
 
-    foreach ($criterai as $key => $id) {
+    $evalution =  Evaluation::create([
+        'quarter_id' =>$quarter,
+        'employee_id'=>$employee,
+        'total_mark' =>0,
+      //  'created_by_id'=>Auth::user()
+        'created_by_id'=>1
+         ]);
+if($evalution->id){
+foreach ($criterai as $key => $id) {
+    $evluation_id =  $evalution->id;
+     EmployeeEvaluation::create([
+                                  'employee_id'=>$employee,
+                                  'evalution_creteria_id'=>$id,
+                                  'evaluation_level_id'=>$request->get('level'.$id)[0],
+                                  'evaluation_id'=>$evluation_id
+                             ]);
+  }
 
-        EmployeeEvaluation::create(['evalution_creteria_id'=>$id, 'employee_id'=>$employee, 'evaluation_level_id'=>$request->get('level'.$id)[0]]);
 }
 
  return redirect()->route('employee.show',$employee)->with('message', 'Employee efficiency added successfully!');
@@ -101,7 +118,7 @@ class EmployeeEvaluationCrudController extends CrudController
             'type'        => 'radio',
             'default'      => 0,
             'options'     => [
-                             4 => " Excellent[4]",
+                             4 => "Excellent[4]",
                              3 => "Very good[3]",
                              2 => "Good [2]",
                              1 => "Poor [1]"
@@ -130,8 +147,6 @@ class EmployeeEvaluationCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-
-
     }
 
     protected function setupShowOperation()

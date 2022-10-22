@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JobTitleCategory extends Model
+class Quarter extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -17,7 +17,8 @@ class JobTitleCategory extends Model
      */
     protected $fillable = [
         'name',
-        'unit_id',
+        'start_date',
+        'end_date',
         'description',
     ];
 
@@ -28,10 +29,7 @@ class JobTitleCategory extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
-
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
-    }
 }

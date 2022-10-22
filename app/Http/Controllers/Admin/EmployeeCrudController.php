@@ -18,7 +18,9 @@ use App\Models\EmployeeFamily;
 use App\Models\EmployeeLanguage;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
+use App\Models\Evaluation;
 use App\Models\EvalutionCreteria;
+use App\Models\Quarter;
 use App\Models\ExternalExperience;
 use App\Models\InternalExperience;
 use App\Models\JobTitle;
@@ -405,11 +407,15 @@ class EmployeeCrudController extends CrudController
         $trainingAndStudies = TrainingAndStudy::orderBy('id', 'desc')->Paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
 
-        $employeeEvaluations= EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
-        $this->data['employeeEvaluations'] = $employeeEvaluations;
+
 
         $evalutionCreterias=  EvalutionCreteria::orderBy('id', 'desc')->Paginate(10);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
+
+
+        $evaluation_levels=  EvaluationLevel::orderBy('id', 'desc')->Paginate(10);
+        $this->data['evaluation_levels'] = $evaluation_levels;
+
 
         $leaves =  Leave::orderBy('id', 'desc')->Paginate(1);
         $this->data['leaves'] = $leaves;
@@ -438,9 +444,15 @@ class EmployeeCrudController extends CrudController
 
         $units =    Unit::orderBy('id', 'desc')->Paginate(10);
         $this->data['units'] = $units;
+        $quarters =    Quarter::orderBy('id', 'desc')->Paginate(4);
+        $this->data['quarters'] = $quarters;
 
 
+        $employeeEvaluations= EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
+        $this->data['employeeEvaluations'] = $employeeEvaluations;
 
+        $evaluations = Evaluation::orderBy('id', 'desc')->Paginate(4);
+        $this->data['evaluations'] = $evaluations;
 
 
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work

@@ -68,4 +68,6 @@ Route::group([
     Route::crud('promotion', 'PromotionCrudController');
     Route::crud('type-of-leave', 'TypeOfLeaveCrudController');
     Route::crud('type-of-misconduct', 'TypeOfMisconductCrudController');
+    Route::crud('evaluation', 'EvaluationCrudController');
+    Route::crud('quarter', 'QuarterCrudController');
 }); // this should be the absolute last line of this file

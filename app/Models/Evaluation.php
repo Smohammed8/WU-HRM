@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeEvaluation extends Model
+class Evaluation extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -17,8 +17,9 @@ class EmployeeEvaluation extends Model
      */
     protected $fillable = [
         'employee_id',
-        'evalution_creteria_id',
-        'evaluation_level_id',
+        'quarter_id',
+        'total_mark',
+        'created_by_id',
     ];
 
     /**
@@ -29,9 +30,8 @@ class EmployeeEvaluation extends Model
     protected $casts = [
         'id' => 'integer',
         'employee_id' => 'integer',
-        'evalution_creteria_id' => 'integer',
-        'evaluation_level_id' => 'integer',
-        'evaluation_id'=>'integer'
+        'quarter_id' => 'integer',
+        'created_by_id' => 'integer',
     ];
 
     public function employee()
@@ -39,18 +39,19 @@ class EmployeeEvaluation extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function evaluation()
+
+    public function employeeEvaluations()
     {
-        return $this->belongsTo(Evaluation::class);
+        return $this->hasMany(EmployeeEvaluation::class);
     }
 
-    public function evalutionCreteria()
+    public function quarter()
     {
-        return $this->belongsTo(EvalutionCreteria::class);
+        return $this->belongsTo(Quarter::class);
     }
 
-    public function evaluationLevel()
+    public function createdBy()
     {
-        return $this->belongsTo(EvaluationLevel::class);
+        return $this->belongsTo(User::class);
     }
 }

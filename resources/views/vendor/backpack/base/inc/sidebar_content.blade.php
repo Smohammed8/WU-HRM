@@ -71,6 +71,7 @@
 
 
 
+                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('quarter') }}'><i class='nav-icon la la-caret-right'></i>Quarters</a></li>
 
       <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
                     class='nav-icon la la-caret-right'></i> Languages</a></li>
@@ -118,6 +119,9 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-level') }}'><i class='nav-icon la la-caret-right'></i> Evaluation levels</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evalution-creteria') }}'><i class='nav-icon la la-caret-right'></i> Evalution creterias</a></li>
 
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i class='nav-icon la la-caret-right'></i> Evaluations</a></li>
+
+
     </ul>
 </li>
 
@@ -130,7 +134,26 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('misconduct') }}'><i class='nav-icon la la-caret-right'></i> Misconducts</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('promotion') }}'><i class='nav-icon la la-caret-right'></i> Promotions</a></li>
 
+ </ul>
+</li>
 
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-list"></i> Configurations </a>
+    <ul class="nav-dropdown-items">
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('demotion') }}'> <i class='nav-icon la la-caret-right'></i>Evaluation Period</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('leave') }}'> <i class='nav-icon la la-caret-right'></i> Evalution form style</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('leave') }}'> <i class='nav-icon la la-caret-right'></i> Salary Increament</a></li>
     </ul>
 </li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i class='nav-icon la la-question'></i> Chair man types</a></li>
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-print"></i> Reports</a>
+    <ul class="nav-dropdown-items">
+
+<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i>Efficiency</a></li>
+<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Retirements </a></li>
+<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Leaves </a></li>
+<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Recruitments</a></li>
+    </ul>
+</li>

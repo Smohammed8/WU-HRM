@@ -10,13 +10,14 @@
     <div class="modal-dialog modal-full" role="document">
       <div class="modal-content">
         <div class="modal-header">
-             <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry->name }} </h6>
+             <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry->name }} &nbsp; &nbsp; &nbsp; Unit: {{ $crud->entry->unit->name }} &nbsp; &nbsp; Last Efficiency : 92.5% &nbsp; &nbsp; Job Position : {{ $crud->entry->jobTitle->name }}  </h6>
 
 
 
 
 
            <div class="row">
+
 
 
                 <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -27,7 +28,8 @@
                <span aria-hidden="true">  <i class="la la-times"></i>  Close </span>
              </button>
 
-<a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-print"></i> Print</a>
+
+
 
 
            </div>
@@ -41,6 +43,33 @@
                 <!--- ////////////////////// Evalution form ----------->
                 <form action="{{ route('employeeEvaluation.create', []) }}" method="GET">
                     @csrf
+
+                    <span class="float-right"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fiscal quarter:&nbsp;&nbsp;&nbsp;
+
+
+                        <select name="quarter" id="quarter" class="form-control select2" required="required">
+                            <option value="">Select fiscal quater..  </option>
+                            @foreach ($quarters as $quarter)
+                                <option value="{{ $quarter->id }}">{{ $quarter->name }}</option>
+                            @endforeach
+                        </select>
+
+
+                    </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="float-right">  Fiscal Year: &nbsp;&nbsp;&nbsp;
+                        <select class="form-control select2" name="year" required>
+                            <option value=""> Select fiscal year..   </option>
+                            <option value="2014"> 2014 </option>
+                            <option value="2015"> 2015 </option>
+                            <option value="2016"> 2016</option>
+                            <option value="2017"> 2017</option>
+
+
+
+                        </select>
+                    </span>
+
 
 
                     <table class="table table-hover" cellpadding="0" cellspacing="0">
@@ -60,11 +89,11 @@
 
                             @foreach ($evalutionCreterias as $evalutionCreteria)
 
-                            {{-- <input type="hidden" name="evalution[]" value="{{  $evalutionCreteria->id }}"> --}}
-
 
                                 <tr>
+
                                     <td> {{$loop->index+1}}  </td>
+
                                     <td>
                                         <input  name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" />
 
@@ -77,9 +106,6 @@
                                             <option value="3"> Very Good[3] </option>
                                             <option value="2"> Good[2] </option>
                                             <option value="1"> Poor[1] </option>
-
-
-
                                         </select>
 
                                         {{-- <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="4"  required />  Excellent(4) &nbsp;
@@ -115,40 +141,51 @@
                   <tr style="background-color: lightblue;">
 
                     <th> #</th>
-                    <th> Evalution Criteria</th>
-                    <th> Evalution level </th>
+                    <th>Quarter</th>
+                    <th>Questions</th>
                     <th>Recorded by</th>
-                    <th>Obtained Mark</th>
-                    <th>Date</th>
+                    <th> Added Date</th>
+                    <th>Date range </th>
                     <th>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
 
-                    @foreach ($employeeEvaluations as $employeeEvaluation)
-                        <tr >
-
-                            <td> {{$loop->index+1}}  </td>
-                            <td >{{  $employeeEvaluation->evalutionCreteria->name }}( {{ $employeeEvaluation->evalutionCreteria->percent }})</td>
-                            <td>{{ $employeeEvaluation->evaluationLevel->name }}({{ $employeeEvaluation->evaluationLevel->weight }})</td>
-                            <td>{{ 'Hailu Chamir' }}</td>
-                            <td>{{ $employeeEvaluation->evaluationLevel->weight * $employeeEvaluation->evalutionCreteria->percent }} </td>
-                            <td>{{   $employeeEvaluation->created_at }}</td>
+                    @foreach ($evaluations as $evaluation)
 
 
+                        <tr>
 
+                            <td>{{$loop->index+1}}  </td>
+                            <td>{{ $evaluation->quarter->name}}</td>
+                            <td>{{ $evaluation->employeeEvaluations->count() }}</td>
+                            <td>{{ $evaluation->createdBy->name}}</td>
+                            <td>{{ $evaluation->created_at->format( 'd, F Y') }} </td>
+                            <td> From {{ $evaluation->quarter->start_date->format( 'd, F Y') }}  to  {{ $evaluation->quarter->end_date->format( 'd, F Y') }} </td>
                             <td>
-                                <a href="" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+
+                                <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <span aria-hidden="true"> <i class="la la-list"></i> Details </span>
+                                </a>
+
+
+                               <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-print"></i> Print</a>
+
 
                             </td>
                         </tr>
                  @endforeach
-                    @if(count($employeeEvaluations)==0)
+                    @if(count($evaluations)==0)
                         <tr>
                             <td colspan="7" class="text-center">No employee evaluation found</td>
                         </tr>
                     @endif
+
+                    <div class="">
+                        <span class="mr-5">Total: {{ $evaluation->total_mark }}</span>
+                    </div>
+
                 </tbody>
               </table>
 
@@ -163,4 +200,5 @@
       </div>
     </div>
   </div>
-<!---- //////////////////////////////////////////////////////////// -->
+
+

@@ -1,22 +1,10 @@
 created:
-    - database/factories/TypeOfLeaveFactory.php
-    - database/factories/LeaveFactory.php
-    - database/factories/TypeOfMisconductFactory.php
-    - database/factories/MisconductFactory.php
-    - database/factories/PromotionFactory.php
-    - database/factories/DemotionFactory.php
-    - database/migrations/2022_10_17_195124_create_type_of_leaves_table.php
-    - database/migrations/2022_10_17_195125_create_leaves_table.php
-    - database/migrations/2022_10_17_195126_create_type_of_misconducts_table.php
-    - database/migrations/2022_10_17_195127_create_misconducts_table.php
-    - database/migrations/2022_10_17_195128_create_promotions_table.php
-    - database/migrations/2022_10_17_195129_create_demotions_table.php
-    - app/Models/TypeOfLeave.php
-    - app/Models/Leave.php
-    - app/Models/TypeOfMisconduct.php
-    - app/Models/Misconduct.php
-    - app/Models/Promotion.php
-    - app/Models/Demotion.php
+    - database/factories/EvaluationFactory.php
+    - database/factories/QuarterFactory.php
+    - database/migrations/2022_10_20_165926_create_evaluations_table.php
+    - database/migrations/2022_10_20_165927_create_quarters_table.php
+    - app/Models/Evaluation.php
+    - app/Models/Quarter.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -61,3 +49,5 @@ models:
     Misconduct: { employee_id: 'id foreign', type_of_misconduct_id: 'id foreign:typeOfMisconducts', created_by_id: 'id foreign:users', attachement: 'string:255 nullable', action_taken: 'text nullable', serverity: 'enum:High,Medium,Low', description: 'text nullable' }
     Promotion: { employee_id: 'id foreign', old_unit_id: 'id foreign:units', new_unit_id: 'id foreign:units', old_job_title_id: 'id foreign', new_job_title_id: 'id foreign', created_by_id: 'id foreign:users', reason_of_promotion: 'text nullable' }
     Demotion: { employee_id: 'id foreign', old_unit_id: 'id foreign:units', new_unit_id: 'id foreign:units', old_job_title_id: 'id foreign', new_job_title_id: 'id foreign', created_by_id: 'id foreign:users', reason_of_demotion: 'text nullable' }
+    Evaluation: { employee_id: 'id foreign', quarter_id: 'id foreign', total_mark: integer, created_by_id: 'id foreign:users' }
+    Quarter: { name: string, start_date: date, end_date: date, description: 'text nullable' }
