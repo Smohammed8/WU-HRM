@@ -24,7 +24,16 @@
 @section('header')
 	<section class="container-fluid d-print-none">
 
+    @if($ep !=null)
+        @if($ep =='On')
         <button type="button"  data-toggle="modal" data-target="#efficiency"  target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-balance-scale"></i> Efficiency </button>
+     @else
+       -
+     @endif
+
+     @else
+     <button type="button"  data-toggle="modal" data-target="#"  target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-balance-scale"></i><del> Efficiency </del> </button>
+     @endif
         <button type="button"  data-toggle="modal" data-target="#employee_leave"  target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-user-minus"></i> Leave</button>
         <button type="button"  data-toggle="modal" data-target="#back" target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-user-plus"></i> Attendance </button>
         <button type="button"  data-toggle="modal" data-target="#decipline" target="_top" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-exclamation-circle"></i> Discipline</button>

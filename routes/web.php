@@ -40,7 +40,7 @@ Route::resource('leave', LeaveCrudController::class);
 
 //Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
 
-
+Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show');
 
 // Route::group(['middleware' => 'web', 'prefix' => config('backpack.base.route_prefix', 'namespace' => 'Backpack\Base\app\Http\Controllers')], function () {
 //     Route::auth();

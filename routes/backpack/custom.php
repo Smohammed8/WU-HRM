@@ -70,4 +70,7 @@ Route::group([
     Route::crud('type-of-misconduct', 'TypeOfMisconductCrudController');
     Route::crud('evaluation', 'EvaluationCrudController');
     Route::crud('quarter', 'QuarterCrudController');
+    Route::crud('evaluation-period', 'EvaluationPeriodCrudController');
+    Route::crud('form-style', 'FormStyleCrudController');
+    Route::crud('salary-increament', 'SalaryIncreamentCrudController');
 }); // this should be the absolute last line of this file

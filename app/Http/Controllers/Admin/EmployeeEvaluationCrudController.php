@@ -72,6 +72,7 @@ class EmployeeEvaluationCrudController extends CrudController
 
    public function create(Request $request){
 
+   // dd(Auth::guard('backpack')->user()->id);
     $quarter            = $request->get('quarter');
     $year               = $request->get('year');
     $criterai           = $request->get('criteria');
@@ -82,8 +83,8 @@ class EmployeeEvaluationCrudController extends CrudController
         'quarter_id' =>$quarter,
         'employee_id'=>$employee,
         'total_mark' =>0,
-      //  'created_by_id'=>Auth::user()
-        'created_by_id'=>1
+      //  'created_by_id'=>Auth::user()->id
+        'created_by_id'=>backpack_user()->id
          ]);
 if($evalution->id){
 foreach ($criterai as $key => $id) {
@@ -92,7 +93,7 @@ foreach ($criterai as $key => $id) {
                                   'employee_id'=>$employee,
                                   'evalution_creteria_id'=>$id,
                                   'evaluation_level_id'=>$request->get('level'.$id)[0],
-                                  'evaluation_id'=>$evluation_id
+                                  'evaluation_id'=>$evluation_id,
                              ]);
   }
 
@@ -100,6 +101,18 @@ foreach ($criterai as $key => $id) {
 
  return redirect()->route('employee.show',$employee)->with('message', 'Employee efficiency added successfully!');
 }
+
+public function evaluation_show($evaluation_id){
+
+
+   // $payroll=  EmployeeEvaluation::findOrFail($evaluation_id);
+    // $training_centers = TraininingCenter::all();
+    // $training_sessions = TrainingSession::all();
+     $employeeEvaluations = EmployeeEvaluation::select('*')->where('evaluation_id', '=',$evaluation_id)->paginate(10);
+
+     return view('employee.efficinecy_show', compact('employeeEvaluations'));
+
+ }
 
     protected function setupCreateOperation()
     {

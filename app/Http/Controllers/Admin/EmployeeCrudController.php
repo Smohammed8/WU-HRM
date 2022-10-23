@@ -19,9 +19,11 @@ use App\Models\EmployeeLanguage;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\Evaluation;
+use App\Models\EvaluationPeriod;
 use App\Models\EvalutionCreteria;
 use App\Models\Quarter;
 use App\Models\ExternalExperience;
+use App\Models\FormStyle;
 use App\Models\InternalExperience;
 use App\Models\JobTitle;
 use App\Models\Leave;
@@ -30,6 +32,7 @@ use App\Models\LicenseType;
 use App\Models\MaritalStatus;
 use App\Models\Misconduct;
 use App\Models\Promotion;
+use App\Models\SalaryIncreament;
 use App\Models\TrainingAndStudy;
 use App\Models\TypeOfMisconduct;
 use App\Models\Unit;
@@ -45,12 +48,6 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
-
-
-
-
-
-
 /**
  * Class EmployeeCrudController
  * @package App\Http\Controllers\Admin
@@ -453,6 +450,26 @@ class EmployeeCrudController extends CrudController
 
         $evaluations = Evaluation::orderBy('id', 'desc')->Paginate(4);
         $this->data['evaluations'] = $evaluations;
+
+        $si = SalaryIncreament::select('percentage')->get()->first()->percentage ?? 0;
+        $this->data['si'] = $si;
+
+        $style = FormStyle::select('name')->get()->first()->name ?? null;
+        $this->data['style'] = $style;
+
+        $ep = EvaluationPeriod::select('name')->get()->first()->name ?? null;
+        $this->data['ep'] = $ep;
+
+        $ep = EvaluationPeriod::select('name')->get()->first()->name ?? null;
+        $this->data['ep'] = $ep;
+
+
+        // $evs = Evaluation::where('employee_id',$this->crud->getCurrentEntryId())->limit(3)->get();
+        // $evaluations = Evaluation::orderBy('id', 'desc')->limit(3)->get();
+        // $this->data['evs'] = $evs;
+
+
+
 
 
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work

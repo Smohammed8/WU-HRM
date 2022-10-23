@@ -100,6 +100,8 @@
                                         {{  $evalutionCreteria->name }} [ {{  $evalutionCreteria->percent}}]</td>
 
                                     <td>
+                                @if($style !=null)
+                                        @if($style =='Select Box')
                                         <select class="select2" name="level{{ $evalutionCreteria->id }}[]" required>
                                             <option value=""> Select evaluation mark..   </option>
                                             <option value="4"> Excellent[4] </option>
@@ -107,14 +109,23 @@
                                             <option value="2"> Good[2] </option>
                                             <option value="1"> Poor[1] </option>
                                         </select>
-
-                                        {{-- <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="4"  required />  Excellent(4) &nbsp;
+                                     @else
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="4"  required />  Excellent(4) &nbsp;
                                         <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="3" required />  Very good(3)  &nbsp;
                                         <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="2"  required />  Good(2)  &nbsp;
-                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="1"  required />  Poor(1)  &nbsp; --}}
+                                        <input name="level{{ $evalutionCreteria->id }}[]"  type="radio" value="1"  required />  Poor(1)  &nbsp;
+                                     @endif
 
-                                    </td>
-
+                                  @else
+                                  <select class="select2" name="level{{ $evalutionCreteria->id }}[]" required>
+                                    <option value=""> Select evaluation mark..   </option>
+                                    <option value="4"> Excellent[4] </option>
+                                    <option value="3"> Very Good[3] </option>
+                                    <option value="2"> Good[2] </option>
+                                    <option value="1"> Poor[1] </option>
+                                </select>
+                                  @endif
+                                 </td>
                                 </tr>
                          @endforeach
                             @if(count($employeeEvaluations)==0)
@@ -142,7 +153,7 @@
 
                     <th> #</th>
                     <th>Quarter</th>
-                    <th>Questions</th>
+                    <th>Obtained point</th>
                     <th>Recorded by</th>
                     <th> Added Date</th>
                     <th>Date range </th>
@@ -159,15 +170,27 @@
 
                             <td>{{$loop->index+1}}  </td>
                             <td>{{ $evaluation->quarter->name}}</td>
-                            <td>{{ $evaluation->employeeEvaluations->count() }}</td>
-                            <td>{{ $evaluation->createdBy->name}}</td>
+
+
+                            <td>
+                                <?php $sum = 0 ?>
+                                @foreach ($evaluation->employeeEvaluations as $employeeEvaluation)
+                                <?php $sum =  $sum + ($employeeEvaluation->evaluationLevel->weight * $employeeEvaluation->evalutionCreteria->percent); ?>
+                                @endforeach
+                                <span style="border-bottom: 3px  double;">   {{ $sum/4}} %</span>
+                            </td>
+
+
+                            <td>{{ $evaluation->createdBy->name }}</td>
                             <td>{{ $evaluation->created_at->format( 'd, F Y') }} </td>
                             <td> From {{ $evaluation->quarter->start_date->format( 'd, F Y') }}  to  {{ $evaluation->quarter->end_date->format( 'd, F Y') }} </td>
                             <td>
 
-                                <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <a   target="_new" href="{{ route('evaluation.evaluation_show', ['evaluation_id'=>$evaluation->id]) }}" class="btn  btn-sm btn-outline-primary float-right mr-1">
                                     <span aria-hidden="true"> <i class="la la-list"></i> Details </span>
                                 </a>
+
+
 
 
                                <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-print"></i> Print</a>
@@ -183,7 +206,7 @@
                     @endif
 
                     <div class="">
-                        <span class="mr-5">Total: {{ $evaluation->total_mark }}</span>
+                        <span class="mr-5">Total Evalutions: {{ $evaluations->count(); }}</span>
                     </div>
 
                 </tbody>
@@ -200,5 +223,7 @@
       </div>
     </div>
   </div>
+
+
 
 

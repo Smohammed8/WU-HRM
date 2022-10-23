@@ -140,10 +140,10 @@
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-list"></i> Configurations </a>
     <ul class="nav-dropdown-items">
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-period') }}'><i class='nav-icon la la-caret-right'></i> Evaluation periods</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('form-style') }}'><i class='nav-icon la la-caret-right'></i> Form styles</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-increament') }}'><i class='nav-icon la la-caret-right'></i> Salary increaments</a></li>
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('demotion') }}'> <i class='nav-icon la la-caret-right'></i>Evaluation Period</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('leave') }}'> <i class='nav-icon la la-caret-right'></i> Evalution form style</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('leave') }}'> <i class='nav-icon la la-caret-right'></i> Salary Increament</a></li>
     </ul>
 </li>
 
@@ -157,3 +157,4 @@
 <li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Recruitments</a></li>
     </ul>
 </li>
+

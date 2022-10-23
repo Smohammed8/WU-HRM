@@ -1,13 +1,13 @@
 
 models:
     Form_style:
-        name: enum:"Select box","Radio button" nullable
+        name: enum:"Select Box","Radio Button" nullable
         created_by_id: id foreign:users
     Evaluation_period:
-         name:  enum: On,Off nullable
+         name:  enum:On,Off" nullable
          created_by_id: id foreign:users
     Salary_increament:
-        percentage: defualt: 0
+        percentage:  integer default 0
         created_by_id: id foreign:users
 
 

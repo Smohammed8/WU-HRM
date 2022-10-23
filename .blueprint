@@ -1,10 +1,13 @@
 created:
-    - database/factories/EvaluationFactory.php
-    - database/factories/QuarterFactory.php
-    - database/migrations/2022_10_20_165926_create_evaluations_table.php
-    - database/migrations/2022_10_20_165927_create_quarters_table.php
-    - app/Models/Evaluation.php
-    - app/Models/Quarter.php
+    - database/factories/FormStyleFactory.php
+    - database/factories/EvaluationPeriodFactory.php
+    - database/factories/SalaryIncreamentFactory.php
+    - database/migrations/2022_10_22_134052_create_form_styles_table.php
+    - database/migrations/2022_10_22_134053_create_evaluation_periods_table.php
+    - database/migrations/2022_10_22_134054_create_salary_increaments_table.php
+    - app/Models/Form_style.php
+    - app/Models/Evaluation_period.php
+    - app/Models/Salary_increament.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -51,3 +54,6 @@ models:
     Demotion: { employee_id: 'id foreign', old_unit_id: 'id foreign:units', new_unit_id: 'id foreign:units', old_job_title_id: 'id foreign', new_job_title_id: 'id foreign', created_by_id: 'id foreign:users', reason_of_demotion: 'text nullable' }
     Evaluation: { employee_id: 'id foreign', quarter_id: 'id foreign', total_mark: integer, created_by_id: 'id foreign:users' }
     Quarter: { name: string, start_date: date, end_date: date, description: 'text nullable' }
+    Form_style: { name: 'enum:"Select Box","Radio Button" nullable', created_by_id: 'id foreign:users' }
+    Evaluation_period: { name: 'enum:On,Off" nullable', created_by_id: 'id foreign:users' }
+    Salary_increament: { percentage: 'integer default 0', created_by_id: 'id foreign:users' }
