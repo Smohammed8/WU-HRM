@@ -38,7 +38,6 @@
                                 </div>
                             </div>
 
-
                             <div class="col-md-6" style="border-left:1px solid black;">
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Blood group : </b> </label>
@@ -63,6 +62,36 @@
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> Gross Salary : </b></label>
                                     <label for=""> ETB {{ number_format($employee->static_salary, 2) }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+            <div class="card-body">
+                <h4> Choose Your Position Choice </h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row justify-content-between">
+                            <div class="col-md-12 d-flex justify-content-between" >
+                                <div class="col-md-5">
+                                    <select name="" id="" class="form-control select2">
+                                        <option value="">Abdi</option>
+                                        <option value="">Jack</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <select name="" id="" class="form-control select2">
+                                        <option value="">Abdi</option>
+                                        <option value="">Jack</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary ml-2">Add Position</button>
                                 </div>
                             </div>
                         </div>

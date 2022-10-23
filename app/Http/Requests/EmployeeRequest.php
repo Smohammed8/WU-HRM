@@ -24,21 +24,22 @@ class EmployeeRequest extends FormRequest
      */
     public function rules()
     {
+        // |dimensions:min_width=100,min_height=100
         return [
             'first_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'father_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'grand_father_name' => 'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'gender'=>'required',
             'date_of_birth' =>'required',
-            'photo' =>'required|image|mimes:png,jpg,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100',
+            'photo' =>'required',
             'birth_city' =>'required',
-            'passport' =>'required',
+            'passport' =>'nullable',
             'driving_licence' =>'required',
             'blood_group' =>'required',
             'eye_color' =>'required',
             'phone_number' => 'required|numeric|digits:10|unique:employees,phone_number',
             'alternate_email' => 'nullable|email|unique:employees,alternate_email',
-            'rfid' => 'required|numeric|unique:employees,rfid',
+            'rfid' => 'nullable|numeric|unique:employees,rfid',
             'employment_identity' => 'required|numeric|unique:employees,employment_identity',
             'marital_status_id' =>'required',
             'ethnicity_id' =>'required',
@@ -48,10 +49,10 @@ class EmployeeRequest extends FormRequest
             'salary_step' =>'required',
             'job_title_id' =>'required',
             'employment_type_id' =>'required',
-            'pention_number'  => 'required|numeric|unique:employees,pention_number',
+            'pention_number'  => 'nullable|numeric|unique:employees,pention_number',
             'employment_status_id' =>'required',
             'static_salary'=>'required',
-            'uas_user_id' =>'required',
+            'uas_user_id' =>'nullable',
         ];
     }
 

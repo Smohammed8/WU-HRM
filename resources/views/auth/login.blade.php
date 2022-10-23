@@ -53,7 +53,6 @@
                             <div class="form-group">
                                 <label class="control-label" for="password"> <i class="la la-lock"> </i> &nbsp;
                                     {{ trans('backpack::base.password') }}</label>
-
                                 <div>
                                     <input type="password" placeholder="Enter password"
                                         class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"

@@ -23,12 +23,17 @@ use App\Models\EmployeeEvaluation;
 // Route::get('/', function () {
 //     return redirect(route('backpack.dashboard'));
 // });
-
+Route::redirect('/','/home');
 Route::get('/dashboard', function () {
      return view('dashboard');
 })->name('dashboard');
-
-Route::get('/home',[EmployeeController::class,'home'])->name('home');
+// Registration Routes...
+// Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
+// Route::post('admin/register', [AuthController::class,'register']);
+// // Registration Routes...
+// Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
+// Route::post('register', 'Auth\RegisterController@register');
+Route::get('/home',[EmployeeController::class,'home'])->name('home')->middleware('auth');
 
 Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')->middleware('guest');

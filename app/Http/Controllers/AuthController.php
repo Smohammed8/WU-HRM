@@ -11,6 +11,16 @@ class AuthController extends Controller
 {
     //
 
+    public function registerForm()
+    {
+        
+    }
+
+    public function register()
+    {
+
+    }
+
     public function userLoginView()
     {
         $username = 'username';
@@ -33,6 +43,6 @@ class AuthController extends Controller
                 return redirect()->route('home');
             }
         }
-        throw ValidationException::withMessages('username','Incorrect credential');
+        throw ValidationException::withMessages(['username'=>'Incorrect credential']);
     }
 }

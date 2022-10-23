@@ -16,7 +16,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     use CrudTrait; // <----- this
     use HasRoles; // <-
-
+    protected $username = 'username';
     /**
      * The attributes that are mass assignable.
      *

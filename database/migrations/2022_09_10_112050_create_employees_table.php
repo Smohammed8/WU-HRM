@@ -43,7 +43,7 @@ class CreateEmployeesTable extends Migration
             $table->integer('pention_number')->nullable();
             $table->foreignId('employment_status_id')->nullable()->constrained();
             $table->string('static_salary');
-            $table->string('uas_user_id')->nullable();
+            $table->string('uas_user_id')->foreignId('user_id')->constrained()->nullable();
             $table->timestamps();
         });
 

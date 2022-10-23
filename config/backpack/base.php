@@ -72,7 +72,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<p style="color:white;">JU-HRM </p>',
+    'project_logo'   => '<p style="color:white;" title="Jimma University Human Resource">JU-HRM </p>',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
@@ -254,8 +254,8 @@ return [
     // Username column for authentication
     // The Backpack default is the same as the Laravel default (email)
     // If you need to switch to username, you also need to create that column in your db
-    'authentication_column'      => 'email',
-    'authentication_column_name' => 'Email',
+    'authentication_column'      => 'username',
+    'authentication_column_name' => 'User Name',
 
     // The guard that protects the Backpack admin panel.
     // If null, the config.auth.defaults.guard value will be used.
