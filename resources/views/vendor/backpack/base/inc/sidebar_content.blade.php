@@ -95,8 +95,7 @@
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('upload-file') }}'><i
                     class='nav-icon la la-caret-right'></i> Upload files</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-relationship') }}'><i
-            class='nav-icon la la-caret-right'></i> Family relationships</a></li>
+       <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-relationship') }}'> <i class='nav-icon la la-caret-right'></i> Family relationships</a></li>
 
  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('type-of-leave') }}'><i class='nav-icon la la-caret-right'></i> Type of leaves</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('type-of-misconduct') }}'><i class='nav-icon la la-caret-right'></i>Type of misconducts</a></li>
@@ -105,22 +104,14 @@
 </li>
 
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i
-            class='nav-icon la la-list'></i>
-                    class='nav-icon la la-caret-right'></i> Family relationships</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('minimum-requirement') }}'><i
-                    class='nav-icon la la-question'></i> Minimum requirements</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
-                    class='nav-icon la la-question'></i> Positions</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('related-work') }}'><i
-                    class='nav-icon la la-question'></i> Related works</a></li>
-    </ul>
-</li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-list'></i>
-        Employees</a></li>
+
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('minimum-requirement') }}'><i class='nav-icon la la-question'></i> Min requirements</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i   class='nav-icon la la-question'></i> Positions</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('related-work') }}'><i class='nav-icon la la-question'></i> Related works</a></li>
 
 
 
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-list'></i>   Employees</a></li>
 
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i> Efficiency </a>
@@ -157,7 +148,7 @@
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-list"></i> Configurations </a>
     <ul class="nav-dropdown-items">
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-period') }}'><i class='nav-icon la la-caret-right'></i> Evaluation periods</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('form-style') }}'><i class='nav-icon la la-caret-right'></i> Form styles</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('form-style') }}'>        <i class='nav-icon la la-caret-right'></i> Form styles</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-increament') }}'><i class='nav-icon la la-caret-right'></i> Salary increaments</a></li>
 
     </ul>
