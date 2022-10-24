@@ -2,11 +2,8 @@
 
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
-<<<<<<< HEAD
 use App\Http\Controllers\Admin\LeaveCrudController;
-=======
 use App\Http\Controllers\AuthController;
->>>>>>> e939b2061f58e6bd3f630aea1c8571c860a608ff
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 use App\Http\Controllers\EmployeeController;
