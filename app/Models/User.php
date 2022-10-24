@@ -26,6 +26,9 @@ class User extends Authenticatable
     use CrudTrait;
 
 
+    use CrudTrait; // <----- this
+    use HasRoles; // <-
+    protected $username = 'username';
     /**
      * The attributes that are mass assignable.
      *
@@ -34,6 +37,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
     ];
 

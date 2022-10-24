@@ -15,3 +15,245 @@ models:
 
 
 
+#   UploadFile:
+#     name: string:255
+#     path: string:255
+#   EmployeeTitle:
+#     title: string:50 unique
+#     accronomy: string:40 unique
+#   MaritalStatus:
+#     name: string:100 unique
+#   FamilyRelationship:
+#     name: string:255 unique
+#     gender: enum:Male,Female
+#   Nationality:
+#     nation: string:255 unique
+#     code: string:20
+#     label: string:255
+#   Language:
+#     name: string:255 unique
+#     nationality_id: id foreign
+#   Region:
+#     name: string:100 unique
+#     nationality_id: id foreign
+#   Ethnicity:
+#     name: string:100 unique
+#     region_id: id foreign
+#   SkillType:
+#     name: string:255 unique
+#   LicenseType:
+#     name: string:255 unique
+#     description: text nullable
+#   EmployeeCategory:
+#     name: string:255 unique
+#   Pension:
+#     name: string:255 unqique
+#     gender: enum:Male,Female
+#     year: integer default 60
+#     extend_year: integer default 0
+#     employee_category_id: id foreign
+#   ChairManType:
+#     name: string:100 unique
+#     description: text nullable
+#   EducationalLevel:
+#     name: string:100 unique
+#     description: text nullable
+#   FieldOfStudy:
+#     educational_level_id: id foreign
+#     name: string:255 unique
+#     description: text nullable
+#   Religion:
+#     name: string:255 unique
+
+#   Organization:
+#     name: string:255 unique
+#     email: string:255 unique
+#     mission: text nullable
+#     vision: text nullable
+#     motto: text nullable
+#     logo: string:255 nullable
+#     web_address: string:255 unique nullable
+#     fax: string:100 nullable
+#     telephone: string:100 nullable
+#     pobox: string:100 nullable
+#     seal: string:255 nullable
+#     president_signature: string:255 nullable
+#     account_number: string:255 nullable
+#     header: string:255 nullable
+#     footer: string:255 nullable
+#   JobTitleCategory:
+#     name: string:255 unique
+#     description: text nullable
+#   JobTitle:
+#     name: string:255 unique
+#     description: text nullable
+#     job_title_category_id: id foreign
+#   Unit:
+#     name: string:255 unique
+#     acronym: string:100 unique
+#     email: string:255 nullable
+#     telephone: string:255 nullable
+#     extension_line: string:255 nullable
+#     location: string:255 nullable
+#     seal: string:255 nullable
+#     teter: string:255 nullable
+#     vision: text nullable
+#     mission: text nullable
+#     objective: text nullable
+#     building_number: string:255 nullable
+#     office_number: string:255 nullable
+#     motto: text nullable
+#     value_list: text nullable
+#     parent_unit_id: id foreign:units nullable
+#     reports_to_id: id foreign:units nullable
+#     organization_id: id foreign
+#     chair_man_type_id: integer nullable
+#   EmploymentType:
+#     name: string:100 unique
+#     description: text nullable
+#   EmploymentStatus:
+#     name: string:100 unique
+#     description: text nullable
+
+#   Employee:
+#     first_name: string:255
+#     father_name: string:255
+#     grand_father_name: string:255
+#     gender: enum:Male,Female
+#     date_of_birth: date
+#     photo: string:255 nullable
+#     birth_city: string:255
+#     passport: string:255 nullable
+#     driving_licence: string:255 nullable
+#     blood_group: enum:A,B,AB,O nullable
+#     eye_color: enum:Amber,Blue,Brown,Gray,Green,Hazel,Red nullable
+#     phone_number: string:100 nullable
+#     alternate_email: string:255 nullable
+#     rfid: string:100 nullable
+#     employment_identity: integer nullable
+#     marital_status_id: id foreign
+#     ethnicity_id: id foreign
+#     religion_id: id foreign
+
+#     unit_id: id foreign
+#     employement_date: date
+#     salary_step: enum:Base,I,II,III,IV,V,Vi,VII,VIII,IX,Celing nullable
+#     job_title_id: id foreign
+#     employment_type_id: id foreign
+#     pention_number: integer nullable
+#     employment_status_id: id foreign nullable
+#     static_salary: decimal(10,2)
+#     uas_user_id: int nullable
+#   InternalExperience:
+#     employee_id: id foreign
+#     unit_id: id foreign
+#     job_title_id: id foreign
+#     position: string:255
+#     start_date: date
+#     end_date: date nullable
+#   ExternalExperience:
+#     employee_id: id foreign
+#     unit_id: id foreign
+#     job_title: string:255
+#     company_name: string:255
+#     start_date: date
+#     end_date: date
+#     comment: text nullable
+#   TrainingAndStudy:
+#     employee_id: id foreign
+#     name: string:255
+#     nationality_id: id foreign
+#     educational_level_id: id foreign
+#     inistitution: string:255
+#     city: string:255
+#     is_contract: boolean
+#     date_of_leave: date
+#     end_of_study: date
+#   EmployeeCertificate:
+#     employee_id: id foreign
+#     skill_type_id: id foreign
+#     name: string:255
+#     address: string:255 nullable
+#     certificate_date: date
+#     duration: integer nullable
+#     comment: text nullable
+#   License:
+#     employee_id: id foreign
+#     license_type_id: id foreign
+#     license_file: string:255
+#   Skill:
+#     employee_id: id foreign
+#     skill_type_id: id foreign
+#     name: string:255
+#     level: integer max:100 min:0
+#     description: text nullable
+#   EmployeeLanguage:
+#     employee_id: id foreign
+#     language_id: id foreign
+#     speaking: enum:Basic,Fair,Good,Fluent,"Mather Taunt"
+#     reading: enum:Excellent,Good,Fair,Poor,No
+#     writing: enum:Excellent,Good,Fair,Poor,No
+#     comment: text nullable
+#   EmployeeAddress:
+#     employee_id: id foreign
+#     address_type: enum:Home,Work,Other
+#     name: string:255
+#   EmployeeContact:
+#     employee_id: id foreign
+#     contact_type: enum:Emergency,Other
+#     contact_name: string:255
+#     contact: string:255
+#   EmployeeFamily:
+#     employee_id: id foreign
+#     family_relationship_id: id foreign
+#     first_name: string:255
+#     father_name: string:255
+#     grand_father_name: string:255
+#     gender: enum:Male,Female
+#     dob: date
+# #///////////////////////////////////////////////////////
+#   Application:
+#      employee_id: id foreign
+#      current_job_title_id:  id foreign
+#      applied_job_title_id:  id foreign
+
+#   Placement:
+#      employee_id: id foreign
+#      application_id: id foreign:applications
+#      unit_id: id foreign:units
+#      job_title_id: id foreign
+#      status:  string:50  nullable
+#      approved_by_id: id foreign:users  nullable
+
+# #///////////////////////////////////////////
+#    EvaluationLevel:
+#        name: string:100
+#        weight: integer
+#        discription: text nullable
+#     EvaluationCategory:
+#         name: text
+#         percent: integer
+#         discription: text nullable
+#     EvalutionCreteria:
+#         evaluation_category_id: id foreign
+#         percent: integer
+#         name: text
+#     EmployeeEvaluation:
+#         employee_id: id foreign
+#         evalution_creteria_id: id foreign
+#         evaluation_level_id: id foreign
+  Position:
+    unit_id: id foreign
+    job_title_id: id foreign:job_titles
+    total_employees: integer
+    available_for_placement: bool default:true
+    status: integer default:0
+  MinimumRequirement:
+    position_id: id foreign
+    experience: integer
+    educational_level_id: id foreign:educational_levels.id
+    minimum_efficeny: decimal
+    minimum_employee_profile_value: integer
+  RelatedWork:
+    minimum_requirement_id: id foreign:minimum_requirements.id
+    job_title_id: id foreign:job_titles.id

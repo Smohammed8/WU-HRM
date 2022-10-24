@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JobTitle extends Model
+class RelatedWork extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -16,9 +16,8 @@ class JobTitle extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        'job_title_category_id',
+        'minimum_requirement_id',
+        'job_title_id',
     ];
 
     /**
@@ -28,12 +27,22 @@ class JobTitle extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'job_title_category_id' => 'integer',
+        'minimum_requirement_id' => 'integer',
+        'job_title_id' => 'integer',
     ];
 
-    public function jobTitleCategory()
+    public function minimumRequirement()
     {
-        return $this->belongsTo(JobTitleCategory::class);
+        return $this->belongsTo(MinimumRequirement::class);
     }
-    
+
+    public function getJobNameAttribute()
+    {
+        return $this->jobTitle->name;
+    }
+
+    public function jobTitle()
+    {
+        return $this->belongsTo(JobTitle::class);
+    }
 }

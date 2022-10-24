@@ -68,13 +68,13 @@
             <div class="row">
                 <div class="col-md-2" style="border-right:1px solid black;">
 
-                    @if(isset($crud->entry->photo ))
-                    <img src="{{ asset('image//profile.jpg')}}" alt="profile Pic" height="160" width="150">
+                    <img src="{{ $crud->entry->photo}}" alt="profile Pic" height="160" width="150">
+                    {{-- @if(isset( ))
 
                         @else
                         <img width="150" src="{{ $crud->entry->photo }}" alt="">
 
-                        @endif
+                        @endif --}}
 
                 </div>
                 <div class="col-md-9">

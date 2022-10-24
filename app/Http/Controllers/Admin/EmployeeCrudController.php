@@ -61,7 +61,9 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as traitUpdate;
+    } //IMPORTANT HERE
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
 
@@ -128,19 +130,21 @@ class EmployeeCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
 
-         // $this->crud->denyAccess('delete');
+        // $this->crud->denyAccess('delete');
 
-        $this->crud->addFilter([
-            'type'  => 'date_range',
-            'name'  => 'employement_date ',
-            'label' => 'By hire date '
-          ],
-          false,
-          function ($value) { // if the filter is active, apply these constraints
-            $dates = json_decode($value);
-            $this->crud->addClause('where', ' employement_date ', '>=', $dates->from);
-            $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
-          });
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'employement_date ',
+                'label' => 'By hire date '
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', ' employement_date ', '>=', $dates->from);
+                $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
+            }
+        );
 
 
         $this->crud->addFilter([
@@ -148,9 +152,9 @@ class EmployeeCrudController extends CrudController
             'type'  => 'select2_multiple',
             'label' => 'Filter by office'
 
-        ], function() {
+        ], function () {
             return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
-        }, function($values) {
+        }, function ($values) {
             $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
         });
 
@@ -160,9 +164,9 @@ class EmployeeCrudController extends CrudController
             'type'  => 'select2_multiple',
             'label' => 'Filter by type'
 
-        ], function() {
+        ], function () {
             return \App\Models\EmploymentType::all()->pluck('name', 'id')->toArray();
-        }, function($values) {
+        }, function ($values) {
             $this->crud->addClause('whereIn', 'employment_type_id', json_decode($values));
         });
 
@@ -171,29 +175,31 @@ class EmployeeCrudController extends CrudController
             'type'  => 'select2_multiple',
             'label' => 'By job title'
 
-        ], function() {
+        ], function () {
             return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
-        }, function($values) {
+        }, function ($values) {
             $this->crud->addClause('whereIn', 'job_title_id', json_decode($values));
         });
-    $this->crud->addFilter([
-    'name'       => 'static_salary ',
-    'type'       => 'range',
-    'label'      => 'By Gross salary',
-    'label_from' => 'min value',
-    'label_to'   => 'max value',
-    'size' =>5
-  ],
-  false,
-  function($value) { // if the filter is active
-      $range = json_decode($value);
-      if ($range->from) {
-          $this->crud->addClause('where', 'static_salary ', '>=', (float) $range->from);
-      }
-      if ($range->to) {
-          $this->crud->addClause('where', 'static_salary ', '<=', (float) $range->to);
-      }
-  });
+        $this->crud->addFilter(
+            [
+                'name'       => 'static_salary ',
+                'type'       => 'range',
+                'label'      => 'By Gross salary',
+                'label_from' => 'min value',
+                'label_to'   => 'max value',
+                'size' => 5
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'static_salary ', '>=', (float) $range->from);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'static_salary ', '<=', (float) $range->to);
+                }
+            }
+        );
 
 
         // $this->crud->addFilter([
@@ -360,13 +366,13 @@ class EmployeeCrudController extends CrudController
         $employee_id = $this->crud->entry->id;
         $created_ids = [];
 
-        $items->each(function($item, $key) use ($employee_id, &$created_ids) {
+        $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
             $item['employee_id'] = $employee_id;
             if ($item['id']) {
                 $comment = EmployeeAddress::find($item['id']);
                 $comment->update($item);
             } else {
-               $created_ids[] = EmployeeAddress::create($item)->id;
+                $created_ids[] = EmployeeAddress::create($item)->id;
             }
         });
 
@@ -374,7 +380,7 @@ class EmployeeCrudController extends CrudController
         $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
         $related_items_in_db = $this->crud->entry->addresses;
 
-        $related_items_in_db?->each(function($item, $key) use ($related_items_in_request) {
+        $related_items_in_db?->each(function ($item, $key) use ($related_items_in_request) {
             if (!$related_items_in_request->contains($item['id'])) {
                 $item->delete();
             }
@@ -385,9 +391,9 @@ class EmployeeCrudController extends CrudController
 
     protected function setupShowOperation()
     {
-        $licenses = License::orderBy('id', 'desc')->Paginate(10);
+        $licenses = License::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeLicenses'] = $licenses;
-        $employeeAddresses = EmployeeAddress::where('employee_id',$this->crud->getCurrentEntryId())->paginate(10);
+        $employeeAddresses = EmployeeAddress::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
         $employeeCertificates = EmployeeCertificate::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeCertificates'] = $employeeCertificates;
@@ -477,6 +483,4 @@ class EmployeeCrudController extends CrudController
         // and we plan to change behaviour in the next version; see this Github issue for more details
         // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
-
-
 }

@@ -2,9 +2,14 @@
 
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\LeaveCrudController;
+=======
+use App\Http\Controllers\AuthController;
+>>>>>>> e939b2061f58e6bd3f630aea1c8571c860a608ff
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
+use App\Http\Controllers\EmployeeController;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
 
@@ -22,10 +27,17 @@ use App\Models\EmployeeEvaluation;
 // Route::get('/', function () {
 //     return redirect(route('backpack.dashboard'));
 // });
-
+Route::redirect('/','/home');
 Route::get('/dashboard', function () {
      return view('dashboard');
 })->name('dashboard');
+// Registration Routes...
+// Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
+// Route::post('admin/register', [AuthController::class,'register']);
+// // Registration Routes...
+// Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
+// Route::post('register', 'Auth\RegisterController@register');
+Route::get('/home',[EmployeeController::class,'home'])->name('home')->middleware('auth');
 
 Route::get('/home', function () {
     return view('home');
@@ -35,6 +47,9 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
+Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
+//Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);
 Route::resource('leave', LeaveCrudController::class);
 

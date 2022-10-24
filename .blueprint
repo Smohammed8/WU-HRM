@@ -8,6 +8,15 @@ created:
     - app/Models/Form_style.php
     - app/Models/Evaluation_period.php
     - app/Models/Salary_increament.php
+    - database/factories/PositionFactory.php
+    - database/factories/MinimumRequirementFactory.php
+    - database/factories/RelatedWorkFactory.php
+    - database/migrations/2022_09_26_045116_create_positions_table.php
+    - database/migrations/2022_09_26_045117_create_minimum_requirements_table.php
+    - database/migrations/2022_09_26_045118_create_related_works_table.php
+    - app/Models/Position.php
+    - app/Models/MinimumRequirement.php
+    - app/Models/RelatedWork.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -55,5 +64,8 @@ models:
     Evaluation: { employee_id: 'id foreign', quarter_id: 'id foreign', total_mark: integer, created_by_id: 'id foreign:users' }
     Quarter: { name: string, start_date: date, end_date: date, description: 'text nullable' }
     Form_style: { name: 'enum:"Select Box","Radio Button" nullable', created_by_id: 'id foreign:users' }
-    Evaluation_period: { name: 'enum:On,Off" nullable', created_by_id: 'id foreign:users' }
+    Evaluation_period: { name: 'enum:On,Off" nullable', created_by_igod: 'id foreign:users' }
     Salary_increament: { percentage: 'integer default 0', created_by_id: 'id foreign:users' }
+    Position: { unit_id: 'id foreign', job_title_id: 'id foreign:job_titles', total_employees: integer, available_for_placement: 'bool default:true', status: 'integer default:0' }
+    MinimumRequirement: { position_id: 'id foreign', experience: integer, educational_level_id: 'id foreign:educational_levels.id', minimum_efficeny: decimal, minimum_employee_profile_value: integer }
+    RelatedWork: { minimum_requirement_id: 'id foreign:minimum_requirements.id', job_title_id: 'id foreign:job_titles.id' }
