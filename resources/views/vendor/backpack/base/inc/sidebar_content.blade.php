@@ -111,8 +111,22 @@
 
 
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-list'></i>   Employees</a></li>
 
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-book"></i> ID Managment </a>
+    <ul class="nav-dropdown-items">
+
+    <li class='nav-item'><a class='nav-link' href=""> <i class='nav-icon la la-caret-right'></i> ID Print</a></li>
+    <li class='nav-item'><a class='nav-link' href=""><i class='nav-icon la la-caret-right'></i>  ID Design </a></li>
+    <li class='nav-item'><a class='nav-link' href=""><i class='nav-icon la la-caret-right'></i>  Lost IDs</a></li>
+
+
+ </ul>
+</li>
+
+
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-list'></i>   Employees</a></li>
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i> Efficiency </a>
     <ul class="nav-dropdown-items">

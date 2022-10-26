@@ -34,8 +34,8 @@ class CreateUnitsTable extends Migration
             $table->text('value_list')->nullable();
             $table->foreignId('parent_unit_id')->nullable()->constrained('units');
             $table->foreignId('reports_to_id')->nullable()->constrained('units');
-            $table->foreignId('organization_id')->constrained();
-            $table->integer('chair_man_type_id')->nullable();
+            $table->foreignId('organization_id')->nullable()->constrained('organizations');
+            $table->foreignId('chair_man_type_id')->nullable()->constrained('employees');
             $table->timestamps();
         });
 

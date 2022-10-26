@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UnitRequest;
+use App\Models\Employee;
+use App\Models\Organization;
+use App\Models\User;
+use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -40,24 +44,24 @@ class UnitCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        CRUD::column('acronym');
+       // CRUD::column('acronym');
         CRUD::column('email');
         CRUD::column('telephone');
-        CRUD::column('extension_line');
-        CRUD::column('location');
-        CRUD::column('seal');
-        CRUD::column('teter');
-        CRUD::column('vision');
-        CRUD::column('mission');
-        CRUD::column('objective');
-        CRUD::column('building_number');
-        CRUD::column('office_number');
-        CRUD::column('motto');
-        CRUD::column('value_list');
-        CRUD::column('parent_unit_id');
-        CRUD::column('reports_to_id');
-        CRUD::column('organization_id');
-        CRUD::column('chair_man_type_id');
+        // CRUD::column('extension_line');
+        // CRUD::column('location');
+        // CRUD::column('seal');
+        // CRUD::column('teter');
+        // CRUD::column('vision');
+        // CRUD::column('mission');
+        // CRUD::column('objective');
+        // CRUD::column('building_number');
+        // CRUD::column('office_number');
+        // CRUD::column('motto');
+        // CRUD::column('value_list');
+        //CRUD::column('parent_unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
+       // CRUD::column('reports_to_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
+         CRUD::column('organization_id')->type('select')->entity('organization')->model(Organization::class)->attribute('name');
+        // CRUD::column('chair_man_type')->type('select')->entity('employee')->model(Employee::class)->attribute('name');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -77,26 +81,26 @@ class UnitCrudController extends CrudController
         CRUD::setValidation(UnitRequest::class);
 
         CRUD::field('name')->size(6);
-        CRUD::field('acronym')->size(6);
+      //  CRUD::field('acronym')->size(6);
         CRUD::field('email')->size(6);
         CRUD::field('telephone')->size(6);
-        CRUD::field('extension_line')->size(6);
-        CRUD::field('location')->size(6);
-        CRUD::field('seal')->size(6);
-        CRUD::field('teter')->size(6);
-        CRUD::field('vision')->size(6);
-        CRUD::field('mission')->size(6);
-        CRUD::field('objective')->size(6);
-        CRUD::field('building_number')->size(6);
-        CRUD::field('office_number')->size(6);
-        CRUD::field('motto')->size(6);
-        CRUD::field('value_list')->size(6);
-        CRUD::field('parent_unit_id')->size(6);
+        // CRUD::field('extension_line')->size(6);
+        // CRUD::field('location')->size(6);
+        // CRUD::field('seal')->size(6);
+        // CRUD::field('teter')->size(6);
+        // CRUD::field('vision')->size(6);
+        // CRUD::field('mission')->size(6);
+        // CRUD::field('objective')->size(6);
+        // CRUD::field('building_number')->size(6);
+        // CRUD::field('office_number')->size(6);
+        // CRUD::field('motto')->size(6);
+        // CRUD::field('value_list')->size(6);
+       // CRUD::field('parent_unit_id')->size(6);
 
-        //CRUD::field('parent_unit_id')->size(6)->type('select')->entity('unit')->model(Unit::class)->attribute('name');
-        CRUD::field('reports_to_id')->size(6);
-        CRUD::field('organization_id')->size(6);
-        CRUD::field('chair_man_type_id')->size(6);
+        CRUD::field('parent_unit_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
+        CRUD::field('reports_to_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
+        CRUD::field('organization_id')->size(6)->type('select2')->entity('organization')->model(Organization::class)->attribute('name');
+        CRUD::field('chair_man_type_id')->size(6)->label('Office leader')->type('select2')->entity('employee')->model(Employee::class)->attribute('name');
 
 
 

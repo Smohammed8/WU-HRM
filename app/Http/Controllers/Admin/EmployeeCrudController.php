@@ -91,6 +91,7 @@ class EmployeeCrudController extends CrudController
     protected function setupListOperation()
     {
 
+         $this->crud->denyAccess('delete');
         // CRUD::column('first_name');
         // CRUD::column('father_name');
         // CRUD::column('grand_father_name');
@@ -274,6 +275,7 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
+
         // dd($this->crud->getCurrentEntry());
         $tabName = 'Personal Information';
         // $this->setupCreateOperation();

@@ -58,7 +58,13 @@ class Unit extends Model
 
     public function teter()
     {
-        return $this->belongsTo(UploadFile::class);
+
+     return $this->belongsTo(UploadFile::class);
+    }
+
+    public function chairManType() {
+
+        return $this->belongsTo(Employee::class);
     }
 
     public function parentUnit()
@@ -74,5 +80,12 @@ class Unit extends Model
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+
+
+    public function childs() {
+
+        return $this->hasMany(Self::class,'parent_unit_id','id') ;
+
     }
 }

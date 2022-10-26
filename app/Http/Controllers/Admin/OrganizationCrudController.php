@@ -39,6 +39,13 @@ class OrganizationCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+       //  $this->crud->denyAccess('delete');
+         $this->crud->addButtonFromModelFunction('line', 'open_google', 'viewStructure', 'end');
+
+
+        // $this->crud->addButtonFromView('line', 'moderate', 'moderate', 'beginning');
+
         CRUD::column('name');
         CRUD::column('email');
         CRUD::column('mission');

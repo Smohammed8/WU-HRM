@@ -7,8 +7,11 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\UnitController;
+use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
+use App\Models\Unit as ModelsUnit;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,13 +53,11 @@ Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);
 Route::resource('leave', LeaveCrudController::class);
 
-//Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::get( '/hierarchy', function () {$units = Unit::where('parent_unit_id')->latest()->get();
+        return view('unit.tree', ['orgs' => $units]);
+    }
+)->name('hierarchy');
+
 
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show');
 
-// Route::group(['middleware' => 'web', 'prefix' => config('backpack.base.route_prefix', 'namespace' => 'Backpack\Base\app\Http\Controllers')], function () {
-//     Route::auth();
-//     Route::get('logout', 'Auth\LoginController@logout');
-//     Route::get('dashboard', 'AdminController@dashboard');
-//     Route::get('/', 'AdminController@redirect');
-// });
