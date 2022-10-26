@@ -1,19 +1,14 @@
 
 models:
-    Form_style:
-        name: enum:"Select Box","Radio Button" nullable
-        created_by_id: id foreign:users
-    Evaluation_period:
-         name:  enum:On,Off" nullable
-         created_by_id: id foreign:users
-    Salary_increament:
-        percentage:  integer default 0
-        created_by_id: id foreign:users
-
-
-
-
-
+# Form_style:
+#     name: enum:"Select Box","Radio Button" nullable
+#     created_by_id: id foreign:users
+# Evaluation_period:
+#      name:  enum:On,Off" nullable
+#      created_by_id: id foreign:users
+# Salary_increament:
+#     percentage:  integer default 0
+#     created_by_id: id foreign:users
 
 #   UploadFile:
 #     name: string:255
@@ -242,18 +237,49 @@ models:
 #         employee_id: id foreign
 #         evalution_creteria_id: id foreign
 #         evaluation_level_id: id foreign
-  Position:
-    unit_id: id foreign
-    job_title_id: id foreign:job_titles
-    total_employees: integer
-    available_for_placement: bool default:true
-    status: integer default:0
-  MinimumRequirement:
-    position_id: id foreign
-    experience: integer
-    educational_level_id: id foreign:educational_levels.id
-    minimum_efficeny: decimal
-    minimum_employee_profile_value: integer
-  RelatedWork:
-    minimum_requirement_id: id foreign:minimum_requirements.id
-    job_title_id: id foreign:job_titles.id
+# Position:
+#   unit_id: id foreign
+#   job_title_id: id foreign:job_titles
+#   total_employees: integer
+#   available_for_placement: bool default:true
+#   status: integer default:0
+# MinimumRequirement:
+#   position_id: id foreign
+#   experience: integer
+#   educational_level_id: id foreign:educational_levels.id
+#   minimum_efficeny: decimal
+#   minimum_employee_profile_value: integer
+# RelatedWork:
+#   minimum_requirement_id: id foreign:minimum_requirements.id
+#   job_title_id: id foreign:job_titles.id
+
+   TemplateType:
+      name: string
+      description: text nullable
+   Template:
+      template_type_id: id foreign:template_types.id
+      body: text required
+    SalaryScale:
+      name: string
+      organization_id: id foreign:organizations.id
+      civil_service_year: date
+    Level:
+      name: string
+      description: text nullable
+    JobGrade:
+      level_id: foreign:levels.id
+      start_salary: decimal(10,2)
+      one: decimal(10,2)
+      two: decimal(10,2)
+      three: decimal(10,2)
+      four: decimal(10,2)
+      five: decimal(10,2)
+      six: decimal(10,2)
+      seven: decimal(10,2)
+      eight: decimal(10,2)
+      nine: decimal(10,2)
+      ceil_salary: decimal(10,2)
+
+
+
+

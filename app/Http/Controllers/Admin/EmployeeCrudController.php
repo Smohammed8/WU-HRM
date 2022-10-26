@@ -91,7 +91,19 @@ class EmployeeCrudController extends CrudController
     protected function setupListOperation()
     {
 
-         $this->crud->denyAccess('delete');
+    //  if (!Auth::user()->isAdmin) {
+    //     $this->crud->denyAccess('delete');
+    //        // CRUD::column('user')->label('Customer');
+    //     }
+ //$this->crud->addShowColumn(); // add one column, at the end of the stack
+// $this->crud->addShowColumns(); // add multiple columns, at the end of the stack
+// $this->crud->removeShowColumn('column_name'); // remove a column from the stack
+// $this->crud->removeShowColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
+// $this->crud->setShowColumnDetails('column_name', ['attribute' => 'value']);
+// $this->crud->setShowColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
+
+
+
         // CRUD::column('first_name');
         // CRUD::column('father_name');
         // CRUD::column('grand_father_name');

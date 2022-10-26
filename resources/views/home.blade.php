@@ -3,7 +3,7 @@
     <div class="row">
         <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
             <div class="card-body">
-                <h4> Welcome {{ $user->name }} </h4>
+                <h4> Welcome {{ $user ?? ''->name }} </h4>
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
                         <img src="{{ $employee->photo }}" alt="profile Pic" height="160" width="150">

@@ -51,7 +51,7 @@ Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->mid
 Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);
-Route::resource('leave', LeaveCrudController::class);
+// Route::resource('leave', LeaveCrudController::class);
 
 Route::get( '/hierarchy', function () {$units = Unit::where('parent_unit_id')->latest()->get();
         return view('unit.tree', ['orgs' => $units]);
