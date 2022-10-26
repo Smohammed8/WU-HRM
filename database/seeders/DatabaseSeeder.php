@@ -12,6 +12,7 @@ use App\Models\MaritalStatus;
 use App\Models\Nationality;
 use App\Models\Region;
 use App\Models\Religion;
+use App\Models\Unit;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,7 +30,8 @@ class DatabaseSeeder extends Seeder
         // $ethnicity = Ethnicity::create(['name'=>'Oromo','region_id'=>$region->id]);
         // $isReligion = Religion::create(['name'=>'Islam']);
         // $chReligion = Religion::create(['name'=>'Christian']);
-        // $jobCategory = JobTitleCategory::create(['name'=>"IT"]);
+        // Unit::factory(1)->create();
+        // $jobCategory = JobTitleCategory::create(['name'=>"IT",'unit_id'=>1]);
         // $jobTitle = JobTitle::create(['name'=>'Software Developer','job_title_category_id'=>$jobCategory->id]);
         // $employementType = EmploymentType::create(['name'=>'Permanent']);
         // $employmentStatus = EmploymentStatus::create(['name'=>'Working']);

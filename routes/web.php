@@ -34,7 +34,8 @@ Route::get('/dashboard', function () {
 // Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
 // Route::post('register', 'Auth\RegisterController@register');
 Route::get('/home',[EmployeeController::class,'home'])->name('home')->middleware('auth');
-
+Route::get('import_page',[EmployeeController::class,'importPage']);
+Route::post('import',[EmployeeController::class,'import']);
 Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');

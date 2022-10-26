@@ -47,6 +47,7 @@ class Employee extends Model
         'employment_status_id',
         'static_salary',
         'uas_user_id',
+        'staff_national_id',
     ];
 
 
