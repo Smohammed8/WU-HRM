@@ -29,7 +29,7 @@ class EmployeesImport implements ToModel
                 'first_name' => $firstName,
                 'father_name' => $fatherName,
                 'grand_father_name' => $grandFatherName,
-                'phone_number' => $phone,
+                'phone_number' => substr($phone, 0, 1)=='9'?'0'.$phone:$phone,
                 'gender' => $gender == 'M' ? 'Male' : 'Female',
             ];
             if ($firstName != null && $fatherName != null && $grandFatherName != null) {
