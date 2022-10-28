@@ -27,10 +27,12 @@ use App\Models\FormStyle;
 use App\Models\InternalExperience;
 use App\Models\JobTitle;
 use App\Models\Leave;
+use App\Models\Level;
 use App\Models\License;
 use App\Models\LicenseType;
 use App\Models\MaritalStatus;
 use App\Models\Misconduct;
+use App\Models\Nationality;
 use App\Models\Promotion;
 use App\Models\SalaryIncreament;
 use App\Models\TrainingAndStudy;
@@ -91,59 +93,28 @@ class EmployeeCrudController extends CrudController
     protected function setupListOperation()
     {
 
-    //  if (!Auth::user()->isAdmin) {
+       // $this->crud->denyAccess('show');
+        $this->crud->denyAccess('delete');
+      $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
+
+
+    //  if (!backpack_user()->isAdmin) {
     //     $this->crud->denyAccess('delete');
-    //        // CRUD::column('user')->label('Customer');
+
     //     }
- //$this->crud->addShowColumn(); // add one column, at the end of the stack
-// $this->crud->addShowColumns(); // add multiple columns, at the end of the stack
-// $this->crud->removeShowColumn('column_name'); // remove a column from the stack
-// $this->crud->removeShowColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
-// $this->crud->setShowColumnDetails('column_name', ['attribute' => 'value']);
-// $this->crud->setShowColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
-
-
 
         // CRUD::column('first_name');
         // CRUD::column('father_name');
         // CRUD::column('grand_father_name');
-        CRUD::column('name')->type('closure')->function(function ($entry) {
+        CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-        // CRUD::column('first_name')->label('Name');
 
-        // CRUD::column('gender');
-        // CRUD::column('date_of_birth');
-        // CRUD::column('photo');
-        // CRUD::column('birth_city');
-        // CRUD::column('passport');
-        // CRUD::column('driving_licence');
-        // CRUD::column('blood_group');
-        // CRUD::column('eye_color');
-        // CRUD::column('phone_number');
-        // CRUD::column('alternate_email');
-        // CRUD::column('rfid');
+
         CRUD::column('employment_identity')->label('Employee ID Number');
-        // CRUD::column('marital_status_id');
-        // CRUD::column('ethnicity_id');
-        // CRUD::column('religion_id');
-        // CRUD::column('unit_id');
+
         CRUD::column('employement_date')->type('date');
-        // CRUD::column('salary_step');
         CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        // CRUD::column('employment_type_id');
-        // CRUD::column('pention_number');
-        // CRUD::column('employment_status_id');
-        // CRUD::column('static_salary');
-        // CRUD::column('uas_user_id');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
-
-        // $this->crud->denyAccess('delete');
 
         $this->crud->addFilter(
             [
@@ -240,44 +211,51 @@ class EmployeeCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
-        CRUD::field('photo')->size(4)->type('image')->aspect_ratio(1)->crop(true)->upload(true);
-        CRUD::field('first_name')->size(4);
-        CRUD::field('father_name')->size(4);
-        CRUD::field('grand_father_name')->size(4);
-        CRUD::field('gender')->type('enum')->size(4);
-        CRUD::field('date_of_birth')->size(4);
-        CRUD::field('birth_city')->size(4);
-        // CRUD::field('passport')->size(4);
-        CRUD::field('driving_licence')->size(4)->type('upload')->upload(true);
-        CRUD::field('blood_group')->type('enum')->size(4);
-        CRUD::field('eye_color')->type('enum')->size(4);
-        CRUD::field('phone_number')->size(4);
-        CRUD::field('alternate_email')->type('email')->size(4);
-        // CRUD::field('rfid')->size(4);
-        CRUD::field('employment_identity')->label('Employee ID Number')->size(4);
-        CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(4);
-        CRUD::field('ethnicity_id')->size(4);
-        CRUD::field('religion_id')->size(4);
-        CRUD::field('unit_id')->size(4);
-        CRUD::field('employement_date')->size(4);
-        CRUD::field('salary_step')->type('enum')->size(4);
-        CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        CRUD::field('employment_type_id')->type('select')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(4);
-        // CRUD::field('pention_number')->size(4);
-        CRUD::field('employment_status_id')->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(4);
-        CRUD::field('static_salary')->type('number')->size(4);
-        // CRUD::field('uas_user_id')->size(4);
+        $this->crud->enableTabs();
+        $this->crud->enableVerticalTabs();
+       // $this->crud->enableHorizontalTabs();
+      ////////////////////// Tabs //////////////////////
+        $pi = 'Personal Information';
+        $ci ='Contact Information';
+        $bio ='Bio Information';
+        $address ='Address Information';
+        $job    ='Job Information';
+        $edu    ='Employee Credentials';
+        $other    ='Other Information';
+        ////////////////////////////////////////////////
+       CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
+
+        CRUD::field('first_name')->size(6)->tab($pi);
+        CRUD::field('father_name')->size(6)->tab($pi);
+        CRUD::field('grand_father_name')->size(6)->tab($pi);
+        CRUD::field('gender')->type('enum')->size(6)->tab($pi);
+        CRUD::field('date_of_birth')->size(6)->tab($pi);
+        CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
+
+         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
+         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
+
+        CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
+        CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
+        CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
+        CRUD::field('ethnicity_id')->size(6)->tab($bio);
+
+        CRUD::field('phone_number')->size(6)->tab($ci);
+        CRUD::field('email')->type('email')->size(6)->tab($ci);
+
+        CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($ci);
+        CRUD::field('religion_id')->size(6)->tab($address);
+        CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
+        CRUD::field('employement_date')->size(6)->tab($job);
+        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('name')->size(6)->tab($address);
+        CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('rfid')->size(4)->type('number')->tab($other);
+         CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
-
-
-
 
     /**
      * Define what happens when the Update operation is loaded.
@@ -288,39 +266,50 @@ class EmployeeCrudController extends CrudController
     protected function setupUpdateOperation()
     {
 
-        // dd($this->crud->getCurrentEntry());
-        $tabName = 'Personal Information';
-        // $this->setupCreateOperation();
-        $this->crud->setUpdateContentClass('col-md-12');
-        CRUD::setValidation(EmployeeRequest::class);
-        CRUD::field('photo')->size(4)->tab($tabName)->type('image')->aspect_ratio(1)->crop(true)->upload(true);
-        $this->crud->setCreateContentClass('col-md-12');
-        CRUD::field('first_name')->tab($tabName)->size(3);
-        CRUD::field('father_name')->tab($tabName)->size(3);
-        CRUD::field('grand_father_name')->tab($tabName)->size(3);
-        CRUD::field('gender')->type('enum')->tab($tabName)->size(3);
-        CRUD::field('date_of_birth')->tab($tabName)->size(3);
-        CRUD::field('birth_city')->tab($tabName)->size(3);
-        CRUD::field('employment_identity')->tab($tabName)->label('Employee ID Number')->size(3);
-        CRUD::field('marital_status_id')->tab($tabName)->type('select')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->tab($tabName)->size(3);
-        CRUD::field('phone_number')->tab($tabName)->size(3);
-        CRUD::field('ethnicity_id')->tab($tabName)->size(3);
-        CRUD::field('eye_color')->tab($tabName)->type('enum')->size(3);
-        CRUD::field('religion_id')->tab($tabName)->size(3);
-        CRUD::field('blood_group')->tab($tabName)->type('enum')->size(3);
-        CRUD::field('alternate_email')->tab($tabName)->type('email')->size(3);
-        CRUD::field('driving_licence')->tab($tabName)->size(12)->type('upload')->prefix('storage/')->upload(true);
+        $this->crud->enableTabs();
+        $this->crud->enableVerticalTabs();
+       // $this->crud->enableHorizontalTabs();
 
-        $tabName = 'Employee Job';
-        CRUD::field('job_title_id')->tab($tabName)->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(3);
-        CRUD::field('unit_id')->tab($tabName)->size(3);
-        CRUD::field('employement_date')->tab($tabName)->size(3);
-        CRUD::field('employment_type_id')->tab($tabName)->type('select')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(3);
-        CRUD::field('static_salary')->tab($tabName)->size(3);
-        CRUD::field('salary_step')->tab($tabName)->type('enum')->size(3);
-        CRUD::field('pention_number')->tab($tabName)->size(3);
-        CRUD::field('employment_status_id')->tab($tabName)->type('select')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->tab($tabName)->size(3);
-        $tabName = 'Employee Address';
+        $pi = 'Personal Information';
+        $ci ='Contact Information';
+        $bio ='Bio Information';
+        $address ='Address Information';
+        $job    ='Job Information';
+        $edu    ='Employee Credentials';
+
+       CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
+
+        CRUD::field('first_name')->size(6)->tab($pi);
+        CRUD::field('father_name')->size(6)->tab($pi);
+        CRUD::field('grand_father_name')->size(6)->tab($pi);
+        CRUD::field('gender')->type('enum')->size(6)->tab($pi);
+        CRUD::field('date_of_birth')->size(6)->tab($pi);
+        CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
+
+         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
+         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
+
+        CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
+        CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
+        CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
+        CRUD::field('ethnicity_id')->size(6)->tab($bio);
+
+        CRUD::field('phone_number')->size(6)->tab($ci);
+        CRUD::field('email')->type('email')->size(6)->tab($ci);
+        // CRUD::field('rfid')->size(4);
+        CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($ci);
+
+
+
+        CRUD::field('religion_id')->size(6)->tab($address);
+        CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
+
+        CRUD::field('employement_date')->size(6)->tab($job);
+
+        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('name')->size(6)->tab($address);
+        CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
 
 
         // CRUD::field('employeeAddresses')

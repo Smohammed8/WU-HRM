@@ -11,7 +11,7 @@
                             <div class="member-details">
 
 
-                                <span  title="{{ $child->chairManType->name }}" class="badge border border-info badge-pill badge-info font-size-h6-d" style="overflow-wrap: break-word; font-size:16px;">   @if($child->parent_unit_id==null)
+                                <span  title="{{ $child->chairManType->name??null }}" class="badge border border-info badge-pill badge-info font-size-h6-d" style="overflow-wrap: break-word; font-size:16px;">   @if($child->parent_unit_id==null)
 
 
                                     <i class=" la la-flag"></i>

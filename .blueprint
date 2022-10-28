@@ -1,22 +1,19 @@
 created:
-    - database/factories/FormStyleFactory.php
-    - database/factories/EvaluationPeriodFactory.php
-    - database/factories/SalaryIncreamentFactory.php
-    - database/migrations/2022_10_22_134052_create_form_styles_table.php
-    - database/migrations/2022_10_22_134053_create_evaluation_periods_table.php
-    - database/migrations/2022_10_22_134054_create_salary_increaments_table.php
-    - app/Models/Form_style.php
-    - app/Models/Evaluation_period.php
-    - app/Models/Salary_increament.php
-    - database/factories/PositionFactory.php
-    - database/factories/MinimumRequirementFactory.php
-    - database/factories/RelatedWorkFactory.php
-    - database/migrations/2022_09_26_045116_create_positions_table.php
-    - database/migrations/2022_09_26_045117_create_minimum_requirements_table.php
-    - database/migrations/2022_09_26_045118_create_related_works_table.php
-    - app/Models/Position.php
-    - app/Models/MinimumRequirement.php
-    - app/Models/RelatedWork.php
+    - database/factories/TemplateTypeFactory.php
+    - database/factories/TemplateFactory.php
+    - database/factories/SalaryScaleFactory.php
+    - database/factories/LevelFactory.php
+    - database/factories/JobGradeFactory.php
+    - database/migrations/2022_10_26_134925_create_template_types_table.php
+    - database/migrations/2022_10_26_134926_create_templates_table.php
+    - database/migrations/2022_10_26_134927_create_salary_scales_table.php
+    - database/migrations/2022_10_26_134928_create_levels_table.php
+    - database/migrations/2022_10_26_134929_create_job_grades_table.php
+    - app/Models/TemplateType.php
+    - app/Models/Template.php
+    - app/Models/SalaryScale.php
+    - app/Models/Level.php
+    - app/Models/JobGrade.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -69,3 +66,8 @@ models:
     Position: { unit_id: 'id foreign', job_title_id: 'id foreign:job_titles', total_employees: integer, available_for_placement: 'bool default:true', status: 'integer default:0' }
     MinimumRequirement: { position_id: 'id foreign', experience: integer, educational_level_id: 'id foreign:educational_levels.id', minimum_efficeny: decimal, minimum_employee_profile_value: integer }
     RelatedWork: { minimum_requirement_id: 'id foreign:minimum_requirements.id', job_title_id: 'id foreign:job_titles.id' }
+    TemplateType: { name: string, description: 'text nullable' }
+    Template: { template_type_id: 'id foreign:template_types.id', body: 'text nullable' }
+    SalaryScale: { name: string, organization_id: 'id foreign:organizations.id', civil_service_year: date }
+    Level: { name: string, description: 'text nullable' }
+    JobGrade: { level_id: 'foreign:levels.id', start_salary: 'decimal(10,2)', one: 'decimal(10,2)', two: 'decimal(10,2)', three: 'decimal(10,2)', four: 'decimal(10,2)', five: 'decimal(10,2)', six: 'decimal(10,2)', seven: 'decimal(10,2)', eight: 'decimal(10,2)', nine: 'decimal(10,2)', ceil_salary: 'decimal(10,2)' }

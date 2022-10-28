@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PensionRequest;
-use App\Models\EmployeeCategory;
+use App\Http\Requests\LevelRequest;
+use App\Models\JobGrade;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Queue\Jobs\JobName;
 
 /**
- * Class PensionCrudController
+ * Class LevelCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class PensionCrudController extends CrudController
+class LevelCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -27,9 +29,10 @@ class PensionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Pension::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/pension');
-        CRUD::setEntityNameStrings('pension', 'pensions');
+        CRUD::setModel(\App\Models\Level::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/level');
+        CRUD::setEntityNameStrings('level', 'levels');
+
     }
 
     /**
@@ -40,11 +43,25 @@ class PensionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name')->label('Pension type');
-        CRUD::column('gender');
-        CRUD::column('year')->label('Retirement year');
-        CRUD::column('extend_year');
-        CRUD::column('employee_category_id')->type('select')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6);
+        // $this->crud->denyAccess('show');
+        // $this->crud->denyAccess('delete');
+        $this->crud->setDefaultPageLength(22);
+        CRUD::column('name')->label('Job grade');
+        CRUD::addColumn(['name' => 'Start salary', 'type' => 'number']);
+        CRUD::addColumn(['name' => 'Ceil salary', 'type' => 'number']);
+
+         //  $this->crud->addCollumn([
+        //     'label'=>'start_salary',
+        //     'type'=>'relationship',
+        //     'name'=>'level_id',
+        //     'attribute'=>'level_id',
+        //     'entity'=>'job_grades',
+        //     'model'=> App\Models\jobGrade::class
+
+
+        //     ]);
+
+      //  CRUD::column('description');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -61,14 +78,10 @@ class PensionCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PensionRequest::class);
+        CRUD::setValidation(LevelRequest::class);
 
-        CRUD::field('name')->size(6);
-        CRUD::field('gender')->type('enum')->size(6);
-
-        CRUD::field('year')->type('number')->size(6);
-        CRUD::field('extend_year')->type('number')->size(6);
-        CRUD::field('employee_category_id')->type('select2')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6);
+        CRUD::field('name');
+        CRUD::field('description');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

@@ -253,12 +253,12 @@ models:
 #   minimum_requirement_id: id foreign:minimum_requirements.id
 #   job_title_id: id foreign:job_titles.id
 
-   TemplateType:
+    TemplateType:
       name: string
       description: text nullable
-   Template:
+    Template:
       template_type_id: id foreign:template_types.id
-      body: text required
+      body: text nullable
     SalaryScale:
       name: string
       organization_id: id foreign:organizations.id

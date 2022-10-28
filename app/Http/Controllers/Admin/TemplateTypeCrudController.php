@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PensionRequest;
-use App\Models\EmployeeCategory;
+use App\Http\Requests\TemplateTypeRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class PensionCrudController
+ * Class TemplateTypeCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class PensionCrudController extends CrudController
+class TemplateTypeCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,9 +26,9 @@ class PensionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Pension::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/pension');
-        CRUD::setEntityNameStrings('pension', 'pensions');
+        CRUD::setModel(\App\Models\TemplateType::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/template-type');
+        CRUD::setEntityNameStrings('template type', 'template types');
     }
 
     /**
@@ -40,11 +39,8 @@ class PensionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name')->label('Pension type');
-        CRUD::column('gender');
-        CRUD::column('year')->label('Retirement year');
-        CRUD::column('extend_year');
-        CRUD::column('employee_category_id')->type('select')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6);
+        CRUD::column('name')->label('Type of template');
+        CRUD::column('description');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -61,20 +57,30 @@ class PensionCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PensionRequest::class);
+        CRUD::setValidation(TemplateTypeRequest::class);
 
-        CRUD::field('name')->size(6);
-        CRUD::field('gender')->type('enum')->size(6);
+        CRUD::field('name');
+        CRUD::field('description');
 
-        CRUD::field('year')->type('number')->size(6);
-        CRUD::field('extend_year')->type('number')->size(6);
-        CRUD::field('employee_category_id')->type('select2')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6);
+/////////////////////////////////////////////////////
+        // $this->crud->addField([
+        //     'name' => 'start_date',
+        //     'type' => 'date',
+        //     'label' => 'Date',
+        //     'wrapperAttributes' => [
+        //          'class' => 'form-group col-md-6'
+        //     ]
+        //  ]);
+        //  $this->crud->addField([
+        //     'name' => 'end_date',
+        //     'type' => 'date',
+        //     'label' => 'Date',
+        //     'wrapperAttributes' => [
+        //          'class' => 'form-group col-md-6'
+        //     ]
+        //  ]);
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+ ////////////////////////////////////////////////////////
     }
 
     /**

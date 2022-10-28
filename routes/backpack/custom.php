@@ -77,6 +77,11 @@ Route::group([
     Route::crud('position', 'PositionCrudController');
     Route::crud('{position}/minimum-requirement', 'MinimumRequirementCrudController');
     Route::crud('{position}/{minimum_requirement}/related-work', 'RelatedWorkCrudController');
+    Route::crud('job-grade', 'JobGradeCrudController');
+    Route::crud('level', 'LevelCrudController');
+    Route::crud('minimum-requirement', 'MinimumRequirementCrudController');
+    Route::crud('related-work', 'RelatedWorkCrudController');
+    Route::crud('salary-scale', 'SalaryScaleCrudController');
+    Route::crud('template', 'TemplateCrudController');
+    Route::crud('template-type', 'TemplateTypeCrudController');
 });
-
-// this should be the absolute last line of this file

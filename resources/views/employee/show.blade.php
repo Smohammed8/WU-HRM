@@ -120,8 +120,8 @@
                                 <label for="">{{ $crud->entry->blood_group }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <label for=""><b>Alternate email : </b></label>
-                                <label for="">{{ $crud->entry->alternate_email }}</label>
+                                <label for=""><b>Email : </b></label>
+                                <label for="">{{ $crud->entry->email }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Age : </b></label>
@@ -135,9 +135,12 @@
                                 <label for=""><b>Employee ID Number : </b></label>
                                 <label for="">{{ $crud->entry->employment_identity }}</label>
                             </div>
+
+
                             <div class="d-flex justify-content-between">
                                 <label for=""><b> Gross Salary : </b></label>
-                                <label for=""> ETB {{ number_format($crud->entry->static_salary,2) }}</label>
+                                <label for=""> ETB {{ $crud->entry->level->name}}</label>
+                                {{-- <label for=""> ETB {{ number_format($crud->entry->salaryStep->jobGrade->start_salary,2) }}</label> --}}
                             </div>
 
 

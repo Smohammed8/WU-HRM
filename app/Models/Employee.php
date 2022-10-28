@@ -190,6 +190,11 @@ class Employee extends  Model
         return $this->belongsTo(MaritalStatus::class);
     }
 
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
     public function ethnicity()
     {
         return $this->belongsTo(Ethnicity::class);
@@ -254,5 +259,13 @@ class Employee extends  Model
 
     public function getLicensesListAttribute() {
         return json_encode($this->licenses);
+    }
+
+    public function printID($crud = false)
+    {
+
+        $route =  backpack_url('job-grade'); // custome toute here
+
+        return '<a class="btn btn-sm btn-link"  href="'.$route.'" data-toggle="tooltip" title="Print ID"><i class="la la-book"></i>Digital ID </a>';
     }
 }
