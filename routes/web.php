@@ -12,7 +12,10 @@ use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
+<<<<<<< HEAD
 use App\Models\Unit as ModelsUnit;
+=======
+>>>>>>> 93ea9f6 (solving issues)
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -30,13 +33,19 @@ use Illuminate\Support\Facades\Auth;
 //     return redirect(route('backpack.dashboard'));
 // });
 Route::redirect('/','/home');
+<<<<<<< HEAD
 Route::redirect('/admin/login','/login');
+=======
+Route::redirect('/admin/login','/home');
+Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+>>>>>>> 93ea9f6 (solving issues)
 // Registration Routes...
 // Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
 // Route::post('admin/register', [AuthController::class,'register']);
 // // Registration Routes...
 // Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
 // Route::post('register', 'Auth\RegisterController@register');
+<<<<<<< HEAD
 Route::get('/home',[EmployeeController::class,'home'])->name('home')->middleware('auth');
 
 Route::get('/home', function () {
@@ -47,6 +56,8 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+=======
+>>>>>>> 93ea9f6 (solving issues)
 Route::get('/home',[EmployeeController::class,'home'])->name('home')->middleware(['admin']);
 Route::get('import_page',[EmployeeController::class,'importPage']);
 Route::post('import',[EmployeeController::class,'import']);
