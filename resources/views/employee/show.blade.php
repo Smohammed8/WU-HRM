@@ -55,11 +55,11 @@
             <div class="row">
                 <div class="col-md-2" style="border-right:1px solid black;">
 
-                    <img src="{{ $crud->entry->photo}}" alt="profile Pic" height="160" width="150">
+                    <img src="{{ $crud->entry?->photo}}" alt="profile Pic" height="160" width="150">
                     {{-- @if(isset( ))
 
                         @else
-                        <img width="150" src="{{ $crud->entry->photo }}" alt="">
+                        <img width="150" src="{{ $crud->entry?->photo }}" alt="">
 
                         @endif --}}
 
@@ -69,23 +69,23 @@
                         <div class="col-md-6">
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Employee Name : </b>  </label>
-                                <label for="">{{ $crud->entry->name }}</label>
+                                <label for="">{{ $crud->entry?->name }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Employee Gender : </b></label>
-                                <label for="">{{ $crud->entry->gender }}</label>
+                                <label for="">{{ $crud->entry?->gender }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Phone Number : </b></label>
-                                <label for="">{{ $crud->entry->phone_number }}</label>
+                                <label for="">{{ $crud->entry?->phone_number }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Ethnicity : </b></label>
-                                <label for="">{{ $crud->entry->ethnicity->name }}</label>
+                                <label for="">{{ $crud->entry?->ethnicity?->name }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Religion : </b></label>
-                                <label for="">{{ $crud->entry->religion->name }}</label>
+                                <label for="">{{ $crud->entry?->religion?->name }}</label>
                             </div>
 
                             <div class="d-flex justify-content-between">
@@ -98,11 +98,11 @@
                         <div class="col-md-6" style="border-left:1px solid black;">
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Blood group : </b>  </label>
-                                <label for="">{{ $crud->entry->blood_group }}</label>
+                                <label for="">{{ $crud->entry?->blood_group }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Alternate email : </b></label>
-                                <label for="">{{ $crud->entry->alternate_email }}</label>
+                                <label for="">{{ $crud->entry?->alternate_email }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Age : </b></label>
@@ -110,15 +110,15 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Marital status : </b></label>
-                                <label for="">{{ $crud->entry->maritalStatus->name }}</label>
+                                <label for="">{{ $crud->entry?->maritalStatus?->name }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Employee ID Number : </b></label>
-                                <label for="">{{ $crud->entry->employment_identity }}</label>
+                                <label for="">{{ $crud->entry?->employment_identity }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b> Gross Salary : </b></label>
-                                <label for=""> ETB {{ number_format($crud->entry->static_salary,2) }}</label>
+                                <label for=""> ETB {{ number_format($crud->entry?->static_salary,2) }}</label>
                             </div>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                 <h5>Employee Address</h5>
                 <div class="no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/employee-address.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Address'}}</span></a>
+                        <a href="{{ route('{employee}/employee-address.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Address'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -214,8 +214,8 @@
                                     <td>{{ $employeeAddress->name }}</td>
                                     <td>{{ $employeeAddress->address_type }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/employee-address.edit', ['employee'=>$crud->entry->id,'id'=>$employeeAddress->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-address.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeAddress->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/employee-address.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeAddress->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-address.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeAddress->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -235,7 +235,7 @@
                 <h5>Employee Licence</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/license.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Licence'}}</span></a>
+                        <a href="{{ route('{employee}/license.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Licence'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -251,8 +251,8 @@
                                     <td>{{ $employeeLicence->licenseType->name }}</td>
                                     <td><a href="{{ $employeeLicence->license_file }}" target="_blank">Download Document</a></td>
                                     <td>
-                                        <a href="{{ route('{employee}/license.edit', ['employee'=>$crud->entry->id,'id'=>$employeeLicence->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/license.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeLicence->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/license.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeLicence->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/license.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeLicence->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -273,7 +273,7 @@
                 <h5>Employee Certificate</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/employee-certificate.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Certificate'}}</span></a>
+                        <a href="{{ route('{employee}/employee-certificate.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Certificate'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -289,8 +289,8 @@
                                     <td>{{ $employeeCertificate->name }}</td>
                                     <td>{{ $employeeCertificate->skillType->name }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/employee-certificate.edit', ['employee'=>$crud->entry->id,'id'=>$employeeCertificate->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-certificate.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeCertificate->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/employee-certificate.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeCertificate->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-certificate.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeCertificate->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -310,7 +310,7 @@
                 <h5>Employee Contact</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/employee-contact.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Contact'}}</span></a>
+                        <a href="{{ route('{employee}/employee-contact.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Contact'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -328,8 +328,8 @@
                                     <td>{{ $employeeContact->contact_type }}</td>
                                     <td>{{ $employeeContact->contact }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/employee-contact.edit', ['employee'=>$crud->entry->id,'id'=>$employeeContact->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-contact.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeContact->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/employee-contact.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeContact->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-contact.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeContact->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -349,7 +349,7 @@
                 <h5>Employee Languages</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/employee-language.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Langauge'}}</span></a>
+                        <a href="{{ route('{employee}/employee-language.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Langauge'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -369,8 +369,8 @@
                                     <td>{{ $employeeLanguage->reading }}</td>
                                     <td>{{ $employeeLanguage->writing }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/employee-language.edit', ['employee'=>$crud->entry->id,'id'=>$employeeLanguage->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-language.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeLanguage->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/employee-language.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeLanguage->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-language.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeLanguage->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -390,7 +390,7 @@
                 <h5>Employee Families</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/employee-family.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Family'}}</span></a>
+                        <a href="{{ route('{employee}/employee-family.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Family'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -410,8 +410,8 @@
                                     <td>{{ $employeeFamily->gender }}</td>
                                     <td>{{ $employeeFamily->dob??'Not Specified' }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/employee-family.edit', ['employee'=>$crud->entry->id,'id'=>$employeeFamily->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-family.destroy', ['employee'=>$crud->entry->id,'id'=>$employeeFamily->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/employee-family.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeFamily->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/employee-family.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeFamily->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -431,7 +431,7 @@
                 <h5>Employee Internal Experience</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/internal-experience.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Internal Experience'}}</span></a>
+                        <a href="{{ route('{employee}/internal-experience.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Internal Experience'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -453,8 +453,8 @@
                                     <td>{{ $internalExperience->start_date->format('Y/m/d') }}</td>
                                     <td>{{ $internalExperience->end_date->format('Y/m/d') }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/internal-experience.edit', ['employee'=>$crud->entry->id,'id'=>$internalExperience->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/internal-experience.destroy', ['employee'=>$crud->entry->id,'id'=>$internalExperience->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/internal-experience.edit', ['employee'=>$crud->entry?->id,'id'=>$internalExperience->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/internal-experience.destroy', ['employee'=>$crud->entry?->id,'id'=>$internalExperience->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -475,7 +475,7 @@
                 <h5>Employee External Experience</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/external-experience.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee External Experience'}}</span></a>
+                        <a href="{{ route('{employee}/external-experience.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee External Experience'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -498,8 +498,8 @@
                                     <td>{{ $externalExperience->start_date->format('Y/m/d') }}</td>
                                     <td>{{ $externalExperience->end_date->format('Y/m/d') }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/external-experience.edit', ['employee'=>$crud->entry->id,'id'=>$externalExperience->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/external-experience.destroy', ['employee'=>$crud->entry->id,'id'=>$externalExperience->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/external-experience.edit', ['employee'=>$crud->entry?->id,'id'=>$externalExperience->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/external-experience.destroy', ['employee'=>$crud->entry?->id,'id'=>$externalExperience->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -520,7 +520,7 @@
                 <h5>Training and Studies</h5>
                 <div class=" no-padding no-border">
                     <div class="">
-                        <a href="{{ route('{employee}/training-and-study.create',['employee'=>$crud->entry->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Training and Studies'}}</span></a>
+                        <a href="{{ route('{employee}/training-and-study.create',['employee'=>$crud->entry?->id]) }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Training and Studies'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2" cellspacing="0">
                         <thead>
@@ -546,8 +546,8 @@
                                     <td>{{ $trainingAndStudy->date_of_leave->format('Y M, d') }}</td>
                                     <td>{{ $trainingAndStudy->end_of_study->format('Y M, d') }}</td>
                                     <td>
-                                        <a href="{{ route('{employee}/training-and-study.edit', ['employee'=>$crud->entry->id,'id'=>$trainingAndStudy->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/training-and-study.destroy', ['employee'=>$crud->entry->id,'id'=>$trainingAndStudy->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                        <a href="{{ route('{employee}/training-and-study.edit', ['employee'=>$crud->entry?->id,'id'=>$trainingAndStudy->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{employee}/training-and-study.destroy', ['employee'=>$crud->entry?->id,'id'=>$trainingAndStudy->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -572,7 +572,7 @@
     <div class="modal-dialog modal-full" role="document">
       <div class="modal-content">
         <div class="modal-header">
-             <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry->name }} </h6>
+             <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry?->name }} </h6>
 
 
 
@@ -623,7 +623,7 @@
 
                         <tbody>
 
-                            <input type="hidden" name="employee" value="{{$crud->entry->id }}">
+                            <input type="hidden" name="employee" value="{{$crud->entry?->id }}">
 
                             @foreach ($evalutionCreterias as $evalutionCreteria)
 

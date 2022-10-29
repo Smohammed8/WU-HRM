@@ -3,7 +3,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-4">
-            <form action="{{ route('login.auth') }}" method="POST">
+            {{-- <form action="{{ route('login.auth') }}" method="POST"> --}}
                 @csrf
                 <br><br>
 
@@ -29,14 +29,12 @@
                         <p class="login-box-msg" style=" text-align:center;color:blue;"> <i class="la la-hand-point-right">
                             </i>
                             Sign in to start your session </p>
-                        <form class="col-md-12 p-t-10" role="form" method="POST"
-                            action="{{ route('backpack.auth.login') }}">
+                        <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('login') }}">
                             {!! csrf_field() !!}
 
                             <div class="form-group">
                                 <label class="control-label" for="{{ $username }}"> <i class="la la-user"> </i> &nbsp;
                                     {{ config('backpack.base.authentication_column_name') }}</label>
-
                                 <div>
                                     <input type="text" placeholder="Enter username "
                                         class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}"
@@ -87,17 +85,18 @@
                         </form>
                     </div>
                 </div>
-                @if (backpack_users_have_email() && config('backpack.base.setup_password_recovery_routes', true))
-                    <div class="text-center"><a
-                            href="{{ route('backpack.auth.password.reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a>
-                    </div>
-                @endif
-                @if (config('backpack.base.registration_open'))
-                    <div class="text-center"><a
-                            href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register') }}</a></div>
-                @endif
+                {{-- @if (backpack_users_have_email() && config('backpack.base.setup_password_recovery_routes', true))
+            <div class="text-center"><a href="{{ route('backpack.auth.password.reset') }}">{{
+                    trans('backpack::base.forgot_your_password') }}</a>
+    </div>
+    @endif --}}
+                {{-- @if (config('backpack.base.registration_open'))
+            <div class="text-center"><a href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register')
+                    }}</a>
+</div>
+@endif --}}
                 <br><br>
-            </form>
+            {{-- </form> --}}
         </div>
     </div>
 @endsection

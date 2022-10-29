@@ -19,9 +19,13 @@ class EmployeeController extends Controller
 
     public function home()
     {
+        if(backpack_auth()->check()){
+            return redirect(route('dashboard'));
+        }
         $user = Auth::user();
         $employee = Employee::where('uas_user_id', $user->id);
         if ($employee->count() == 0) {
+            Auth::logout();
             return abort(405, 'Please you have no employee profile contact admin');
         }
         $employee = $employee->first();
