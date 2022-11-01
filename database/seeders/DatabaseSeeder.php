@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionSeeder::class
         ]);
+<<<<<<< HEAD
         Role::findOrCreate('super-admin');
         $user = User::where('username','super')->first();
         if($user == null)
@@ -40,6 +41,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
         $user->assignRole('super-admin');
+=======
+>>>>>>> 9b6630b (imporitng_done_login_fixdd)
         // MaritalStatus::factory(4)->create();
         // $nationality = Nationality::create(['nation'=>'Ethiopian','code'=>'ET','label'=>'Ethiopia']);
         // $region = Region::create(['name'=>'Oroomia','nationality_id'=>$nationality->id]);
