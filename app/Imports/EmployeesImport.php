@@ -20,9 +20,9 @@ class EmployeesImport implements ToModel
             $firstName = $row[1];
             $fatherName = $row[2];
             $grandFatherName = $row[3];
-            $email = $row[5];
-            $phone = $row[6];
-            $gender = $row[7];
+            $email = $row[4];
+            $phone = $row[5];
+            $gender = $row[6];
             $employeeInfo = [
                 'staff_national_id' => $staffId,
                 'email' => $email,

@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            PermissionSeeder::class
+        ]);
         // MaritalStatus::factory(4)->create();
         // $nationality = Nationality::create(['nation'=>'Ethiopian','code'=>'ET','label'=>'Ethiopia']);
         // $region = Region::create(['name'=>'Oroomia','nationality_id'=>$nationality->id]);
