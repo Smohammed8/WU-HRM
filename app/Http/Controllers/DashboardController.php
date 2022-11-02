@@ -22,11 +22,15 @@ class DashboardController extends Controller
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
 <<<<<<< HEAD
+<<<<<<< HEAD
         return view('dashboard', compact( 'users', 'employees',));
 =======
         return view('dashboard', compact( 'users', 'employees',
 
         ));
 >>>>>>> 93ea9f6 (solving issues)
+=======
+        return view('dashboard', compact( 'users', 'employees',));
+>>>>>>> d431a57 (importing)
     }
 }
