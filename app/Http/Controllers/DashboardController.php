@@ -21,8 +21,6 @@ class DashboardController extends Controller
     {
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
-        return view('dashboard', compact( 'users', 'employees',
-
-        ));
+        return view('dashboard', compact( 'users', 'employees',));
     }
 }

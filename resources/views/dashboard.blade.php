@@ -10,7 +10,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card border-0 text-white bg-primary">
                     <div class="card-body">
-                        <div class="text-value">12,154</div>
+                        <div class="text-value">{{ number_format($employees, 0, '.', ','); }}</div>
 
                         <div> Total Employees</div>
 
@@ -19,7 +19,7 @@
                                 aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
 
-                        <small class="text-muted"><a href="" style="color:white;"> </a><i
+                        <small class="text-muted"><a href="{{ route('employee.index', []) }}" style="color:white;"> </a><i
                                 class=" la la-download"></i> View more </a></small>
                     </div>
 
