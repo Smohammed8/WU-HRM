@@ -34,11 +34,15 @@ use Illuminate\Support\Facades\Auth;
 // });
 Route::redirect('/','/home');
 <<<<<<< HEAD
+<<<<<<< HEAD
 Route::redirect('/admin/login','/login');
 =======
 Route::redirect('/admin/login','/home');
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 >>>>>>> 93ea9f6 (solving issues)
+=======
+Route::redirect('/admin/login','/login');
+>>>>>>> d431a57 (importing)
 // Registration Routes...
 // Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
 // Route::post('admin/register', [AuthController::class,'register']);
