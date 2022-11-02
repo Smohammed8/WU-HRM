@@ -8,6 +8,11 @@ use Maatwebsite\Excel\Concerns\ToModel;
 class EmployeesImport implements ToModel
 {
     static $x = 0;
+    protected $college;
+    public function  __construct($college)
+    {
+        $this->college = $college;
+    }
     /**
      * @param array $row
      *
@@ -31,6 +36,7 @@ class EmployeesImport implements ToModel
                 'grand_father_name' => $grandFatherName,
                 'phone_number' => substr($phone, 0, 1)=='9'?'0'.$phone:$phone,
                 'gender' => $gender == 'M' ? 'Male' : 'Female',
+                'college' => $this->college,
             ];
             if ($firstName != null && $fatherName != null && $grandFatherName != null) {
                 return new Employee(

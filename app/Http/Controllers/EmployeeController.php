@@ -47,7 +47,8 @@ class EmployeeController extends Controller
             Excel::import(new RegionsImport, request()->file('file'));
         }
         if ($request->get('type') == 'employee') {
-            Excel::import(new EmployeesImport, request()->file('file'));
+            $college = $request->get('college');
+            Excel::import(new EmployeesImport($college), request()->file('file'));
         }
         // Excel::import(new EmployeesImport, "/abc.xl");
         dd('IMPORT DONE');
