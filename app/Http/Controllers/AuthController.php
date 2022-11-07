@@ -13,7 +13,7 @@ class AuthController extends Controller
 
     public function registerForm()
     {
-        
+
     }
 
     public function register()
@@ -24,6 +24,9 @@ class AuthController extends Controller
     public function userLoginView()
     {
         $username = 'username';
+        if(Auth::check() || backpack_auth()->check()){
+            return redirect()->route('home');
+        }
         return view('auth.login',compact('username'));
     }
 
@@ -34,9 +37,13 @@ class AuthController extends Controller
             'password' => ['required','min:8']
         ]);
 
+        if(Auth::check() || backpack_auth()->check()){
+            return redirect()->route('home');
+        }
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
+            backpack_auth()->login($user);
             if ($user->can([Constants::PERMISSION_DASHBOARD])) {
                 return redirect()->route('dashboard');
             } else {
