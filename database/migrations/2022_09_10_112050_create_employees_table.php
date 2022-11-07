@@ -43,7 +43,16 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('employment_status_id')->nullable()->constrained();
             $table->foreignId('nationality_id')->nullable()->constrained('nationalities');
             $table->string('uas_user_id')->foreignId('user_id')->constrained()->nullable();
-    {
-        Schema::dropIfExists('employees');
+        });
     }
+        /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {        Schema::dropIfExists('employees');
+
+    }
+
 }
