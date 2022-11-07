@@ -84,4 +84,5 @@ Route::group([
     Route::crud('salary-scale', 'SalaryScaleCrudController');
     Route::crud('template', 'TemplateCrudController');
     Route::crud('template-type', 'TemplateTypeCrudController');
+    Route::get('charts/weekly-users', 'Charts\WeeklyUsersChartController@response')->name('charts.weekly-users.index');
 });

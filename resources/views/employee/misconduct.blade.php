@@ -34,7 +34,7 @@
 
                             <div class="form-group col-sm-12 col-md-4">
                                 <label for=""><i class="la la-user"></i>  Misconduct type</label>
-                                <select name="misconduct_type" id="leave" class="form-control " required="required">
+                                <select name="misconduct_type" style="width:100%;"  class="form-control select2" required="required">
                                     <option value="">..................... </option>
                                     @foreach ($type_of_misconducts as $type_of_misconduct)
                                         <option value="{{ $type_of_misconduct->id }}">{{ $type_of_misconduct->name }}</option>
@@ -45,7 +45,7 @@
 
                             <div class="form-group col-sm-12 col-md-4">
                                 <label for=""><i class="la la-user"></i> Severity</label>
-                                <select name="severity" id="severity" class="form-control " required="required">
+                                <select name="severity" style="width:100%;"  id="severity" class="form-control select2" required="required">
                                     <option value="">Select serverity </option>
 
                                         <option value="Low">Low</option>

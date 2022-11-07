@@ -28,7 +28,7 @@
 
                             <div class="form-group col-sm-12 col-md-4">
                                 <label for=""><i class="la la-user"></i>  Why an employee shall be leave?</label>
-                                <select name="leave_type" id="leave" class="form-control " required="required">
+                                <select name="leave_type"  style="width:100%;"  id="leave" class="form-control select2" required="required">
                                     <option value="">Select leave type </option>
                                     @foreach ($type_of_leaves as $type_of_leave)
                                         <option value="{{ $type_of_leave->id }}">{{ $type_of_leave->name }}</option>

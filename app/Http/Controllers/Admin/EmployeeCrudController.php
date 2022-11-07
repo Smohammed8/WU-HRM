@@ -82,7 +82,23 @@ class EmployeeCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
         $this->crud->setShowView('employee.show');
+       // $this->crud->enableAjaxTable();
+        $this->crud->enableDetailsRow();
+
     }
+
+    public function showDetailsRow($id) {
+
+
+        $this->crud->hasAccessOrFail('details_row');
+        $id = $this->crud->getCurrentEntryId() ?? $id;
+        $this->data['entry'] = $this->crud->getEntry($id);
+        $this->data['crud'] = $this->crud;
+
+       // return view($this->crud->getDetailsRowView(), $this->data);
+        return view('crud::details_row', $this->data);
+    }
+
 
     /**
      * Define what happens when the List operation is loaded.
@@ -93,9 +109,26 @@ class EmployeeCrudController extends CrudController
     protected function setupListOperation()
     {
 
-       // $this->crud->denyAccess('show');
+
+
+
+       // $this->crud->enableAjaxTable();
+       // $this->crud->filters();
+        $this->crud->enableDetailsRow();
+        // NOTE: you also need to do allow access to the right users:
+        $this->crud->allowAccess('details_row');
+        // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
+       $this->crud->setDetailsRowView('details_row');
+
+
+      //  $this->crud->denyAccess('show');
+       $this->crud->enableExportButtons();
+       //$this->crud->enablePersistentTable();
+       $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
+       //$this->crud->disablePersistentTable();
         $this->crud->denyAccess('delete');
-      $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
+
+        $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
 
     //  if (!backpack_user()->isAdmin) {
@@ -185,6 +218,17 @@ class EmployeeCrudController extends CrudController
             }
         );
 
+        // column with custom search logic
+$this->crud->addColumn([
+    'name'        => 'slug_or_title',
+    'label'       => 'Title',
+    'searchLogic' => function ($query, $column, $searchTerm) {
+        $query->orWhere('title', 'like', '%'.$searchTerm.'%');
+    }
+]);
+
+
+
 
         // $this->crud->addFilter([
         //     'name'  => 'problem_id',
@@ -201,7 +245,9 @@ class EmployeeCrudController extends CrudController
 
 
 
+
     /**
+     *
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
@@ -442,6 +488,11 @@ class EmployeeCrudController extends CrudController
         $demotions =    Demotion::orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
 
+
+        $levels =    Level::orderBy('id', 'asc')->Paginate(22);
+        $this->data['levels'] = $levels;
+
+
         $type_of_misconducts =    TypeOfMisconduct::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_misconducts'] = $type_of_misconducts;
 
@@ -473,6 +524,14 @@ class EmployeeCrudController extends CrudController
         $this->data['ep'] = $ep;
 
 
+
+ /////////// Laraevl count ////////////////////////
+     //   $employee = Employee::where('id', '<=', 100)->get();
+     //   $totalEmployee = $employee->count();
+
+      //  $totalRows  = $this->crud->count();
+
+
         // $evs = Evaluation::where('employee_id',$this->crud->getCurrentEntryId())->limit(3)->get();
         // $evaluations = Evaluation::orderBy('id', 'desc')->limit(3)->get();
         // $this->data['evs'] = $evs;
@@ -486,4 +545,7 @@ class EmployeeCrudController extends CrudController
         // and we plan to change behaviour in the next version; see this Github issue for more details
         // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
+
+
+
 }

@@ -47,7 +47,7 @@
                     <span class="float-right"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fiscal quarter:&nbsp;&nbsp;&nbsp;
 
 
-                        <select name="quarter" id="quarter" class="form-control select2" required="required">
+                        <select name="quarter" id="quarter"style="width:100%;"   class="form-control select2" required="required">
                             <option value="">Select fiscal quater..  </option>
                             @foreach ($quarters as $quarter)
                                 <option value="{{ $quarter->id }}">{{ $quarter->name }}</option>
@@ -58,7 +58,7 @@
                     </span>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span class="float-right">  Fiscal Year: &nbsp;&nbsp;&nbsp;
-                        <select class="form-control select2" name="year" required>
+                        <select class="form-control select2" style="width:100%;"  name="year" required>
                             <option value=""> Select fiscal year..   </option>
                             <option value="2014"> 2014 </option>
                             <option value="2015"> 2015 </option>
@@ -102,7 +102,7 @@
                                     <td>
                                 @if($style !=null)
                                         @if($style =='Select Box')
-                                        <select class="select2" name="level{{ $evalutionCreteria->id }}[]" required>
+                                        <select class="form-control select2" style="width:100%;"  name="level{{ $evalutionCreteria->id }}[]" required>
                                             <option value=""> Select evaluation mark..   </option>
                                             <option value="4"> Excellent[4] </option>
                                             <option value="3"> Very Good[3] </option>
@@ -117,7 +117,7 @@
                                      @endif
 
                                   @else
-                                  <select class="select2" name="level{{ $evalutionCreteria->id }}[]" required>
+                                  <select class="form-control select2" style="width:100%;"  name="level{{ $evalutionCreteria->id }}[]" required>
                                     <option value=""> Select evaluation mark..   </option>
                                     <option value="4"> Excellent[4] </option>
                                     <option value="3"> Very Good[3] </option>

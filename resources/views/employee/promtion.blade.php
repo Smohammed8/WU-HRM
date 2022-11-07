@@ -37,8 +37,8 @@
 
                             <div class="form-group col-sm-12 col-md-4">
                                 <label for=""><i class="la la-user"></i>  New Office </label>
-                                <select name="misconduct_type" id="leave" class="form-control " required="required">
-                                    <option value="">..................... </option>
+                                <select name="misconduct_type" style="width:100%;"  class="form-control select2" required="required">
+
                                     @foreach ($units as $unit)
                                         <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                                     @endforeach
@@ -48,14 +48,34 @@
 
                             <div class="form-group col-sm-12 col-md-4">
                                 <label for=""><i class="la la-user"></i>  New Job Title</label>
-                                <select name="misconduct_type" id="leave" class="form-control " required="required">
-                                    <option value="">..................... </option>
+                                <select name="misconduct_type" style="width:100%;"  class="form-control select2" required="required">
+
                                     @foreach ($jobe_titles as $jobe_title)
                                         <option value="{{ $jobe_title->id }}">{{ $jobe_title->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
+                            <div class="form-group col-sm-12 col-md-4">
+                                <label for=""><i class="la la-user"></i> Promotion type</label>
+                                <select name="misconduct_type" style="width:100%;"  class="form-control select2" required="required">
+                                    <option value="">..................... </option>
+                                        <option value="1"> Veritical </option>
+                                        <option value="2"> Horizontal </option>
+                                       <option value="3"> Veritical and Horizontal </option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-4">
+                                <label for=""><i class="la la-user"></i>  New Job grade</label>
+                                <select  style="width:100%;" name="misconduct_type" class="form-control select2" required="required">
+                                    <option value="">Select job grade </option>
+                                    @foreach ($levels as $level)
+                                        <option value="{{ $level->id }}">{{ $level->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
 
@@ -149,3 +169,14 @@
       </div>
     </div>
   </div>
+<script>
+
+$('.js-example-basic-single').select2({
+    placeholder: "Select...",
+    allowClear: true,
+    width: "100%"
+});
+</script>
+
+
+

@@ -63,11 +63,22 @@ class TemplateCrudController extends CrudController
         CRUD::field('template_type_id')->type('select2')->entity('templateType')->model(TemplateType::class)->attribute('name')->size(6);
         $this->crud->addField([
             'name' => 'body',
-            'type' => 'ckeditor', // or    'type' => 'textarea',
+            'type' => 'ckeditor ', // 'type' => 'tinymce',
             'label' => "Template body",
+            'options' => ['toolbar' => 'lists | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent'],
+            // plugins: [
+
+            //     'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+
+            //    'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+
+            //    'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+
+            //  ],
+
             'attributes' => [
-                'rows' => 20,
-                'cols' => 20
+                'rows' => 40,
+                'cols' => 40
             ]
             ]);
 

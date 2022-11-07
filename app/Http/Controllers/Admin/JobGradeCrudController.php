@@ -41,10 +41,22 @@ class JobGradeCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->denyAccess('show');
+        $this->crud->enableExportButtons();
+        $this->crud->ajax_table = false;
+
         $this->crud->denyAccess('delete');
         $this->crud->setDefaultPageLength(22);
-        CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->size(6);
-        CRUD::column('start_salary')->label('Start');
+       CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->size(6);
+      //  CRUD::column('start_salary')->label('Start');
+        $this->crud->addColumn([
+            'name'  => 'start_salary', // The db column name
+            'label' => 'Start', // Table column heading
+            'type'  => 'number',
+            'dec_point'     => ','
+
+              ]);
+
+
         CRUD::column('one')->label('1st');
         CRUD::column('two')->label('2th');
         CRUD::column('three')->label('3th');
@@ -54,13 +66,41 @@ class JobGradeCrudController extends CrudController
         CRUD::column('seven')->label('7th');
         CRUD::column('eight')->label('8th');
         CRUD::column('nine')->label('9th');
-        CRUD::column('ceil_salary')->label('Ceil');
+       // CRUD::column('ceil_salary')->label('Ceil');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+        $this->crud->addColumn([
+            'name'  => 'ceil_salary', // The db column name
+            'label' => 'Ceil', // Table column heading
+            'type'  => 'number',
+           // 'prefix'        => 'ETB',
+            //'suffix'        => ' EUR',
+           // 'decimals'      => 2,
+            'dec_point'     => ',',
+          //  'thousands_sep' => '.',
+          //  decimals, dec_point and thousands_sep are used to format the number;
+          //  for details on how they work check out PHP's number_format() method, they're passed directly to it;
+          //  https://www.php.net/manual/en/function.number-format.php
+              ]);
+
+
+        // $this->crud->addColumn([
+        //     'name'    => 'ceil_salary',
+        //     'label'   => 'ceil_salary',
+        //     'type'    => 'boolean',
+        //     'options' => [0 => 'No', 1 => 'Yes'], // optional
+        //     'wrapper' => [
+        //         'element' => 'span',
+        //         'class' => function ($crud, $column, $entry, $related_key) {
+        //             if ($column['text'] == 'Yes') {
+        //                 return 'badge badge-success';
+        //             }
+
+        //             return 'badge badge-default';
+        //         },
+        //     ],
+        // ]);
+
+
     }
 
     /**
@@ -72,8 +112,6 @@ class JobGradeCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(JobGradeRequest::class);
-
-
         CRUD::field('level_id')->size(3);
         CRUD::field('start_salary')->size(3)->type('number');
         CRUD::field('one')->size(3)->type('number');

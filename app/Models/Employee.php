@@ -268,4 +268,7 @@ class Employee extends  Model
 
         return '<a class="btn btn-sm btn-link"  href="'.$route.'" data-toggle="tooltip" title="Print ID"><i class="la la-book"></i>Digital ID </a>';
     }
+
+
+
 }

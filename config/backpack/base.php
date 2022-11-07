@@ -235,6 +235,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
+  // enable the datatables-responsive plugin, which hides columns if they don't fit?
+    // if not, a horizontal scrollbar will be shown instead
+    'responsive_table' => true,
+    'persistent_table' => true,
+
 
 
     // Fully qualified namespace of the User model

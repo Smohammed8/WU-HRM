@@ -43,7 +43,7 @@
 
                             <div class="form-group col-sm-12 col-md-4">
                                 <label for=""><i class="la la-user"></i>  New Office </label>
-                                <select name="new_unit" class="form-control" required="required">
+                                <select name="new_unit" style="width:100%;"  class="form-control select2" required="required">
                                     <option value="">..................... </option>
                                     @foreach ($units as $unit)
                                         <option value="{{ $unit->id }}">{{ $unit->name }}</option>
@@ -54,7 +54,7 @@
 
                             <div class="form-group col-sm-12 col-md-4">
                                 <label for=""><i class="la la-user"></i>  New Job Title</label>
-                                <select name="new_job"  class="form-control" required="required">
+                                <select name="new_job"  style="width:100%;"  class="form-control select2" required="required">
                                     <option value="">..................... </option>
                                     @foreach ($jobe_titles as $jobe_title)
                                         <option value="{{ $jobe_title->id }}">{{ $jobe_title->name }}</option>
