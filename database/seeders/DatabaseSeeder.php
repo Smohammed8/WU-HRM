@@ -12,7 +12,11 @@ use App\Models\MaritalStatus;
 use App\Models\Nationality;
 use App\Models\Region;
 use App\Models\Religion;
+use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,13 +27,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            PermissionSeeder::class
+        ]);
+        Role::findOrCreate('super-admin');
+        $user = User::where('username','super')->first();
+        if($user == null)
+        $user = User::create([
+            'name' => 'Super Admin',
+            'username' => 'super',
+            'email' => 'super@hrm.com',
+            'password' => Hash::make('password'),
+        ]);
+        $user->assignRole('super-admin');
         // MaritalStatus::factory(4)->create();
         // $nationality = Nationality::create(['nation'=>'Ethiopian','code'=>'ET','label'=>'Ethiopia']);
         // $region = Region::create(['name'=>'Oroomia','nationality_id'=>$nationality->id]);
         // $ethnicity = Ethnicity::create(['name'=>'Oromo','region_id'=>$region->id]);
         // $isReligion = Religion::create(['name'=>'Islam']);
         // $chReligion = Religion::create(['name'=>'Christian']);
-        // $jobCategory = JobTitleCategory::create(['name'=>"IT"]);
+        // Unit::factory(1)->create();
+        // $jobCategory = JobTitleCategory::create(['name'=>"IT",'unit_id'=>1]);
         // $jobTitle = JobTitle::create(['name'=>'Software Developer','job_title_category_id'=>$jobCategory->id]);
         // $employementType = EmploymentType::create(['name'=>'Permanent']);
         // $employmentStatus = EmploymentStatus::create(['name'=>'Working']);

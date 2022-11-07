@@ -19,9 +19,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "nesbot/carbon": "^2.62",
-        "onkbear/backpack-nested-crud": "^2.0",
-        "venturecraft/revisionable": "1.*"
+        "maatwebsite/excel": "^3.1",
+        "onkbear/backpack-nested-crud": "^2.0"
     },
     "require-dev": {
         "backpack/generators": "^3.1",

@@ -20,10 +20,10 @@ class CreateEmployeesTable extends Migration
             $table->string('first_name', 255);
             $table->string('father_name', 255);
             $table->string('grand_father_name', 255);
-            $table->enum('gender', ["Male","Female"]);
-            $table->date('date_of_birth');
+            $table->enum('gender', ["Male","Female"])->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('photo')->nullable();
-            $table->string('birth_city', 255);
+            $table->string('birth_city', 255)->nullable();
             $table->string('passport', 255)->nullable();
             $table->string('driving_licence')->nullable();
             $table->enum('blood_group', ["A","B","AB","O"])->nullable();
@@ -31,7 +31,6 @@ class CreateEmployeesTable extends Migration
             $table->string('phone_number', 100)->nullable();
             $table->string('email', 255)->nullable();
             $table->string('rfid', 100)->nullable();
-            $table->string('employment_identity')->nullable();
             $table->foreignId('marital_status_id')->constrained();
             $table->foreignId('ethnicity_id')->constrained();
             $table->foreignId('religion_id')->constrained();
@@ -44,18 +43,6 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('employment_status_id')->nullable()->constrained();
             $table->foreignId('nationality_id')->nullable()->constrained('nationalities');
             $table->string('uas_user_id')->foreignId('user_id')->constrained()->nullable();
-            $table->timestamps();
-        });
-
-        Schema::enableForeignKeyConstraints();
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
     {
         Schema::dropIfExists('employees');
     }

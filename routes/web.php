@@ -6,12 +6,14 @@ use App\Http\Controllers\Admin\LeaveCrudController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
 use App\Models\Unit as ModelsUnit;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +30,7 @@ use App\Models\Unit as ModelsUnit;
 //     return redirect(route('backpack.dashboard'));
 // });
 Route::redirect('/','/home');
-Route::get('/dashboard', function () {
-     return view('dashboard');
-})->name('dashboard');
+Route::redirect('/admin/login','/login');
 // Registration Routes...
 // Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
 // Route::post('admin/register', [AuthController::class,'register']);
@@ -47,6 +47,9 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::get('/home',[EmployeeController::class,'home'])->name('home')->middleware(['admin']);
+Route::get('import_page',[EmployeeController::class,'importPage']);
+Route::post('import',[EmployeeController::class,'import']);
 Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
