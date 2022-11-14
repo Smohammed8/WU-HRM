@@ -50,6 +50,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
+
 /**
  * Class EmployeeCrudController
  * @package App\Http\Controllers\Admin
@@ -82,12 +83,12 @@ class EmployeeCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
         $this->crud->setShowView('employee.show');
-       // $this->crud->enableAjaxTable();
+        // $this->crud->enableAjaxTable();
         $this->crud->enableDetailsRow();
-
     }
 
-    public function showDetailsRow($id) {
+    public function showDetailsRow($id)
+    {
 
 
         $this->crud->hasAccessOrFail('details_row');
@@ -95,7 +96,7 @@ class EmployeeCrudController extends CrudController
         $this->data['entry'] = $this->crud->getEntry($id);
         $this->data['crud'] = $this->crud;
 
-       // return view($this->crud->getDetailsRowView(), $this->data);
+        // return view($this->crud->getDetailsRowView(), $this->data);
         return view('crud::details_row', $this->data);
     }
 
@@ -112,29 +113,28 @@ class EmployeeCrudController extends CrudController
 
 
 
-       // $this->crud->enableAjaxTable();
-       // $this->crud->filters();
+        // $this->crud->enableAjaxTable();
+        // $this->crud->filters();
         $this->crud->enableDetailsRow();
         // NOTE: you also need to do allow access to the right users:
         $this->crud->allowAccess('details_row');
         // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
-       $this->crud->setDetailsRowView('details_row');
+        $this->crud->setDetailsRowView('details_row');
 
 
-      //  $this->crud->denyAccess('show');
-       $this->crud->enableExportButtons();
-       //$this->crud->enablePersistentTable();
-       $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
-       //$this->crud->disablePersistentTable();
+        //  $this->crud->denyAccess('show');
+        $this->crud->enableExportButtons();
+        //$this->crud->enablePersistentTable();
+        $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
+        //$this->crud->disablePersistentTable();
         $this->crud->denyAccess('delete');
 
         $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
 
-    //  if (!backpack_user()->isAdmin) {
-    //     $this->crud->denyAccess('delete');
-
-    //     }
+        //  if (!backpack_user()->isAdmin) {
+        //     $this->crud->denyAccess('delete');
+        //     }
 
         // CRUD::column('first_name');
         // CRUD::column('father_name');
@@ -219,13 +219,13 @@ class EmployeeCrudController extends CrudController
         );
 
         // column with custom search logic
-$this->crud->addColumn([
-    'name'        => 'slug_or_title',
-    'label'       => 'Title',
-    'searchLogic' => function ($query, $column, $searchTerm) {
-        $query->orWhere('title', 'like', '%'.$searchTerm.'%');
-    }
-]);
+        $this->crud->addColumn([
+            'name'        => 'slug_or_title',
+            'label'       => 'Title',
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhere('title', 'like', '%' . $searchTerm . '%');
+            }
+        ]);
 
 
 
@@ -259,17 +259,17 @@ $this->crud->addColumn([
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud->enableTabs();
         $this->crud->enableVerticalTabs();
-       // $this->crud->enableHorizontalTabs();
-      ////////////////////// Tabs //////////////////////
+        // $this->crud->enableHorizontalTabs();
+        ////////////////////// Tabs //////////////////////
         $pi = 'Personal Information';
-        $ci ='Contact Information';
-        $bio ='Bio Information';
-        $address ='Address Information';
-        $job    ='Job Information';
-        $edu    ='Employee Credentials';
-        $other    ='Other Information';
+        $ci = 'Contact Information';
+        $bio = 'Bio Information';
+        $address = 'Address Information';
+        $job    = 'Job Information';
+        $edu    = 'Employee Credentials';
+        $other    = 'Other Information';
         ////////////////////////////////////////////////
-       CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
+        CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
 
         CRUD::field('first_name')->size(6)->tab($pi);
         CRUD::field('father_name')->size(6)->tab($pi);
@@ -278,8 +278,8 @@ $this->crud->addColumn([
         CRUD::field('date_of_birth')->size(6)->tab($pi);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
 
-         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
-         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
+        CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
+        CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
 
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
@@ -298,9 +298,7 @@ $this->crud->addColumn([
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('rfid')->size(4)->type('number')->tab($other);
-         CRUD::field('pention_number')->type('number')->size(6)->tab($other);
-
-
+        CRUD::field('pention_number')->type('number')->size(6)->tab($other);
     }
 
     /**
@@ -314,16 +312,16 @@ $this->crud->addColumn([
 
         $this->crud->enableTabs();
         $this->crud->enableVerticalTabs();
-       // $this->crud->enableHorizontalTabs();
+        // $this->crud->enableHorizontalTabs();
 
         $pi = 'Personal Information';
-        $ci ='Contact Information';
-        $bio ='Bio Information';
-        $address ='Address Information';
-        $job    ='Job Information';
-        $edu    ='Employee Credentials';
+        $ci = 'Contact Information';
+        $bio = 'Bio Information';
+        $address = 'Address Information';
+        $job    = 'Job Information';
+        $edu    = 'Employee Credentials';
 
-       CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
+        CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
 
         CRUD::field('first_name')->size(6)->tab($pi);
         CRUD::field('father_name')->size(6)->tab($pi);
@@ -332,8 +330,8 @@ $this->crud->addColumn([
         CRUD::field('date_of_birth')->size(6)->tab($pi);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
 
-         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
-         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
+        CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
+        CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
 
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
@@ -461,11 +459,11 @@ $this->crud->addColumn([
 
 
 
-        $evalutionCreterias=  EvalutionCreteria::orderBy('id', 'desc')->Paginate(10);
+        $evalutionCreterias =  EvalutionCreteria::orderBy('id', 'desc')->Paginate(10);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
 
-        $evaluation_levels=  EvaluationLevel::orderBy('id', 'desc')->Paginate(10);
+        $evaluation_levels =  EvaluationLevel::orderBy('id', 'desc')->Paginate(10);
         $this->data['evaluation_levels'] = $evaluation_levels;
 
 
@@ -505,7 +503,7 @@ $this->crud->addColumn([
         $this->data['quarters'] = $quarters;
 
 
-        $employeeEvaluations= EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
+        $employeeEvaluations = EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeEvaluations'] = $employeeEvaluations;
 
         $evaluations = Evaluation::orderBy('id', 'desc')->Paginate(4);
@@ -525,11 +523,11 @@ $this->crud->addColumn([
 
 
 
- /////////// Laraevl count ////////////////////////
-     //   $employee = Employee::where('id', '<=', 100)->get();
-     //   $totalEmployee = $employee->count();
+        /////////// Laraevl count ////////////////////////
+        //   $employee = Employee::where('id', '<=', 100)->get();
+        //   $totalEmployee = $employee->count();
 
-      //  $totalRows  = $this->crud->count();
+        //  $totalRows  = $this->crud->count();
 
 
         // $evs = Evaluation::where('employee_id',$this->crud->getCurrentEntryId())->limit(3)->get();
@@ -545,7 +543,4 @@ $this->crud->addColumn([
         // and we plan to change behaviour in the next version; see this Github issue for more details
         // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
-
-
-
 }
