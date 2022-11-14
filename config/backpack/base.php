@@ -42,7 +42,6 @@ return [
 
     // CSS files that are loaded in all pages, using Laravel's asset() helper
     'styles' => [
-        'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
         // 'packages/backpack/base/css/blue-bundle.css', // has primary color blue
 
         // Here's what's inside the bundle:
@@ -51,6 +50,10 @@ return [
         // 'packages/noty/noty.css',
 
         // Load the fonts separately (so that you can replace them at will):
+        //Here is one
+        // 'nassets/css/fontawesome/all.min.css',
+        // 'nassets/css/adminlte.min.css'
+        'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
         'packages/source-sans-pro/source-sans-pro.css',
         'packages/line-awesome/css/line-awesome.min.css',
 
