@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SkillRequest;
+use App\Models\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -21,19 +22,20 @@ class SkillCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\Skill::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/skill');
+        $employeeId = \Route::current()->parameter('employee');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/skill');
         CRUD::setEntityNameStrings('skill', 'skills');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -48,22 +50,22 @@ class SkillCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
     protected function setupCreateOperation()
     {
+        $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(SkillRequest::class);
-
-        CRUD::field('employee_id');
-        CRUD::field('skill_type_id');
+        CRUD::field('employee_id')->type('hidden')->value($employeeId);
+        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name');
         CRUD::field('name');
         CRUD::field('level');
         CRUD::field('description');
@@ -71,13 +73,13 @@ class SkillCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

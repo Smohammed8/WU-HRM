@@ -27,6 +27,7 @@ Route::group([
     Route::crud('{employee}/employee-contact', 'EmployeeContactCrudController');
     Route::crud('{employee}/employee-family', 'EmployeeFamilyCrudController');
     Route::crud('{employee}/employee-language', 'EmployeeLanguageCrudController');
+    Route::crud('{employee}/skill', 'SkillCrudController');
     Route::crud('employee-title', 'EmployeeTitleCrudController');
     Route::crud('employment-status', 'EmploymentStatusCrudController');
     Route::crud('employment-type', 'EmploymentTypeCrudController');
@@ -46,7 +47,6 @@ Route::group([
     Route::crud('pension', 'PensionCrudController');
     Route::crud('region', 'RegionCrudController');
     Route::crud('religion', 'ReligionCrudController');
-    Route::crud('skill', 'SkillCrudController');
     Route::crud('skill-type', 'SkillTypeCrudController');
     Route::crud('{employee}/training-and-study', 'TrainingAndStudyCrudController');
     Route::crud('unit', 'UnitCrudController');
