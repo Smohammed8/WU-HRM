@@ -18,8 +18,8 @@ class IDController extends Controller
         } else {
             $role_left = '35px';
         }
-        // dd(public_path('/storage/employee/photo/01f390d29edc0343c47291819ef511c9.jpg'));
         $img = explode('photo//', $employee->photo)[1];
+        // dd(public_path('storage/employee/photo/'.$img));
         $qrcode = $request->get('qrValue');
         $barcode = $request->get('barValue');
         $pdf = Pdf::loadView('ID.printID', compact('employee', 'qrcode', 'barcode', 'role_left', 'img'))->setPaper('a4', 'landscape');
