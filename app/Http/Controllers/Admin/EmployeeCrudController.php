@@ -35,6 +35,7 @@ use App\Models\Misconduct;
 use App\Models\Nationality;
 use App\Models\Promotion;
 use App\Models\SalaryIncreament;
+use App\Models\Skill;
 use App\Models\TrainingAndStudy;
 use App\Models\TypeOfMisconduct;
 use App\Models\Unit;
@@ -89,13 +90,10 @@ class EmployeeCrudController extends CrudController
 
     public function showDetailsRow($id)
     {
-
-
         $this->crud->hasAccessOrFail('details_row');
         $id = $this->crud->getCurrentEntryId() ?? $id;
         $this->data['entry'] = $this->crud->getEntry($id);
         $this->data['crud'] = $this->crud;
-
         // return view($this->crud->getDetailsRowView(), $this->data);
         return view('crud::details_row', $this->data);
     }
@@ -109,10 +107,6 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
-
-
-
         // $this->crud->enableAjaxTable();
         // $this->crud->filters();
         $this->crud->enableDetailsRow();
@@ -438,6 +432,7 @@ class EmployeeCrudController extends CrudController
 
     protected function setupShowOperation()
     {
+        $employeeId = $this->crud->getCurrentEntryId();
         $licenses = License::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
@@ -457,8 +452,8 @@ class EmployeeCrudController extends CrudController
         $trainingAndStudies = TrainingAndStudy::orderBy('id', 'desc')->Paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
 
-
-
+        $employeeSkills = Skill::where('employee_id',$employeeId)->paginate(10);
+        $this->data['employeeSkills'] = $employeeSkills;
         $evalutionCreterias =  EvalutionCreteria::orderBy('id', 'desc')->Paginate(10);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
