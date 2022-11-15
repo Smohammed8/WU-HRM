@@ -305,8 +305,8 @@ class EmployeeCrudController extends CrudController
     {
 
         $this->crud->enableTabs();
-        $this->crud->enableVerticalTabs();
-        // $this->crud->enableHorizontalTabs();
+        // $this->crud->enableVerticalTabs();
+        $this->crud->enableHorizontalTabs();
 
         $pi = 'Personal Information';
         $ci = 'Contact Information';
@@ -326,6 +326,7 @@ class EmployeeCrudController extends CrudController
 
         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
+        CRUD::field('uas_user_id')->tab($edu)->size(3);
 
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);

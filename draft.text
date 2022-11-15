@@ -227,6 +227,11 @@ models:
         employee_id: id foreign
         evalution_creteria_id: id foreign
         evaluation_level_id: id foreign
+    Evaluation:
+        employee_id: id foreign
+        quarter_id: id foreign
+        total_mark: integer
+        created_by_id: id foreign:users
 #////////////////////////////////////////////
     TypeOfLeave:
          name: string:100
@@ -305,11 +310,6 @@ models:
         created_by_id: id foreign:users
         reason_of_demotion: text nullable
 
-    Evaluation:
-        employee_id: id foreign
-        quarter_id: id foreign
-        total_mark: integer
-        created_by_id: id foreign:users
     Quarter:
         name: string
         start_date: date
