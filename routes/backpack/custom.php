@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IDController;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -87,4 +88,5 @@ Route::group([
     Route::crud('template', 'TemplateCrudController');
     Route::crud('template-type', 'TemplateTypeCrudController');
     Route::get('charts/weekly-users', 'Charts\WeeklyUsersChartController@response')->name('charts.weekly-users.index');
+    Route::post('/IDdownload', [IDController::class, 'idDownload'])->name('id.download');
 });

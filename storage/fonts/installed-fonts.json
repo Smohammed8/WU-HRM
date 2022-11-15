@@ -1,0 +1,37 @@
+{
+    "poppins": {
+        "300": "poppins_300_999a4088f0da952988730996a4bec1d8",
+        "normal": "poppins_normal_ee697d7869cb745ccf3ccccc013145ad",
+        "500": "poppins_500_fce53b208cddccda1573b7620b579598",
+        "600": "poppins_600_9623fbc18c38938c2057a9aae8390a42",
+        "bold": "poppins_bold_8fe618268f56b4b8f1e70e87a9e99fc0"
+    },
+    "ethiopian": {
+        "normal": "ethiopian_normal_dbf0ddab39b46add93e133b5da6da493"
+    },
+    "ethiopian12": {
+        "normal": "ethiopian12_normal_e884b6c3f344f8ccf46067bf5b307504"
+    },
+    "noto serif ethiopic": {
+        "bold": "noto_serif_ethiopic_bold_3e107f140284c59430d9e92f24eaae2c"
+    },
+    "roboto serif": {
+        "bold": "roboto_serif_bold_b6b8e73687041fe636da5add17d24802"
+    },
+    "eb garamond": {
+        "italic": "eb_garamond_italic_6bbcb5be4bf04976e74ac97c01be906a",
+        "500_italic": "eb_garamond_500_italic_8ae7b82e4913290ed94202d39f425a7b",
+        "600_italic": "eb_garamond_600_italic_f26d6d77cc526b4d770632f305354e71",
+        "bold_italic": "eb_garamond_bold_italic_a8915946df1b3205f2f76932462cf7bd",
+        "800_italic": "eb_garamond_800_italic_2d14f1f9630d4bc7f465eba5c5463d09",
+        "normal": "eb_garamond_normal_c386c0ef1b9a2052438d05906c36d6d0",
+        "500": "eb_garamond_500_b6cdc43d284d921fe81b4c31e065ec09",
+        "600": "eb_garamond_600_0e201eb43f987d908733af26aef57a7c",
+        "bold": "eb_garamond_bold_6bfc0307abe75fa91f3ad969c021a8f3",
+        "800": "eb_garamond_800_7594508911ad3b63c09be09193a1cdbd"
+    },
+    "droid sans ethiopic": {
+        "normal": "droid_sans_ethiopic_normal_94f3eb64161a37bcbbbad13223d4f011",
+        "bold": "droid_sans_ethiopic_bold_ea5214179bb6f5cd705c0573b934ed7c"
+    }
+}

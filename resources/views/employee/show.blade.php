@@ -19,6 +19,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 <link rel="stylesheet" href="{{ asset('assets/calendar/css/redmond.calendars.picker.css')}}" />
 
 
+
 @section('header')
 <section class="container-fluid d-print-none">
 
@@ -47,6 +48,17 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
         class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-arrow-up"></i> Promotion</button>
     <button type="button" data-toggle="modal" data-target="#demotion" target="_self"
         class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la la-arrow-down"></i> Demotion</button>
+        <form method="POST" id="myForm" action="{{ route('id.download') }}">
+            @csrf
+            <input type="hidden" id="htmlValue" value="{{ $crud->entry?->id }}" name="user_id">
+            <input type="hidden" id="qrValue" name="qrValue">
+            <input type="hidden" id="barValue" name="barValue">
+        </form>
+
+        <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
+            <i class="la la-exclamation-circle"></i>
+            Print ID
+        </a>
     {{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i
             class="la la-print"></i></a> --}}
 
@@ -60,6 +72,51 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
         @endif
     </h2>
 </section>
+
+<script src="{{ asset('assets/js/qrcode.min.js') }}"></script>
+<script src="{{ asset('assets/js/JsBarcode.all.min.js') }}"></script>
+<script>
+    var DATAS = [];
+    var obj = [];
+    var objBarCode = [];
+    function printID(){
+        var id_number = '12345';
+        var div__qr_img = document.createElement("div");
+
+        var div__qr_img_2 = document.createElement("div");
+
+        var qrcode = new QRCode(div__qr_img, {
+            text: id_number,
+            width: 130,
+            height: 130,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H,
+        });
+        
+        var img = qrcode._el.children[1];
+        var src = div__qr_img.children[0].toDataURL("image/png");
+
+        var div__bar_img = document.createElement("img");
+
+        JsBarcode(div__bar_img, id_number, {
+            lineColor: "black",
+            width: 1.5,
+            height:20,
+            displayValue: true,
+            fontSize: "13px",
+            textPosition: "top"
+        });
+        // JsBarcode(div__bar_img)
+        //     .options({font: "OCR-B", displayValue: false, width:5, height: 50})
+        //     .EAN5(kebele_resident.id+"2015", {fontSize: 20, textMargin: 0})
+        //     .render();
+        
+        document.getElementById('qrValue').value = src;
+        document.getElementById('barValue').value = div__bar_img.src;
+        document.getElementById("myForm").submit();
+    }
+</script>
 @endsection
 
 @section('content')
