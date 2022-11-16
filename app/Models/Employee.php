@@ -221,6 +221,11 @@ class Employee extends  Model
         return $this->belongsTo(EmploymentType::class);
     }
 
+    public function employmentCategory()
+    {
+        return $this->belongsTo(EmployeeCategory::class,'employee_category_id');
+    }
+
     public function employmentStatus()
     {
         return $this->belongsTo(EmploymentStatus::class);

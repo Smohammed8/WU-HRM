@@ -8,6 +8,7 @@ use App\Http\Requests\EmployeeRequest;
 use App\Models\Demotion;
 use App\Models\Employee;
 use App\Models\EmployeeAddress;
+use App\Models\EmployeeCategory;
 use App\Models\EmployeeCertificate;
 use App\Models\EmployeeContact;
 use App\Models\EmployeeEvaluation;
@@ -271,6 +272,9 @@ class EmployeeCrudController extends CrudController
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('date_of_birth')->size(6)->tab($pi);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
+        CRUD::field('first_name_am')->label('የመጀመሪያ ስም')->size(6)->tab($pi);
+        CRUD::field('father_name_am')->label('የአባት ስም')->size(6)->tab($pi);
+        CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
 
         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
@@ -290,9 +294,12 @@ class EmployeeCrudController extends CrudController
         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('name')->size(6)->tab($address);
         CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
+
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('rfid')->size(4)->type('number')->tab($other);
         CRUD::field('pention_number')->type('number')->size(6)->tab($other);
+
     }
 
     /**
@@ -323,6 +330,9 @@ class EmployeeCrudController extends CrudController
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('date_of_birth')->size(6)->tab($pi);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
+        CRUD::field('first_name_am')->label('የመጀመሪያ ስም')->size(6)->tab($pi);
+        CRUD::field('father_name_am')->label('የአባት ስም')->size(6)->tab($pi);
+        CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
 
         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
@@ -350,6 +360,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
 
+        CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
 
         // CRUD::field('employeeAddresses')
         // ->type('repeatable')
