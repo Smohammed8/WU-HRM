@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants;
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
 use App\Http\Controllers\Admin\LeaveCrudController;
@@ -26,12 +27,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return redirect(route('backpack.dashboard'));
-// });
-Route::redirect('/','/home');
+Route::get('/', function () {
+    if(!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)){
+        return redirect(route('dashboard'));
+    }
+    return redirect(route('home'));
+});
 Route::redirect('/admin/login','/home');
-Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+// Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 // Route::redirect('/admin/login','/login');
 // Registration Routes...
 // Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
@@ -43,7 +46,7 @@ Route::get('/home',[EmployeeController::class,'home'])->name('home')->middleware
 Route::get('import_page',[EmployeeController::class,'importPage']);
 Route::post('import',[EmployeeController::class,'import']);
 Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
-Route::post('/login_action',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
+Route::post('/login',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);
 // Route::resource('leave', LeaveCrudController::class);

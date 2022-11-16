@@ -44,10 +44,11 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             backpack_auth()->login($user);
-            if ($user->can([Constants::PERMISSION_DASHBOARD])) {
-                return redirect()->route('dashboard');
-            } else {
+            // dd($user->hasRole(Constants::USER_TYPE_EMPLOYEE));
+            if ($user->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
                 return redirect()->route('home');
+            } else {
+                return redirect()->route('dashboard');
             }
         }
         throw ValidationException::withMessages(['username'=>'Incorrect credential']);

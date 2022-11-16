@@ -153,8 +153,8 @@
     </a>
     <ul class="nav-dropdown-items">
 
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-evaluation') }}'><i
-                    class='nav-icon la la-caret-right'></i> Evaluation Result</a></li>
+        {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-evaluation') }}'><i
+                    class='nav-icon la la-caret-right'></i> Evaluation Result</a></li> --}}
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-category') }}'><i
                     class='nav-icon la la-caret-right'></i> Evaluation category</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-level') }}'><i
@@ -162,8 +162,8 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evalution-creteria') }}'><i
                     class='nav-icon la la-caret-right'></i> Evalution creterias</a></li>
 
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i
-                    class='nav-icon la la-caret-right'></i> Evaluations</a></li>
+        {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i
+                    class='nav-icon la la-caret-right'></i> Evaluations</a></li> --}}
 
 
     </ul>

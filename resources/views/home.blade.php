@@ -1,9 +1,17 @@
-@extends(backpack_view('blank'))
+@extends('backpack::layouts.plain')
 @section('content')
     <div class="row">
         <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h4> Welcome {{ $user?->name }} </h4>
+                    {{-- <form action="/logout" method="POST"> --}}
+                        @csrf
+                        <a href="/logout" class="">Logout</a>
+                    {{-- </form> --}}
+                </div>
+            </div>
             <div class="card-body">
-                <h4> Welcome {{ $user ?? ''->name }} </h4>
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
                         <img src="{{ $employee->photo }}" alt="profile Pic" height="160" width="150">
@@ -77,7 +85,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row justify-content-between">
-                            <div class="col-md-12 d-flex justify-content-between" >
+                            <div class="col-md-12 d-flex justify-content-between">
                                 <div class="col-md-5">
                                     <select name="" id="" class="form-control select2">
                                         <option value="">Abdi</option>

@@ -19,11 +19,11 @@ class EmployeeController extends Controller
 
     public function home()
     {
-        if(backpack_auth()->check()){
+        if(!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)){
             return redirect(route('dashboard'));
         }
         $user = Auth::user();
-        $employee = Employee::where('uas_user_id', $user->id);
+        $employee = Employee::where('uas_user_id', $user->username)->get();
         if ($employee->count() == 0) {
             Auth::logout();
             return abort(405, 'Please you have no employee profile contact admin');
