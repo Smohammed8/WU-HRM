@@ -253,8 +253,8 @@ class EmployeeCrudController extends CrudController
         CRUD::setValidation(EmployeeRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud->enableTabs();
-        $this->crud->enableVerticalTabs();
-        // $this->crud->enableHorizontalTabs();
+        // $this->crud->enableVerticalTabs();
+        $this->crud->enableHorizontalTabs();
         ////////////////////// Tabs //////////////////////
         $pi = 'Personal Information';
         $ci = 'Contact Information';
