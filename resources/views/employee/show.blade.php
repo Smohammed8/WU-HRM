@@ -93,7 +93,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H,
         });
-        
+
         var img = qrcode._el.children[1];
         var src = div__qr_img.children[0].toDataURL("image/png");
 
@@ -111,7 +111,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
         //     .options({font: "OCR-B", displayValue: false, width:5, height: 50})
         //     .EAN5(kebele_resident.id+"2015", {fontSize: 20, textMargin: 0})
         //     .render();
-        
+
         document.getElementById('qrValue').value = src;
         document.getElementById('barValue').value = div__bar_img.src;
         document.getElementById("myForm").submit();
@@ -188,8 +188,8 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                                 <label for="">{{ $crud->entry?->blood_group }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <label for=""><b>Alternate email : </b></label>
-                                <label for="">{{ $crud->entry?->alternate_email }}</label>
+                                <label for=""><b>Email : </b></label>
+                                <label for="">{{ $crud->entry->email }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Age : </b></label>
@@ -207,7 +207,8 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
                             <div class="d-flex justify-content-between">
                                 <label for=""><b> Gross Salary : </b></label>
-                                <label for=""> ETB {{ number_format($crud->entry?->static_salary,2) }}</label>
+                                <label for=""> ETB {{ $crud->entry->level->name}}</label>
+                                {{-- <label for=""> ETB {{ number_format($crud->entry->salaryStep->jobGrade->start_salary,2) }}</label> --}}
                             </div>
 
 
@@ -871,159 +872,14 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
     </div>
 </div>
 @endsection
-<!-- //////////////////////// Eficieny Modal  ///////////////////////////// -->
-<div class="modal fade modal-fullscreen" id="efficiency" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-full" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud->entry?->name }} </h6>
-                <div class="row">
-                    <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse"
-                        href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        <span aria-hidden="true"> <i class="la la-plus"></i> Add new </span>
-                    </a>
+<!--- //////////////// Includes ////////////////////////--->
+@include('/employee.promtion')
+@include('/employee.demotion')
+@include('/employee.leave')
+@include('/employee.misconduct')
+@include('/employee.efficiency')
+@include('/employee.attendance')
 
-                    <button type="button" class="btn  btn-sm btn-outline-primary pull-right mr-1" data-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true"> <i class="la la-times"></i> Close </span>
-                    </button>
-
-                    <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right mr-1"><i
-                            class="la la-print"></i> Print</a>
-
-
-                </div>
-
-            </div>
-
-            <style>
-                table,
-                tr,
-                td {
-                    line-height: 5px;
-
-                }
-            </style>
-            <!-------- //////////////////////////// -->
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    <!--- ////////////////////// Evalution form ----------->
-                    <form action="{{ route('employeeEvaluation.create', []) }}" method="GET">
-                        @csrf
-
-
-                        <table class="table table-hover" cellpadding="0" cellspacing="0">
-                            <thead>
-
-                                <tr style="background-color: lightblue">
-                                    <th>#</th>
-                                    <th> Employee Evalution Criteria</th>
-                                    <th> Evaluation Levels </th>
-
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                <input type="hidden" name="employee" value="{{$crud->entry?->id }}">
-
-                                @foreach ($evalutionCreterias as $evalutionCreteria)
-
-                                {{-- <input type="hidden" name="evalution[]" value="{{  $evalutionCreteria->id }}"> --}}
-
-
-                                <tr>
-                                    <td> {{$loop->index+1}} </td>
-                                    <td>
-                                        <input name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" />
-
-                                        {{ $evalutionCreteria->name }} [ {{ $evalutionCreteria->percent}}]
-                                    </td>
-
-                                    <td>
-
-                                        <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="4"
-                                            required /> Excellent(4) &nbsp;
-                                        <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="3"
-                                            required /> Very good(3) &nbsp;
-                                        <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="2"
-                                            required /> Good(2) &nbsp;
-                                        <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="1"
-                                            required /> Poor(1) &nbsp;
-                                    </td>
-
-                                </tr>
-                                @endforeach
-                                @if(count($employeeEvaluations)==0)
-                                <tr>
-                                    <td colspan="7" class="text-center">No evaluations </td>
-                                </tr>
-                                @endif
-                            </tbody>
-
-                        </table>
-                        <button type="submit" name="save" class="btn  btn-sm btn-primary float-right mr-1"> <i
-                                class="la la-plus"> </i>Save </button>
-                    </form>
-
-
-                </div>
-            </div>
-
-            <!-- ///////////////////////////////////////////////--->
-            <div class="modal-body">
-                <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
-                    cellspacing="0">
-                    <thead>
-                        <tr>
-
-                            <th> Evalution Criteria</th>
-                            <th> Evalution level </th>
-                            <th>Recorded by</th>
-                            <th>Obtained Mark</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach ($employeeEvaluations as $employeeEvaluation)
-                        <tr>
-
-                            <td>{{ $employeeEvaluation->evalutionCreteria->name }}( {{
-                                $employeeEvaluation->evalutionCreteria->percent }})</td>
-                            <td>{{ $employeeEvaluation->evaluationLevel->name }}({{
-                                $employeeEvaluation->evaluationLevel->weight }})</td>
-                            <td>{{ 'Hailu Chamir' }}</td>
-                            <td>{{ $employeeEvaluation->evaluationLevel->weight *
-                                $employeeEvaluation->evalutionCreteria->percent }} </td>
-                            <td>{{ $employeeEvaluation->created_at }}</td>
-
-
-
-                            <td>
-                                <a href="" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                <a href="javascript:void(0)" onclick="" class="btn btn-sm btn-link"
-                                    data-button-type="delete"><i class="la la-trash"></i> {{
-                                    trans('backpack::crud.delete') }}</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @if(count($employeeEvaluations)==0)
-                        <tr>
-                            <td colspan="7" class="text-center">No employee evaluation found</td>
-                        </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-
-
-        </div>
-    </div>
-</div>
-<!---- //////////////////////////////////////////////////////////// -->
 @section('after_styles')
 <link rel="stylesheet"
     href="{{ asset('packages/backpack/crud/css/crud.css').'?v='.config('backpack.base.cachebusting_string') }}">

@@ -36,6 +36,11 @@ Route::get('/', function () {
 Route::redirect('/admin/login','/home');
 // Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 // Route::redirect('/admin/login','/login');
+// Route::get('/', function () {
+//     return redirect(route('backpack.dashboard'));
+// });
+Route::redirect('/','/home');
+Route::redirect('/admin/login','/login');
 // Registration Routes...
 // Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
 // Route::post('admin/register', [AuthController::class,'register']);
