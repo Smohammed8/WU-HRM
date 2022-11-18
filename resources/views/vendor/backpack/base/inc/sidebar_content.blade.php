@@ -121,12 +121,12 @@
 
 
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('minimum-requirement') }}'><i
-            class='nav-icon la la-question'></i> Min requirements</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('minimum-requirement') }}'><i
+            class='nav-icon la la-question'></i> Min requirements</a></li> --}}
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
             class='nav-icon la la-question'></i> Positions</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('related-work') }}'><i
-            class='nav-icon la la-question'></i> Related works</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('related-work') }}'><i
+            class='nav-icon la la-question'></i> Related works</a></li> --}}
 
 
 

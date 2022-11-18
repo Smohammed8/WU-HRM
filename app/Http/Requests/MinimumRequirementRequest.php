@@ -25,7 +25,11 @@ class MinimumRequirementRequest extends FormRequest
     public function rules()
     {
         return [
-            'related_jobs' => 'required|'
+            'related_jobs' => 'nullable|',
+            'experience' => 'required',
+            'educational_level_id' => 'required',
+            'minimum_efficeny' => 'required',
+            'minimum_employee_profile_value' => 'required',
         ];
     }
 

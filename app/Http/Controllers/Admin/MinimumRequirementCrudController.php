@@ -17,7 +17,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class MinimumRequirementCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -148,13 +148,16 @@ class MinimumRequirementCrudController extends CrudController
             $this->crud->getStrippedSaveRequest()
         );
         $this->data['entry'] = $this->crud->entry = $item;
-        $relatedJobs = $this->crud->getStrippedSaveRequest()['related_jobs'];
-        foreach ($relatedJobs as $relatedJob) {
-            if (RelatedWork::where('minimum_requirement_id', $this->crud->entry->id)->where('job_title_id', $relatedJob)->count() == 0)
-                RelatedWork::create([
-                    'minimum_requirement_id' => $item->id,
-                    'job_title_id' => $relatedJob,
-                ]);
+        if (array_key_exists('related_jobs', $this->crud->getStrippedSaveRequest())) {
+            $relatedJobs = $this->crud->getStrippedSaveRequest()['related_jobs'];
+
+            foreach ($relatedJobs as $relatedJob) {
+                if (RelatedWork::where('minimum_requirement_id', $this->crud->entry->id)->where('job_title_id', $relatedJob)->count() == 0)
+                    RelatedWork::create([
+                        'minimum_requirement_id' => $item->id,
+                        'job_title_id' => $relatedJob,
+                    ]);
+            }
         }
         // show a success message
         \Alert::success(trans('backpack::crud.update_success'))->flash();

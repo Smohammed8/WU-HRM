@@ -68,7 +68,7 @@ class InternalExperienceCrudController extends CrudController
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('unit_id')->size(6);
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
-        CRUD::field('position')->size(6);
+        // CRUD::field('position')->size(6);
         CRUD::field('start_date')->size(6);
         CRUD::field('end_date')->size(6);
         $this->data['breadcrumbs']=[

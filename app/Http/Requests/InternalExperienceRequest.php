@@ -30,7 +30,7 @@ class InternalExperienceRequest extends FormRequest
             'employee_id'  => 'required',
            // 'unit_id' => 'required',
             'job_title_id' => 'required',
-            'position'=>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
+            // 'position'=>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
             'start_date' => 'required|date',
            // 'end_date' => 'required|date'
         ];

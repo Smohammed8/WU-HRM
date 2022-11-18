@@ -28,9 +28,13 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
+    if(!backpack_user()){
+        return redirect('logout');
+    }
     if(!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)){
         return redirect(route('dashboard'));
     }
+    dd('sd');
     return redirect(route('home'));
 });
 Route::redirect('/admin/login','/home');

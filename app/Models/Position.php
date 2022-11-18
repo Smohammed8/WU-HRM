@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Position extends Model
 {
@@ -42,6 +43,16 @@ class Position extends Model
     public function jobTitle()
     {
         return $this->belongsTo(JobTitle::class);
+    }
+
+    /**
+     * Get all of the minimumRequirements for the Position
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function minimumRequirements(): HasMany
+    {
+        return $this->hasMany(MinimumRequirement::class);
     }
 
 }
