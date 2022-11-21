@@ -34,7 +34,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'username'=>['required'],
-            'password' => ['required','min:8']
+            'password' => ['required','min:3']
         ]);
 
         if(Auth::check() || backpack_auth()->check()){
@@ -47,7 +47,8 @@ class AuthController extends Controller
             // dd($user->hasRole(Constants::USER_TYPE_EMPLOYEE));
             if ($user->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
                 return redirect()->route('home');
-            } else {
+            }
+            else {
                 return redirect()->route('dashboard');
             }
         }

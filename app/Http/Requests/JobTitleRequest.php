@@ -29,6 +29,7 @@ class JobTitleRequest extends FormRequest
 
             'name'  => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50',
             'description' =>'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',
+            'vacant_post'=> 'required|numeric|min:1|max:100',
             'job_title_category_id'  => 'required',
         ];
     }

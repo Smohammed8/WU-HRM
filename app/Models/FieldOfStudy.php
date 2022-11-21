@@ -28,8 +28,15 @@ class FieldOfStudy extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'educational_level_id' => 'integer',
+        'educational_level_id' => 'integer'
     ];
+
+public function jobTitle()
+{
+    return $this->belongsToMany(\App\Models\JobTitle::class)
+                ->withPivot('job_title_id', 'Field_fo_study_id');
+}
+
 
     public function educationalLevel()
     {

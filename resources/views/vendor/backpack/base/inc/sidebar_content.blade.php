@@ -1,7 +1,6 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
-{{--
 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-home nav-icon"></i>
-        Home </a></li> --}}
+        Home </a></li>
 
 <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
         {{ trans('backpack::base.dashboard') }}</a>
