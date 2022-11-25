@@ -66,11 +66,12 @@ class PositionCrudController extends CrudController
     {
         CRUD::setValidation(PositionRequest::class);
 
-        CRUD::field('unit_id');
-        CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name');
-        CRUD::field('total_employees');
-        CRUD::field('available_for_placement');
-        CRUD::field('status')->type('select_from_array')->options(Constants::POSITION_STATUS);
+        CRUD::field('unit_id')->size(6);
+        CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+        CRUD::field('total_employees')->label('No of vacant posts')->size(6);
+        CRUD::field('position_available_for_placement')->label('No of available for placement')->size(6);
+        CRUD::field('available_for_placement')->value(true)->size(6);
+        // CRUD::field('status')->type('select_from_array')->options(Constants::POSITION_STATUS)->size(6);
 
         /**
          * Fields can be d(efined using the fluent syntax or array syntax:

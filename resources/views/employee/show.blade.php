@@ -207,7 +207,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
                             <div class="d-flex justify-content-between">
                                 <label for=""><b> Gross Salary : </b></label>
-                                <label for=""> ETB {{ $crud->entry->level->name}}</label>
+                                <label for=""> ETB {{ $crud->entry->level?->name}}</label>
                                 {{-- <label for=""> ETB {{ number_format($crud->entry->salaryStep->jobGrade->start_salary,2) }}</label> --}}
                             </div>
 
@@ -354,7 +354,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                             @foreach ($employeeSkills as $employeeSkill)
                             <tr>
                                 <td>{{ $employeeSkill?->skillType?->name }}</td>
-                                <td>{{ $employeeSkill->name }}</td>
+                                <td>{{ $employeeSkill?->name }}</td>
                                 <td>{{ $employeeSkill->level }}</td>
                                 <td>
                                     <a href="{{ route('{employee}/skill.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeSkill->id]) }}"
@@ -447,7 +447,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($employeeAddresses as $employeeAddress)
                             <tr>
-                                <td>{{ $employeeAddress->name }}</td>
+                                <td>{{ $employeeAddress?->name }}</td>
                                 <td>{{ $employeeAddress->address_type }}</td>
                                 <td>
                                     <a href="{{ route('{employee}/employee-address.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeAddress->id]) }}"
@@ -492,7 +492,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($employeeLicenses as $employeeLicence)
                             <tr>
-                                <td>{{ $employeeLicence->licenseType->name }}</td>
+                                <td>{{ $employeeLicence->licenseType?->name }}</td>
                                 <td><a href="{{ $employeeLicence->license_file }}" target="_blank">Download Document</a>
                                 </td>
                                 <td>
@@ -539,8 +539,8 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($employeeCertificates as $employeeCertificate)
                             <tr>
-                                <td>{{ $employeeCertificate->name }}</td>
-                                <td>{{ $employeeCertificate->skillType->name }}</td>
+                                <td>{{ $employeeCertificate?->name }}</td>
+                                <td>{{ $employeeCertificate->skillType?->name }}</td>
                                 <td>
                                     <a href="{{ route('{employee}/employee-certificate.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeCertificate->id]) }}"
                                         class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
@@ -633,7 +633,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($employeeLanguages as $employeeLanguage)
                             <tr>
-                                <td>{{ $employeeLanguage->language->name }}</td>
+                                <td>{{ $employeeLanguage->language?->name }}</td>
                                 <td>{{ $employeeLanguage->speaking }}</td>
                                 <td>{{ $employeeLanguage->reading }}</td>
                                 <td>{{ $employeeLanguage->writing }}</td>
@@ -682,8 +682,8 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($employeeFamilies as $employeeFamily)
                             <tr>
-                                <td>{{ $employeeFamily->name }}</td>
-                                <td>{{ $employeeFamily->familyRelationship->name }}</td>
+                                <td>{{ $employeeFamily?->name }}</td>
+                                <td>{{ $employeeFamily->familyRelationship?->name }}</td>
                                 <td>{{ $employeeFamily->gender }}</td>
                                 <td>{{ $employeeFamily->dob??'Not Specified' }}</td>
                                 <td>
@@ -732,8 +732,8 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($internalExperiences as $internalExperience)
                             <tr>
-                                <td>{{ $internalExperience->unit->name }}</td>
-                                <td>{{ $internalExperience->jobTitle->name }}</td>
+                                <td>{{ $internalExperience->unit?->name }}</td>
+                                <td>{{ $internalExperience->jobTitle?->name }}</td>
                                 <td>{{ $internalExperience->position }}</td>
                                 <td>{{ $internalExperience->start_date->format('Y/m/d') }}</td>
                                 <td>{{ $internalExperience->end_date->format('Y/m/d') }}</td>
@@ -785,7 +785,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($externalExperiences as $externalExperience)
                             <tr>
-                                <td>{{ $externalExperience->unit->name }}</td>
+                                <td>{{ $externalExperience->unit?->name }}</td>
                                 <td>{{ $externalExperience->job_title }}</td>
                                 <td>{{ $externalExperience->position }}</td>
                                 <td>{{ $externalExperience->start_date->format('Y/m/d') }}</td>
@@ -839,8 +839,8 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($trainingAndStudies as $trainingAndStudy)
                             <tr>
-                                <td>{{ $trainingAndStudy->name }}</td>
-                                <td>{{ $trainingAndStudy->educationalLevel->name }}</td>
+                                <td>{{ $trainingAndStudy?->name }}</td>
+                                <td>{{ $trainingAndStudy->educationalLevel?->name }}</td>
                                 <td>{{ $trainingAndStudy->nationality->label }}</td>
                                 <td>{{ $trainingAndStudy->inistitution }}</td>
                                 <td>{{ $trainingAndStudy->city }}</td>

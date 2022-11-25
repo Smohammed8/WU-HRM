@@ -45,16 +45,16 @@ class JobTitleCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name')->label('የስራመደቡመጠሪያ');
-        CRUD::column('vacant_post')->label('No of positions');
-        CRUD::column('work_experience')->label('Experience');
+        // CRUD::column('vacant_post')->label('No of positions');
+        // CRUD::column('work_experience')->label('Experience');
         CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job grade');
-        CRUD::column('unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name')->label('የስራ መደቡ የሚገኝበት የሥራክፍል');
+        // CRUD::column('unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name')->label('የስራ መደቡ የሚገኝበት የሥራክፍል');
 
        // CRUD::column('field_of_study_id')->type('select')->entity('FieldOfStudy')->model(FieldOfStudy::class)->attribute('name');
         CRUD::column('job_title_category_id')->type('select')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name');
 
-        CRUD::column('description');
+        // CRUD::column('description');
 
 
 
@@ -63,7 +63,6 @@ class JobTitleCrudController extends CrudController
             'name'  => 'job_title_category_id',
             'type'  => 'select2_multiple',
             'label' => 'By job catergory'
-
         ], function () {
             return \App\Models\JobTitleCategory::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
@@ -165,13 +164,13 @@ class JobTitleCrudController extends CrudController
 
         CRUD::field('job_title_category_id')->type('select2')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name')->size(6);
         CRUD::field('name')->label('Job title')->label('የስራመደቡመጠሪያ')->size(6);
-        CRUD::field('vacant_post')->label('No of vacant posts')->size(6);
         CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(6);
+        CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(6);
         CRUD::field('job_code')->label('የመደብ መታወቂያ ቁጥር')->size(6);
         CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(6);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
         CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6);
-        CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
+        // CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
         CRUD::field('description');
          /**
          * Fields can be defined using the fluent syntax or array syntax:

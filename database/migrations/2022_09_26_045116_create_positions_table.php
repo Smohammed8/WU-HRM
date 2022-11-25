@@ -20,8 +20,8 @@ class CreatePositionsTable extends Migration
             $table->foreignId('unit_id')->constrained();
             $table->foreignId('job_title_id')->constrained();
             $table->integer('total_employees');
+            $table->integer('position_available_for_placement')->default(0);
             $table->boolean('available_for_placement')->default(true);
-            $table->integer('status')->default(0);
             $table->timestamps();
         });
 

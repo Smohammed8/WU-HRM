@@ -14,6 +14,7 @@ use Exception;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends  Model
@@ -40,7 +41,7 @@ class Employee extends  Model
     // protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     // protected $historyLimit = 500;   //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
     // protected $revisionForceDeleteEnabled = false; //If you want to store the Force Delete as a revision you can override this behavior by setting revisionForceDeleteEnabled to true
-
+    protected $appends = ['name'];
 
 
 
@@ -71,7 +72,7 @@ class Employee extends  Model
         'unit_id',
         'employement_date',
         'salary_step',
-        'job_title_id',
+        'position_id',
         'employment_type_id',
         'pention_number',
         'employment_status_id',
