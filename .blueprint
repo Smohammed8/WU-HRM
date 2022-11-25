@@ -1,19 +1,19 @@
 created:
-    - database/factories/TemplateTypeFactory.php
-    - database/factories/TemplateFactory.php
-    - database/factories/SalaryScaleFactory.php
-    - database/factories/LevelFactory.php
-    - database/factories/JobGradeFactory.php
-    - database/migrations/2022_10_26_134925_create_template_types_table.php
-    - database/migrations/2022_10_26_134926_create_templates_table.php
-    - database/migrations/2022_10_26_134927_create_salary_scales_table.php
-    - database/migrations/2022_10_26_134928_create_levels_table.php
-    - database/migrations/2022_10_26_134929_create_job_grades_table.php
-    - app/Models/TemplateType.php
-    - app/Models/Template.php
-    - app/Models/SalaryScale.php
-    - app/Models/Level.php
-    - app/Models/JobGrade.php
+    - database/factories/PositionTypeFactory.php
+    - database/factories/PositionRequirementFactory.php
+    - database/factories/PositionValueFactory.php
+    - database/factories/EducationComparisonCriteriaFactory.php
+    - database/factories/ExperienceComparisonCriteriaFactory.php
+    - database/migrations/2022_11_25_122203_create_position_types_table.php
+    - database/migrations/2022_11_25_122204_create_position_requirements_table.php
+    - database/migrations/2022_11_25_122205_create_position_values_table.php
+    - database/migrations/2022_11_25_122206_create_education_comparison_criterias_table.php
+    - database/migrations/2022_11_25_122207_create_experience_comparison_criterias_table.php
+    - app/Models/PositionType.php
+    - app/Models/PositionRequirement.php
+    - app/Models/PositionValue.php
+    - app/Models/EducationComparisonCriteria.php
+    - app/Models/ExperienceComparisonCriteria.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -71,3 +71,8 @@ models:
     SalaryScale: { name: string, organization_id: 'id foreign:organizations.id', civil_service_year: date }
     Level: { name: string, description: 'text nullable' }
     JobGrade: { level_id: 'foreign:levels.id', start_salary: 'decimal(10,2)', one: 'decimal(10,2)', two: 'decimal(10,2)', three: 'decimal(10,2)', four: 'decimal(10,2)', five: 'decimal(10,2)', six: 'decimal(10,2)', seven: 'decimal(10,2)', eight: 'decimal(10,2)', nine: 'decimal(10,2)', ceil_salary: 'decimal(10,2)' }
+    PositionType: { title: 'string:255' }
+    PositionRequirement: { name: 'string:255' }
+    PositionValue: { position_type_id: 'id foreign', position_requirement_id: 'id foreign', value: float }
+    EducationComparisonCriteria: { position_value_id: 'id foreign', educational_level_id: 'id foreign', min_educational_level_id: 'id foreign', value: float }
+    ExperienceComparisonCriteria: { position_value_id: 'id foreign', title: 'string:255', min_year: integer, max_year: integer, value: float }
