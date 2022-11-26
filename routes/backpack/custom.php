@@ -94,4 +94,7 @@ Route::group([
     Route::crud('education-comparison-criteria', 'EducationComparisonCriteriaCrudController');
     Route::crud('experience-comparison-criteria', 'ExperienceComparisonCriteriaCrudController');
     Route::crud('position-value', 'PositionValueCrudController');
+    Route::crud('placement-round', 'PlacementRoundCrudController');
+    Route::crud('placement-choice', 'PlacementChoiceCrudController');
+    Route::crud('job-title-field-of-study', 'JobTitleFieldOfStudyCrudController');
 });
