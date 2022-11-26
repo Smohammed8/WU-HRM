@@ -10,6 +10,7 @@ use App\Imports\RegionsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
+use App\Models\PlacementRound;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,8 @@ class EmployeeController extends Controller
         $employee = $employee->first();
         $employee->totalExperiences();
         $positions = Position::all();
-        return view('home', compact('user', 'employee','positions'));
+        $placementRound = PlacementRound::where('is_open',true)->first();
+        return view('home', compact('user', 'employee','positions','placementRound'));
     }
     public function importPage()
     {

@@ -95,67 +95,82 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
-            <div class="card-body">
-                <h4> Select 2  position of your choice </h4>
-                <div>
-                    <form name="choice_form" action="" class="row">
-                    <div class="col-md-12">
-                        <div class="row justify-content-between">
-                            <div class="col-md-12 d-flex justify-content-between">
-
-                                <table
-                                    class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2 dataTable dtr-inline collapsed has-hidden-columns">
-                                    <thead>
-                                        <tr>
-                                            <td>Unit</td>
-                                            <td>Job Title</td>
-                                            <td>Total Employees</td>
-                                            <td>Minimum Requirement</td>
-                                            <td>Select</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($positions as $position_key => $position)
-                                            <tr>
-                                                <td>{{ $position->unit->name }}</td>
-                                                <td>{{ $position->jobTitle->name }}</td>
-                                                <td>{{ $position->total_employees }}</td>
-                                                <td>
-                                                    <label class="form-check-label" for="choice_{{ $position->id }}">
-                                                        @foreach ($position->minimumRequirements as $requirment)
-                                                            {{ $requirment->experience }} Years in
-                                                            {{ $requirment->educationalLevel->name }}
-                                                            with minimum efficeny of
-                                                            {{ $requirment->minimum_efficeny }}
-                                                            and employee profile value
-                                                            {{ $requirment->minimum_employee_profile_value }}
-                                                        @endforeach
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" name="choice" onclick="chkcontrol({{$position_key}})" class="form-check-input"
-                                                                id="choice_{{ $position->id }}">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+    @if ($placementRound != null)
+        <div class="row">
+            <div class="card col-md-12 mb-2"
+                style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+                <div class="card-body">
+                    <h4> Select 2 position of your choice </h4>
+                    <div>
+                        <form name="choice_form" action="{{ route('placement-choice.store', ['id' => 1]) }}" method="POST"
+                            class="row">
+                            @csrf
+                            <input type="hidden" name="placement_round_id" value="{{ $placementRound->id }}">
+                            <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+                            <div class="col-md-12">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-12 d-flex justify-content-between">
+                                        <table
+                                            class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2 dataTable dtr-inline collapsed has-hidden-columns">
+                                            <thead>
+                                                <tr>
+                                                    <td>Unit</td>
+                                                    <td>Job Title</td>
+                                                    <td>Positions</td>
+                                                    <td>Minimum Requirement</td>
+                                                    <td>Choice One</td>
+                                                    <td>Choice Two</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($positions as $position_key => $position)
+                                                    <tr>
+                                                        <td>{{ $position->unit->name }}</td>
+                                                        <td>{{ $position->jobTitle->name }}</td>
+                                                        <td>{{ $position->total_employees }}</td>
+                                                        <td>
+                                                            <label class="form-check-label"
+                                                                for="">
+                                                                {{ $position->jobTitle->work_experience }} Years
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" name="choice_one_id"
+                                                                        onclick="chkcontrol({{ $position_key }})"
+                                                                        class="form-check-input"
+                                                                        id="choice_{{ $position->id }}"
+                                                                        value="{{ $position->id }}">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" name="choice_two_id"
+                                                                        onclick="chkcontrol({{ $position_key }})"
+                                                                        class="form-check-input"
+                                                                        id="choice_{{ $position->id }}"
+                                                                        value="{{ $position->id }}">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary ml-2">Add Position</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-primary ml-2">Add Position</button>
-                    </div>
-                </form>
-
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
 @endsection

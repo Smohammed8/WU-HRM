@@ -1,15 +1,15 @@
 models:
-  PlacementRound:
-    round: integer
-    year: int unique
-  PlacementChoice:
-    placement_round_id: id foreign:placement_rounds.id
-    employee_id: id foreign
-    choice_one_id: id foreign:positions.id
-    choice_two_id: id foreign:positions.id
-  JobTitleFieldOfStudy:
-    job_title_id: id foreign:job_titles.id
-    field_of_study_id: id foreign:field_of_studies.id
+  # PlacementRound:
+  #   round: integer
+  #   year: int unique
+  # PlacementChoice:
+  #   placement_round_id: id foreign:placement_rounds.id
+  #   employee_id: id foreign
+  #   choice_one_id: id foreign:positions.id
+  #   choice_two_id: id foreign:positions.id
+  # JobTitleFieldOfStudy:
+  #   job_title_id: id foreign:job_titles.id
+  #   field_of_study_id: id foreign:field_of_studies.id
   # PositionType:
   #   title: string:255
   # PositionRequirement:

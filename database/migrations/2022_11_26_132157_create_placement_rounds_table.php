@@ -17,6 +17,7 @@ class CreatePlacementRoundsTable extends Migration
             $table->id();
             $table->integer('round');
             $table->string('year')->unique();
+            $table->boolean('is_open')->default(true);
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ class PlacementRound extends Model
     protected $fillable = [
         'round',
         'year',
+        'is_open',
     ];
 
     /**
@@ -27,5 +28,7 @@ class PlacementRound extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'is_open'=>'boolean',
+
     ];
 }

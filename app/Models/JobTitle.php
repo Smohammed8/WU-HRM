@@ -25,6 +25,7 @@ class JobTitle extends Model
         'field_of_study_id',
         'unit_id',
         'job_code',
+        'position_type_id',
         'work_experience'
     ];
 
@@ -72,6 +73,11 @@ class JobTitle extends Model
     public function level()
     {
         return $this->belongsTo(Level::class);
+    }
+
+    public function positionType()
+    {
+        return $this->belongsTo(PositionType::class);
     }
 
 }

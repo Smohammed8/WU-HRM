@@ -47,11 +47,11 @@ class PlacementChoice extends Model
 
     public function choiceOne()
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class,'choice_one_id');
     }
 
     public function choiceTwo()
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class,'choice_two_id');
     }
 }
