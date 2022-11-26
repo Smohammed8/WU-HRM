@@ -19,7 +19,7 @@ class CreateEducationComparisonCriteriasTable extends Migration
             $table->id();
             $table->foreignId('position_value_id')->constrained();
             $table->foreignId('educational_level_id')->constrained();
-            $table->foreignId('min_educational_level_id')->constrained();
+            $table->foreignId('min_educational_level_id')->constrained()->on('educational_levels');
             $table->float('value');
             $table->timestamps();
         });

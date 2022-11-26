@@ -27,4 +27,14 @@ class PositionRequirement extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+
+    public static function findOrCreate($name)
+    {
+        $query = PositionRequirement::where('name',$name);
+        if($query->count()==0){
+            return PositionRequirement::create(['name'=>$name]);
+        }
+        return $query->first();
+    }
 }

@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PositionValue extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    protected $appends = ['name'];
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +37,11 @@ class PositionValue extends Model
     public function positionType()
     {
         return $this->belongsTo(PositionType::class);
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->positionType->title;
     }
 
     public function positionRequirement()

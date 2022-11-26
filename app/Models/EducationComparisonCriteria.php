@@ -22,7 +22,7 @@ class EducationComparisonCriteria extends Model
         'value',
     ];
 
-    /**
+    /**EDUCATION_CRITERIA
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -47,6 +47,6 @@ class EducationComparisonCriteria extends Model
 
     public function minEducationalLevel()
     {
-        return $this->belongsTo(MinEducationalLevel::class);
+        return $this->belongsTo(EducationalLevel::class,'min_educational_level_id','id');
     }
 }

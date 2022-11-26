@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Constants;
-use App\Http\Requests\EducationComparisonCriteriaRequest;
-use App\Http\Requests\PositionRequest;
-use App\Models\EducationalLevel;
+use App\Http\Requests\PositionValueRequest;
 use App\Models\PositionRequirement;
-use App\Models\PositionValue;
+use App\Models\PositionType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Support\Facades\DB;
 
 /**
- * Class EducationComparisonCriteriaCrudController
+ * Class PositionValueCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class EducationComparisonCriteriaCrudController extends CrudController
+class PositionValueCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -32,9 +28,9 @@ class EducationComparisonCriteriaCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\EducationComparisonCriteria::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/education-comparison-criteria');
-        CRUD::setEntityNameStrings('education comparison criteria', 'education comparison criterias');
+        CRUD::setModel(\App\Models\PositionValue::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/position-value');
+        CRUD::setEntityNameStrings('position value', 'position values');
     }
 
     /**
@@ -45,9 +41,8 @@ class EducationComparisonCriteriaCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('positionValue.name')->label('Position Level');
-        CRUD::column('educationalLevel.name')->label('Educational Level');
-        CRUD::column('minEducationalLevel.name')->label('Minimum Educational Level');
+        CRUD::column('positionType.title')->label('Type');
+        CRUD::column('positionRequirement.name')->label('Requirement');
         CRUD::column('value');
 
         /**
@@ -65,17 +60,11 @@ class EducationComparisonCriteriaCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $educationalCriteria = PositionRequirement::findOrCreate(Constants::EDUCATION_CRITERIA);
-        CRUD::setValidation(EducationComparisonCriteriaRequest::class);
-        $values = DB::table('position_values as pv')->join('position_requirements as pr', 'pv.position_requirement_id', '=', 'pr.id')->join('position_types as pt', 'pv.position_type_id', '=', 'pt.id')->where('name', '=', $educationalCriteria->name)->select(['pv.id', 'pt.title'])->get();
-        $positionValues = [];
-        foreach ($values as $value) {
-            $positionValues[$value->id] = $value->title;
-        }
-        CRUD::field('position_value_id')->type('select_from_array')->options($positionValues)->size(6);
-        CRUD::field('min_educational_level_id')->type('select2')->model(EducationalLevel::class)->attribute('name')->size(6);
-        CRUD::field('educational_level_id')->type('select2')->model(EducationalLevel::class)->attribute('name')->size(6);
-        CRUD::field('value')->size(6);
+        CRUD::setValidation(PositionValueRequest::class);
+
+        CRUD::field('position_type_id')->type('select2')->model(PositionType::class)->attribute('title')->size(4);
+        CRUD::field('position_requirement_id')->type('select2')->model(PositionRequirement::class)->attribute('name')->size(4);
+        CRUD::field('value')->label('Weight')->size(4);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

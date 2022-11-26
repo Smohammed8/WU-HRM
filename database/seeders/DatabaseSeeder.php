@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constants;
 use App\Models\Employee;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
@@ -10,6 +11,7 @@ use App\Models\JobTitle;
 use App\Models\JobTitleCategory;
 use App\Models\MaritalStatus;
 use App\Models\Nationality;
+use App\Models\PositionRequirement;
 use App\Models\Region;
 use App\Models\Religion;
 use App\Models\Unit;
@@ -30,6 +32,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionSeeder::class
         ]);
+        PositionRequirement::findOrCreate(Constants::EDUCATION_CRITERIA);
+        PositionRequirement::findOrCreate(Constants::EXPERIENCE_CRITERIA);
         Role::findOrCreate('super-admin');
         $user = User::where('username','super')->first();
         if($user == null)
