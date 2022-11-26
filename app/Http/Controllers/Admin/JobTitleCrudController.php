@@ -7,6 +7,7 @@ use App\Models\EducationalLevel;
 use App\Models\FieldOfStudy;
 use App\Models\JobTitleCategory;
 use App\Models\Level;
+use App\Models\PositionType;
 use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -161,15 +162,16 @@ class JobTitleCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(JobTitleRequest::class);
-
-        CRUD::field('job_title_category_id')->type('select2')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name')->size(6);
         CRUD::field('name')->label('Job title')->label('የስራመደቡመጠሪያ')->size(6);
         CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(6);
         CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(6);
         CRUD::field('job_code')->label('የመደብ መታወቂያ ቁጥር')->size(6);
-        CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(6);
+        CRUD::field('job_title_category_id')->type('select2')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name')->size(4);
+        CRUD::field('position_type_id')->label('Position Type')->type('select2')->model(PositionType::class)->size(4)->attribute('title');
+        CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(4);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
         CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6);
+
         // CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
         CRUD::field('description');
          /**

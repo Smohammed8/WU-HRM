@@ -214,3 +214,8 @@
                 Recruitments</a></li>
     </ul>
 </li>
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-type') }}'><i class='nav-icon la la-user-tie'></i> Position types</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-requirement') }}'><i class='nav-icon la la-tasks'></i> Position requirements</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('education-comparison-criteria') }}'><i class='nav-icon la la-list-alt'></i> Education criterias</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('experience-comparison-criteria') }}'><i class='nav-icon la la-list-alt'></i> Experience criterias</a></li>

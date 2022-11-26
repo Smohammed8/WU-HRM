@@ -58,11 +58,11 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                                     <label for=""><b>Is it available for placement : </b></label>
                                     <label for="">{{ $crud->entry->available_for_placement ? 'Yes' : 'No' }}</label>
                                 </div>
-                                <div class="d-flex justify-content-between">
+                                {{-- <div class="d-flex justify-content-between">
                                     <label for=""><b>Status : </b></label>
                                     <label
-                                        for="">{{ \App\Constants::POSITION_STATUS[$crud->entry->status] }}</label>
-                                </div>
+                                        for="">{{ \App\Constants::POSITION_STATUS[$crud?->entry?->status] }}</label>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

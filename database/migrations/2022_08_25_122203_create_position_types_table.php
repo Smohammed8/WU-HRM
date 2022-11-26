@@ -25,7 +25,7 @@ class CreatePositionTypesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down()  
     {
         Schema::dropIfExists('position_types');
     }

@@ -89,4 +89,8 @@ Route::group([
     Route::crud('template-type', 'TemplateTypeCrudController');
     Route::get('charts/weekly-users', 'Charts\WeeklyUsersChartController@response')->name('charts.weekly-users.index');
     Route::post('/IDdownload', [IDController::class, 'idDownload'])->name('id.download');
+    Route::crud('position-type', 'PositionTypeCrudController');
+    Route::crud('position-requirement', 'PositionRequirementCrudController');
+    Route::crud('education-comparison-criteria', 'EducationComparisonCriteriaCrudController');
+    Route::crud('experience-comparison-criteria', 'ExperienceComparisonCriteriaCrudController');
 });

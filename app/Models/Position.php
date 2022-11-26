@@ -22,6 +22,7 @@ class Position extends Model
         'job_title_id',
         'total_employees',
         'available_for_placement',
+        'position_type_id',
         'status',
     ];
 

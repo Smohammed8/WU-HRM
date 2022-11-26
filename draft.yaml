@@ -1,23 +1,23 @@
 models:
-  PositionType:
-    title: string:255
-  PositionRequirement:
-    name: string:255
-  PositionValue:
-    position_type_id: id foreign
-    position_requirement_id: id foreign
-    value: float
-  EducationComparisonCriteria:
-    position_value_id: id foreign
-    educational_level_id: id foreign
-    min_educational_level_id: id foreign
-    value: float
-  ExperienceComparisonCriteria:
-    position_value_id: id foreign
-    title: string:255
-    min_year: integer
-    max_year: integer
-    value: float
+  # PositionType:
+  #   title: string:255
+  # PositionRequirement:
+  #   name: string:255
+  # PositionValue:
+  #   position_type_id: id foreign
+  #   position_requirement_id: id foreign
+  #   value: float
+  # EducationComparisonCriteria:
+  #   position_value_id: id foreign
+  #   educational_level_id: id foreign
+  #   min_educational_level_id: id foreign
+  #   value: float
+  # ExperienceComparisonCriteria:
+  #   position_value_id: id foreign
+  #   title: string:255
+  #   min_year: integer
+  #   max_year: integer
+  #   value: float
 # Form_style:
 #     name: enum:"Select Box","Radio Button" nullable
 #     created_by_id: id foreign:users
