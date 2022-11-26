@@ -18,9 +18,8 @@ class CreateExperienceComparisonCriteriasTable extends Migration
         Schema::create('experience_comparison_criterias', function (Blueprint $table) {
             $table->id();
             $table->foreignId('position_value_id')->constrained();
-            $table->string('title', 255);
-            $table->integer('min_year');
-            $table->integer('max_year');
+            $table->integer('min_year')->default(0);
+            $table->integer('max_year')->nullable();
             $table->float('value');
             $table->timestamps();
         });

@@ -17,7 +17,6 @@ class ExperienceComparisonCriteria extends Model
      */
     protected $fillable = [
         'position_value_id',
-        'title',
         'min_year',
         'max_year',
         'value',

@@ -23,7 +23,7 @@ class Constants
         1=>'LOCK',
     ];
     const EDUCATION_CRITERIA = 'Education Criteria';
-    const EXPERIENCE_CRITERIA = 'Education Criteria';
+    const EXPERIENCE_CRITERIA = 'Experience Criteria';
     const USER_TYPE_EMPLOYEE = 'employee';
     const PERMISSION_DASHBOARD = 'DASHBOARD';
 }
