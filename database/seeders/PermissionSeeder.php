@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constants;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -15,7 +16,7 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        Role::findOrCreate('employee');
+        Role::findOrCreate(Constants::USER_TYPE_EMPLOYEE);
         Role::findOrCreate('admin');
         Role::findOrCreate('super-admin');
         Permission::findOrCreate('dashboard');

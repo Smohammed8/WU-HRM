@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -34,7 +35,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'username'=>['required'],
-            'password' => ['required','min:8']
+            'password' => ['required','min:3']
         ]);
 
         if(Auth::check() || backpack_auth()->check()){
@@ -44,10 +45,16 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             backpack_auth()->login($user);
-            if ($user->can([Constants::PERMISSION_DASHBOARD])) {
-                return redirect()->route('dashboard');
-            } else {
+            if ($user->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
+                if(Employee::where('uas_user_id',$user->username)->count()==0){
+                    backpack_auth()->logout();
+                    Auth::logout();
+                    return abort('401','You have no employee profile');
+                }
                 return redirect()->route('home');
+            }
+            else {
+                return redirect()->route('dashboard');
             }
         }
         throw ValidationException::withMessages(['username'=>'Incorrect credential']);

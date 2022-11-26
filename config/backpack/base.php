@@ -31,7 +31,7 @@ return [
     // The string below will be passed through the url() helper.
     // - default: '' (project root)
     // - alternative: 'admin' (the admin's dashboard)
-    'home_link' => '',
+    'home_link' => '/',
 
     // Content of the HTML meta robots tag to prevent indexing and link following
     'meta_robots_content' => 'noindex, nofollow',
@@ -52,11 +52,12 @@ return [
         // Load the fonts separately (so that you can replace them at will):
         //Here is one
         'nassets/css/fontawesome/all.min.css',
-        // 'nassets/css/adminlte.min.css'
+
         'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
         'packages/source-sans-pro/source-sans-pro.css',
         'packages/line-awesome/css/line-awesome.min.css',
 
+        'nassets/css/adminlte.min.css',
         // Example (the fonts above, loaded from CDN instead)
         // 'https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css',
         // 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic',

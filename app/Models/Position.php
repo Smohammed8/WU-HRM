@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Position extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    protected $appends = ['position_info'];
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +23,7 @@ class Position extends Model
         'job_title_id',
         'total_employees',
         'available_for_placement',
+        'position_type_id',
         'status',
     ];
 
@@ -34,6 +38,11 @@ class Position extends Model
         'job_title_id' => 'integer',
     ];
 
+    public function getPositionInfoAttribute()
+    {
+        return $this->jobTitle->name.' at '.$this->unit->name;
+    }
+
     public function unit()
     {
         return $this->belongsTo(Unit::class);
@@ -44,4 +53,13 @@ class Position extends Model
         return $this->belongsTo(JobTitle::class);
     }
 
+    /**
+     * Get all of the minimumRequirements for the Position
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function minimumRequirements(): HasMany
+    {
+        return $this->hasMany(MinimumRequirement::class);
+    }
 }

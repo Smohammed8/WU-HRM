@@ -19,6 +19,7 @@ class CreateEducationalLevelsTable extends Migration
             $table->id();
             $table->string('name', 100)->unique();
             $table->text('description')->nullable();
+            $table->integer('weight');
             $table->timestamps();
         });
 

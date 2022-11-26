@@ -14,6 +14,7 @@ use Exception;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends  Model
@@ -40,7 +41,7 @@ class Employee extends  Model
     // protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     // protected $historyLimit = 500;   //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
     // protected $revisionForceDeleteEnabled = false; //If you want to store the Force Delete as a revision you can override this behavior by setting revisionForceDeleteEnabled to true
-
+    protected $appends = ['name'];
 
 
 
@@ -68,10 +69,9 @@ class Employee extends  Model
         'marital_status_id',
         'ethnicity_id',
         'religion_id',
-        'unit_id',
         'employement_date',
         'salary_step',
-        'job_title_id',
+        'position_id',
         'employment_type_id',
         'pention_number',
         'employment_status_id',
@@ -92,7 +92,7 @@ class Employee extends  Model
         $destination_path = Constants::EMPLOYEE_PHOTO_UPLOAD_PATH;
 
         // if the image was erased
-        if ($value==null) {
+        if ($value == null) {
             // delete the image from disk
             Storage::disk($disk)->delete($this->{$attribute_name});
             // set null in the database column
@@ -100,16 +100,15 @@ class Employee extends  Model
         }
 
         // if a base64 was sent, store it in the db
-        if (Str::startsWith($value, 'data:image'))
-        {
+        if (Str::startsWith($value, 'data:image')) {
             // 0. Make the image
             $image = Image::make($value)->encode('jpg', 90);
 
             // 1. Generate a filename.
-            $filename = md5($value.time()).'.jpg';
+            $filename = md5($value . time()) . '.jpg';
 
             // 2. Store the image on disk.
-            Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
+            Storage::disk($disk)->put($destination_path . '/' . $filename, $image->stream());
 
             // 3. Delete the previous image, if there was one.
             Storage::disk($disk)->delete($this->{$attribute_name});
@@ -119,13 +118,13 @@ class Employee extends  Model
             // from the root folder; that way, what gets saved in the db
             // is the public URL (everything that comes after the domain name)
             $public_destination_path = Str::replaceFirst('public/', '', $destination_path);
-            $this->attributes[$attribute_name] = 'storage/'. $public_destination_path.'/'.$filename;
+            $this->attributes[$attribute_name] = 'storage/' . $public_destination_path . '/' . $filename;
         }
     }
     public static function boot()
     {
         parent::boot();
-        static::deleting(function($obj) {
+        static::deleting(function ($obj) {
             Storage::disk('public_folder')->delete($obj->image);
         });
     }
@@ -157,7 +156,6 @@ class Employee extends  Model
         'marital_status_id' => 'integer',
         'ethnicity_id' => 'integer',
         'religion_id' => 'integer',
-        'unit_id' => 'integer',
         'employement_date' => 'date',
         'job_title_id' => 'integer',
         'employment_type_id' => 'integer',
@@ -166,13 +164,13 @@ class Employee extends  Model
 
     public function getNameAttribute()
     {
-        return $this->attributes['first_name'].' '.$this->attributes['father_name'].' '.$this->attributes['grand_father_name'];
+        return $this->attributes['first_name'] . ' ' . $this->attributes['father_name'] . ' ' . $this->attributes['grand_father_name'];
     }
 
     public function getPhotoAttribute()
     {
-        if(array_key_exists('photo',$this->attributes))
-            return asset($this->attributes['photo']??'image/profile.jpg');
+        if (array_key_exists('photo', $this->attributes))
+            return asset($this->attributes['photo'] ?? 'image/profile.jpg');
         return null;
     }
 
@@ -206,9 +204,9 @@ class Employee extends  Model
         return $this->belongsTo(Religion::class);
     }
 
-    public function unit()
+    public function position()
     {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(Position::class);
     }
 
     public function jobTitle()
@@ -219,6 +217,11 @@ class Employee extends  Model
     public function employmentType()
     {
         return $this->belongsTo(EmploymentType::class);
+    }
+
+    public function employmentCategory()
+    {
+        return $this->belongsTo(EmployeeCategory::class, 'employee_category_id');
     }
 
     public function employmentStatus()
@@ -236,6 +239,34 @@ class Employee extends  Model
     }
 
     /**
+     * Get all of the externalExperiences for the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function internalExperiences(): HasMany
+    {
+        return $this->hasMany(InternalExperience::class);
+    }
+
+
+    public function totalExperiences()
+    {
+        $internalExperiences = $this->externalExperiences;
+        $extrnalExperiences = $this->internalExperiences;
+        $total = 0;
+        foreach ($internalExperiences as $internalExperience) {
+            $dump = $internalExperience->end_date->diff($internalExperience->start_date);
+            // dump($dump);
+        }
+
+        foreach ($extrnalExperiences as $extrnalExperience) {
+            // dump($extrnalExperience);
+        }
+        // dd("Total experience is $total");
+        // dd('sd');
+    }
+
+    /**
      * Get all of the addresses for the Employee
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -245,7 +276,8 @@ class Employee extends  Model
         return $this->hasMany(EmployeeAddress::class);
     }
 
-     public function getEmployeeAddressesListAttribute() {
+    public function getEmployeeAddressesListAttribute()
+    {
         return json_encode($this->addresses);
     }
     /**
@@ -253,12 +285,13 @@ class Employee extends  Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function licenses (): HasMany
+    public function licenses(): HasMany
     {
         return $this->hasMany(License::class);
     }
 
-    public function getLicensesListAttribute() {
+    public function getLicensesListAttribute()
+    {
         return json_encode($this->licenses);
     }
 
@@ -267,9 +300,6 @@ class Employee extends  Model
 
         $route =  backpack_url('job-grade'); // custome toute here
 
-        return '<a class="btn btn-sm btn-link"  href="'.$route.'" data-toggle="tooltip" title="Print ID"><i class="la la-book"></i>Digital ID </a>';
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-book"></i>Digital ID </a>';
     }
-
-
-
 }

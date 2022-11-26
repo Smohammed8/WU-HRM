@@ -23,11 +23,11 @@ class User extends Authenticatable
     use HasRoles;
     use HasFactory, Notifiable;
     use HasRoles;
-    use CrudTrait;
+    // use CrudTrait;
 
 
     use CrudTrait; // <----- this
-    use HasRoles; // <-
+    // use HasRoles; // <-
     protected $username = 'username';
     /**
      * The attributes that are mass assignable.

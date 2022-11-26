@@ -20,6 +20,16 @@ class EducationalLevel extends Model
         'description',
     ];
 
+
+    public function getNameAttribute()
+    {
+        return $this->attributes['name'];
+
+    }
+
+
+
+
     /**
      * The attributes that should be cast to native types.
      *

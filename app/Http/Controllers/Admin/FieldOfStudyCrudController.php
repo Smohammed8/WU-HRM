@@ -40,9 +40,11 @@ class FieldOfStudyCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name');
 
-        CRUD::column('name');
+        CRUD::column('name')->label('Field of study');
+        CRUD::column('educational_level_id')-> type('select')->label(' Minimum education level')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name');
+
+
         CRUD::column('description');
 
         /**
@@ -61,8 +63,9 @@ class FieldOfStudyCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(FieldOfStudyRequest::class);
-        CRUD::field('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
-        CRUD::field('name')->size(6);
+        CRUD::field('name')->size(6)->label('Field of study');
+        CRUD::field('educational_level_id')->type('select2')->label(' Minimum education level')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
+
         CRUD::field('description');
 
         /**

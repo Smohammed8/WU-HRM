@@ -16,7 +16,6 @@ return [
         'permission' => Backpack\PermissionManager\app\Models\Permission::class,
         'role'       => Backpack\PermissionManager\app\Models\Role::class,
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Disallow the user interface for creating/updating permissions or roles.
@@ -29,7 +28,6 @@ return [
     | or
     | - creating and updating should be disabled
     */
-
     'allow_permission_create' => true,
     'allow_permission_update' => true,
     'allow_permission_delete' => true,
