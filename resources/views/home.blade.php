@@ -50,11 +50,11 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Ethnicity : </b></label>
-                                    <label for="">{{ $employee->ethnicity->name }}</label>
+                                    <label for="">{{ $employee->ethnicity?->name }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Religion : </b></label>
-                                    <label for="">{{ $employee->religion->name }}</label>
+                                    <label for="">{{ $employee->religion?->name }}</label>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Marital status : </b></label>
-                                    <label for="">{{ $employee->maritalStatus->name }}</label>
+                                    <label for="">{{ $employee->maritalStatus?->name }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Employee ID Number : </b></label>

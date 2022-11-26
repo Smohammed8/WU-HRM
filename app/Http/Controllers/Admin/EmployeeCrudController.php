@@ -351,7 +351,7 @@ class EmployeeCrudController extends CrudController
 
 
         CRUD::field('religion_id')->size(6)->tab($address);
-        CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
+        // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
 
         CRUD::field('employement_date')->size(6)->tab($job);
 

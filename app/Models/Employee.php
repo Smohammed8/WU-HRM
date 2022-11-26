@@ -69,7 +69,6 @@ class Employee extends  Model
         'marital_status_id',
         'ethnicity_id',
         'religion_id',
-        'unit_id',
         'employement_date',
         'salary_step',
         'position_id',
@@ -157,7 +156,6 @@ class Employee extends  Model
         'marital_status_id' => 'integer',
         'ethnicity_id' => 'integer',
         'religion_id' => 'integer',
-        'unit_id' => 'integer',
         'employement_date' => 'date',
         'job_title_id' => 'integer',
         'employment_type_id' => 'integer',
@@ -206,9 +204,9 @@ class Employee extends  Model
         return $this->belongsTo(Religion::class);
     }
 
-    public function unit()
+    public function position()
     {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(Position::class);
     }
 
     public function jobTitle()
