@@ -1,19 +1,13 @@
 created:
-    - database/factories/PositionTypeFactory.php
-    - database/factories/PositionRequirementFactory.php
-    - database/factories/PositionValueFactory.php
-    - database/factories/EducationComparisonCriteriaFactory.php
-    - database/factories/ExperienceComparisonCriteriaFactory.php
-    - database/migrations/2022_11_25_122203_create_position_types_table.php
-    - database/migrations/2022_11_25_122204_create_position_requirements_table.php
-    - database/migrations/2022_11_25_122205_create_position_values_table.php
-    - database/migrations/2022_11_25_122206_create_education_comparison_criterias_table.php
-    - database/migrations/2022_11_25_122207_create_experience_comparison_criterias_table.php
-    - app/Models/PositionType.php
-    - app/Models/PositionRequirement.php
-    - app/Models/PositionValue.php
-    - app/Models/EducationComparisonCriteria.php
-    - app/Models/ExperienceComparisonCriteria.php
+    - database/factories/PlacementRoundFactory.php
+    - database/factories/PlacementChoiceFactory.php
+    - database/factories/JobTitleFieldOfStudyFactory.php
+    - database/migrations/2022_11_26_132157_create_placement_rounds_table.php
+    - database/migrations/2022_11_26_132158_create_placement_choices_table.php
+    - database/migrations/2022_11_26_132159_create_job_title_field_of_studies_table.php
+    - app/Models/PlacementRound.php
+    - app/Models/PlacementChoice.php
+    - app/Models/JobTitleFieldOfStudy.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -76,3 +70,6 @@ models:
     PositionValue: { position_type_id: 'id foreign', position_requirement_id: 'id foreign', value: float }
     EducationComparisonCriteria: { position_value_id: 'id foreign', educational_level_id: 'id foreign', min_educational_level_id: 'id foreign', value: float }
     ExperienceComparisonCriteria: { position_value_id: 'id foreign', title: 'string:255', min_year: integer, max_year: integer, value: float }
+    PlacementRound: { round: integer, year: 'int unique' }
+    PlacementChoice: { placement_round_id: 'id foreign:placement_rounds.id', employee_id: 'id foreign', choice_one_id: 'id foreign:positions.id', choice_two_id: 'id foreign:positions.id' }
+    JobTitleFieldOfStudy: { job_title_id: 'id foreign:job_titles.id', field_of_study_id: 'id foreign:field_of_studies.id' }
