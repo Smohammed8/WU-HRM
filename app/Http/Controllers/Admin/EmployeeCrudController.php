@@ -293,6 +293,8 @@ class EmployeeCrudController extends CrudController
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('rfid')->size(4)->type('number')->tab($other);
         CRUD::field('pention_number')->type('number')->size(6)->tab($other);
+
+
     }
 
     /**
