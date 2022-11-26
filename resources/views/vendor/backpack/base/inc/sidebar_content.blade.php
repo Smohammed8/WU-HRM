@@ -222,5 +222,11 @@
                     class='nav-icon la la-list-alt'></i> Education criterias</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('experience-comparison-criteria') }}'><i
                     class='nav-icon la la-list-alt'></i> Experience criterias</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('placement-round') }}'><i
+                    class='nav-icon la la-circle-notch'></i> Placement rounds</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('placement-choice') }}'><i
+                    class='nav-icon la la-question'></i> Placement choices</a></li>
     </ul>
 </li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-field-of-study') }}'><i
+            class='nav-icon la la-question'></i> Job title field of studies</a></li> --}}

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FieldOfStudy extends Model
+class JobTitleFieldOfStudy extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -16,9 +16,8 @@ class FieldOfStudy extends Model
      * @var array
      */
     protected $fillable = [
-        'educational_level_id',
-        'name',
-        'description',
+        'job_title_id',
+        'field_of_study_id',
     ];
 
     /**
@@ -28,18 +27,17 @@ class FieldOfStudy extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'educational_level_id' => 'integer'
+        'job_title_id' => 'integer',
+        'field_of_study_id' => 'integer',
     ];
 
     public function jobTitle()
     {
-        return $this->belongsToMany(\App\Models\JobTitle::class)
-            ->withPivot('job_title_id', 'Field_fo_study_id');
+        return $this->belongsTo(JobTitle::class);
     }
 
-
-    public function educationalLevel()
+    public function fieldOfStudy()
     {
-        return $this->belongsTo(EducationalLevel::class);
+        return $this->belongsTo(FieldOfStudy::class);
     }
 }

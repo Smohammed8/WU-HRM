@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FieldOfStudy extends Model
+class PlacementRound extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -16,9 +16,9 @@ class FieldOfStudy extends Model
      * @var array
      */
     protected $fillable = [
-        'educational_level_id',
-        'name',
-        'description',
+        'round',
+        'year',
+        'is_open',
     ];
 
     /**
@@ -28,18 +28,7 @@ class FieldOfStudy extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'educational_level_id' => 'integer'
+        'is_open'=>'boolean',
+
     ];
-
-    public function jobTitle()
-    {
-        return $this->belongsToMany(\App\Models\JobTitle::class)
-            ->withPivot('job_title_id', 'Field_fo_study_id');
-    }
-
-
-    public function educationalLevel()
-    {
-        return $this->belongsTo(EducationalLevel::class);
-    }
 }
