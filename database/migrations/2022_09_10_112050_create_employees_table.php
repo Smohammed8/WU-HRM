@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\EducationalLevel;
 use App\Models\EmployeeCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -33,6 +34,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email', 255)->nullable();
             $table->string('rfid', 100)->nullable();
             $table->string('employment_identity')->nullable();
+            $table->foreignIdFor(EducationalLevel::class);
             $table->foreignId('marital_status_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('ethnicity_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('religion_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
