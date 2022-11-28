@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IDController;
+use App\Http\Controllers\RoundController;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -95,6 +96,6 @@ Route::group([
     Route::crud('experience-comparison-criteria', 'ExperienceComparisonCriteriaCrudController');
     Route::crud('position-value', 'PositionValueCrudController');
     Route::crud('placement-round', 'PlacementRoundCrudController');
-    Route::crud('placement-choice', 'PlacementChoiceCrudController');
+    Route::crud('placement-round/{placement_round}/placement-choice', 'PlacementChoiceCrudController');
     Route::crud('job-title-field-of-study', 'JobTitleFieldOfStudyCrudController');
 });

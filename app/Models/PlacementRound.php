@@ -29,6 +29,13 @@ class PlacementRound extends Model
     protected $casts = [
         'id' => 'integer',
         'is_open'=>'boolean',
-
     ];
+
+
+    public function placementChoicesButtonView($crud = false)
+    {
+        $route =  route('placement-round/{placement_round}/placement-choice.index',['placement_round'=>$this->id]); // custome toute here
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-list"></i>Placement Choices </a>';
+    }
+
 }
