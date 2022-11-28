@@ -30,8 +30,10 @@ class PositionRequest extends FormRequest
     {
         $jobTitleId = $this->input('job_title_id');
         $unitId = $this->input('unit_id');
-        if(Position::where('job_title_id',$jobTitleId)->where('unit_id',$unitId)->count()>0){
-            throw ValidationException::withMessages(['unit'=>'Existing job within current unit']);
+        if (Position::where('job_title_id', $jobTitleId)->where('unit_id', $unitId)->count() > 0) {
+            if (in_array($this->method(), ['GET'])) {
+                throw ValidationException::withMessages(['unit' => 'Existing job within current unit']);
+            }
         }
         return [
             // 'name' => 'required|min:5|max:255',
@@ -41,7 +43,6 @@ class PositionRequest extends FormRequest
             //     }),
             // ]
         ];
-        // dd('sd');
     }
 
     /**

@@ -20,6 +20,10 @@ class PlacementChoice extends Model
         'employee_id',
         'choice_one_id',
         'choice_two_id',
+        'choice_one_result',
+        'choice_two_result',
+        'choice_one_rank',
+        'choice_two_rank',
     ];
 
     /**
@@ -33,6 +37,7 @@ class PlacementChoice extends Model
         'employee_id' => 'integer',
         'choice_one_id' => 'integer',
         'choice_two_id' => 'integer',
+
     ];
 
     public function placementRound()
