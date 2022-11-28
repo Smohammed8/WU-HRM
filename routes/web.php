@@ -57,6 +57,7 @@ Route::post('import',[EmployeeController::class,'import']);
 Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
+Route::get('/calculate',[EmployeeController::class,'calculate']);
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);
 // Route::resource('leave', LeaveCrudController::class);
 
