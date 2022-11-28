@@ -13,7 +13,17 @@ use App\Models\PositionValue;
 use Carbon\Carbon;
 
 class Score{
-    public function getExperinceScore($placementChoice)
+
+    public static function calculateChoiceResult(PlacementChoice $placementChoice)
+    {
+        $choiceOne = $placementChoice->choiceOne;
+        $choiceTwo = $placementChoice->choiceTwo;
+        $choiceOneExpScore = Score::getExperinceScore($choiceOne);
+        $choiceTwoExpScore = Score::getExperinceScore($choiceTwo);
+        $choiceOneEduScore = Score::getEducationScore($choiceOne);
+        $choiceTwoEduScore = Score::getEducationScore($choiceTwo);
+    }
+    public static function getExperinceScore($placementChoice)
     {
         $score = 0;
         $scoreSecond = 0;
@@ -21,12 +31,12 @@ class Score{
 
         $employeeeFirstChoice = $placementChoice->choiceOne;
         $employeeeSecondChoice = $placementChoice->choiceTwo;
-        
+
         $positionType = $employeeeFirstChoice->jobTitle->positionType;
         $requirement = PositionRequirement::where('name', Constants::EXPERIENCE_CRITERIA)->first();
-        
+
         $positionValue = PositionValue::where('position_type_id', $positionType->id)->where('position_requirement_id', $requirement->id)->first();
-            
+
         $experienceCriterias = ExperienceComparisonCriteria::where('position_value_id', $positionValue->id)->get();
 
         foreach ($experienceCriterias as $key => $experienceCriteria) {
@@ -47,9 +57,9 @@ class Score{
         }
 
         $positionTypeSecond = $employeeeSecondChoice->jobTitle->positionType;
-        
+
         $positionValueSecond = PositionValue::where('position_type_id', $positionTypeSecond->id)->where('position_requirement_id', $requirement->id)->first();
-            
+
         $experienceSecondCriterias = ExperienceComparisonCriteria::where('position_value_id', $positionValueSecond->id)->get();
 
         foreach ($experienceSecondCriterias as $key => $experienceSecondCriteria) {
@@ -68,13 +78,12 @@ class Score{
                 }
             }
         }
-        dd($scoreSecond);
         return $score;
     }
 
-    public function checkIfEducationLevel(Position $position)
+    public static function checkIfEducationLevel(Position $position)
     {
-        
+
     }
 
     public static function  checkIfExperienceLevel(Position $position, Employee $employee)
@@ -89,14 +98,14 @@ class Score{
 
         return $eligible;
     }
-    public function canApplyOnPosition(Position $position, Employee $employe)
+    public static function canApplyOnPosition(Position $position, Employee $employee)
     {
-        if($this->checkIfEducationLevel($position) && $this->checkIfExperienceLevel($position, $employee))
+        if(Score::checkIfEducationLevel($position) && Score::checkIfExperienceLevel($position, $employee))
             return true;
         return false;
     }
 
-    public function calculateEducationalValue(Position $position)
+    public static function getEducationScore(Position $position)
     {
         if (!$position->available_for_placement) {
             return null;

@@ -13,14 +13,19 @@ class TestController extends Controller
 {
     public function experienceScore()
     {
-        $a = new Score();
-        $psotions = Position::all();
-        foreach ($psotions as $key => $position) {
-            $employee = Employee::all()[1];
-            $eligibility = $a->checkIfExperienceLevel($position, $employee);
-
-            dd($eligibility);
+        $palcementChoices = PlacementChoice::all();
+        foreach($palcementChoices as $palcementChoice){
+            $palcementChoice->
         }
+        dd('ds');
+    //     $a = new Score();
+    //     $psotions = Position::all();
+    //     foreach ($psotions as $key => $position) {
+    //         $employee = Employee::all()[1];
+    //         $eligibility = $a->checkIfExperienceLevel($position, $employee);
+
+    //         dd($eligibility);
+    //     }
         // $palcementChoices = PlacementChoice::all();
         // foreach ($palcementChoices as $key => $palcementChoice) {
         //     $a = new ExperienceScore();
