@@ -302,4 +302,14 @@ class Employee extends  Model
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-book"></i>Digital ID </a>';
     }
+
+    /**
+     * Get all of the licenses  for the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function choices(): HasMany
+    {
+        return $this->hasMany(PlacementChoice::class);
+    }
 }

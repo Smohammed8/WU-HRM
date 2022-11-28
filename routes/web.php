@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
 use App\Models\Unit as ModelsUnit;
+use App\Score\ExperienceScore;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -68,3 +70,4 @@ Route::get( '/hierarchy', function () {$units = Unit::where('parent_unit_id')->l
 
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show');
 
+Route::get('checkresult', [TestController::class, 'experienceScore']);
