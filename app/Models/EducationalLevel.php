@@ -18,6 +18,7 @@ class EducationalLevel extends Model
     protected $fillable = [
         'name',
         'description',
+        'weight',
     ];
 
 

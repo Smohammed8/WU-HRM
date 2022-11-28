@@ -10,6 +10,7 @@ use App\Imports\RegionsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
+use App\Models\PlacementChoice;
 use App\Models\PlacementRound;
 use App\Models\Position;
 use Illuminate\Http\Request;
@@ -57,5 +58,13 @@ class EmployeeController extends Controller
         }
         // Excel::import(new EmployeesImport, "/abc.xl");
         dd('IMPORT DONE');
+    }
+    public function calculate()
+    {
+        $placementChoice = PlacementChoice::first();
+        $employee = $placementChoice->employee;
+        $choiceOne = $placementChoice->choiceOne;
+        $choiceTwo = $placementChoice->choiceTwo;
+        $employee->calculateEducationalValue($choiceOne);
     }
 }

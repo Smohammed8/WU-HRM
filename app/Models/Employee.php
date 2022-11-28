@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants;
+use App\Http\Requests\PositionRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +16,7 @@ use Exception;
 use \Venturecraft\Revisionable\RevisionableTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends  Model
@@ -301,6 +303,53 @@ class Employee extends  Model
         $route =  backpack_url('job-grade'); // custome toute here
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-book"></i>Digital ID </a>';
+    }
+
+    /**
+     * Get the educationLevel that owns the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function educationLevel(): BelongsTo
+    {
+        return $this->belongsTo(EducationalLevel::class,'educational_level_id','id');
+    }
+
+    public function checkIfEducationLevel(Position $position)
+    {
+    }
+
+    public function checkIfExperienceLevel(Position $position)
+    {
+    }
+    public function canApplyOnPosition(Position $position)
+    {
+        if($this->checkIfEducationLevel($position) && $this->checkIfExperienceLevel($position))
+            return true;
+        return false;
+    }
+
+    public function calculateEducationalValue(Position $position)
+    {
+        if (!$position->available_for_placement) {
+            return null;
+        }
+        $jobTitle = $position->jobTitle;
+        $positionRequirement = PositionRequirement::where('name', Constants::EDUCATION_CRITERIA)->first();
+        if ($positionRequirement == null)
+            return null;
+        $positionValue = PositionValue::where('position_type_id', $jobTitle->positionType->id)->where('position_requirement_id', $positionRequirement->id)->first();
+        if($positionValue == null)
+            return null;
+            //
+        $educationComparisonCriteriaQuery = EducationComparisonCriteria::where('position_value_id',$positionValue->id)->where('educational_level_id',$this->educationLevel->id);
+        if($educationComparisonCriteriaQuery->count()==2){
+            $educationComparisonCriteria = $educationComparisonCriteriaQuery->where('min_educational_level_id',$jobTitle->educational_level_id)->first();
+        }
+        else{
+            $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
+        }
+        return $educationComparisonCriteria->value;
     }
 
     /**
