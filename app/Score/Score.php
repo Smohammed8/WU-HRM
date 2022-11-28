@@ -27,6 +27,7 @@ class Score{
     {
         $score = 0;
         $scoreSecond = 0;
+        $arrScores = [];
         $employeeExperience = Carbon::now()->diff(Carbon::parse($placementChoice->employee->employement_date))->y;
 
         $employeeeFirstChoice = $placementChoice->choiceOne;
@@ -78,7 +79,11 @@ class Score{
                 }
             }
         }
-        return $score;
+
+        array_push($arrScores, $score);
+        array_push($arrScores, $scoreSecond);
+        
+        return $arrScores;
     }
 
     public static function checkIfEducationLevel(Position $position)
