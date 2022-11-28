@@ -17,6 +17,8 @@ class UpdatePlacementChoice extends Migration
         Schema::table('placement_choices', function (Blueprint $table) {
             $table->float('choice_one_result')->nullable();
             $table->float('choice_two_result')->nullable();
+            $table->integer('choice_one_rank')->nullable();
+            $table->integer('choice_two_rank')->nullable();
         });
     }
 

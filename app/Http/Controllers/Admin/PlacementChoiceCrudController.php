@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PlacementChoiceRequest;
+use App\Models\Position;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -27,7 +28,8 @@ class PlacementChoiceCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\PlacementChoice::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-choice');
+        $placementRound = \Route::current()->parameter('placement_round');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/placement-round/' .$placementRound. '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
     }
 
@@ -39,11 +41,14 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('placementRound.round')->label('Round');
+        // CRUD::column('placementRound.round')->label('Round');
         CRUD::column('employee_id');
         CRUD::column('choiceOne.jobTitle.name')->label('Choice One');
         CRUD::column('choiceTwo.jobTitle.name')->label('Choice Two');
-
+        CRUD::column('choice_one_result')->label('Result One');
+        CRUD::column('choice_two_result')->label('Result Two');
+        CRUD::column('choice_one_rank')->label('Rank One');
+        CRUD::column('choice_one_rank')->label('Rank Two');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -59,12 +64,12 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        $placementRound = \Route::current()->parameter('placement_round');
         CRUD::setValidation(PlacementChoiceRequest::class);
-
-        CRUD::field('placement_round_id');
+        CRUD::field('placement_round_id')->type('hidden')->value($placementRound);
         CRUD::field('employee_id');
-        CRUD::field('choice_one_id');
-        CRUD::field('choice_two_id');
+        CRUD::field('choice_one_id')->type('select')->model(Position::class)->entity('choiceOne')->attribute('position_info');
+        CRUD::field('choice_two_id')->type('select')->model(Position::class)->entity('choiceTwo')->attribute('position_info');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
