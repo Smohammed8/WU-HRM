@@ -54,4 +54,5 @@ class PlacementChoice extends Model
     {
         return $this->belongsTo(Position::class,'choice_two_id');
     }
+
 }
