@@ -351,4 +351,14 @@ class Employee extends  Model
         }
         return $educationComparisonCriteria->value;
     }
+
+    /**
+     * Get all of the licenses  for the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function choices(): HasMany
+    {
+        return $this->hasMany(PlacementChoice::class);
+    }
 }

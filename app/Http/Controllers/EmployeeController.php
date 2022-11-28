@@ -66,5 +66,6 @@ class EmployeeController extends Controller
         $choiceOne = $placementChoice->choiceOne;
         $choiceTwo = $placementChoice->choiceTwo;
         $employee->calculateEducationalValue($choiceOne);
+        $employee->calculateEducationalValue($choiceTwo);
     }
 }
