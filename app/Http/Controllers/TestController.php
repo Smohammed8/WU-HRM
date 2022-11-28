@@ -13,11 +13,7 @@ class TestController extends Controller
 {
     public function experienceScore()
     {
-        $palcementChoices = PlacementChoice::all();
-        foreach($palcementChoices as $palcementChoice){
-            $palcementChoice->
-        }
-        dd('ds');
+        Score::computeRank();
     //     $a = new Score();
     //     $psotions = Position::all();
     //     foreach ($psotions as $key => $position) {

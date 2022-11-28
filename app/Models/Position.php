@@ -62,4 +62,18 @@ class Position extends Model
     {
         return $this->hasMany(MinimumRequirement::class);
     }
+
+    public function placementChoiceTwos(): HasMany
+    {
+        return $this->hasMany(PlacementChoice::class, 'choice_one_id', 'id');
+    }
+    public function placementChoiceOnes(): HasMany
+    {
+        return $this->hasMany(PlacementChoice::class, 'choice_two_id', 'id');
+    }
+    public function placementChoices()
+    {
+        return $this->placementChoiceOnes->merge($this->placementChoiceTwos);
+    }
+
 }
