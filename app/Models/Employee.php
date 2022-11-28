@@ -315,43 +315,6 @@ class Employee extends  Model
         return $this->belongsTo(EducationalLevel::class,'educational_level_id','id');
     }
 
-    public function checkIfEducationLevel(Position $position)
-    {
-    }
-
-    public function checkIfExperienceLevel(Position $position)
-    {
-    }
-    public function canApplyOnPosition(Position $position)
-    {
-        if($this->checkIfEducationLevel($position) && $this->checkIfExperienceLevel($position))
-            return true;
-        return false;
-    }
-
-    public function calculateEducationalValue(Position $position)
-    {
-        if (!$position->available_for_placement) {
-            return null;
-        }
-        $jobTitle = $position->jobTitle;
-        $positionRequirement = PositionRequirement::where('name', Constants::EDUCATION_CRITERIA)->first();
-        if ($positionRequirement == null)
-            return null;
-        $positionValue = PositionValue::where('position_type_id', $jobTitle->positionType->id)->where('position_requirement_id', $positionRequirement->id)->first();
-        if($positionValue == null)
-            return null;
-            //
-        $educationComparisonCriteriaQuery = EducationComparisonCriteria::where('position_value_id',$positionValue->id)->where('educational_level_id',$this->educationLevel->id);
-        if($educationComparisonCriteriaQuery->count()==2){
-            $educationComparisonCriteria = $educationComparisonCriteriaQuery->where('min_educational_level_id',$jobTitle->educational_level_id)->first();
-        }
-        else{
-            $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
-        }
-        return $educationComparisonCriteria->value;
-    }
-
     /**
      * Get all of the licenses  for the Employee
      *
