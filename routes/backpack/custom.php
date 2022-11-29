@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IDController;
+use App\Http\Controllers\RoundController;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -89,4 +90,12 @@ Route::group([
     Route::crud('template-type', 'TemplateTypeCrudController');
     Route::get('charts/weekly-users', 'Charts\WeeklyUsersChartController@response')->name('charts.weekly-users.index');
     Route::post('/IDdownload', [IDController::class, 'idDownload'])->name('id.download');
+    Route::crud('position-type', 'PositionTypeCrudController');
+    Route::crud('position-requirement', 'PositionRequirementCrudController');
+    Route::crud('education-comparison-criteria', 'EducationComparisonCriteriaCrudController');
+    Route::crud('experience-comparison-criteria', 'ExperienceComparisonCriteriaCrudController');
+    Route::crud('position-value', 'PositionValueCrudController');
+    Route::crud('placement-round', 'PlacementRoundCrudController');
+    Route::crud('placement-round/{placement_round}/placement-choice', 'PlacementChoiceCrudController');
+    Route::crud('job-title-field-of-study', 'JobTitleFieldOfStudyCrudController');
 });

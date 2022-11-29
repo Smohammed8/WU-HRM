@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\EducationalLevel;
 use App\Models\EmployeeCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -32,18 +33,21 @@ class CreateEmployeesTable extends Migration
             $table->string('phone_number', 100)->nullable();
             $table->string('email', 255)->nullable();
             $table->string('rfid', 100)->nullable();
+            $table->string('employment_identity')->nullable();
+            $table->foreignIdFor(EducationalLevel::class);
             $table->foreignId('marital_status_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('ethnicity_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('religion_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('unit_id')->nullable()->constrained('units')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreignId('unit_id')->nullable()->constrained('units')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreignId('level_id')->nullable()->constrained('levels')->onUpdate('cascade')->onDelete('cascade');
             $table->date('employement_date')->nullable();
-            $table->foreignId('level_id')->nullable()->constrained('levels')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('job_title_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('position_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('employment_type_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('pention_number')->nullable();
             $table->foreignId('employment_status_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('nationality_id')->nullable()->constrained('nationalities')->onUpdate('cascade')->onDelete('cascade');
             $table->string('uas_user_id')->foreignId('user_id')->constrained()->nullable()->onUpdate('cascade')->onDelete('cascade');
+            $table->timestamps();
         });
     }
         /**

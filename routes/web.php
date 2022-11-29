@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
 use App\Models\Unit as ModelsUnit;
+use App\Score\ExperienceScore;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -28,9 +30,13 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
+    if(!backpack_user()){
+        return redirect('logout');
+    }
     if(!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)){
         return redirect(route('dashboard'));
     }
+    dd('sd');
     return redirect(route('home'));
 });
 Route::redirect('/admin/login','/home');
@@ -53,6 +59,7 @@ Route::post('import',[EmployeeController::class,'import']);
 Route::get('/login',[AuthController::class,'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login',[AuthController::class,'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
+Route::get('/calculate',[EmployeeController::class,'calculate']);
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class);
 // Route::resource('leave', LeaveCrudController::class);
 
@@ -64,3 +71,4 @@ Route::get( '/hierarchy', function () {$units = Unit::where('parent_unit_id')->l
 
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show');
 
+Route::get('checkresult', [TestController::class, 'experienceScore']);

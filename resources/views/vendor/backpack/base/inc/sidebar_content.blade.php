@@ -33,13 +33,11 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('unit') }}'><i
                     class='nav-icon la la-caret-right'></i>
                 Organizational Units</a></li>
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'><i
                     class='nav-icon la la-caret-right'></i>
                 Job titles</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'><i
                     class='nav-icon la la-caret-right'></i> Job title categories</a></li>
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'><i
                     class='nav-icon la la-caret-right'></i> Employment types</a></li>
     </ul>
@@ -49,7 +47,6 @@
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-wrench"></i> Setting</a>
     <ul class="nav-dropdown-items">
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i
                     class='nav-icon la la-caret-right'></i> Chair man types</a></li>
 
@@ -70,12 +67,8 @@
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('field-of-study') }}'><i
                     class='nav-icon la la-caret-right'></i> Field of studies</a></li>
-
-
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('quarter') }}'><i
                     class='nav-icon la la-caret-right'></i>Quarters</a></li>
-
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
                     class='nav-icon la la-caret-right'></i> Languages</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('marital-status') }}'><i
@@ -121,12 +114,12 @@
 
 
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('minimum-requirement') }}'><i
-            class='nav-icon la la-question'></i> Min requirements</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('minimum-requirement') }}'><i
+            class='nav-icon la la-question'></i> Min requirements</a></li> --}}
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
             class='nav-icon la la-question'></i> Positions</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('related-work') }}'><i
-            class='nav-icon la la-question'></i> Related works</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('related-work') }}'><i
+            class='nav-icon la la-question'></i> Related works</a></li> --}}
 
 
 
@@ -214,3 +207,24 @@
                 Recruitments</a></li>
     </ul>
 </li>
+
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-sitemap"></i>Manage Position </a>
+    <ul class="nav-dropdown-items">
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-requirement') }}'><i
+                    class='nav-icon la la-tasks'></i>Requirements</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-type') }}'><i
+                    class='nav-icon la la-user-tie'></i> Position types</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-value') }}'><i
+                    class='nav-icon la la-chair'></i> Position values</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('education-comparison-criteria') }}'><i
+                    class='nav-icon la la-list-alt'></i> Education criterias</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('experience-comparison-criteria') }}'><i
+                    class='nav-icon la la-list-alt'></i> Experience criterias</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('placement-round') }}'><i
+                    class='nav-icon la la-circle-notch'></i> Placement rounds</a></li>
+    </ul>
+</li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-field-of-study') }}'><i
+            class='nav-icon la la-question'></i> Job title field of studies</a></li> --}}

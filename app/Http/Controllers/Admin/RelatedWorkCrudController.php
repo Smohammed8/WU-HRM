@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RelatedWorkRequest;
 use App\Models\JobTitle;
+use App\Models\MinimumRequirement;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -60,7 +61,7 @@ class RelatedWorkCrudController extends CrudController
     {
         CRUD::setValidation(RelatedWorkRequest::class);
 
-        CRUD::field('minimum_requirement_id');
+        CRUD::field('minimum_requirement_id')->type('select2')->entity('minimumRequirement')->model(MinimumRequirement::class)->attribute('position_id');
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name');
 
         /**

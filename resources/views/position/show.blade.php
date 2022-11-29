@@ -1,14 +1,14 @@
 @extends(backpack_view('blank'))
 
 @php
-$defaultBreadcrumbs = [
-    trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
-    $crud->entity_name_plural => url($crud->route),
-    trans('backpack::crud.preview') => false,
-];
+    $defaultBreadcrumbs = [
+        trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
+        $crud->entity_name_plural => url($crud->route),
+        trans('backpack::crud.preview') => false,
+    ];
 
-// if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
-$breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
+    // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
+    $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 @endphp
 
 @section('header')
@@ -45,24 +45,29 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                                     <label for=""><b>Job Title : </b></label>
                                     <label for="">{{ $crud->entry->jobTitle->name }}</label>
                                 </div>
-
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b>Position Available for placement : </b></label>
+                                    <label for="">{{ $crud->entry->available_for_placement }}</label>
+                                </div>
                             </div>
-
-
                             <div class="col-md-6" style="border-left:1px solid black;">
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Total Employees : </b></label>
                                     <label for="">{{ $crud->entry->total_employees }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
+                                    <label for=""><b>Position Type: </b></label>
+                                    <label for="">{{ $crud->entry->jobTitle->positionType->title }}</label>
+                                </div>
+                                <div class="d-flex justify-content-between">
                                     <label for=""><b>Is it available for placement : </b></label>
                                     <label for="">{{ $crud->entry->available_for_placement ? 'Yes' : 'No' }}</label>
                                 </div>
-                                <div class="d-flex justify-content-between">
+                                {{-- <div class="d-flex justify-content-between">
                                     <label for=""><b>Status : </b></label>
                                     <label
-                                        for="">{{ \App\Constants::POSITION_STATUS[$crud->entry->status] }}</label>
-                                </div>
+                                        for="">{{ \App\Constants::POSITION_STATUS[$crud?->entry?->status] }}</label>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -71,7 +76,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
             </div>
         </div>
-        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+        {{-- <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between">
@@ -83,8 +88,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                     </div>
                     <div class="col-md-12">
                         <div class="no-padding no-border">
-                            {{-- <div class="">
-                            </div> --}}
+
                             <table id="crudTable"
                                 class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
                                 cellspacing="0">
@@ -100,23 +104,27 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                                 </thead>
                                 <tbody>
                                     @foreach ($minimumRequirements as $minimumRequirement)
-                                    <tr>
-                                        <td>{{ $minimumRequirement->experience }} Years</td>
-                                        <td>{{ $minimumRequirement->educationalLevel->name }}</td>
-                                        <td>{{ $minimumRequirement->minimum_efficeny }}</td>
-                                        <td>{{ $minimumRequirement->minimum_employee_profile_value }}</td>
-                                        <td>
-                                            @foreach ($minimumRequirement->relatedJobs as $relatedJob)
-                                                {{ $relatedJob->jobTitle->name.', ' }}
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('{position}/minimum-requirement.edit', ['position'=>$crud->entry->id,'id'=>$minimumRequirement->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                            <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ route('{position}/minimum-requirement.destroy', ['position'=>$crud->entry->id,'id'=>$minimumRequirement->id]) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{ $minimumRequirement->experience }} Years</td>
+                                            <td>{{ $minimumRequirement->educationalLevel->name }}</td>
+                                            <td>{{ $minimumRequirement->minimum_efficeny }}</td>
+                                            <td>{{ $minimumRequirement->minimum_employee_profile_value }}</td>
+                                            <td>
+                                                @foreach ($minimumRequirement->relatedJobs as $relatedJob)
+                                                    {{ $relatedJob->jobTitle->name . ', ' }}
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('{position}/minimum-requirement.edit', ['position' => $crud->entry->id, 'id' => $minimumRequirement->id]) }}"
+                                                    class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                                <a href="javascript:void(0)" onclick="deleteEntry(this)"
+                                                    data-route="{{ route('{position}/minimum-requirement.destroy', ['position' => $crud->entry->id, 'id' => $minimumRequirement->id]) }}"
+                                                    class="btn btn-sm btn-link" data-button-type="delete"><i
+                                                        class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                            </td>
+                                        </tr>
                                     @endforeach
-                                    @if (count($minimumRequirements)==0)
+                                    @if (count($minimumRequirements) == 0)
                                         <tr>
                                             <td colspan="6" class="text-center">No Minimum Requirement for this job</td>
                                         </tr>
@@ -127,9 +135,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
-    </div>
+    {{-- </div> --}}
 @endsection
 
 

@@ -20,7 +20,7 @@ class CreateInternalExperiencesTable extends Migration
             $table->foreignId('employee_id')->constrained();
             $table->foreignId('unit_id')->constrained();
             $table->foreignId('job_title_id')->constrained();
-            $table->string('position', 255);
+            $table->string('position', 255)->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->timestamps();

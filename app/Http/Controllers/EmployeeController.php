@@ -10,6 +10,9 @@ use App\Imports\RegionsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
+use App\Models\PlacementChoice;
+use App\Models\PlacementRound;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +32,10 @@ class EmployeeController extends Controller
             return abort(405, 'Please you have no employee profile contact admin');
         }
         $employee = $employee->first();
-        return view('home', compact('user', 'employee'));
+        $employee->totalExperiences();
+        $positions = Position::all();
+        $placementRound = PlacementRound::where('is_open',true)->first();
+        return view('home', compact('user', 'employee','positions','placementRound'));
     }
     public function importPage()
     {
@@ -52,5 +58,14 @@ class EmployeeController extends Controller
         }
         // Excel::import(new EmployeesImport, "/abc.xl");
         dd('IMPORT DONE');
+    }
+    public function calculate()
+    {
+        $placementChoice = PlacementChoice::first();
+        $employee = $placementChoice->employee;
+        $choiceOne = $placementChoice->choiceOne;
+        $choiceTwo = $placementChoice->choiceTwo;
+        $employee->calculateEducationalValue($choiceOne);
+        $employee->calculateEducationalValue($choiceTwo);
     }
 }

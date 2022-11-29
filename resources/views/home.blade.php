@@ -1,4 +1,21 @@
 @extends('backpack::layouts.plain')
+@section('after_scripts')
+    <script type="text/javascript">
+        function chkcontrol(j) {
+            var total = 0;
+            for (var i = 0; i < document.choice_form.choice.length; i++) {
+                if (document.choice_form.choice[i].checked) {
+                    total = total + 1;
+                }
+                if (total > 2) {
+                    alert("Please Select only two position")
+                    document.choice_form.choice[j].checked = false;
+                    return false;
+                }
+            }
+        }
+    </script>
+@endsection
 @section('content')
     <div class="row">
         <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
@@ -6,8 +23,8 @@
                 <div class="d-flex justify-content-between">
                     <h4> Welcome {{ $user?->name }} </h4>
                     {{-- <form action="/logout" method="POST"> --}}
-                        @csrf
-                        <a href="/logout" class="">Logout</a>
+                    @csrf
+                    <a href="/logout" class="">Logout</a>
                     {{-- </form> --}}
                 </div>
             </div>
@@ -33,11 +50,11 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Ethnicity : </b></label>
-                                    <label for="">{{ $employee->ethnicity->name }}</label>
+                                    <label for="">{{ $employee->ethnicity?->name }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Religion : </b></label>
-                                    <label for="">{{ $employee->religion->name }}</label>
+                                    <label for="">{{ $employee->religion?->name }}</label>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
@@ -61,7 +78,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Marital status : </b></label>
-                                    <label for="">{{ $employee->maritalStatus->name }}</label>
+                                    <label for="">{{ $employee->maritalStatus?->name }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Employee ID Number : </b></label>
@@ -78,34 +95,82 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
-            <div class="card-body">
-                <h4> Choose Your Position Choice </h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row justify-content-between">
-                            <div class="col-md-12 d-flex justify-content-between">
-                                <div class="col-md-5">
-                                    <select name="" id="" class="form-control select2">
-                                        <option value="">Abdi</option>
-                                        <option value="">Jack</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-5">
-                                    <select name="" id="" class="form-control select2">
-                                        <option value="">Abdi</option>
-                                        <option value="">Jack</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary ml-2">Add Position</button>
+    @if ($placementRound != null)
+        <div class="row">
+            <div class="card col-md-12 mb-2"
+                style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+                <div class="card-body">
+                    <h4> Select 2 position of your choice </h4>
+                    <div>
+                        <form name="choice_form" action="{{ route('placement-choice.store', ['id' => 1]) }}" method="POST"
+                            class="row">
+                            @csrf
+                            <input type="hidden" name="placement_round_id" value="{{ $placementRound->id }}">
+                            <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+                            <div class="col-md-12">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-12 d-flex justify-content-between">
+                                        <table
+                                            class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2 dataTable dtr-inline collapsed has-hidden-columns">
+                                            <thead>
+                                                <tr>
+                                                    <td>Unit</td>
+                                                    <td>Job Title</td>
+                                                    <td>Positions</td>
+                                                    <td>Minimum Requirement</td>
+                                                    <td>Choice One</td>
+                                                    <td>Choice Two</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($positions as $position_key => $position)
+                                                    <tr>
+                                                        <td>{{ $position->unit->name }}</td>
+                                                        <td>{{ $position->jobTitle->name }}</td>
+                                                        <td>{{ $position->total_employees }}</td>
+                                                        <td>
+                                                            <label class="form-check-label"
+                                                                for="">
+                                                                {{ $position->jobTitle->work_experience }} Years
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" name="choice_one_id"
+                                                                        onclick="chkcontrol({{ $position_key }})"
+                                                                        class="form-check-input"
+                                                                        id="choice_{{ $position->id }}"
+                                                                        value="{{ $position->id }}">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" name="choice_two_id"
+                                                                        onclick="chkcontrol({{ $position_key }})"
+                                                                        class="form-check-input"
+                                                                        id="choice_{{ $position->id }}"
+                                                                        value="{{ $position->id }}">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary ml-2">Add Position</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
 @endsection

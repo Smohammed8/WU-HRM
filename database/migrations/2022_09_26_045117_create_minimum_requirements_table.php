@@ -18,10 +18,10 @@ class CreateMinimumRequirementsTable extends Migration
         Schema::create('minimum_requirements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('position_id')->constrained();
-            $table->integer('experience');
+            $table->integer('experience')->nullable();
             $table->foreignId('educational_level_id')->constrained();
-            $table->decimal('minimum_efficeny');
-            $table->integer('minimum_employee_profile_value');
+            $table->decimal('minimum_efficeny')->nullable();
+            $table->integer('minimum_employee_profile_value')->nullable();
             $table->timestamps();
         });
 

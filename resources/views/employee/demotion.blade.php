@@ -12,7 +12,7 @@
     <div class="modal-dialog modal-full" role="document">
       <div class="modal-content">
         <div class="modal-header">
-             <h6 class="modal-title" id="exampleModalLabel"> Employee:<u>{{ $crud->entry->name }}  </u> &nbsp;&nbsp;&nbsp; Existing Unit:<u>{{ $crud->entry->unit->name }}  </u> &nbsp;&nbsp;&nbsp; Existing position: <u> {{ $crud->entry->jobTitle->name }}</u>  </h6>
+             <h6 class="modal-title" id="exampleModalLabel"> Employee:<u>{{ $crud?->entry?->name }}  </u> &nbsp;&nbsp;&nbsp; Existing Unit:<u>{{ $crud?->entry?->unit?->name }}  </u> &nbsp;&nbsp;&nbsp; Existing position: <u> {{ $crud?->entry?->jobTitle?->name }}</u>  </h6>
            <div class="row">
                 <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     <span aria-hidden="true"> <i class="la la-user-minus"></i> Add  Demotion </span>
@@ -31,11 +31,11 @@
                 <form action="{{ route('demotion.create', []) }}" method="GET">
                     @csrf
 
-                    <input type="hidden" name="old_unit" value="{{$crud->entry->unit->id }}">
-                    <input type="hidden" name="old_job" value="{{$crud->entry->jobTitle->id }}">
+                    <input type="hidden" name="old_unit" value="{{$crud?->entry?->unit?->id }}">
+                    <input type="hidden" name="old_job" value="{{$crud?->entry?->jobTitle?->id }}">
 
 
-                    <input type="hidden" name="employee" value="{{$crud->entry->id }}">
+                    <input type="hidden" name="employee" value="{{$crud?->entry?->id }}">
                     <div class="card">
                         <div class="card-body">
 
@@ -46,7 +46,7 @@
                                 <select name="new_unit" style="width:100%;"  class="form-control select2" required="required">
                                     <option value="">..................... </option>
                                     @foreach ($units as $unit)
-                                        <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                        <option value="{{ $unit?->id }}">{{ $unit?->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -57,14 +57,14 @@
                                 <select name="new_job"  style="width:100%;"  class="form-control select2" required="required">
                                     <option value="">..................... </option>
                                     @foreach ($jobe_titles as $jobe_title)
-                                        <option value="{{ $jobe_title->id }}">{{ $jobe_title->name }}</option>
+                                        <option value="{{ $jobe_title?->id }}">{{ $jobe_title?->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
 
                             <div class="form-group col-sm-12 col-md-12">
-                                <label for=""><i class="la la-user"></i> What is the reason of {{$crud->entry->name}}'s demotion?</label>
+                                <label for=""><i class="la la-user"></i> What is the reason of {{$crud?->entry?->name}}'s demotion?</label>
                                 <textarea type="text"  required="required" cols="15" rows="5" class="form-control" name="comment"> </textarea>
                               </div>
 
@@ -110,9 +110,7 @@
 
                     @foreach ($demotions as $demotion)
                         <tr>
-
-
-                            <td>{{ $loop->index+1  }}  </td>
+                            <td>{{ $loop?->index+1  }}  </td>
                             <td>{{ $demotion->oldUnit->name }}</td>
                             <td>{{ $demotion->newUnit->name }}</td>
                             <td>{{ $demotion->oldJobTitle->name}}</td>
