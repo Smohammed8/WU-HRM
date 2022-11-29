@@ -18,6 +18,12 @@ class Constants
         9=>'SPORT ACADEMY'
     ];
 
+    const PLACEMENT_ROUND_STATUS_OPENED = 0;
+    const PLACEMENT_ROUND_STATUS_RANKED = 1;
+    const PLACEMENT_ROUND_STATUS_PLACED = 2;
+    const PLACEMENT_ROUND_STATUS_APPROVED = 3;
+    const PLACEMENT_ROUND_STATUS_CLOSED = 4;
+
     const POSITION_STATUS = [
         0=>'OPEN',
         1=>'LOCK',
