@@ -18,6 +18,7 @@ class PlacementRound extends Model
     protected $fillable = [
         'round',
         'year',
+        'status',
         'is_open',
     ];
 

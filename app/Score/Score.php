@@ -34,7 +34,7 @@ class Score
             $positionOnePlacementChoices = DB::table('placement_choices as pc')->where('choice_one_id', $position->id)->select('pc.id', 'pc.choice_one_result')->get();
             $positionTwoPlacementChoices = DB::table('placement_choices as pc')->where('choice_two_id', $position->id)->select('pc.id', 'pc.choice_two_result')->get();
             $merge = $positionOnePlacementChoices->merge($positionTwoPlacementChoices)->toArray();
-            rsort($merge);
+            sort($merge);
             foreach ($merge as $key => $value) {
                 $placementChoice = PlacementChoice::find($value->id);
                 if($placementChoice->choice_one_id == $position->id){
@@ -48,9 +48,6 @@ class Score
                 }
             }
         }
-        dd('dfd');
-        dump($position);
-
     }
 
     public static function calculateChoiceResult(PlacementChoice $placementChoice)
