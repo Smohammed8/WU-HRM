@@ -86,8 +86,6 @@ class EmployeeEvaluationCrudController extends CrudController
       //  'created_by_id'=>Auth::user()->id
         'created_by_id'=>backpack_user()->id
          ]);
-
-       // dd($evalution->id);
 if($evalution->id){
 foreach ($criterai as $key => $id) {
     $evluation_id =  $evalution->id;
