@@ -516,9 +516,15 @@ class EmployeeCrudController extends CrudController
       ////////////////////////////////////////////////////////////////////
 
         $employeeEvaluations = EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
+
+       // $employeeEvaluations = EmployeeEvaluation::where('employee_id', $this->crud->getCurrentEntryId())->orderBy('id', 'desc')->Paginate(10);
+
+
         $this->data['employeeEvaluations'] = $employeeEvaluations;
 
-        $evaluations = Evaluation::orderBy('id', 'desc')->Paginate(4);
+
+        $evaluations = Evaluation::where('employee_id', $this->crud->getCurrentEntryId())->orderBy('id', 'desc')->Paginate(4);
+
         $this->data['evaluations'] = $evaluations;
 
         $si = SalaryIncreament::select('percentage')->get()->first()->percentage ?? 0;
