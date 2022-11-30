@@ -86,15 +86,16 @@ class EmployeeEvaluationCrudController extends CrudController
       //  'created_by_id'=>Auth::user()->id
         'created_by_id'=>backpack_user()->id
          ]);
+
 if($evalution->id){
 foreach ($criterai as $key => $id) {
     $evluation_id =  $evalution->id;
      EmployeeEvaluation::create([
-                                  'employee_id'=>$employee,
-                                  'evalution_creteria_id'=>$id,
-                                  'evaluation_level_id'=>$request->get('level'.$id)[0],
-                                  'evaluation_id'=>$evluation_id,
-                             ]);
+                'employee_id'=>$employee,
+                'evalution_creteria_id'=>$id,
+                'evaluation_level_id'=>$request->get('level'.$id)[0],
+                'evaluation_id'=>$evluation_id,
+          ]);
   }
 
 }

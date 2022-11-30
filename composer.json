@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "andegna/calender": "^2.3",
         "backpack/crud": "4.1.*",
+        "backpack/langfilemanager": "^4.1",
         "backpack/permissionmanager": "^6.0",
         "backpack/revise-operation": "^1.0",
         "barryvdh/laravel-dompdf": "^2.0",
