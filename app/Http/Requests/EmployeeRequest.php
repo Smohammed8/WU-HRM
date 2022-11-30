@@ -29,9 +29,9 @@ class EmployeeRequest extends FormRequest
             'first_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'father_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
             'grand_father_name' => 'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'first_name_am'=>'nullable|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'father_name_am'=>'nullable|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'grand_father_name_am' => 'nullable|regex:/^[a-zA-Z]+$/u|min:3|max:30',
+            'first_name_am'=>'nullable|min:3|max:30',
+            'father_name_am'=>'nullable|min:3|max:30',
+            'grand_father_name_am' => 'nullable|min:3|max:30',
             'gender'=>'required',
             'date_of_birth' =>'nullable',
             'photo' =>'nullable',
@@ -48,7 +48,7 @@ class EmployeeRequest extends FormRequest
             'ethnicity_id' =>'nullable',
             'religion_id' =>'nullable',
             'unit_id' =>'nullable',
-            'employement_date'=>'nullable|date',
+            'employement_date'=>'required|date',
             'salary_step' =>'nullable',
             'job_title_id' =>'nullable',
             'employment_type_id' =>'nullable',
@@ -57,6 +57,7 @@ class EmployeeRequest extends FormRequest
             'static_salary'=>'nullable',
             'uas_user_id' =>'nullable',
             'position_id'=> 'required',
+            'educational_level_id' => 'required',
         ];
     }
 

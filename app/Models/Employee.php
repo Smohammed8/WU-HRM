@@ -80,6 +80,7 @@ class Employee extends  Model
         'static_salary',
         'uas_user_id',
         'staff_national_id',
+        'educational_level_id'
     ];
 
 
