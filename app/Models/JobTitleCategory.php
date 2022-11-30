@@ -34,4 +34,11 @@ class JobTitleCategory extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+
+    public function jobTitleButtonView($crud = false)
+    {
+        $route =  route('job-title-category/{job_title_category}/job-title.index',['job_title_category'=>$this->id]); // custome toute here
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-list"></i>Job Title </a>';
+    }
 }

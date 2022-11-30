@@ -33,7 +33,8 @@ class JobTitleCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\JobTitle::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title');
+        $jobTitleCategory = \Route::current()->parameter('job_title_category');
+        CRUD::setRoute(config('backpack.base.route_prefix') .'/job-title-category/'.$jobTitleCategory. '/job-title');
         CRUD::setEntityNameStrings('job title', 'job titles');
     }
 
@@ -45,21 +46,11 @@ class JobTitleCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $jobTitleCategory = \Route::current()->parameter('job_title_category');
         CRUD::column('name')->label('የስራመደቡመጠሪያ');
-        // CRUD::column('vacant_post')->label('No of positions');
-        // CRUD::column('work_experience')->label('Experience');
         CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job grade');
-        // CRUD::column('unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name')->label('የስራ መደቡ የሚገኝበት የሥራክፍል');
-
-       // CRUD::column('field_of_study_id')->type('select')->entity('FieldOfStudy')->model(FieldOfStudy::class)->attribute('name');
-        CRUD::column('job_title_category_id')->type('select')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name');
-
-        // CRUD::column('description');
-
-
-
-
+        // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
         $this->crud->addFilter([
             'name'  => 'job_title_category_id',
             'type'  => 'select2_multiple',

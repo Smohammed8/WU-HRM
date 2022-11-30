@@ -28,18 +28,15 @@
         {{-- @if (backpack_user()->hasPermissionTo('structure.show')) --}}
         {{-- @if (backpack_user()->hasRole('Admin')) --}}
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'><i
-                    class='nav-icon la la-caret-right'></i> Organizations</a></li>
+                    class='nav-icon la la-caret-right'></i>Organizations</a></li>
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('unit') }}'><i
                     class='nav-icon la la-caret-right'></i>
                 Organizational Units</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'><i
-                    class='nav-icon la la-caret-right'></i>
-                Job titles</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'><i
-                    class='nav-icon la la-caret-right'></i> Job title categories</a></li>
+                    class='nav-icon la la-caret-right'></i>Job title categories</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'><i
-                    class='nav-icon la la-caret-right'></i> Employment types</a></li>
+                    class='nav-icon la la-caret-right'></i>Employment types</a></li>
     </ul>
 </li>
 

@@ -39,8 +39,8 @@ Route::group([
     Route::crud('family-relationship', 'FamilyRelationshipCrudController');
     Route::crud('field-of-study', 'FieldOfStudyCrudController');
     Route::crud('{employee}/internal-experience', 'InternalExperienceCrudController');
-    Route::crud('job-title', 'JobTitleCrudController');
     Route::crud('job-title-category', 'JobTitleCategoryCrudController');
+    Route::crud('job-title-category/{job_title_category}/job-title', 'JobTitleCrudController');
     Route::crud('language', 'LanguageCrudController');
     Route::crud('{employee}/license', 'LicenseCrudController');
     Route::crud('license-type', 'LicenseTypeCrudController');
@@ -102,8 +102,8 @@ Route::group([
     Route::get('placement-round/{placement_round}/compute-rank',[PlacementController::class,'computeScore'])->name('compute_rank');
     Route::get('placement-round/{placement_round}/place',[PlacementController::class,'makePlacement'])->name('place');
     Route::get('placement-round/{placement_round}/reset',[PlacementController::class,'reset'])->name('placement.reset');
-    
+
     Route::get('placement-round/{placement_round}/approve',[PlacementController::class,'approve'])->name('placement.approve');
-    
+
     Route::get('placement-round/{placement_round}/close',[PlacementController::class,'close'])->name('placement.close');
 });

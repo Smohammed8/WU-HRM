@@ -18,7 +18,7 @@ class JobTitleCategoryCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -42,7 +42,7 @@ class JobTitleCategoryCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('unit_id');
-
+        $this->crud->addButtonFromModelFunction('line', 'jobTitles', 'jobTitleButtonView', 'beginning');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
