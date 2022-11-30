@@ -17,7 +17,6 @@ class ExternalExperience extends Model
      */
     protected $fillable = [
         'employee_id',
-        'unit_id',
         'job_title',
         'company_name',
         'start_date',
@@ -33,7 +32,6 @@ class ExternalExperience extends Model
     protected $casts = [
         'id' => 'integer',
         'employee_id' => 'integer',
-        'unit_id' => 'integer',
         'start_date' => 'date',
         'end_date' => 'date',
     ];
@@ -43,8 +41,4 @@ class ExternalExperience extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
-    }
 }

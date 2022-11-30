@@ -30,19 +30,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            PermissionSeeder::class
+            PermissionSeeder::class,
+            TestDataSeeder::class,
         ]);
         PositionRequirement::findOrCreate(Constants::EDUCATION_CRITERIA);
         PositionRequirement::findOrCreate(Constants::EXPERIENCE_CRITERIA);
         Role::findOrCreate('super-admin');
-        $user = User::where('username','super')->first();
-        if($user == null)
-        $user = User::create([
-            'name' => 'Super Admin',
-            'username' => 'super',
-            'email' => 'super@hrm.com',
-            'password' => Hash::make('password'),
-        ]);
+        $user = User::where('username', 'super')->first();
+        if ($user == null)
+            $user = User::create([
+                'name' => 'Super Admin',
+                'username' => 'super',
+                'email' => 'super@hrm.com',
+                'password' => Hash::make('password'),
+            ]);
         $user->assignRole('super-admin');
         // MaritalStatus::factory(4)->create();
         // $nationality = Nationality::create(['nation'=>'Ethiopian','code'=>'ET','label'=>'Ethiopia']);

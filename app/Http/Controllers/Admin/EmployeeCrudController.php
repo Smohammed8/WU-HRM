@@ -6,6 +6,7 @@ use App\Constants;
 use App\Http\Requests\EmployeeAddressRequest;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Demotion;
+use App\Models\EducationalLevel;
 use App\Models\Employee;
 use App\Models\EmployeeAddress;
 use App\Models\EmployeeCategory;
@@ -287,6 +288,7 @@ class EmployeeCrudController extends CrudController
 
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
 
