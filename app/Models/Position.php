@@ -11,7 +11,7 @@ class Position extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
-    protected $appends = ['position_info'];
+    protected $appends = ['position_info','name'];
 
     /**
      * The attributes that are mass assignable.
@@ -41,6 +41,11 @@ class Position extends Model
     public function getPositionInfoAttribute()
     {
         return $this->jobTitle->name.' at '.$this->unit->name;
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->jobTitle->name;
     }
 
     public function unit()

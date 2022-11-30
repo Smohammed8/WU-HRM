@@ -124,38 +124,18 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        // $this->crud->enableAjaxTable();
-        // $this->crud->filters();
         $this->crud->enableDetailsRow();
-        // NOTE: you also need to do allow access to the right users:
         $this->crud->allowAccess('details_row');
-        // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
         $this->crud->setDetailsRowView('details_row');
-        //  $this->crud->denyAccess('show');
-        // $this->crud->enableExportButtons();
-        //$this->crud->enablePersistentTable();
         $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
-        //$this->crud->disablePersistentTable();
         $this->crud->denyAccess('delete');
         $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
-
-
-        //  if (!backpack_user()->isAdmin) {
-        //     $this->crud->denyAccess('delete');
-        //     }
-
-        // CRUD::column('first_name');
-        // CRUD::column('father_name');
-        // CRUD::column('grand_father_name');
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-
         CRUD::column('employment_identity')->label('Employee ID Number');
         CRUD::column('employement_date')->type('date');
-        // CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        CRUD::column('position_id')->type('select')->entity('position')->model(Position::class)->attribute('id');
-
+        CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
         $this->crud->addFilter(
             [
                 'type'  => 'date_range',
@@ -169,8 +149,6 @@ class EmployeeCrudController extends CrudController
                 $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
             }
         );
-
-
         $this->crud->addFilter([
             'name'  => 'unit_id',
             'type'  => 'select2_multiple',
@@ -181,24 +159,19 @@ class EmployeeCrudController extends CrudController
         }, function ($values) {
             $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
         });
-
-
         $this->crud->addFilter([
             'name'  => 'employment_type_id',
             'type'  => 'select2_multiple',
             'label' => 'Filter by type'
-
         ], function () {
             return \App\Models\EmploymentType::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'employment_type_id', json_decode($values));
         });
-
         $this->crud->addFilter([
             'name'  => 'job_title_id',
             'type'  => 'select2_multiple',
             'label' => 'By job title'
-
         ], function () {
             return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
@@ -224,8 +197,6 @@ class EmployeeCrudController extends CrudController
                 }
             }
         );
-
-        // column with custom search logic
         $this->crud->addColumn([
             'name'        => 'slug_or_title',
             'label'       => 'Title',
@@ -233,20 +204,6 @@ class EmployeeCrudController extends CrudController
                 $query->orWhere('title', 'like', '%' . $searchTerm . '%');
             }
         ]);
-
-
-
-
-        // $this->crud->addFilter([
-        //     'name'  => 'problem_id',
-        //     'type'  => 'select2_multiple',
-        //     'label' => 'Filter by client request'
-
-        // ], function() {
-        //     return \App\Models\Problem::all()->pluck('name', 'id')->toArray();
-        // }, function($values) {
-        //     $this->crud->addClause('whereIn', 'problem_id', json_decode($values));
-        // });
     }
 
 

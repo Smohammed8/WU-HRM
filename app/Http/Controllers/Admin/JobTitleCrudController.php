@@ -174,7 +174,6 @@ class JobTitleCrudController extends CrudController
         CRUD::field('position_type_id')->label('Position Type')->type('select2')->model(PositionType::class)->size(4)->attribute('title');
         CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(4);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
-        CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6);
 
         // CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
         CRUD::field('description');

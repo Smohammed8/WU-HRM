@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\JobTitleCategoryRequest;
+use App\Models\FieldOfStudy;
 use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -60,6 +61,7 @@ class JobTitleCategoryCrudController extends CrudController
     {
         CRUD::setValidation(JobTitleCategoryRequest::class);
 
+        CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6);
         CRUD::field('name')->size(6);
         CRUD::field('unit_id')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
         CRUD::field('description');

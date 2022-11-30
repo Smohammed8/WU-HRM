@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use LdapRecord\Models\Relations\HasMany;
 
 class JobTitleCategory extends Model
 {
@@ -34,6 +35,7 @@ class JobTitleCategory extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
 
 
     public function jobTitleButtonView($crud = false)
