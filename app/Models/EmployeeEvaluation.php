@@ -19,6 +19,7 @@ class EmployeeEvaluation extends Model
         'employee_id',
         'evalution_creteria_id',
         'evaluation_level_id',
+        'evaluation_id',
     ];
 
     /**

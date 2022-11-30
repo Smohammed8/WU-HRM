@@ -101,7 +101,21 @@ class EmployeeCrudController extends CrudController
         return view('crud::details_row', $this->data);
     }
 
+//////////////////////////////////// get Last 3 average effiency /////////////////
+//$efficnecies = Evaluation::where('employee_id' ,$employe_id)->where('quarter_id','=',1)->get()->toArray();
+    public function getEffiency($employe_id){
+       $efficnecies = Evaluation::select('total_mark')->where('employee_id',$employe_id)->where('quarter_id',1)->pluck('total_mark')->toArray();
+         $sum = array_sum($efficnecies);
+        if ($sum  ==null) {
+            $result = 0;
+            }
+        else {
+            $result = $sum ;
+         }
+      return $result;
+     }
 
+////////////////////////////////////////////////////////////////////////
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -117,15 +131,12 @@ class EmployeeCrudController extends CrudController
         $this->crud->allowAccess('details_row');
         // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
         $this->crud->setDetailsRowView('details_row');
-
-
         //  $this->crud->denyAccess('show');
-        $this->crud->enableExportButtons();
+               // $this->crud->enableExportButtons();
         //$this->crud->enablePersistentTable();
         $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
         //$this->crud->disablePersistentTable();
         $this->crud->denyAccess('delete');
-
         $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
 
@@ -136,15 +147,13 @@ class EmployeeCrudController extends CrudController
         // CRUD::column('first_name');
         // CRUD::column('father_name');
         // CRUD::column('grand_father_name');
-        CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
-            return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
-        });
+          CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
+            return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;  });
 
-
-        CRUD::column('employment_identity')->label('Employee ID Number');
-
-        CRUD::column('employement_date')->type('date');
-        CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
+          CRUD::column('employment_identity')->label('Employee ID Number');
+          CRUD::column('employement_date')->type('date');
+       // CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
+          CRUD::column('position_id')->type('select')->entity('position')->model(Position::class)->attribute('id');
 
         $this->crud->addFilter(
             [
@@ -317,9 +326,9 @@ class EmployeeCrudController extends CrudController
         // $this->crud->enableVerticalTabs();
         $this->crud->enableHorizontalTabs();
 
-        $pi = 'Personal Information';
-        $ci = 'Contact Information';
-        $bio = 'Bio Information';
+        $pi     = 'Personal Information';
+        $ci     = 'Contact Information';
+        $bio    = 'Bio Information';
         $address = 'Address Information';
         $job    = 'Job Information';
         $edu    = 'Employee Credentials';
@@ -335,23 +344,17 @@ class EmployeeCrudController extends CrudController
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('date_of_birth')->size(6)->tab($pi);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
-
         CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
         CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
         CRUD::field('uas_user_id')->tab($edu)->size(3);
-
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
         CRUD::field('ethnicity_id')->size(6)->tab($bio);
-
         CRUD::field('phone_number')->size(6)->tab($ci);
         CRUD::field('email')->type('email')->size(6)->tab($ci);
         // CRUD::field('rfid')->size(4);
         CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($ci);
-
-
-
         CRUD::field('religion_id')->size(6)->tab($address);
         // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
 
@@ -510,12 +513,20 @@ class EmployeeCrudController extends CrudController
         $this->data['units'] = $units;
         $quarters =    Quarter::orderBy('id', 'desc')->Paginate(4);
         $this->data['quarters'] = $quarters;
-
+      ////////////////////////////////////////////////////////////////////
+        $this->data['last_effiency'] =  $this->getEffiency($this->crud->getCurrentEntryId());
+      ////////////////////////////////////////////////////////////////////
 
         $employeeEvaluations = EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
+
+       // $employeeEvaluations = EmployeeEvaluation::where('employee_id', $this->crud->getCurrentEntryId())->orderBy('id', 'desc')->Paginate(10);
+
+
         $this->data['employeeEvaluations'] = $employeeEvaluations;
 
-        $evaluations = Evaluation::orderBy('id', 'desc')->Paginate(4);
+
+        $evaluations = Evaluation::where('employee_id', $this->crud->getCurrentEntryId())->orderBy('id', 'desc')->Paginate(4);
+
         $this->data['evaluations'] = $evaluations;
 
         $si = SalaryIncreament::select('percentage')->get()->first()->percentage ?? 0;
