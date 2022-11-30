@@ -34,7 +34,7 @@ class JobTitleCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\JobTitle::class);
         $jobTitleCategory = \Route::current()->parameter('job_title_category');
-        CRUD::setRoute(config('backpack.base.route_prefix') .'/job-title-category/'.$jobTitleCategory. '/job-title');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title-category/' . $jobTitleCategory . '/job-title');
         CRUD::setEntityNameStrings('job title', 'job titles');
     }
 
@@ -46,11 +46,19 @@ class JobTitleCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $jobTitleCategory = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
         CRUD::column('name')->label('የስራመደቡመጠሪያ');
         CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job grade');
         // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
+        $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
+        $this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Job Title Categories' => route('job-title-category.index'),
+            'Job Titles' => false,
+        ];
+        $this->data['breadcrumbs'] = $breadcrumbs;
         $this->crud->addFilter([
             'name'  => 'job_title_category_id',
             'type'  => 'select2_multiple',
@@ -60,9 +68,6 @@ class JobTitleCrudController extends CrudController
         }, function ($values) {
             $this->crud->addClause('whereIn', 'job_title_category_id', json_decode($values));
         });
-
-
-
         $this->crud->addFilter([
             'name'  => 'unit_id',
             'type'  => 'select2_multiple',
@@ -153,6 +158,14 @@ class JobTitleCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(JobTitleRequest::class);
+        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Job Title Categories' => route('job-title-category.index'),
+            'Job Titles' => route('job-title-category/{job_title_category}/job-title.index', ['job_title_category' => $jobTitleCategoryId]),
+            'Add' => false,
+        ];
+        $this->data['breadcrumbs'] = $breadcrumbs;
         CRUD::field('name')->label('Job title')->label('የስራመደቡመጠሪያ')->size(6);
         CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(6);
         CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(6);
@@ -165,7 +178,7 @@ class JobTitleCrudController extends CrudController
 
         // CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
         CRUD::field('description');
-         /**
+        /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
@@ -182,5 +195,4 @@ class JobTitleCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
-
 }
