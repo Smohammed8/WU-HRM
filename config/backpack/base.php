@@ -53,11 +53,12 @@ return [
         //Here is one
         'nassets/css/fontawesome/all.min.css',
 
-        'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
+        // 'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
         'packages/source-sans-pro/source-sans-pro.css',
         'packages/line-awesome/css/line-awesome.min.css',
-
+        'packages/backpack/base/css/blue-bundle.css',
         'nassets/css/adminlte.min.css',
+        'nassets/css/abdi.css'
         // Example (the fonts above, loaded from CDN instead)
         // 'https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css',
         // 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic',
@@ -83,7 +84,7 @@ return [
     'breadcrumbs' => true,
 
     // Horizontal navbar classes. Helps make the admin panel look similar to your project's design.
-    'header_class' => 'app-header bg-blue border-0 navbar',
+    'header_class' => 'app-header bg-blue border-0 navbar-light',
     // For background colors use: bg-dark, bg-primary, bg-secondary, bg-danger, bg-warning, bg-success, bg-info, bg-blue, bg-light-blue, bg-indigo, bg-purple, bg-pink, bg-red, bg-orange, bg-yellow, bg-green, bg-teal, bg-cyan, bg-white
     // For links to be visible on different background colors use: "navbar-dark", "navbar-light", "navbar-color"
 
@@ -92,7 +93,7 @@ return [
     // ----
 
     // Body element classes.
-    'body_class' => 'app aside-menu-fixed sidebar-lg-show',
+    'body_class' => 'sidebar-mini control-sidebar-slide-open layout-navbar-fixed layout-fixed app aside-menu-fixed sidebar-lg-show',
     // Try sidebar-hidden, sidebar-fixed, sidebar-compact, sidebar-lg-show
 
     // Sidebar element classes.

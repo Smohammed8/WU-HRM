@@ -26,7 +26,7 @@ class ChairManTypeRequest extends FormRequest
         return [
            'name' => 'required|unique:chair_man_types|regex:/^[a-z A-Z]+$/u|min:5|max:50',
           //'username' => 'required|string|min:3|max:50|alpha_dash|unique:chair_man_types',
-            'description'=>'nullable|regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            'description'=>'nullable|min:10|max:255',
         ];
     }
 
