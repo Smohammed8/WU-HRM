@@ -31,7 +31,7 @@ class PositionRequest extends FormRequest
         $jobTitleId = $this->input('job_title_id');
         $unitId = $this->input('unit_id');
         if (Position::where('job_title_id', $jobTitleId)->where('unit_id', $unitId)->count() > 0) {
-            if (in_array($this->method(), ['GET'])) {
+            if (in_array($this->method(), ['POST'])) {
                 throw ValidationException::withMessages(['unit' => 'Existing job within current unit']);
             }
         }

@@ -242,8 +242,6 @@ class EmployeeCrudController extends CrudController
         CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('phone_number')->size(6)->tab($pi);
-        // CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(4)->tab($pi);
-
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
@@ -315,58 +313,12 @@ class EmployeeCrudController extends CrudController
         CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($ci);
         CRUD::field('religion_id')->size(6)->tab($address);
         // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
-
         CRUD::field('employement_date')->size(6)->tab($job);
-
         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('name')->size(6)->tab($address);
         CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
-
         CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
-
-        // CRUD::field('employeeAddresses')
-        // ->type('repeatable')
-        // ->label('Employee Address')
-        // ->fields([
-        //     [
-        //         'name'    => 'id',
-        //         'type'    => 'hidden',
-        //     ],
-        //     [
-        //         'name'    => 'address_type',
-        //         'type'    => 'select_from_array',
-        //         'options'     => ['Home' => 'Home', 'Work' => 'Work','Other'=>'Other'],
-        //     ],
-        //     [
-        //         'name'    => 'name',
-        //         'type'    => 'text',
-        //     ],
-        // ])->tab($tabName);
-        // $tabName = 'Employee Licenses';
-        // CRUD::field('employeeAddresses')
-        // ->type('repeatable')
-        // ->label('Employee Licenses')
-        // ->fields([
-        //     [
-        //         'name'    => 'id',
-        //         'type'    => 'hidden',
-        //     ],
-        //     [
-        //         'name'    => 'license_type_id',
-        //         'type'    => 'select_from_array',
-        //         'options'=> LicenseType::get()->pluck('name','id')->toArray()
-        //     ],
-        //     [
-        //         'name'    => 'upload_file_id',
-        //         'type'    => 'upload',
-        //     ],
-        // ])->tab($tabName);
-        // dd($this->crud->getCurrentEntry());
-        // $this->crud->addColumn([ 'name' => 'externalExperiences.company_name','tab'=>$tabName]);
-        // CRUD::field('passport')->tab($tabName)->size(3);
-        // CRUD::field('rfid')->tab($tabName)->size(3);
-        // CRUD::field('uas_user_id')->tab($tabName)->size(3);
     }
 
 
