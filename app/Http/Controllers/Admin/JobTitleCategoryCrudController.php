@@ -7,7 +7,7 @@ use App\Models\FieldOfStudy;
 use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use App\Models\RelatedWork;
 /**
  * Class JobTitleCategoryCrudController
  * @package App\Http\Controllers\Admin
@@ -44,6 +44,7 @@ class JobTitleCategoryCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('unit_id');
         $this->crud->addButtonFromModelFunction('line', 'jobTitles', 'jobTitleButtonView', 'beginning');
+        $this->crud->addButtonFromModelFunction('line', 'fieldOfStudies', 'fieldOfStudyButtonView', 'beginning');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -61,11 +62,10 @@ class JobTitleCategoryCrudController extends CrudController
     {
         CRUD::setValidation(JobTitleCategoryRequest::class);
 
-        CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6);
         CRUD::field('name')->size(6);
         CRUD::field('unit_id')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
+        // CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(12);
         CRUD::field('description');
-
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -82,5 +82,37 @@ class JobTitleCategoryCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+
+    /**
+     * Store a newly created resource in the database.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+
+        // insert item in the db
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+        $this->data['entry'] = $this->crud->entry = $item;
+        foreach($this->crud->getStrippedSaveRequest()['field_of_study_id'] as $fieldOfStudyId){
+            RelatedWork::create([
+                'field_of_studie_id'    => $fieldOfStudyId,
+                'job_title_categorie_id'=> $this->crud->getCurrentEntryId()
+            ]);
+        }
+
+        // show a success message
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return $this->crud->performSaveAction($item->getKey());
     }
 }

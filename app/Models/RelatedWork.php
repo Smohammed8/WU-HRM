@@ -33,13 +33,10 @@ class RelatedWork extends Model
         'field_of_studie_id' => 'integer',
     ];
 
-    public function jobTitleCategory()
-    {
-        return $this->belongsTo(JobTitleCategory::class);
-    }
+
 
     public function fieldOfStudy()
     {
-        return $this->belongsTo(FieldOfStudy::class);
+        return $this->belongsTo(FieldOfStudy::class,'field_of_studie_id','id');
     }
 }
