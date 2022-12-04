@@ -6,6 +6,9 @@ use App\Constants;
 use App\Models\EducationComparisonCriteria;
 use App\Models\Employee;
 use App\Models\ExperienceComparisonCriteria;
+use App\Models\ExternalExperience;
+use App\Models\InternalExperience;
+use App\Models\JobTitle;
 use App\Models\PlacementChoice;
 use App\Models\Position;
 use App\Models\PositionRequirement;
@@ -70,55 +73,28 @@ class Score
         $score = 0;
         $scoreSecond = 0;
         $arrScores = [];
-        $employeeExperience = Carbon::now()->diff(Carbon::parse($placementChoice->employee->employement_date))->y;
+        // $employeeExperience = Carbon::now()->diff(Carbon::parse($placementChoice?->employee?->employement_date))->y;
 
-        $employeeeFirstChoice = $placementChoice->choiceOne;
-        $employeeeSecondChoice = $placementChoice->choiceTwo;
+        $employeeeFirstChoice = $placementChoice?->choiceOne;
+        $employeeSecondChoice = $placementChoice?->choiceTwo;
 
-        $positionType = $employeeeFirstChoice->jobTitle->positionType;
-        $requirement = PositionRequirement::where('name', Constants::EXPERIENCE_CRITERIA)->first();
+        $choiceOneJobTitle = $employeeeFirstChoice?->jobTitle;
+        $choiceTwoJobTitle = $employeeSecondChoice?->jobTitle;
+        
+        $employeeInternalExperience = $placementChoice->employee->internalExperiences->first();
+        $employeeExternalExperience = $placementChoice->employee->externalExperiences->first();
 
-        $positionValue = PositionValue::where('position_type_id', $positionType->id)->where('position_requirement_id', $requirement->id)->first();
+        $internalExpChoiceOne = Score::calculateInternalExperience($employeeInternalExperience, $choiceOneJobTitle);
+        $externalExpChoiceone = Score::calculateExternalExperience($employeeExternalExperience, $choiceOneJobTitle);
 
-        $experienceCriterias = ExperienceComparisonCriteria::where('position_value_id', $positionValue->id)->get();
-
-        foreach ($experienceCriterias as $key => $experienceCriteria) {
-            if (!$experienceCriteria->max_year) {
-                $minYear = $experienceCriteria->min_year;
-                if ($employeeExperience > $minYear) {
-                    $score = $experienceCriteria->value;
-                }
-            } else {
-                $minYear = $experienceCriteria->min_year;
-                $maxYear = $experienceCriteria->max_year;
-
-                if ($minYear < $employeeExperience && $employeeExperience < $maxYear) {
-                    $score = $experienceCriteria->value;
-                }
-            }
-        }
-
-        $positionTypeSecond = $employeeeSecondChoice->jobTitle->positionType;
-
-        $positionValueSecond = PositionValue::where('position_type_id', $positionTypeSecond->id)->where('position_requirement_id', $requirement->id)->first();
-
-        $experienceSecondCriterias = ExperienceComparisonCriteria::where('position_value_id', $positionValueSecond->id)->get();
-
-        foreach ($experienceSecondCriterias as $key => $experienceSecondCriteria) {
-            if (!$experienceSecondCriteria->max_year) {
-                $minYear = $experienceSecondCriteria->min_year;
-                if ($employeeExperience > $minYear) {
-                    $scoreSecond = $experienceSecondCriteria->value;
-                }
-            } else {
-                $minYear = $experienceSecondCriteria->min_year;
-                $maxYear = $experienceSecondCriteria->max_year;
-
-                if ($minYear < $employeeExperience && $employeeExperience < $maxYear) {
-                    $scoreSecond = $experienceSecondCriteria->value;
-                }
-            }
-        }
+        $internalExpChoiceTwo = Score::calculateInternalExperience($employeeInternalExperience, $choiceTwoJobTitle);
+        $externalExpChoiceTwo = Score::calculateExternalExperience($employeeExternalExperience, $choiceTwoJobTitle);
+        
+        $totalyearOne = Score::calculateTotalYear($internalExpChoiceOne, $externalExpChoiceone);
+        $totalyearTwo = Score::calculateTotalYear($internalExpChoiceTwo, $externalExpChoiceTwo);
+        
+        $score = Score::getExpScore($choiceOneJobTitle, $totalyearOne);
+        $scoreSecond = Score::getExpScore($choiceTwoJobTitle, $totalyearTwo);
 
         array_push($arrScores, $score);
         array_push($arrScores, $scoreSecond);
@@ -169,5 +145,75 @@ class Score
             $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
         }
         return $educationComparisonCriteria->value;
+    }
+
+    public static function calculateInternalExperience($internalExperience, $jobTitle)
+    {
+        $internalExp = 0;
+        if ($internalExperience) {
+            if ($internalExperience->jobTitle == $jobTitle) {
+                $startDate = $internalExperience->start_date;
+                if (!$internalExperience->end_date) {
+                    $endDate = Carbon::now();
+                }else{
+                    $endDate = $internalExperience->end_date;
+                }
+                $internalExp = $endDate->diffInYears($startDate);
+            }
+        }
+        return $internalExp;
+    }
+
+    public static function calculateExternalExperience($externalExperience, $jobTitle)
+    {
+        $externalExp = 0;
+        if ($externalExperience) {
+            if ($externalExperience->job_title == $jobTitle->name) {
+                $startDate = $externalExperience->start_date;
+                if (!$externalExperience->end_date) {
+                    $endDate = Carbon::now();
+                }else{
+                    $endDate = $externalExperience->end_date;
+                }
+                $externalExp = $endDate->diffInYears($startDate);
+            }
+        }
+        return $externalExp;
+    }
+
+    public static function calculateTotalYear($internalExp, $externalExp)
+    {
+        $totalyear = $internalExp + $externalExp;
+        return $totalyear;
+    }
+
+    public static function getExpScore($jobTitle, $totalyear)
+    {
+        $score = 0;
+        $positionType = $jobTitle?->positionType;
+        
+        $requirement = PositionRequirement::where('name', Constants::EXPERIENCE_CRITERIA)->first();
+
+        $positionValue = PositionValue::where('position_type_id', $positionType?->id)->where('position_requirement_id', $requirement?->id)->first();
+        
+        $experienceCriterias = ExperienceComparisonCriteria::where('position_value_id', $positionValue?->id)->get();
+
+        foreach ($experienceCriterias as $key => $experienceCriteria) {
+            if (!$experienceCriteria->max_year) {
+                $minYear = $experienceCriteria->min_year;
+                if ($totalyear > $minYear) {
+                    $score = $experienceCriteria->value;
+                }
+            } else {
+                $minYear = $experienceCriteria->min_year;
+                $maxYear = $experienceCriteria->max_year;
+
+                if ($minYear < $totalyear && $totalyear < $maxYear) {
+                    $score = $experienceCriteria->value;
+                }
+            }
+        }
+
+        return $score;
     }
 }
