@@ -723,7 +723,6 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                             <tr>
                                 <th>Unit</th>
                                 <th>Job Title</th>
-                                <th>Position</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Action</th>
@@ -734,9 +733,8 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                             <tr>
                                 <td>{{ $internalExperience->unit?->name }}</td>
                                 <td>{{ $internalExperience->jobTitle?->name }}</td>
-                                <td>{{ $internalExperience->position }}</td>
                                 <td>{{ $internalExperience->start_date->format('Y/m/d') }}</td>
-                                <td>{{ $internalExperience->end_date->format('Y/m/d') }}</td>
+                                <td>{{ $internalExperience->end_date?->format('Y/m/d')??'Currently working' }}</td>
                                 <td>
                                     <a href="{{ route('{employee}/internal-experience.edit', ['employee'=>$crud->entry?->id,'id'=>$internalExperience->id]) }}"
                                         class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>

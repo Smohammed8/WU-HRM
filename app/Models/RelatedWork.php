@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Database\Factories\FieldOfStudyFactory;
+use Database\Factories\JobTitleCategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,8 +18,8 @@ class RelatedWork extends Model
      * @var array
      */
     protected $fillable = [
-        'minimum_requirement_id',
-        'job_title_id',
+    'field_of_studie_id',
+        'job_title_categorie_id',
     ];
 
     /**
@@ -27,22 +29,14 @@ class RelatedWork extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'minimum_requirement_id' => 'integer',
-        'job_title_id' => 'integer',
+        'job_title_categorie_id' => 'integer',
+        'field_of_studie_id' => 'integer',
     ];
 
-    public function minimumRequirement()
-    {
-        return $this->belongsTo(MinimumRequirement::class);
-    }
 
-    public function getJobNameAttribute()
-    {
-        return $this->jobTitle->name;
-    }
 
-    public function jobTitle()
+    public function fieldOfStudy()
     {
-        return $this->belongsTo(JobTitle::class);
+        return $this->belongsTo(FieldOfStudy::class,'field_of_studie_id','id');
     }
 }

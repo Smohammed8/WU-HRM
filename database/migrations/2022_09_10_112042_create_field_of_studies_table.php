@@ -17,7 +17,6 @@ class CreateFieldOfStudiesTable extends Migration
 
         Schema::create('field_of_studies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('educational_level_id')->constrained('educational_levels');
             $table->string('name', 255)->unique();
             $table->text('description')->nullable();
             $table->timestamps();
