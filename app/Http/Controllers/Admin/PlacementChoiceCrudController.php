@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Constants;
 use App\Http\Requests\PlacementChoiceRequest;
 use App\Models\PlacementRound;
 use App\Models\Position;
@@ -30,7 +31,7 @@ class PlacementChoiceCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\PlacementChoice::class);
         $placementRound = \Route::current()->parameter('placement_round');
-        CRUD::setRoute(config('backpack.base.route_prefix').'/placement-round/' .$placementRound. '/placement-choice');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-round/' . $placementRound . '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
         $this->crud->setListView('placement_choice.show');
     }
@@ -43,8 +44,14 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $placementRoundId = \Route::current()->parameter('placement_round');
+        $placementRound = PlacementRound::find($placementRoundId);
+        if ($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_CLOSED) {
+            $this->crud->removeAllButtons();
+        }
         $this->crud->removeAllButtonsFromStack('line');
-        // $this->crud->removeAllButtons();
+        // if($this->crud->getCurrentEntry()){
+        // }
         // CRUD::column('placementRound.round')->label('Round');
         CRUD::column('employee_id');
         CRUD::column('choiceOne.jobTitle.name')->label('Choice One');

@@ -47,7 +47,6 @@ class Score
                 }
             }
         }
-        dd('sd');
     }
     public static function computeResult()
     {
