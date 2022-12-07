@@ -43,6 +43,8 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->removeAllButtonsFromStack('line');
+        // $this->crud->removeAllButtons();
         // CRUD::column('placementRound.round')->label('Round');
         CRUD::column('employee_id');
         CRUD::column('choiceOne.jobTitle.name')->label('Choice One');

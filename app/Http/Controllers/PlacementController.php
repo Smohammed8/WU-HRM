@@ -22,10 +22,11 @@ class PlacementController extends Controller
 
     public function makePlacement(PlacementRound $placementRound)
     {
+        Score::placeEmployee();
         $placementRound->update(['status'=>Constants::PLACEMENT_ROUND_STATUS_PLACED]);
         return redirect()->back();
     }
-    
+
     public function approve(PlacementRound $placementRound)
     {
         $placementRound->update(['status'=>Constants::PLACEMENT_ROUND_STATUS_APPROVED]);
@@ -34,10 +35,10 @@ class PlacementController extends Controller
 
     public function reset(PlacementRound $placementRound)
     {
+        // if($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_)
         if($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_OPENED ||$placementRound->status >= Constants::PLACEMENT_ROUND_STATUS_APPROVED ){
             return redirect()->back();
         }
-
         $placementRound->update([
             'status' => $placementRound->status -1,
         ]);

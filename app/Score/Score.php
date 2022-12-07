@@ -19,13 +19,16 @@ use Illuminate\Support\Facades\DB;
 class Score
 {
 
+    public static function placeEmployee()
+    {
+        dd('placing employee');
+    }
     public static function computeResult()
     {
         $palcementChoices = PlacementChoice::all();
         foreach ($palcementChoices as $palcementChoice) {
             Score::calculateChoiceResult($palcementChoice);
         }
-
     }
 
     public static function computeRank( )
@@ -80,7 +83,7 @@ class Score
 
         $choiceOneJobTitle = $employeeeFirstChoice?->jobTitle;
         $choiceTwoJobTitle = $employeeSecondChoice?->jobTitle;
-        
+
         $employeeInternalExperience = $placementChoice->employee->internalExperiences->first();
         $employeeExternalExperience = $placementChoice->employee->externalExperiences->first();
 
@@ -89,10 +92,10 @@ class Score
 
         $internalExpChoiceTwo = Score::calculateInternalExperience($employeeInternalExperience, $choiceTwoJobTitle);
         $externalExpChoiceTwo = Score::calculateExternalExperience($employeeExternalExperience, $choiceTwoJobTitle);
-        
+
         $totalyearOne = Score::calculateTotalYear($internalExpChoiceOne, $externalExpChoiceone);
         $totalyearTwo = Score::calculateTotalYear($internalExpChoiceTwo, $externalExpChoiceTwo);
-        
+
         $score = Score::getExpScore($choiceOneJobTitle, $totalyearOne);
         $scoreSecond = Score::getExpScore($choiceTwoJobTitle, $totalyearTwo);
 
@@ -191,11 +194,11 @@ class Score
     {
         $score = 0;
         $positionType = $jobTitle?->positionType;
-        
+
         $requirement = PositionRequirement::where('name', Constants::EXPERIENCE_CRITERIA)->first();
 
         $positionValue = PositionValue::where('position_type_id', $positionType?->id)->where('position_requirement_id', $requirement?->id)->first();
-        
+
         $experienceCriterias = ExperienceComparisonCriteria::where('position_value_id', $positionValue?->id)->get();
 
         foreach ($experienceCriterias as $key => $experienceCriteria) {
