@@ -25,6 +25,7 @@ class Position extends Model
         'available_for_placement',
         'position_type_id',
         'status',
+        'position_available_for_placement',
     ];
 
     /**

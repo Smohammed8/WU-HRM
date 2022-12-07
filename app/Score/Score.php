@@ -24,15 +24,15 @@ class Score
         $placementChoices = PlacementChoice::all();
         $positions = Position::all();
         foreach ($positions as $key => $position) {
-            $quota = $position->available_for_placement;
+            $quota = $position->position_available_for_placement;
             $counter = 0;
             $positionOnePlacementChoices = DB::table('placement_choices as pc')->where('choice_one_id', $position->id)->select('pc.id', 'pc.choice_one_rank as rank')->get();
             $positionTwoPlacementChoices = DB::table('placement_choices as pc')->where('choice_two_id', $position->id)->select('pc.id', 'pc.choice_two_rank as rank')->get();
             $merge = $positionOnePlacementChoices->merge($positionTwoPlacementChoices)->sortBy('rank')->toArray();
             $x = [];
             foreach ($positionTwoPlacementChoices as $checkPos) {
-                if (PlacementChoice::find($checkPos->id)->choice_one_rank <= PlacementChoice::find($checkPos->id)->choiceOne->available_for_placement) {
-                    array_push($x, $checkPos->id);
+                if (PlacementChoice::find($checkPos->id)->choice_one_rank <= PlacementChoice::find($checkPos->id)->choiceOne->position_available_for_placement) {
+                    array_push($x, PlacementChoice::find($checkPos->id)->id);
                 }
             }
             foreach ($merge as $item) {
@@ -47,6 +47,7 @@ class Score
                 }
             }
         }
+        dd('sd');
     }
     public static function computeResult()
     {
