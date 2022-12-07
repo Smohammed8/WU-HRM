@@ -53,6 +53,7 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::column('choice_two_result')->label('Result Two');
         CRUD::column('choice_one_rank')->label('Rank One');
         CRUD::column('choice_two_rank')->label('Rank Two');
+        CRUD::column('new_position')->type('select')->model(Position::class)->entity('newPosition')->attribute('position_info')->label('New Position');
         $this->crud->denyAccess('show');
         $this->crud->denyAccess('update');
         $this->crud->denyAccess('delete');

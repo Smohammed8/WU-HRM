@@ -21,7 +21,32 @@ class Score
 
     public static function placeEmployee()
     {
-        dd('placing employee');
+        $placementChoices = PlacementChoice::all();
+        $positions = Position::all();
+        foreach ($positions as $key => $position) {
+            $quota = $position->available_for_placement;
+            $counter = 0;
+            $positionOnePlacementChoices = DB::table('placement_choices as pc')->where('choice_one_id', $position->id)->select('pc.id', 'pc.choice_one_rank as rank')->get();
+            $positionTwoPlacementChoices = DB::table('placement_choices as pc')->where('choice_two_id', $position->id)->select('pc.id', 'pc.choice_two_rank as rank')->get();
+            $merge = $positionOnePlacementChoices->merge($positionTwoPlacementChoices)->sortBy('rank')->toArray();
+            $x = [];
+            foreach ($positionTwoPlacementChoices as $checkPos) {
+                if (PlacementChoice::find($checkPos->id)->choice_one_rank <= PlacementChoice::find($checkPos->id)->choiceOne->available_for_placement) {
+                    array_push($x, $checkPos->id);
+                }
+            }
+            foreach ($merge as $item) {
+                if ($counter >= $quota) {
+                    break;
+                }
+                if (!in_array($item->id, $x)) {
+                    $counter++;
+                    PlacementChoice::find($item->id)->update([
+                        'new_position' => $position->id
+                    ]);
+                }
+            }
+        }
     }
     public static function computeResult()
     {
@@ -31,25 +56,25 @@ class Score
         }
     }
 
-    public static function computeRank( )
+    public static function computeRank()
     {
         Score::computeResult();
         $positions = Position::all();
         $res = [];
         foreach ($positions as $position) {
-            $positionOnePlacementChoices = DB::table('placement_choices as pc')->where('choice_one_id', $position->id)->select('pc.id', 'pc.choice_one_result')->get();
-            $positionTwoPlacementChoices = DB::table('placement_choices as pc')->where('choice_two_id', $position->id)->select('pc.id', 'pc.choice_two_result')->get();
-            $merge = $positionOnePlacementChoices->merge($positionTwoPlacementChoices)->toArray();
+            $positionOnePlacementChoices = DB::table('placement_choices as pc')->where('choice_one_id', $position->id)->select('pc.id', 'pc.choice_one_result as result')->get();
+            $positionTwoPlacementChoices = DB::table('placement_choices as pc')->where('choice_two_id', $position->id)->select('pc.id', 'pc.choice_two_result as result')->get();
+            $merge = $positionOnePlacementChoices->merge($positionTwoPlacementChoices)->sortBy('result')->toArray();
             sort($merge);
             foreach ($merge as $key => $value) {
                 $placementChoice = PlacementChoice::find($value->id);
-                if($placementChoice->choice_one_id == $position->id){
+                if ($placementChoice->choice_one_id == $position->id) {
                     $placementChoice->update([
-                        'choice_one_rank'=>$key+1,
+                        'choice_one_rank' => $key + 1,
                     ]);
-                }else{
+                } else {
                     $placementChoice->update([
-                        'choice_two_rank'=>$key+1,
+                        'choice_two_rank' => $key + 1,
                     ]);
                 }
             }
@@ -140,12 +165,14 @@ class Score
         $positionValue = PositionValue::where('position_type_id', $jobTitle->positionType->id)->where('position_requirement_id', $positionRequirement->id)->first();
         if ($positionValue == null)
             return null;
-        //
         $educationComparisonCriteriaQuery = EducationComparisonCriteria::where('position_value_id', $positionValue->id)->where('educational_level_id', $employee->educationLevel->id);
-        if ($educationComparisonCriteriaQuery->count() == 2) {
+        if ($educationComparisonCriteriaQuery->count() >= 2) {
             $educationComparisonCriteria = $educationComparisonCriteriaQuery->where('min_educational_level_id', $jobTitle->educational_level_id)->first();
         } else {
             $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
+        }
+        if($educationComparisonCriteria == null){
+            abort(403, 'Please enter correct educational criteria for education level  '.$employee->educationLevel->name.' on position ' .$position->jobTitle->name );
         }
         return $educationComparisonCriteria->value;
     }
@@ -158,7 +185,7 @@ class Score
                 $startDate = $internalExperience->start_date;
                 if (!$internalExperience->end_date) {
                     $endDate = Carbon::now();
-                }else{
+                } else {
                     $endDate = $internalExperience->end_date;
                 }
                 $internalExp = $endDate->diffInYears($startDate);
@@ -175,7 +202,7 @@ class Score
                 $startDate = $externalExperience->start_date;
                 if (!$externalExperience->end_date) {
                     $endDate = Carbon::now();
-                }else{
+                } else {
                     $endDate = $externalExperience->end_date;
                 }
                 $externalExp = $endDate->diffInYears($startDate);
