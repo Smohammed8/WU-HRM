@@ -28,9 +28,8 @@ class ExternalExperienceRequest extends FormRequest
             // 'name' => 'required|min:5|max:255'
 
             'employee_id' =>'required',
-            'unit_id'=>'required',
-            'job_title'=> 'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
-            'company_name' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
+            'job_title'=> 'required',
+            'company_name' =>'required|regex:/^[a-z A-Z]+$/u|min:3|max:30',
             'start_date'=> 'required|date',
             'end_date'=>'required|date',
             'comment' => 'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',

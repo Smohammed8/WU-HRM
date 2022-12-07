@@ -17,8 +17,8 @@ class CreateRelatedWorksTable extends Migration
 
         Schema::create('related_works', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('minimum_requirement_id')->constrained();
-            $table->foreignId('job_title_id')->constrained();
+            $table->foreignId('field_of_studie_id')->constrained();
+            $table->foreignId('job_title_categorie_id')->constrained();
             $table->timestamps();
         });
 

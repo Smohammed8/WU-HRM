@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RelatedWorkRequest;
+use App\Models\FieldOfStudy;
 use App\Models\JobTitle;
 use App\Models\MinimumRequirement;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -19,7 +20,7 @@ class RelatedWorkCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -29,8 +30,9 @@ class RelatedWorkCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\RelatedWork::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/related-work');
-        CRUD::setEntityNameStrings('related work', 'related works');
+        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/job-title-category/'.$jobTitleCategoryId . '/related-work');
+        CRUD::setEntityNameStrings('related field', 'related fields');
     }
 
     /**
@@ -41,8 +43,15 @@ class RelatedWorkCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('minimum_requirement_id');
-        CRUD::column('job_title_id');
+        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        CRUD::column('fieldOfStudy.name')->label("Field of study");
+        $this->crud->addClause('where', 'job_title_categorie_id', '=',$jobTitleCategoryId);
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Job Title Categories' => route('job-title-category.index'),
+            'Related fields' => false,
+        ];
+        $this->data['breadcrumbs'] = $breadcrumbs;
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -59,11 +68,19 @@ class RelatedWorkCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Job Title Categories' => route('job-title-category.index'),
+            'Related fields' => route('job-title-category/{job_title_category}/related-work.index',['job_title_category'=>$jobTitleCategoryId]),
+            'Add' => false,
+        ];
+        $this->data['breadcrumbs'] = $breadcrumbs;
+
         CRUD::setValidation(RelatedWorkRequest::class);
 
-        CRUD::field('minimum_requirement_id')->type('select2')->entity('minimumRequirement')->model(MinimumRequirement::class)->attribute('position_id');
-        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name');
-
+        CRUD::field('job_title_categorie_id')->type('hidden')->value($jobTitleCategoryId);
+        CRUD::field('field_of_studie_id')->type('select2')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name');
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

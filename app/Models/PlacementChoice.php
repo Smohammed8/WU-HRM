@@ -24,6 +24,7 @@ class PlacementChoice extends Model
         'choice_two_result',
         'choice_one_rank',
         'choice_two_rank',
+        'new_position'
     ];
 
     /**
@@ -55,6 +56,10 @@ class PlacementChoice extends Model
         return $this->belongsTo(Position::class,'choice_one_id');
     }
 
+    public function newPosition()
+    {
+        return $this->belongsTo(Position::class,'new_position');
+    }
     public function choiceTwo()
     {
         return $this->belongsTo(Position::class,'choice_two_id');

@@ -1,0 +1,80 @@
+/* li.nav-item.nav-dropdown.open {
+    background-color: rgba(0, 0, 0, .1);
+    color: #212529;
+} */
+li.nav-item.nav-dropdown.open {
+    background-color: #fff;
+}
+
+li.nav-item.nav-dropdown.open>ul.nav-dropdown-items>.nav-item>.nav-link {
+    color: #000;
+}
+
+li.nav-item.nav-dropdown.open>ul.nav-dropdown-items>.nav-item>.nav-link:hover {
+    color: #000;
+    background-color: rgba(0, 0, 0, .1);
+}
+
+li.nav-item.nav-dropdown.open>ul.nav-dropdown-items>.nav-item>.nav-link>i {
+    color: #000;
+}
+
+/* .layout-navbar-fixed.wrapper.main-header.border-bottom-0~.content-wrapper{
+    margin-top: 3.5rem;
+} */
+.content-wrapper {
+    min-height: 196px;
+}
+@media (min-width: 768px) {
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .app-header{
+        display: flex;
+    }
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .app-header > .navbar-brand{
+        display: none;
+    }
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .app-body>main,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .app-header,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+        transition: margin-left .3s ease-in-out;
+        margin-left: 250px;
+    }
+}
+.noty_layout{
+    /* background-color: #2ba948 !important; */
+}
+header.app-header>button.navbar-toggler {
+    display: none;
+}
+li.nav-item.nav-dropdown.open>a.nav-link.nav-dropdown-toggle {
+    /* color: #000; */
+    box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+    /* background-color: #007bff; */
+    background-color: rgba(0, 0, 0, .1);
+    color: #000;
+}
+
+a.nav-link.nav-dropdown-toggle::before {
+    color: #000;
+    /* background-color: rgba(0,0,0,.1); */
+}
+
+li.nav-item.nav-dropdown.open a.nav-link.active {
+    background-color: rgba(0, 0, 0, .1);
+    color: #212529;
+}
+
+li.nav-item.nav-dropdown>a.nav-link.nav-dropdown-toggle>i.nav-icon {
+    color: black;
+}
+
+li.nav-item.nav-dropdown.open>a.nav-link.nav-dropdown-toggle>i.nav-icon {
+    color: #fff;
+}
+
+li.nav-item.nav-dropdown.open>a.nav-link.nav-dropdown-toggle>i.nav-icon {
+    color: #000;
+}
+
+li.nav-item.nav-dropdown.open>a.nav-link.nav-dropdown-toggle>i.nav-icon:hover {
+    color: #000;
+}
