@@ -309,27 +309,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
 
         <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
-{{--
-            <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
-                <h3>Employee Job</h3>
-                <form action="">
-                    <div class="row">
-                        <div class="form-group col-md-6" element="div">
-                            <label for="">Employement Date</label>
-                            <input type="date" name="employement_date" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6" element="div">
 
-                        </div>
-                        <div class="form-group col-md-6" element="div">
-
-                        </div>
-                        <div class="form-group col-md-6" element="div">
-
-                        </div>
-                    </div>
-                </form>
-            </div> --}}
 
             <div role="tabpanel" class="tab-pane active" id="tab_employee_education">
                 <h3>Employee Education</h3>
