@@ -47,8 +47,8 @@ class LevelCrudController extends CrudController
         // $this->crud->denyAccess('delete');
         $this->crud->setDefaultPageLength(22);
         CRUD::column('name')->label('Job grade');
-        CRUD::addColumn(['name' => 'Start salary', 'type' => 'number']);
-        CRUD::addColumn(['name' => 'Ceil salary', 'type' => 'number']);
+        // CRUD::addColumn(['name' => 'Start salary', 'type' => 'number']);
+        // CRUD::addColumn(['name' => 'Ceil salary', 'type' => 'number']);
 
          //  $this->crud->addCollumn([
         //     'label'=>'start_salary',
@@ -81,6 +81,7 @@ class LevelCrudController extends CrudController
         CRUD::setValidation(LevelRequest::class);
 
         CRUD::field('name');
+
         CRUD::field('description');
 
         /**

@@ -43,7 +43,7 @@ class PositionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('unit.name')->label('Unit');
+        CRUD::column('unit.name')->label('Organizational unit');
         CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
         CRUD::column('total_employees');
         CRUD::column('available_for_placement')->type('boolean');
@@ -66,7 +66,7 @@ class PositionCrudController extends CrudController
     {
         CRUD::setValidation(PositionRequest::class);
 
-        CRUD::field('unit_id')->size(6);
+        CRUD::field('unit_id')->label('Organizational unit')->size(6);
         CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
         CRUD::field('total_employees')->label('No of vacant posts')->size(6);
         CRUD::field('position_available_for_placement')->label('No of available for placement')->size(6);
