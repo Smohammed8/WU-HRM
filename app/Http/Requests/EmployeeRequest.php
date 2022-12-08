@@ -50,13 +50,13 @@ class EmployeeRequest extends FormRequest
             'unit_id' =>'nullable',
             'employement_date'=>'required|date',
             'salary_step' =>'nullable',
-            'job_title_id' =>'nullable',
+           // 'job_title_id' =>'nullable',
             'employment_type_id' =>'nullable',
             'pention_number'  => 'nullable|numeric|unique:employees,pention_number',
             'employment_status_id' =>'nullable',
             'static_salary'=>'nullable',
             'uas_user_id' =>'nullable',
-            'position_id'=> 'required',
+            'position_id'=> 'nullable',
             'educational_level_id' => 'required',
         ];
     }

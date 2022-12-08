@@ -48,13 +48,14 @@ class JobTitleCrudController extends CrudController
     {
 
         $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $this->crud->setHeading(JobTitleCategory::find($jobTitleCategoryId)->name.' Job titles');
         CRUD::column('name')->label('የስራ መደቡ መጠሪያ');
         CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job grade');
         // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
-        $this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
-        $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
+        //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
+       // $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
 
         $breadcrumbs = [
             'Admin' => route('dashboard'),
@@ -165,15 +166,17 @@ class JobTitleCrudController extends CrudController
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Job Title Categories' => route('job-title-category.index'),
-            'Job Titles' => route('job-title-category/{job_title_category}/job-title.index', ['job_title_category' => $jobTitleCategoryId]),
+            JobTitleCategory::find($jobTitleCategoryId)->name => route('job-title-category/{job_title_category}/job-title.index', ['job_title_category' => $jobTitleCategoryId]),
             'Add' => false,
         ];
         $this->data['breadcrumbs'] = $breadcrumbs;
+        $this->crud->setHeading('Add Job title in');
+        $this->crud->setSubHeading(JobTitleCategory::find($jobTitleCategoryId)->name);
         CRUD::field('name')->label('Job title')->label('የስራመደቡመጠሪያ')->size(6);
         CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(6);
         CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(6);
         CRUD::field('job_code')->label('የመደብ መታወቂያ ቁጥር')->size(6);
-        CRUD::field('job_title_category_id')->type('select2')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name')->size(4);
+        CRUD::field('job_title_category_id')->type('hidden')->value($jobTitleCategoryId);
         CRUD::field('position_type_id')->label('Position Type')->type('select2')->model(PositionType::class)->size(4)->attribute('title');
         CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(4);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);

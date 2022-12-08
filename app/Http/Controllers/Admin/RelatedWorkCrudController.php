@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\RelatedWorkRequest;
 use App\Models\FieldOfStudy;
 use App\Models\JobTitle;
+use App\Models\JobTitleCategory;
 use App\Models\MinimumRequirement;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -44,6 +45,8 @@ class RelatedWorkCrudController extends CrudController
     protected function setupListOperation()
     {
         $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $this->crud->setHeading('List of field of study in');
+        $this->crud->setSubHeading(JobTitleCategory::find($jobTitleCategoryId)->name);
         CRUD::column('fieldOfStudy.name')->label("Field of study");
         $this->crud->addClause('where', 'job_title_categorie_id', '=',$jobTitleCategoryId);
         $breadcrumbs = [
