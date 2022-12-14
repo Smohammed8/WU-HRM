@@ -223,7 +223,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
                             <div class="d-flex justify-content-between">
                                 <label for=""><b> Employee status : </b></label>
-                                <label for=""> {{ 'On annual leave' }}- {{ '07 days left' }} </label>
+                                <label for=""> - </label>
                             </div>
 
                         </div>

@@ -236,7 +236,8 @@ class EmployeeCrudController extends CrudController
         CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('phone_number')->size(6)->tab($pi);
-        CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
+       // CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
+        CRUD::field('job_title_id')->label('Job Position')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($job);
