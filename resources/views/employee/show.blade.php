@@ -258,7 +258,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_skill" aria-controls="tab_employee_skill" role="tab" tab_name="tab_employee_skill" data-toggle="tab"
-                        class="nav-link "> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
+                        class="nav-link active"> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
                         }}</a>
                 </li>
 
@@ -388,7 +388,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                 </div>
             </div> --}}
 
-            <div role="tabpanel" class="tab-pane" id="tab_employee_skill">
+            <div role="tabpanel" class="tab-pane active" id="tab_employee_skill">
                 <h3>Employee Skill</h3>
                 <div class="no-padding no-border">
                     <div class="">

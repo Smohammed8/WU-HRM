@@ -25,7 +25,7 @@ class UnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
+            'name'=>'required|regex:/^[a-z A-Z]+$/u|max:30',
           //  'acronym' =>'required|regex:/^[a-z A-Z]+$/u|min:2|max:10',
             'email'=>'required|email',
             'telephone' =>'required|numeric|digits:10',

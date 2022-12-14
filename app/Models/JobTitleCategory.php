@@ -18,7 +18,6 @@ class JobTitleCategory extends Model
      */
     protected $fillable = [
         'name',
-        'unit_id',
         'description',
     ];
 
