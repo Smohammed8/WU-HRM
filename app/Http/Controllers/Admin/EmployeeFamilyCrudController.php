@@ -29,6 +29,29 @@ class EmployeeFamilyCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/employee-family');
         CRUD::setEntityNameStrings('employee family', 'employee families');
+        $this->setupBreadcrumb();
+
+    }
+
+
+    public function setupBreadcrumb()
+    {
+        $employeeId = \Route::current()->parameter('employee');
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Employees' => route('employee.index'),
+            ucfirst($this->crud->entity_name_plural) => route('employee.show',['id'=>$employeeId]).'#employee_family',
+        ];
+        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Preview'] = false;
+        }
+        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Update'] = false;
+        }
+        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Add'] = false;
+        }
+        $this->data['breadcrumbs'] = $breadcrumbs;
     }
 
     // /**
@@ -64,12 +87,6 @@ class EmployeeFamilyCrudController extends CrudController
     {
         $employeeId = \Route::current()->parameter('employee');
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        $this->data['breadcrumbs']=[
-            trans('backpack::crud.admin') => backpack_url('dashboard'),
-            'Employees' => route('employee.index'),
-            'Preview' => route('employee.show',['id'=>$employeeId]),
-            'Employee Address' => false,
-        ];
         CRUD::setValidation(EmployeeFamilyRequest::class);
         CRUD::field('family_relationship_id')->type('select')->entity('familyRelationship')->model(FamilyRelationship::class)->attribute('name')->size(6);
         CRUD::field('first_name')->size(6);

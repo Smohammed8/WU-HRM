@@ -17,7 +17,7 @@ class EmployeeAddressCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -30,6 +30,25 @@ class EmployeeAddressCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/employee-address');
         CRUD::setEntityNameStrings('employee address', 'employee addresses');
+        $this->setupBreadcrumb($employeeId);
+    }
+    public function setupBreadcrumb($employeeId)
+    {
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Employees' => route('employee.index'),
+            'Addresses' => route('employee.show',['id'=>$employeeId]).'#employee_address',
+        ];
+        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Preview'] = false;
+        }
+        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Update'] = false;
+        }
+        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Add'] = false;
+        }
+        $this->data['breadcrumbs'] = $breadcrumbs;
     }
 
     // /**
@@ -67,13 +86,6 @@ class EmployeeAddressCrudController extends CrudController
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('address_type')->type('enum')->size(6);
         CRUD::field('name')->size(6);
-        $this->data['breadcrumbs']=[
-            trans('backpack::crud.admin') => backpack_url('dashboard'),
-            'Employees' => route('employee.index'),
-            'Preview' => route('employee.show',['id'=>$employeeId]),
-            'Employee Address' => false,
-        ];
-
                       /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

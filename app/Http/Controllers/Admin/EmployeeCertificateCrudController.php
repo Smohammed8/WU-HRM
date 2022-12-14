@@ -31,7 +31,27 @@ class EmployeeCertificateCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/employee-certificate');
         CRUD::setEntityNameStrings('employee certificate', 'employee certificates');
+        $this->setupBreadcrumb($employeeId);
     }
+    public function setupBreadcrumb($employeeId)
+    {
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Employees' => route('employee.index'),
+            'Certificates' => route('employee.show',['id'=>$employeeId]).'#employee_certificate',
+        ];
+        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Preview'] = false;
+        }
+        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Update'] = false;
+        }
+        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Add'] = false;
+        }
+        $this->data['breadcrumbs'] = $breadcrumbs;
+    }
+
 
     // /**
     //  * Define what happens when the List operation is loaded.
@@ -66,12 +86,7 @@ class EmployeeCertificateCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeCertificateRequest::class);
         $employeeId = \Route::current()->parameter('employee');
-        $this->data['breadcrumbs']=[
-            trans('backpack::crud.admin') => backpack_url('dashboard'),
-            'Employees' => route('employee.index'),
-            'Preview' => route('employee.show',['id'=>$employeeId]),
-            'Employee Address' => false,
-        ];
+
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
         CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name')->size(6);

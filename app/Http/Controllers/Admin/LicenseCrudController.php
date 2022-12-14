@@ -15,7 +15,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class LicenseCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -32,6 +32,26 @@ class LicenseCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/license');
         CRUD::setEntityNameStrings('license', 'licenses');
+        $this->setupBreadcrumb($employeeId);
+
+    }
+    public function setupBreadcrumb($employeeId)
+    {
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Employees' => route('employee.index'),
+            'Liceneses' => route('employee.show',['id'=>$employeeId]).'#employee_licence',
+        ];
+        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Preview'] = false;
+        }
+        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Update'] = false;
+        }
+        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Add'] = false;
+        }
+        $this->data['breadcrumbs'] = $breadcrumbs;
     }
 
     // /**
@@ -66,13 +86,6 @@ class LicenseCrudController extends CrudController
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('license_type_id')->type('select')->entity('licenseType')->model(LicenseType::class)->attribute('name')->size(6);
         CRUD::field('license_file')->type('upload')->upload(true)->size(6);
-        $this->data['breadcrumbs']=[
-            trans('backpack::crud.admin') => backpack_url('dashboard'),
-            'Employees' => route('employee.index'),
-            'Preview' => route('employee.show',['id'=>$employeeId]),
-            'Employee Address' => false,
-        ];
-
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
