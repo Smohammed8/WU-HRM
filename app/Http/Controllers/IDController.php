@@ -12,7 +12,7 @@ class IDController extends Controller
     {
         $role_left = '';
         $employee = Employee::find($request->get('user_id'));
-        $a = strlen($employee->jobTitle->name);
+        $a = strlen($employee->position->jobTitle->name);
         if ($a < 23) {
             $role_left = '0px';
         } else {
