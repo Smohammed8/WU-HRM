@@ -18,7 +18,7 @@ class CreateExternalExperiencesTable extends Migration
         Schema::create('external_experiences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained();
-            $table->string('job_title', 255);
+            $table->string('job_title_id', 255);
             $table->string('company_name', 255);
             $table->date('start_date');
             $table->date('end_date');

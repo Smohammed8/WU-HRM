@@ -153,8 +153,12 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                                 <label for="">{{ $crud->entry?->name }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <label for=""><b>Employee Gender : </b></label>
-                                <label for="">{{ $crud->entry?->gender }}</label>
+                                <label for=""><b>Position : </b></label>
+                                <label for="">{{ $crud->entry?->position->jobTitle->name }}</label>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b>Educational level : </b></label>
+                                <label for="">{{ $crud->entry?->educationLevel->name }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Phone Number : </b></label>
@@ -183,6 +187,11 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
 
                         <div class="col-md-6" style="border-left:1px solid black;">
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b>Gender : </b></label>
+                                <label for="">{{ $crud->entry?->gender }}</label>
+                            </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Blood group : </b> </label>
                                 <label for="">{{ $crud->entry?->blood_group }}</label>
@@ -242,14 +251,14 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </i> &nbsp; {{ 'Employee Education' }}</a>
                 </li> --}}
 
-                <li role="presentation" class="nav-item">
+                {{-- <li role="presentation" class="nav-item">
                     <a href="#tab_employee_education" aria-controls="" role="tab" tab_name="tab_employee_education" data-toggle="tab" class="nav-link active">
                         <i class="la la la-mortar-board" style="font-size: 20px;"> </i>&nbsp; {{ 'Education' }}</a>
-                </li>
+                </li> --}}
 
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_skill" aria-controls="tab_employee_skill" role="tab" tab_name="tab_employee_skill" data-toggle="tab"
-                        class="nav-link "> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
+                        class="nav-link active"> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
                         }}</a>
                 </li>
 
@@ -311,7 +320,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
         <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
 
 
-            <div role="tabpanel" class="tab-pane active" id="tab_employee_education">
+            {{-- <div role="tabpanel" class="tab-pane active" id="tab_employee_education">
                 <h3>Employee Education</h3>
                 <div class="no-padding no-border">
                     <div class="">
@@ -357,9 +366,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         {{ $employeeSkills->links() }}
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div role="tabpanel" class="tab-pane" id="tab_employee_skill">
+            <div role="tabpanel" class="tab-pane active" id="tab_employee_skill">
                 <h3>Employee Skill</h3>
                 <div class="no-padding no-border">
                     <div class="">
@@ -752,9 +761,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <thead>
                             <tr>
                                 <th>Company Name</th>
-                                <th>Unit</th>
+                                {{-- <th>Unit</th> --}}
                                 <th>Job Title</th>
-                                <th>Position</th>
+                                {{-- <th>Position</th> --}}
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Action</th>
@@ -763,9 +772,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($externalExperiences as $externalExperience)
                             <tr>
-                                <td>{{ $externalExperience->unit?->name }}</td>
-                                <td>{{ $externalExperience->job_title }}</td>
-                                <td>{{ $externalExperience->position }}</td>
+                                {{-- <td>{{ $externalExperience-> }}</td> --}}
+                                <td>{{ $externalExperience->company_name }}</td>
+                                <td>{{ $externalExperience->jobTitle->name }}</td>
                                 <td>{{ $externalExperience->start_date->format('Y/m/d') }}</td>
                                 <td>{{ $externalExperience->end_date->format('Y/m/d') }}</td>
                                 <td>

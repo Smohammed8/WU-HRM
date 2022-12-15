@@ -18,7 +18,6 @@ class CreateJobTitleCategoriesTable extends Migration
         Schema::create('job_title_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->unique();
-            $table->foreignId('unit_id')->constrained();
             $table->text('description')->nullable();
             $table->timestamps();
         });

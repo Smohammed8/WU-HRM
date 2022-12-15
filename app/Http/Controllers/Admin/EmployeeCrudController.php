@@ -133,9 +133,10 @@ class EmployeeCrudController extends CrudController
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-        CRUD::column('employment_identity')->label('Employee ID Number');
-        CRUD::column('employement_date')->type('date');
+        CRUD::column('employment_identity')->label('ID Number');
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
+        CRUD::column('position.unit.name')->label('Unit')->type('select')->entity('position.unit')->model(Unit::class);
+        CRUD::column('employement_date')->type('date');
         $this->crud->addFilter(
             [
                 'type'  => 'date_range',
@@ -197,13 +198,6 @@ class EmployeeCrudController extends CrudController
                 }
             }
         );
-        $this->crud->addColumn([
-            'name'        => 'slug_or_title',
-            'label'       => 'Title',
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhere('title', 'like', '%' . $searchTerm . '%');
-            }
-        ]);
     }
 
 
@@ -365,19 +359,19 @@ class EmployeeCrudController extends CrudController
         $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
-        $employeeCertificates = EmployeeCertificate::orderBy('id', 'desc')->Paginate(10);
+        $employeeCertificates = EmployeeCertificate::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeCertificates'] = $employeeCertificates;
-        $employeeContacts = EmployeeContact::orderBy('id', 'desc')->Paginate(10);
+        $employeeContacts = EmployeeContact::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;
-        $employeeLanguages = EmployeeLanguage::orderBy('id', 'desc')->Paginate(10);
+        $employeeLanguages = EmployeeLanguage::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeLanguages'] = $employeeLanguages;
-        $employeeFamilies = EmployeeFamily::orderBy('id', 'desc')->Paginate(10);
+        $employeeFamilies = EmployeeFamily::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeFamilies'] = $employeeFamilies;
-        $internalExperiences = InternalExperience::orderBy('id', 'desc')->Paginate(10);
+        $internalExperiences = InternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['internalExperiences'] = $internalExperiences;
-        $externalExperiences = ExternalExperience::orderBy('id', 'desc')->Paginate(10);
+        $externalExperiences = ExternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['externalExperiences'] = $externalExperiences;
-        $trainingAndStudies = TrainingAndStudy::orderBy('id', 'desc')->Paginate(10);
+        $trainingAndStudies = TrainingAndStudy::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
 
         $employeeSkills = Skill::where('employee_id', $employeeId)->paginate(10);
@@ -390,23 +384,23 @@ class EmployeeCrudController extends CrudController
         $this->data['evaluation_levels'] = $evaluation_levels;
 
 
-        $leaves =  Leave::orderBy('id', 'desc')->Paginate(1);
+        $leaves =  Leave::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(1);
         $this->data['leaves'] = $leaves;
 
         $type_of_leaves =    TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_leaves'] = $type_of_leaves;
         $this->data['employee.leave'] = $type_of_leaves;
 
-        $misconducts =    Misconduct::orderBy('id', 'desc')->Paginate(10);
+        $misconducts =    Misconduct::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['misconducts'] = $misconducts;
 
-        $demotions =    Demotion::orderBy('id', 'desc')->Paginate(10);
+        $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
 
-        $promotions =    Promotion::orderBy('id', 'desc')->Paginate(10);
+        $promotions =    Promotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['promotions'] = $promotions;
 
-        $demotions =    Demotion::orderBy('id', 'desc')->Paginate(10);
+        $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
 
 
@@ -428,7 +422,7 @@ class EmployeeCrudController extends CrudController
         $this->data['last_effiency'] =  $this->getEffiency($this->crud->getCurrentEntryId());
         ////////////////////////////////////////////////////////////////////
 
-        $employeeEvaluations = EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
+        $employeeEvaluations = EmployeeEvaluation::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
 
         // $employeeEvaluations = EmployeeEvaluation::where('employee_id', $this->crud->getCurrentEntryId())->orderBy('id', 'desc')->Paginate(10);
 
