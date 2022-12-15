@@ -40,7 +40,7 @@ class EducationalLevelCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        CRUD::column('weight')->type('integer');
+        CRUD::column('weight')->type('number');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -61,7 +61,7 @@ class EducationalLevelCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('description');
-        CRUD::field('weight')->type('integer');
+        CRUD::field('weight')->type('number');
 
 
         /**
