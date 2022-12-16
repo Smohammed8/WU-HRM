@@ -282,7 +282,11 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                                 <label for=""> {{    $crud->entry?->fieldOfStudy->name?? '-'   }} </label>
                             </div>
 
-
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Employee title : </b></label>
+                                <label for=""> {{    $crud->entry->employeeTitle->title?? '-'   }} </label>
+                            </div>
+                           
 
 
                         </div>

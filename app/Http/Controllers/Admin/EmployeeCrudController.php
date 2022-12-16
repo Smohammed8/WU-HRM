@@ -18,6 +18,7 @@ use App\Models\EvaluationLevel;
 use App\Models\TypeOfLeave;
 use App\Models\EmployeeFamily;
 use App\Models\EmployeeLanguage;
+use App\Models\EmployeeTitle;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\Evaluation;
@@ -240,6 +241,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('phone_number')->size(6)->tab($pi);
+        CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('name')->size(6)->tab($pi);
 
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
         CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);

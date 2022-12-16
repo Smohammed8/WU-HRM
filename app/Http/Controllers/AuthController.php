@@ -35,7 +35,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'username'=>['required'],
-            'password' => ['required','min:8']
+            'password' => ['required','min:3']
         ]);
 
         if(Auth::check() || backpack_auth()->check()){
