@@ -83,6 +83,26 @@ class Unit extends Model
     }
 
 
+    public function viewOffice($crud = false)
+    {
+
+        $route =  backpack_url('job-grade'); // custome toute here
+
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View office"><i class="la la-flag"></i> Office </a>';
+    }
+
+
+
+    public function viewEmployee($crud = false)
+    {
+
+        $route =  backpack_url('job-grade'); // custome toute here
+
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View employee"><i class="la la-users"></i> Employee </a>';
+    }
+
+
+
     public function childs() {
 
         return $this->hasMany(Self::class,'parent_unit_id','id') ;

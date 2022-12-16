@@ -58,7 +58,7 @@
                     class='nav-icon la la-caret-right'></i>
                 Ethnicities</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-category') }}'><i
-                    class='nav-icon la la-caret-right'></i> Employment status </a></li>
+                    class='nav-icon la la-caret-right'></i> Employment categoty </a></li>
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('field-of-study') }}'><i
                     class='nav-icon la la-caret-right'></i> Field of studies</a></li>

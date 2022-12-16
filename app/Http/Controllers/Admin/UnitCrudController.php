@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UnitRequest;
+use App\Models\ChairManType;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\User;
@@ -43,10 +44,18 @@ class UnitCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name');
+
+
+          $this->crud->denyAccess('delete');
+
+            $this->crud->addButtonFromModelFunction('line', 'view_office', 'viewOffice', 'end');
+
+            $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
+
+        CRUD::column('name')->label('Organizational unit');
        // CRUD::column('acronym');
-        CRUD::column('email');
-        CRUD::column('telephone');
+       // CRUD::column('email');
+       // CRUD::column('telephone');
         // CRUD::column('extension_line');
         // CRUD::column('location');
         // CRUD::column('seal');
@@ -58,9 +67,17 @@ class UnitCrudController extends CrudController
         // CRUD::column('office_number');
         // CRUD::column('motto');
         // CRUD::column('value_list');
-        //CRUD::column('parent_unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
+
+
+         CRUD::column('parentUnit.name')->label('Accountable to');
+          CRUD::column('chairManType.name')->label('Office chairman');
+
+
+
+
+      //  CRUD::column('parent_unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
        // CRUD::column('reports_to_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
-         CRUD::column('organization_id')->type('select')->entity('organization')->model(Organization::class)->attribute('name');
+      //   CRUD::column('organization_id')->type('select')->entity('organization')->model(Organization::class)->attribute('name');
         // CRUD::column('chair_man_type')->type('select')->entity('employee')->model(Employee::class)->attribute('name');
 
         /**
@@ -80,10 +97,10 @@ class UnitCrudController extends CrudController
     {
         CRUD::setValidation(UnitRequest::class);
 
-        CRUD::field('name')->size(6);
+        CRUD::field('name')->label('Orignization unit')->size(6);
       //  CRUD::field('acronym')->size(6);
-        CRUD::field('email')->size(6);
-        CRUD::field('telephone')->size(6);
+       // CRUD::field('email')->size(6);
+       // CRUD::field('telephone')->size(6);
         // CRUD::field('extension_line')->size(6);
         // CRUD::field('location')->size(6);
         // CRUD::field('seal')->size(6);
@@ -97,10 +114,10 @@ class UnitCrudController extends CrudController
         // CRUD::field('value_list')->size(6);
        // CRUD::field('parent_unit_id')->size(6);
 
-        CRUD::field('parent_unit_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
-        CRUD::field('reports_to_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
-        CRUD::field('organization_id')->size(6)->type('select2')->entity('organization')->model(Organization::class)->attribute('name');
-        CRUD::field('chair_man_type_id')->size(6)->label('Office leader')->type('select2')->entity('employee')->model(Employee::class)->attribute('name');
+        CRUD::field('parent_unit_id')->label('Accountable to')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
+      //  CRUD::field('reports_to_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
+       // CRUD::field('organization_id')->size(6)->type('select2')->entity('organization')->model(Organization::class)->attribute('name');
+        CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(ChairManType::class)->attribute('name');
 
 
 

@@ -12,12 +12,15 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Exception;
+use Carbon\Carbon;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles;
+
+use function PHPSTORM_META\map;
 
 class Employee extends  Model
 {
@@ -80,11 +83,14 @@ class Employee extends  Model
         'static_salary',
         'uas_user_id',
         'staff_national_id',
-        'educational_level_id'
+        'educational_level_id',
+        'field_of_study_id',
+        'employee_category_id',
+        'grand_father_name_am',
+        'father_name_am',
+        'first_name_am'
+
     ];
-
-
-
     public function setPhotoAttribute($value)
     {
         $attribute_name = "photo";
@@ -217,15 +223,41 @@ class Employee extends  Model
         return $this->belongsTo(JobTitle::class);
     }
 
+
+    public function nationality()
+    {
+        return $this->belongsTo(Nationality::class);
+    }
+
+
+
+    public function age()
+    {
+        return Carbon::parse($this->attributes['date_of_birth'])->age;
+    }
+
+
+    public function employeeCategory()
+    {
+        return $this->belongsTo(EmployeeCategory::class);
+    }
+
     public function employmentType()
     {
         return $this->belongsTo(EmploymentType::class);
+    }
+
+    public function fieldOfStudy()
+    {
+        return $this->belongsTo(FieldOfStudy::class);
     }
 
     public function employmentCategory()
     {
         return $this->belongsTo(EmployeeCategory::class, 'employee_category_id');
     }
+
+
 
     public function employmentStatus()
     {
@@ -240,6 +272,9 @@ class Employee extends  Model
     {
         return $this->hasMany(ExternalExperience::class);
     }
+
+
+
 
     /**
      * Get all of the externalExperiences for the Employee
