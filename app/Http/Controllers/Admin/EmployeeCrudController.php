@@ -132,7 +132,7 @@ class EmployeeCrudController extends CrudController
 
          $this->crud->denyAccess('delete');
 
-        $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
+     //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
@@ -174,13 +174,13 @@ class EmployeeCrudController extends CrudController
             $this->crud->addClause('whereIn', 'employment_type_id', json_decode($values));
         });
         $this->crud->addFilter([
-            'name'  => 'job_title_id',
+            'name'  => 'position_id',
             'type'  => 'select2_multiple',
-            'label' => 'By job title'
+            'label' => 'By job position'
         ], function () {
             return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
-            $this->crud->addClause('whereIn', 'job_title_id', json_decode($values));
+            $this->crud->addClause('whereIn', 'position_id', json_decode($values));
         });
         $this->crud->addFilter(
             [

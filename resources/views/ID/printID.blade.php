@@ -30,15 +30,15 @@
             <p style="position: relative; font-size: 20px; color: black; top: -40px;">
                 <strong style="font-family: 'Noto Serif Ethiopic'">አቶ ሚልኪ ሰይፉ</strong>
             </p>
-            <p style="position: relative; font-size: {{ strlen($employee->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black; top: -65px; line-height: 0.6;">
+            <p style="position: relative; font-size: {{ strlen($employee->position->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black; top: -65px; line-height: 0.6;">
                 <strong style="font-family: 'Noto Serif Ethiopic'">Administrative Staff</strong>
             </p>
-            <div style="position: relative; background-color: inherit;  text-align: center; width: {{ strlen($employee->jobTitle->name) < 23 ? '100%' : '80%' }}; top: {{ strlen($employee->jobTitle->name) < 23 ? '-115px' : '-110px' }}; left: {{ $role_left }};">
-                <p style="font-size: {{ strlen($employee->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black;  line-height: 0.6;">
-                    <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->jobTitle->name }}</strong>
+            <div style="position: relative; background-color: inherit;  text-align: center; width: {{ strlen($employee->position->jobTitle->name) < 23 ? '100%' : '80%' }}; top: {{ strlen($employee->position->jobTitle->name) < 23 ? '-115px' : '-110px' }}; left: {{ $role_left }};">
+                <p style="font-size: {{ strlen($employee->position->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black;  line-height: 0.6;">
+                    <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->position->jobTitle->name }}</strong>
                 </p>
             </div>
-            <div style="position: relative; left: 5px;  top: {{ strlen($employee->jobTitle->name) < 23 ? '-135px' : '-130px' }}; background-color: inherit; text-align: center;">
+            <div style="position: relative; left: 5px;  top: {{ strlen($employee->position->jobTitle->name) < 23 ? '-135px' : '-130px' }}; background-color: inherit; text-align: center;">
                 <img src="{{ $qrcode }}" alt="">
             </div>
         </div>
@@ -61,10 +61,10 @@
     <div style="width: 54%; height: auto; break-after: page; position: absolute; margin-left: -45px; margin-top: -59px; page-break-after: always;">
         <img width="100%" src="images/back.png" alt="">
         <p style="font-size: 18px; color: black; position: relative; top: -290px; left: 10px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">Mr. {{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
         </p>
         <p style="font-size: 16px; color: black; position: relative; top: -315px; left: 14px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">Mr. {{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->first_name_am  }} {{ $employee?->father_name_am  }} {{ $employee?->grand_father_name_am }}</strong>
         </p>
         <p style="font-size: 18px; color: black; position: relative; top: -305px; left: 14px;">
             <strong style="font-family: 'Noto Serif Ethiopic'">Ethiopian</strong>
@@ -86,3 +86,4 @@
     </div>
 </body>
 </html>
+
