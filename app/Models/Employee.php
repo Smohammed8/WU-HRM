@@ -88,7 +88,8 @@ class Employee extends  Model
         'employee_category_id',
         'grand_father_name_am',
         'father_name_am',
-        'first_name_am'
+        'first_name_am',
+        'employee_title_id'
 
     ];
     public function setPhotoAttribute($value)
@@ -169,6 +170,7 @@ class Employee extends  Model
         'job_title_id' => 'integer',
         'employment_type_id' => 'integer',
         'employment_status_id' => 'integer',
+        'employee_title_id' =>'integer'
     ];
 
     public function getNameAttribute()
@@ -197,6 +199,13 @@ class Employee extends  Model
     {
         return $this->belongsTo(MaritalStatus::class);
     }
+
+
+    public function employeeTitle()
+    {
+        return $this->belongsTo(EmployeeTitle::class);
+    }
+
 
     public function level()
     {
