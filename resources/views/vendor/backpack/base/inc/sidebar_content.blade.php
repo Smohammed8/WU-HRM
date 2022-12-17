@@ -19,6 +19,23 @@
     </ul>
 </li>
 
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-id-card"></i>ID</a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item"><a class="nav-link" href="{{ route('idcard.index') }}">
+            <i class="nav-icon la la-user"></i>
+                <span>ID Design</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="">
+            <i class="nav-icon la la-id-badge"></i> 
+            <span>ID Print</span></a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('attribute.index') }}">
+            <i class="nav-icon la la-id-badge"></i> 
+            <span>ID Setting</span></a>
+        </li>
+    </ul>
+</li>
+
 <!-- Users, Roles, Permissions -->
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-sitemap"></i> Structure </a>

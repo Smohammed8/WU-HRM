@@ -31,10 +31,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionSeeder::class,
-            TestDataSeeder::class,
+            // TestDataSeeder::class,
         ]);
-        PositionRequirement::findOrCreate(Constants::EDUCATION_CRITERIA);
-        PositionRequirement::findOrCreate(Constants::EXPERIENCE_CRITERIA);
+        // PositionRequirement::findOrCreate(Constants::EDUCATION_CRITERIA);
+        // PositionRequirement::findOrCreate(Constants::EXPERIENCE_CRITERIA);
         Role::findOrCreate('super-admin');
         $user = User::where('username', 'super')->first();
         if ($user == null)
