@@ -77,7 +77,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<p style="width:90px; height:100px;" title="Jimma University Human Resource"> JU-HRM </p>',
+    'project_logo'   => '<p style="width:90px; height:100px;" title="Bule Hora University Human Resource"> BH-HRM </p>',
 
 
     // Show / hide breadcrumbs on admin panel pages.
