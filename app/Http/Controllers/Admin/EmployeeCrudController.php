@@ -18,6 +18,7 @@ use App\Models\EvaluationLevel;
 use App\Models\TypeOfLeave;
 use App\Models\EmployeeFamily;
 use App\Models\EmployeeLanguage;
+use App\Models\EmployeeTitle;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\Evaluation;
@@ -25,6 +26,7 @@ use App\Models\EvaluationPeriod;
 use App\Models\EvalutionCreteria;
 use App\Models\Quarter;
 use App\Models\ExternalExperience;
+use App\Models\FieldOfStudy;
 use App\Models\FormStyle;
 use App\Models\InternalExperience;
 use App\Models\JobTitle;
@@ -128,14 +130,18 @@ class EmployeeCrudController extends CrudController
         $this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
         $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
-        $this->crud->denyAccess('delete');
-        $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
+
+         $this->crud->denyAccess('delete');
+
+     //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
+
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-        CRUD::column('employment_identity')->label('Employee ID Number');
-        CRUD::column('employement_date')->type('date');
+        CRUD::column('employment_identity')->label('ID Number');
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
+        CRUD::column('position.unit.name')->label('Unit')->type('select')->entity('position.unit')->model(Unit::class);
+        CRUD::column('employement_date')->type('date');
         $this->crud->addFilter(
             [
                 'type'  => 'date_range',
@@ -169,13 +175,13 @@ class EmployeeCrudController extends CrudController
             $this->crud->addClause('whereIn', 'employment_type_id', json_decode($values));
         });
         $this->crud->addFilter([
-            'name'  => 'job_title_id',
+            'name'  => 'position_id',
             'type'  => 'select2_multiple',
-            'label' => 'By job title'
+            'label' => 'By job position'
         ], function () {
             return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
-            $this->crud->addClause('whereIn', 'job_title_id', json_decode($values));
+            $this->crud->addClause('whereIn', 'position_id', json_decode($values));
         });
         $this->crud->addFilter(
             [
@@ -197,13 +203,6 @@ class EmployeeCrudController extends CrudController
                 }
             }
         );
-        $this->crud->addColumn([
-            'name'        => 'slug_or_title',
-            'label'       => 'Title',
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhere('title', 'like', '%' . $searchTerm . '%');
-            }
-        ]);
     }
 
 
@@ -242,13 +241,16 @@ class EmployeeCrudController extends CrudController
         CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('phone_number')->size(6)->tab($pi);
-       // CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
-        CRUD::field('job_title_id')->label('Job Position')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('name')->size(6)->tab($pi);
+
+        CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
+        CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
+        // CRUD::field('job_title_id')->label('Job Position')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
-
+        CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
         CRUD::field('date_of_birth')->size(6)->tab($bio);
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
@@ -260,11 +262,11 @@ class EmployeeCrudController extends CrudController
         CRUD::field('religion_id')->size(6)->tab($address);
         // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
         CRUD::field('employement_date')->size(6)->tab($job);
-        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('name')->size(6)->tab($address);
+        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($address);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
-        // CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
+         CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
@@ -279,16 +281,18 @@ class EmployeeCrudController extends CrudController
     protected function setupUpdateOperation()
     {
 
+
+
         $this->crud->enableTabs();
         // $this->crud->enableVerticalTabs();
         $this->crud->enableHorizontalTabs();
 
-        $pi     = 'Personal Information';
-        $ci     = 'Contact Information';
-        $bio    = 'Bio Information';
+        $pi      = 'Personal Information';
+        $ci      = 'Contact Information';
+        $bio     = 'Bio Information';
         $address = 'Address Information';
-        $job    = 'Job Information';
-        $edu    = 'Employee Credentials';
+        $job     = 'Job Information';
+        $edu     = 'Employee Credentials';
 
         CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
 
@@ -313,17 +317,19 @@ class EmployeeCrudController extends CrudController
         // CRUD::field('rfid')->size(4);
         CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($ci);
         CRUD::field('religion_id')->size(6)->tab($address);
-        // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
+      //  CRUD::field('religion_id')->type('select2')->label('religion')->entity('')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($address);
+        CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employement_date')->size(6)->tab($job);
-        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('name')->size(6)->tab($address);
+
+        CRUD::field('employee_category_id')->type('select2')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($address);
         CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
-        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
+       // CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
-        CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
+
+
     }
-
-
-
 
     public function update()
     {
@@ -365,19 +371,19 @@ class EmployeeCrudController extends CrudController
         $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
-        $employeeCertificates = EmployeeCertificate::orderBy('id', 'desc')->Paginate(10);
+        $employeeCertificates = EmployeeCertificate::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeCertificates'] = $employeeCertificates;
-        $employeeContacts = EmployeeContact::orderBy('id', 'desc')->Paginate(10);
+        $employeeContacts = EmployeeContact::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;
-        $employeeLanguages = EmployeeLanguage::orderBy('id', 'desc')->Paginate(10);
+        $employeeLanguages = EmployeeLanguage::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeLanguages'] = $employeeLanguages;
-        $employeeFamilies = EmployeeFamily::orderBy('id', 'desc')->Paginate(10);
+        $employeeFamilies = EmployeeFamily::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeFamilies'] = $employeeFamilies;
-        $internalExperiences = InternalExperience::orderBy('id', 'desc')->Paginate(10);
+        $internalExperiences = InternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['internalExperiences'] = $internalExperiences;
-        $externalExperiences = ExternalExperience::orderBy('id', 'desc')->Paginate(10);
+        $externalExperiences = ExternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['externalExperiences'] = $externalExperiences;
-        $trainingAndStudies = TrainingAndStudy::orderBy('id', 'desc')->Paginate(10);
+        $trainingAndStudies = TrainingAndStudy::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
 
         $employeeSkills = Skill::where('employee_id', $employeeId)->paginate(10);
@@ -390,23 +396,23 @@ class EmployeeCrudController extends CrudController
         $this->data['evaluation_levels'] = $evaluation_levels;
 
 
-        $leaves =  Leave::orderBy('id', 'desc')->Paginate(1);
+        $leaves =  Leave::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(1);
         $this->data['leaves'] = $leaves;
 
         $type_of_leaves =    TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_leaves'] = $type_of_leaves;
         $this->data['employee.leave'] = $type_of_leaves;
 
-        $misconducts =    Misconduct::orderBy('id', 'desc')->Paginate(10);
+        $misconducts =    Misconduct::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['misconducts'] = $misconducts;
 
-        $demotions =    Demotion::orderBy('id', 'desc')->Paginate(10);
+        $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
 
-        $promotions =    Promotion::orderBy('id', 'desc')->Paginate(10);
+        $promotions =    Promotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['promotions'] = $promotions;
 
-        $demotions =    Demotion::orderBy('id', 'desc')->Paginate(10);
+        $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
 
 
@@ -428,7 +434,7 @@ class EmployeeCrudController extends CrudController
         $this->data['last_effiency'] =  $this->getEffiency($this->crud->getCurrentEntryId());
         ////////////////////////////////////////////////////////////////////
 
-        $employeeEvaluations = EmployeeEvaluation::orderBy('id', 'desc')->Paginate(10);
+        $employeeEvaluations = EmployeeEvaluation::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
 
         // $employeeEvaluations = EmployeeEvaluation::where('employee_id', $this->crud->getCurrentEntryId())->orderBy('id', 'desc')->Paginate(10);
 

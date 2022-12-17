@@ -30,7 +30,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card border-0 text-white bg-success">
                     <div class="card-body">
-                        <div class="text-value">40</div>
+                        <div class="text-value">0</div>
 
                         <div> Ready for penssion</div>
 
@@ -50,7 +50,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card border-0 text-white bg-warning">
                     <div class="card-body">
-                        <div class="text-value"> 3</div>
+                        <div class="text-value"> 0</div>
                         <div> On annual leave</div>
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="30"
@@ -66,7 +66,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card border-0 text-white bg-danger">
                     <div class="card-body">
-                        <div class="text-value"> 3</div>
+                        <div class="text-value"> 0</div>
                         <div> Resignation </div>
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="30"
@@ -82,7 +82,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card border-0 text-white bg-dark">
                     <div class="card-body">
-                        <div class="text-value">210</div>
+                        <div class="text-value">0</div>
                         <div> Organizational units .</div>
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
@@ -99,7 +99,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card border-0 text-white bg-info">
                     <div class="card-body">
-                        <div class="text-value">210</div>
+                        <div class="text-value">0</div>
                         <div> Trail periods </div>
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
@@ -117,7 +117,7 @@
 
                 <div class="card border-0 text-white bg-pink">
                     <div class="card-body">
-                        <div class="text-value">210</div>
+                        <div class="text-value">0</div>
                         <div> Job positions </div>
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
@@ -134,7 +134,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card border-0 text-white bg-green">
                     <div class="card-body">
-                        <div class="text-value">210</div>
+                        <div class="text-value">0</div>
                         <div>New promotions</div>
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
@@ -165,7 +165,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"> <i class="la la-list"> </i> Employees Under JiT HRO</div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
 
@@ -173,7 +173,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"> <i class="la la-list"> </i> Employees Under JUAVM HRO</div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff : 0  &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
 
@@ -181,7 +181,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"> <i class="la la-list"> </i> Employees Under HI HRO</div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff :0  &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
 
@@ -197,13 +197,13 @@
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"> <i class="la la-list"> </i> Employees Under CBC HRO</div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff : 0  &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"> <i class="la la-list"> </i> Employees Under JUAVM HRO</div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff : 0  &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
 
@@ -211,13 +211,13 @@
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"> <i class="la la-list"> </i> Employees Under CNS HRO </div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff : 0  &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"><i class="la la-list"> </i> Employees Under CSS HRO </div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff : 0  &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
 
@@ -225,7 +225,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                     <div class="card-header"><i class="la la-list"> </i> Employees Under HI HRO</div>
-                    <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
+                    <div class="card-body"> Admin Staff : 0  &nbsp; Academic Staff: 0 </div>
                 </div>
             </div>
 

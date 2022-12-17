@@ -42,7 +42,6 @@ class JobTitleCategoryCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        CRUD::column('unit_id');
         $this->crud->addButtonFromModelFunction('line', 'jobTitles', 'jobTitleButtonView', 'beginning');
         $this->crud->addButtonFromModelFunction('line', 'fieldOfStudies', 'fieldOfStudyButtonView', 'beginning');
         /**
@@ -62,9 +61,8 @@ class JobTitleCategoryCrudController extends CrudController
     {
         CRUD::setValidation(JobTitleCategoryRequest::class);
 
-        CRUD::field('name')->size(6);
-        CRUD::field('unit_id')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
-        // CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(12);
+        CRUD::field('name')->size(12);
+        CRUD::field('field_of_study_id')->type('select2_multiple')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(12);
         CRUD::field('description');
         /**
          * Fields can be defined using the fluent syntax or array syntax:

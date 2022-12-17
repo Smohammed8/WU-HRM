@@ -35,10 +35,12 @@
         </li>
     </ul>
 </li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-user-tie'></i>
+    Employees</a></li>
 
 <!-- Users, Roles, Permissions -->
 <li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-sitemap"></i> Structure </a>
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-sitemap"></i> Org. Structure</a>
     <ul class="nav-dropdown-items">
         <!-- la la-angle-double-right ,la la-graduation-cap
     -->
@@ -48,21 +50,13 @@
         <i class='nav-icon la la-caret-right'></i>Organizations</a></li>
          <li class='nav-item'><a class='nav-link' href='{{ backpack_url('unit') }}'>
          <i class='nav-icon la la-caret-right'></i> Organizational Units</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'>
-         <i class='nav-icon la la-caret-right'></i>Job title categories</a></li>
 
-         {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'>
-            <i class='nav-icon la la-caret-right'></i>Job titles </a></li>
- --}}
-
-         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'>
-        <i class='nav-icon la la-caret-right'></i>Employment types</a></li>
     </ul>
 </li>
 
 {{-- @endif --}}
 <li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-wrench"></i> Setting</a>
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-wrench"></i>General settings</a>
     <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i
                     class='nav-icon la la-caret-right'></i> Chair man types</a></li>
@@ -80,7 +74,7 @@
                     class='nav-icon la la-caret-right'></i>
                 Ethnicities</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-category') }}'><i
-                    class='nav-icon la la-caret-right'></i> Employment status </a></li>
+                    class='nav-icon la la-caret-right'></i> Employment categoty </a></li>
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('field-of-study') }}'><i
                     class='nav-icon la la-caret-right'></i> Field of studies</a></li>
@@ -115,33 +109,55 @@
                     class='nav-icon la la-caret-right'></i>Type of misconducts</a></li>
 
         <!-- //////////////////////////////////////////////////////// -->
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'><i
-                    class='nav-icon la la-caret-right'></i>Job Levels</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-grade') }}'><i
-                    class='nav-icon la la-caret-right'></i> Job grades</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-scale') }}'><i
-                    class='nav-icon la la-caret-right'></i> Salary scales</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template') }}'><i
-                    class='nav-icon la la-caret-right'></i> Templates</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-type') }}'><i
-                    class='nav-icon la la-caret-right'></i> Template types</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template') }}'>
+            <i class='nav-icon la la-caret-right'></i> Templates</a></li>
+
+
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-type') }}'>
+
+            <i class='nav-icon la la-caret-right'></i> Template types</a></li>
         <!-- /////////////////////////////////////////////////////////////-->
     </ul>
 </li>
 
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-flag"></i>Job Information </a>
+    <ul class="nav-dropdown-items">
 
 
-{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('minimum-requirement') }}'><i
-            class='nav-icon la la-question'></i> Min requirements</a></li> --}}
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
-            class='nav-icon la la-question'></i> Positions</a></li>
-{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('related-work') }}'><i
-            class='nav-icon la la-question'></i> Related works</a></li> --}}
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'>
+            <i class='nav-icon la la-caret-right'></i>Job title categories</a></li>
+
+            {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'>
+               <i class='nav-icon la la-caret-right'></i>Job titles </a></li>
+    --}}
+
+
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'>
+
+        <i class='nav-icon la la-caret-right'></i>Job Levels</a></li>
+
+
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-grade') }}'>
+ <i class='nav-icon la la-caret-right'></i> Job grades</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-scale') }}'>
+        <i class='nav-icon la la-caret-right'></i> Salary scales</a></li>
 
 
 
 
-{{-- <li class="nav-item nav-dropdown">
+
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'>
+           <i class='nav-icon la la-caret-right'></i>Employment types</a></li>
+
+
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
+            class='nav-icon la la-caret-right'></i> Positions</a></li>
+    </ul>
+</li>
+
+
+<li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-book"></i> ID Managment </a>
         <ul class="nav-dropdown-items">
 
@@ -151,14 +167,14 @@
 
 
      </ul>
-    </li> --}}
+    </li>
 
 
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-list'></i>
-        Employees</a></li>
+
+
 <li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i> Efficiency
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i> Efficiency settings
     </a>
     <ul class="nav-dropdown-items">
 
@@ -171,7 +187,7 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evalution-creteria') }}'><i
                     class='nav-icon la la-caret-right'></i> Evalution creterias</a></li>
 
-        {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i
+         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i
                     class='nav-icon la la-caret-right'></i> Evaluations</a></li> --}}
 
 
@@ -179,7 +195,51 @@
 </li>
 
 <li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-minus"></i> Empoyee Leave
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-th-list"></i>Employee Placement </a>
+
+
+    <ul class="nav-dropdown-items">
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-requirement') }}'><i
+                    class='nav-icon la la-caret-right'></i>Requirements</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-type') }}'><i
+                    class='nav-icon la la-caret-right'></i> Position types</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-value') }}'><i
+                    class='nav-icon la la-caret-right'></i> Position values</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('education-comparison-criteria') }}'><i
+                    class='nav-icon la la-caret-right'></i> Education criterias</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('experience-comparison-criteria') }}'><i
+                    class='nav-icon la la-caret-right'></i> Experience criterias</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('placement-round') }}'><i
+                    class='nav-icon la la-caret-right'></i> Placement rounds</a></li>
+    </ul>
+
+</li>
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-plus"></i> Recruitment
+    </a>
+    <ul class="nav-dropdown-items">
+
+        <li class='nav-item'><a class='nav-link' href=''> <i
+                    class='nav-icon la la-caret-right'>
+                </i>Vacancy</a></li>
+
+                <li class='nav-item'><a class='nav-link' href=''> <i
+                    class='nav-icon la la-caret-right'>
+                </i>Applicants</a></li>
+
+
+                <li class='nav-item'><a class='nav-link' href=''> <i
+                    class='nav-icon la la-caret-right'>
+                </i>Exam Result</a></li>
+
+
+    </ul>
+</li>
+
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-minus"></i>Leave Managment
     </a>
     <ul class="nav-dropdown-items">
 
@@ -226,22 +286,5 @@
 </li>
 
 
-<li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-sitemap"></i>Manage Position </a>
-    <ul class="nav-dropdown-items">
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-requirement') }}'><i
-                    class='nav-icon la la-tasks'></i>Requirements</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-type') }}'><i
-                    class='nav-icon la la-user-tie'></i> Position types</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-value') }}'><i
-                    class='nav-icon la la-chair'></i> Position values</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('education-comparison-criteria') }}'><i
-                    class='nav-icon la la-list-alt'></i> Education criterias</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('experience-comparison-criteria') }}'><i
-                    class='nav-icon la la-list-alt'></i> Experience criterias</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('placement-round') }}'><i
-                    class='nav-icon la la-circle-notch'></i> Placement rounds</a></li>
-    </ul>
-</li>
-{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-field-of-study') }}'><i
-            class='nav-icon la la-question'></i> Job title field of studies</a></li> --}}
+
+

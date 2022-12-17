@@ -33,7 +33,7 @@ class OrganizationRequest extends FormRequest
             'vision' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',
             'motto' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',
           //  'logo' =>'required|image|mimes:png,jpg,jpeg,gif,svg|max:2048|dimensions:min_width=50,min_height=70',
-            'web_address' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
+            'web_address' =>'required|min:5|max:30',
             'fax' =>'required|numeric|digits:10',
             'telephone' =>'required|numeric|digits:10',
             'pobox'=>'required|numeric',

@@ -14,7 +14,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class TrainingAndStudyCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -30,8 +30,30 @@ class TrainingAndStudyCrudController extends CrudController
         CRUD::setModel(\App\Models\TrainingAndStudy::class);
         $employeeId = \Route::current()->parameter('employee');
 
-        CRUD::setRoute(config('backpack.base.route_prefix') .'/'.$employeeId. '/training-and-study');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/' . $employeeId . '/training-and-study');
         CRUD::setEntityNameStrings('training and study', 'training and studies');
+        $this->setupBreadcrumb();
+    }
+
+
+    public function setupBreadcrumb()
+    {
+        $employeeId = \Route::current()->parameter('employee');
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Employees' => route('employee.index'),
+            ucfirst($this->crud->entity_name_plural) => route('employee.show',['id'=>$employeeId]).'#training_and_experience',
+        ];
+        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Preview'] = false;
+        }
+        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Update'] = false;
+        }
+        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Add'] = false;
+        }
+        $this->data['breadcrumbs'] = $breadcrumbs;
     }
 
     // /**
@@ -69,12 +91,6 @@ class TrainingAndStudyCrudController extends CrudController
     {
         CRUD::setValidation(TrainingAndStudyRequest::class);
         $employeeId = \Route::current()->parameter('employee');
-        $this->data['breadcrumbs']=[
-            trans('backpack::crud.admin') => backpack_url('dashboard'),
-            'Employees' => route('employee.index'),
-            'Preview' => route('employee.show',['id'=>$employeeId]),
-            'Employee Address' => false,
-        ];
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('name')->size(6);
         CRUD::field('nationality_id')->size(6);

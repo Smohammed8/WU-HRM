@@ -32,6 +32,9 @@ class LanguageCrudController extends CrudController
         CRUD::setEntityNameStrings('language ability', 'language abilities');
     }
 
+
+
+
     /**
      * Define what happens when the List operation is loaded.
      *

@@ -132,7 +132,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
         <!-- //////////////////////////////////////////////-->
 
-        <div class="card-body">
+        <div class="card-body" style="font-family:inherit; font-size:14px;">
             <div class="row">
                 <div class="col-md-2" style="border-right:1px solid black;">
 
@@ -150,50 +150,92 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <div class="col-md-6">
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Employee Name : </b> </label>
-                                <label for="">{{ $crud->entry?->name }}</label>
+                                <label for="">{{ $crud->entry->name?? '-' }}</label>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""> </label>
+                                <label for=""> [ {{ $crud->entry->first_name_am?? '-' }}
+                                    {{ $crud->entry?->father_name_am?? '-' }}
+                                    {{ $crud->entry?->grand_father_name_am?? '-' }}]
+
+                                      </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b>Job title : </b></label>
+                                <label for="">{{ $crud->entry->position->name?? '-' }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <label for=""><b>Employee Gender : </b></label>
-                                <label for="">{{ $crud->entry?->gender }}</label>
+                                <label for=""><b>Educational level : </b></label>
+                                <label for="">{{ $crud->entry->educationLevel->name?? '-' }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Phone Number : </b></label>
-                                <label for="">{{ $crud->entry?->phone_number }}</label>
+                                <label for="">{{ $crud->entry->phone_number?? '-' }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Ethnicity : </b></label>
-                                <label for="">{{ $crud->entry?->ethnicity?->name }}</label>
+                                <label for="">{{ $crud->entry->ethnicity->name?? '-' }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Religion : </b></label>
-                                <label for="">{{ $crud->entry?->religion?->name }}</label>
+                                <label for="">{{ $crud->entry->religion->name ?? '-'}}</label>
                             </div>
 
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Last Efficinecy : </b></label>
-                                <label for="">{{ $last_effiency/3 }}%</label>
+                                <label for="">{{ $last_effiency/3 ?? '-' }}%</label>
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <label for=""><b> Misconduct records : </b></label>
-                                <label for=""> {{ '0' }} </label>
+                                <label for=""><b>Job grade: </b></label>
+                                <label for=""> {{   $crud->entry->level->name?? '-'  }} </label>
                             </div>
+
+
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Position ID : </b></label>
+                                <label for=""> {{ '-' }} </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Nationality: </b></label>
+                                <label for=""> {{    $crud->entry->nationality->nation?? '-'  }} </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Experience : </b></label>
+                                <label for="" title="Hired date: {{  $crud->entry->employement_date->format('d/m/Y') ?? '-'   }} ">  {{ \Carbon\Carbon::parse($crud->entry->employement_date )->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days')?? '-' }} </label>
+                            </div>
+
 
                         </div>
 
 
                         <div class="col-md-6" style="border-left:1px solid black;">
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b>Gender : </b></label>
+                                <label for="">{{ $crud->entry->gender ?? '-'}}</label>
+                            </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Blood group : </b> </label>
-                                <label for="">{{ $crud->entry?->blood_group }}</label>
+                                <label for="">{{ $crud->entry->blood_group ?? '-'}}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Email : </b></label>
-                                <label for="">{{ $crud->entry->email }}</label>
+                                <label for="">{{ $crud->entry->email?? '-' }}</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Age : </b></label>
-                                <label for="">{{ 20 }}</label>
+                                <label for="" title="{{ \Carbon\Carbon::parse($crud->entry->date_of_birth )->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
+                                    {{ $crud->entry->age()  }} years old </label>
+
+
+
                             </div>
                             <div class="d-flex justify-content-between">
                                 <label for=""><b>Marital status : </b></label>
@@ -207,15 +249,45 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
                             <div class="d-flex justify-content-between">
                                 <label for=""><b> Gross Salary : </b></label>
-                                <label for=""> ETB {{ $crud->entry->level?->name}}</label>
+                                <label for=""> ETB {{ $crud->entry->level->name?? '-'     }}</label>
                                 {{-- <label for=""> ETB {{ number_format($crud->entry->salaryStep->jobGrade->start_salary,2) }}</label> --}}
                             </div>
 
 
                             <div class="d-flex justify-content-between">
-                                <label for=""><b> Employee status : </b></label>
-                                <label for=""> - </label>
+                                <label for=""><b> Employement type : </b></label>
+                                <label for=""> {{ $crud->entry->employmentType->name?? '-' }} </label>
                             </div>
+
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Employee type : </b></label>
+                                <label for=""> {{ $crud->entry->employeeCategory->name?? '-' }} staff </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b>Place of Birth : </b></label>
+                                <label for=""> {{    $crud->entry?->birth_city   }} </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Organization unit : </b></label>
+                                <label for=""> {{    $crud->entry->position->unit->name?? '-'   }} </label>
+                            </div>
+
+
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Field of study : </b></label>
+                                <label for=""> {{    $crud->entry?->fieldOfStudy->name?? '-'   }} </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <label for=""><b> Employee title : </b></label>
+                                <label for=""> {{    $crud->entry->employeeTitle->title?? '-'   }} </label>
+                            </div>
+                           
+
 
                         </div>
                     </div>
@@ -242,14 +314,14 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </i> &nbsp; {{ 'Employee Education' }}</a>
                 </li> --}}
 
-                <li role="presentation" class="nav-item">
+                {{-- <li role="presentation" class="nav-item">
                     <a href="#tab_employee_education" aria-controls="" role="tab" tab_name="tab_employee_education" data-toggle="tab" class="nav-link active">
                         <i class="la la la-mortar-board" style="font-size: 20px;"> </i>&nbsp; {{ 'Education' }}</a>
-                </li>
+                </li> --}}
 
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_skill" aria-controls="tab_employee_skill" role="tab" tab_name="tab_employee_skill" data-toggle="tab"
-                        class="nav-link "> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
+                        class="nav-link active"> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
                         }}</a>
                 </li>
 
@@ -309,29 +381,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 
 
         <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
-{{--
-            <div role="tabpanel" class="tab-pane active" id="tab_employee_job">
-                <h3>Employee Job</h3>
-                <form action="">
-                    <div class="row">
-                        <div class="form-group col-md-6" element="div">
-                            <label for="">Employement Date</label>
-                            <input type="date" name="employement_date" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6" element="div">
 
-                        </div>
-                        <div class="form-group col-md-6" element="div">
 
-                        </div>
-                        <div class="form-group col-md-6" element="div">
-
-                        </div>
-                    </div>
-                </form>
-            </div> --}}
-
-            <div role="tabpanel" class="tab-pane active" id="tab_employee_education">
+            {{-- <div role="tabpanel" class="tab-pane active" id="tab_employee_education">
                 <h3>Employee Education</h3>
                 <div class="no-padding no-border">
                     <div class="">
@@ -377,9 +429,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         {{ $employeeSkills->links() }}
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div role="tabpanel" class="tab-pane" id="tab_employee_skill">
+            <div role="tabpanel" class="tab-pane active" id="tab_employee_skill">
                 <h3>Employee Skill</h3>
                 <div class="no-padding no-border">
                     <div class="">
@@ -772,9 +824,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <thead>
                             <tr>
                                 <th>Company Name</th>
-                                <th>Unit</th>
+                                {{-- <th>Unit</th> --}}
                                 <th>Job Title</th>
-                                <th>Position</th>
+                                {{-- <th>Position</th> --}}
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Action</th>
@@ -783,9 +835,9 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         <tbody>
                             @foreach ($externalExperiences as $externalExperience)
                             <tr>
-                                <td>{{ $externalExperience->unit?->name }}</td>
-                                <td>{{ $externalExperience->job_title }}</td>
-                                <td>{{ $externalExperience->position }}</td>
+                                {{-- <td>{{ $externalExperience-> }}</td> --}}
+                                <td>{{ $externalExperience->company_name }}</td>
+                                <td>{{ $externalExperience->jobTitle->name }}</td>
                                 <td>{{ $externalExperience->start_date->format('Y/m/d') }}</td>
                                 <td>{{ $externalExperience->end_date->format('Y/m/d') }}</td>
                                 <td>

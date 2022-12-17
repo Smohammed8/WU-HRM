@@ -31,6 +31,27 @@ class InternalExperienceCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') .'/'.$employeeId. '/internal-experience');
         CRUD::setEntityNameStrings('internal experience', 'internal experiences');
+        $this->setupBreadcrumb();
+    }
+
+    public function setupBreadcrumb()
+    {
+        $employeeId = \Route::current()->parameter('employee');
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Employees' => route('employee.index'),
+            ucfirst($this->crud->entity_name_plural) => route('employee.show',['id'=>$employeeId]).'#employee_internal_experience',
+        ];
+        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Preview'] = false;
+        }
+        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Update'] = false;
+        }
+        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Add'] = false;
+        }
+        $this->data['breadcrumbs'] = $breadcrumbs;
     }
 
     // /**
@@ -71,12 +92,6 @@ class InternalExperienceCrudController extends CrudController
         // CRUD::field('position')->size(6);
         CRUD::field('start_date')->size(6);
         CRUD::field('end_date')->size(6);
-        $this->data['breadcrumbs']=[
-            trans('backpack::crud.admin') => backpack_url('dashboard'),
-            'Employees' => route('employee.index'),
-            'Preview' => route('employee.show',['id'=>$employeeId]),
-            'Employee Address' => false,
-        ];
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

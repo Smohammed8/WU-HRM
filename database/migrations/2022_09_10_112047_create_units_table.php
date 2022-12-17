@@ -18,7 +18,6 @@ class CreateUnitsTable extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->unique();
-            $table->string('acronym', 100)->unique();
             $table->string('email', 255)->nullable();
             $table->string('telephone', 255)->nullable();
             $table->string('extension_line', 255)->nullable();
