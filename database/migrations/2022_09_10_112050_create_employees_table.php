@@ -35,7 +35,6 @@ class CreateEmployeesTable extends Migration
             $table->string('employment_identity')->nullable();
             $table->foreignIdFor(EducationalLevel::class);
             $table->foreignId('marital_status_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
-
             $table->foreignId('ethnicity_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('religion_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('field_of_study_id')->nullable()->constrained('field_of_studies')->onUpdate('cascade')->onDelete('cascade');

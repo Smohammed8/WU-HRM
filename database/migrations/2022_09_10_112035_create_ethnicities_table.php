@@ -18,7 +18,7 @@ class CreateEthnicitiesTable extends Migration
         Schema::create('ethnicities', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->unique();
-            $table->foreignId('region_id')->constrained();
+            $table->foreignId('region_id')->nullable()->constrained();
             $table->timestamps();
         });
 

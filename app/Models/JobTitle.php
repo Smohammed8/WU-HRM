@@ -23,7 +23,7 @@ class JobTitle extends Model
         'vacant_post',
         'educational_level_id',
         'field_of_study_id',
-        'unit_id',
+        // 'unit_id',
         'job_code',
         'position_type_id',
         'work_experience'

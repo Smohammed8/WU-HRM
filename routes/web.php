@@ -12,6 +12,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\IdAttributeController;
 use App\Http\Controllers\IDCardController;
 use App\Http\Controllers\IDController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use App\Models\Employee;
@@ -41,6 +42,7 @@ Route::get('/', function () {
     dd('sd');
     return redirect(route('home'));
 });
+
 Route::redirect('/admin/login','/home');
 // Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 // Route::redirect('/admin/login','/login');
@@ -49,6 +51,7 @@ Route::redirect('/admin/login','/home');
 // });
 Route::redirect('/','/home');
 Route::redirect('/admin/login','/login');
+Route::get('/import', [ImportController::class, 'import']);
 // Registration Routes...
 // Route::get('admin/register', [AuthController::class,'registerForm'])->name('register.form');
 // Route::post('admin/register', [AuthController::class,'register']);

@@ -20,13 +20,13 @@ class CreateJobTitlesTable extends Migration
             $table->id();
             $table->string('name', 255)->unique();
             $table->foreignId('job_title_category_id')->constrained();
-            $table->foreignId('level_id')->constrained('levels')->nullable()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignIdFor(PositionType::class);
-            $table->foreignId('educational_level_id')->constrained('educational_levels')->nullable()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('level_id')->nullable()->constrained('levels')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(PositionType::class)->nullable();
+            $table->foreignId('educational_level_id')->nullable()->constrained('educational_levels')->onDelete('cascade')->onUpdate('cascade');
             $table->string('job_code', 100)->nullable();
             $table->text('description')->nullable();
             $table->float('total_minimum_work_experience')->default(0);
-            $table->float('work_experience')->nullable();
+            $table->float('work_experience')->nullable()->default(0);
             $table->timestamps();
         });
 

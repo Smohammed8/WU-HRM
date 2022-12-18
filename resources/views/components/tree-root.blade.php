@@ -1,6 +1,6 @@
 @props(['children'])
 <ul>
-    @foreach($children as $child)
+    @foreach ($children as $child)
         <li>
             <a href="javascript:void(0);">
                 <fieldset>
@@ -11,15 +11,15 @@
                             <div class="member-details">
 
 
-                                <span  title="{{ $child->chairManType->name??null }}" class="badge border border-info badge-pill badge-info font-size-h6-d" style="overflow-wrap: break-word; font-size:16px;">   @if($child->parent_unit_id==null)
-
-
-                                    <i class=" la la-flag"></i>
-
-
+                                <span title="{{ $child->chairManType->name ?? null }}"
+                                    class="badge border border-info badge-pill badge-info font-size-h6-d"
+                                    style="overflow-wrap: break-word; font-size:16px;">
+                                    @if ($child->parent_unit_id == null)
+                                        <i class=" la la-flag"></i>
                                     @endif
 
-                                    {{ $child->name }}</span>
+                                    {{ explode('[',$child->name)[0] }}
+                                </span>
 
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                 </fieldset>
 
             </a>
-            @if($child->childs->isNotEmpty())
+            @if ($child->childs->isNotEmpty())
                 <x-tree-root :children="$child->childs"></x-tree-root>
             @endif
         </li>

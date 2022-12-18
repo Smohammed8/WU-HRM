@@ -11,6 +11,7 @@ use App\Models\JobTitle;
 use App\Models\JobTitleCategory;
 use App\Models\MaritalStatus;
 use App\Models\Nationality;
+use App\Models\Organization;
 use App\Models\PositionRequirement;
 use App\Models\Region;
 use App\Models\Religion;
@@ -45,6 +46,17 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]);
         $user->assignRole('super-admin');
+        if (Organization::count() == 0)
+            Organization::create([
+                'name' => 'Bule Hoara university',
+                'email' => 'ero@bhu.edu.et',
+                'motto' => 'Jijjiiramaa Fula\'aaf Hojjanna!',
+                'web_address' => 'www.bhu.edu.et',
+                'fax' => '+251-(0)46-443-0355',
+                'telephone' => '+251-(0)46-443-0199',
+                'pobox' => '144, Oromia, Ethiopia',
+                'seal' => '',
+            ]);
         // MaritalStatus::factory(4)->create();
         // $nationality = Nationality::create(['nation'=>'Ethiopian','code'=>'ET','label'=>'Ethiopia']);
         // $region = Region::create(['name'=>'Oroomia','nationality_id'=>$nationality->id]);

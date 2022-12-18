@@ -55,7 +55,7 @@ class JobTitleCrudController extends CrudController
         // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
         //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
-       // $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
+       $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
 
         $breadcrumbs = [
             'Admin' => route('dashboard'),
