@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IDCardController;
 use App\Http\Controllers\IDController;
 use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\RoundController;

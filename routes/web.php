@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\IdAttributeController;
+use App\Http\Controllers\IDCardController;
+use App\Http\Controllers\IDController;
 use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use App\Models\Employee;
@@ -70,3 +73,7 @@ Route::get( '/hierarchy', function () {$units = Unit::where('parent_unit_id')->l
 
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show');
 
+Route::resource('idcard', IDCardController::class);
+Route::get('idcard/{idcard}/show',[IDCardController::class, 'design'])->name('idcard.design');
+Route::resource('attribute', IdAttributeController::class);
+Route::post('{idcard}/save/design', [IDCardController::class, 'saveDesign'])->name('save.design');
