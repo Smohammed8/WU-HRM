@@ -10,6 +10,7 @@ use App\Models\JobTitleCategory;
 use App\Models\MaritalStatus;
 use App\Models\Nationality;
 use App\Models\Region;
+use App\Models\Religion;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -194,6 +195,23 @@ class ImportController extends Controller
                     'nationality_id' => $region['country_id']
                 ]);
         }
+        $hrmReligion = array(
+            array('id' => '7', 'name' => 'Adventist'),
+            array('id' => '5', 'name' => 'Apostolic'),
+            array('id' => '4', 'name' => 'Catholic'),
+            array('id' => '3', 'name' => 'Muslim'),
+            array('id' => '1', 'name' => 'Orthodox'),
+            array('id' => '6', 'name' => 'Other\'s'),
+            array('id' => '2', 'name' => 'Protestant')
+        );
+        foreach ($hrmReligion as $key => $religion) {
+            if (Religion::where('name', $religion['name'])->count() == 0) {
+                Religion::create([
+                    'name' => $religion['name']
+                ]);
+            }
+        }
+
         $hrmEthnicity = array(
             array('id' => '1', 'ethnicity_id' => '1', 'name' => 'Oromo'),
             array('id' => '2', 'ethnicity_id' => '1', 'name' => 'Amhara'),
@@ -844,15 +862,25 @@ class ImportController extends Controller
             $fatherNameAm = explode('[', $employee['father_name'])[1];
             $grandFatherName = explode('[', $employee['grand_father_name'])[0];
             $grandFatherNameAm = explode('[', $employee['grand_father_name'])[1];
-            Employee::create([
-                'first_name' => $firstName,
-                'first_name_am' => $firstNameAm,
-                'father_name' => $fatherName,
-                'father_name_am' => $fatherNameAm,
-                'grand_father_name' => $grandFatherName,
-                'grand_father_name_am' => $grandFatherNameAm,
-                ''=>$employee['title_id']
-            ]);
+            if (Employee::where('first_name', $firstName)->where('father_name', $fatherName)->where('grand_father_name', $grandFatherName)->count() == 0)
+                Employee::create([
+                    'first_name' => $firstName,
+                    'first_name_am' => $firstNameAm,
+                    'father_name' => $fatherName,
+                    'father_name_am' => $fatherNameAm,
+                    'grand_father_name' => $grandFatherName,
+                    'grand_father_name_am' => $grandFatherNameAm,
+                    'employee_title_id' => $employee['title_id'],
+                    'marital_status_id' => $employee['marital_status_id'],
+                    'nationality_id' => $employee['nationality_id'],
+                    'ethnicity_id' => $employee['ethnicity_id'],
+                    'religion_id' => $employee['religion_id'],
+                    'gender' => trim(explode('[', $employee['gender'])[0]) == 'Male' ? 'Male' : 'Female',
+                    'date_of_birth' => $employee['date_of_birth'],
+                    'pention_number' => $employee['pention_number'],
+                    'employement_date' => $employee['employement_date'],
+                    ''
+                ]);
         }
 
         dd('Done');
