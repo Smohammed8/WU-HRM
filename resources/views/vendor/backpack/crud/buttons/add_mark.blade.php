@@ -1,10 +1,10 @@
-<button type="button" data-backdrop="false" data-toggle="modal" data-target="#addMark" target="_top"
+<button type="button" data-backdrop="false" data-toggle="modal" data-target="#addMark_{{ $candidate->id }}" target="_top"
     class="btn  btn-sm btn-outline-primary"><i class="la  la-plus"></i> {{ $candidate->mark!=null?'Update Mark':'Add Mark' }}
 </button>
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
 
-<div class="modal fade" id="addMark" tabindex="-10000" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="addMark_{{ $candidate->id }}" tabindex="-10000" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -19,7 +19,7 @@
             </div>
             <div class="" id="">
                 <div class="card card-body">
-                    <form action="{{ route('candidate.addMark',['vacancy'=>$candidate->vacancy->id,'candidate'=>$candidate->id]) }}" method="POST">
+                    <form action="{{ route('candidate.addMark',['vacancy'=>$candidate?->vacancy?->id,'candidate'=>$candidate?->id]) }}" method="POST">
                         @csrf
                         <div class="form-group col-sm-12 required" element="div"> <label>Mark</label>
                             <input type="text" value="{{ $candidate->mark??'' }}" required name="mark" class="form-control">

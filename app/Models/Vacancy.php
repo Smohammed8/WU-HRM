@@ -65,7 +65,10 @@ class Vacancy extends Model
 
     public function candidatesButtonView($crud = false)
     {
-        $route =  route('vacancy/{vacancy}/candidate.index',['vacancy'=>$this->id]); // custome toute here
+        if (!backpack_user()->canany(['vacancy.candidate.icrud', 'vacancy.candidate.index'])) {
+            return null;
+        }
+        $route =  route('vacancy/{vacancy}/candidate.index', ['vacancy' => $this->id]); // custome toute here
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Candidates"><i class="la la-users"></i>Candidates </a>';
     }
 }

@@ -1,4 +1,4 @@
-@if (backpack_auth()->check())
+@if (backpack_user()->can('dashboard.sidebar'))
     <!-- Left side column. contains the sidebar -->
     <aside class="main-sidebar sidebar-light-primary elevation-1">
         <a href="{{ url('/', ['id' => 1]) }}" class="brand-link">

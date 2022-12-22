@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'super@hrm.com',
                 'password' => Hash::make('password'),
             ]);
-        $user->assignRole('super-admin');
+        $user->assignRole(Constants::USER_TYPE_SUPER_ADMIN);
         if (Organization::count() == 0)
             Organization::create([
                 'name' => 'Bule Hoara university',

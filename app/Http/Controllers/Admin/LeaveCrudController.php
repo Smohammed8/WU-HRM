@@ -61,6 +61,7 @@ class LeaveCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->denyAccess('create');
 
         CRUD::column('employee_id');
         CRUD::column('type_of_leave_id');

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Constants;
 use App\Http\Requests\CandidateRequest;
 use App\Models\EducationalLevel;
 use App\Models\FieldOfStudy;
 use App\Models\Vacancy;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -30,11 +32,21 @@ class CandidateCrudController extends CrudController
      */
     public function setup()
     {
+
+
         CRUD::setModel(\App\Models\Candidate::class);
         $this->vacancy = Vacancy::find(\Route::current()->parameter('vacancy'));
         CRUD::setRoute(config('backpack.base.route_prefix') . '/vacancy/' . $this->vacancy?->id . '/candidate');
         CRUD::setEntityNameStrings('candidate', 'candidates');
         $this->setupBreadcrumb();
+        if (Carbon::createFromDate(Constants::etToGc($this->crud->getCurrentEntry()->vacancy->registration_end_date))->lessThan(Carbon::now())) {
+            $this->crud->denyAccess('delete');
+            $this->crud->denyAccess('update');
+            $this->crud->denyAccess('create');
+            $this->crud->addButtonFromModelFunction('top', 'screen', 'screen', 'end');
+        } else {
+            $this->crud->addButtonFromModelFunction('line', 'add_mark', 'addMark', 'beginning');
+        }
     }
     public function setupBreadcrumb()
     {
@@ -98,18 +110,17 @@ class CandidateCrudController extends CrudController
             CRUD::column('dob');
             CRUD::column('fieldOfStudy')->label('Field of study')->type('select')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name');
             CRUD::column('educationalLevel');
-            CRUD::column('gpa');
-            CRUD::column('gender');
-            CRUD::column('disablity_status')->type('boolean');
-            CRUD::column('email');
-            CRUD::column('phone');
-            CRUD::column('total_experience');
-            CRUD::column('job_position_experience');
         }
         CRUD::column('mark');
 
-        $this->crud->addButtonFromModelFunction('line', 'add_mark', 'addMark', 'beginning');
-
+        if (Carbon::createFromDate(Constants::etToGc($this->crud->getCurrentEntry()->vacancy->registration_end_date))->lessThan(Carbon::now())) {
+            $this->crud->denyAccess('delete');
+            $this->crud->denyAccess('update');
+            $this->crud->denyAccess('create');
+            $this->crud->addButtonFromModelFunction('top', 'screen', 'screen', 'end');
+        } else {
+            $this->crud->addButtonFromModelFunction('line', 'add_mark', 'addMark', 'beginning');
+        }
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -157,6 +168,7 @@ class CandidateCrudController extends CrudController
             CRUD::field('job_position_experience')->size(6)->min(0);
         }
         CRUD::field('disablity_status')->type('boolean')->size(6);
+
         //  CRUD::field('mark')->size(6);
 
         /**

@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Faker\Core\DateTime;
+use Illuminate\Http\Request;
 
 /**
  * Class VacancyCrudController
@@ -33,6 +34,52 @@ class VacancyCrudController extends CrudController
         CRUD::setModel(\App\Models\Vacancy::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/vacancy');
         CRUD::setEntityNameStrings('vacancy', 'vacancies');
+        $this->setupPermission();
+    }
+    public function setupPermission()
+    {
+        if (!backpack_user()->can('vacancy.icrud')) {
+            $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
+            if (in_array('show', $explodedRoute)) {
+                if (!backpack_user()->can('vacancy.show')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('create', $explodedRoute)) {
+                if (!backpack_user()->can('vacancy.create')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('edit', $explodedRoute)) {
+                if (!backpack_user()->can('vacancy.edit')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('delete', $explodedRoute)) {
+                if (!backpack_user()->can('vacancy.delete')) {
+                    return abort(401);
+                }
+            }
+            if ($explodedRoute[count($explodedRoute) - 1] == $this->crud->entity_name && !backpack_user()->can('vacancy.index')) {
+                return abort(401);
+            }
+
+            if (!backpack_user()->can('vacancy.create')) {
+                $this->crud->denyAccess('create');
+            }
+
+            if (!backpack_user()->can('vacancy.show')) {
+                $this->crud->denyAccess('show');
+            }
+
+            if (!backpack_user()->can('vacancy.edit')) {
+                $this->crud->denyAccess('update');
+            }
+
+            if (!backpack_user()->can('vacancy.delete')) {
+                $this->crud->denyAccess('delete');
+            }
+        }
     }
 
     /**
@@ -66,12 +113,12 @@ class VacancyCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(VacancyRequest::class);
-
         CRUD::field('type')->type('enum')->size(6);
-        CRUD::field('registration_start_date')->size(6);
-        CRUD::field('registration_end_date')->size(6);
-        // CRUD::field('position.jobTitle.name')->type('select2')->label('Position')->size(6);
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6);
+        CRUD::field('registration_start_date')->size(4);
+        CRUD::field('registration_end_date')->size(4);
+        CRUD::field('number_of_vacants')->size(4);
+        // CRUD::field('position.jobTitle.name')->type('select2')->label('Position')->size(6);
         CRUD::field('description')->size(12)->type('summernote');
 
         /**
@@ -90,5 +137,10 @@ class VacancyCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function screen(Request $request)
+    {
+        //here is vacant screening code
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -94,6 +95,15 @@ class Candidate extends Model
     public function addMark($crud = false)
     {
         $candidate = $this;
-        return view('crud::buttons.add_mark',compact('candidate'));
+        // if (Carbon::createFromDate(Constants::etToGc($this->vacancy->registration_end_date))->lessThan(Carbon::now())) {
+        //     return null;
+        // }
+        return view('crud::buttons.add_mark', compact('candidate'));
+    }
+
+    public function screen($crud)
+    {
+        $route = route('vacancy.screen', ['vacancy' => $crud->getCurrentEntry()->vacancy->id]);
+        return '<a class="btn btn-primary"  href="' . $route . '" data-toggle="tooltip" title="Screen Vacant"><i class="la la-filter"></i> Screen</a>';
     }
 }

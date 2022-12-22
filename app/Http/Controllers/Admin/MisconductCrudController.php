@@ -49,6 +49,8 @@ class MisconductCrudController extends CrudController
         CRUD::column('action_taken');
         CRUD::column('serverity');
         CRUD::column('description');
+        $this->crud->denyAccess('create');
+
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -74,7 +76,6 @@ class MisconductCrudController extends CrudController
         CRUD::field('action_taken');
         CRUD::field('serverity');
         CRUD::field('description');
-
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

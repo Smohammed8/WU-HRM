@@ -109,4 +109,5 @@ Route::group([
     Route::crud('vacancy', 'VacancyCrudController');
     Route::crud('vacancy/{vacancy}/candidate', 'CandidateCrudController');
     Route::post('vacancy/{vacancy}/candidate/{candidate}/addMark', [CandidateCrudController::class,'addMark'])->name('candidate.addMark');
+    Route::get('vacancy/{vacancy}/screen', 'VacancyCrudController@screen')->name('vacancy.screen');
 });

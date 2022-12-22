@@ -8,6 +8,8 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
+
 //use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -19,7 +21,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
         return view('dashboard', compact( 'users', 'employees',));

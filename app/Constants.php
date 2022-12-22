@@ -35,6 +35,8 @@ class Constants
     const EDUCATION_CRITERIA = 'Education Criteria';
     const EXPERIENCE_CRITERIA = 'Experience Criteria';
     const USER_TYPE_EMPLOYEE = 'employee';
+    const USER_TYPE_SUPER_ADMIN = 'super_admin';
+    const USER_TYPE_ADMIN = 'admin';
     const PERMISSION_DASHBOARD = 'DASHBOARD';
 
 

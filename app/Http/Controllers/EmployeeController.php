@@ -22,20 +22,27 @@ class EmployeeController extends Controller
 
     public function home()
     {
-        if(!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)){
+        if ((!backpack_user()->can('employee.home') && backpack_user()->can('dashboard.content')) || backpack_user()->hasRole(Constants::USER_TYPE_SUPER_ADMIN)) {
             return redirect(route('dashboard'));
+        }
+
+        if (!Auth::user()->can('employee.home')) {
+            return abort(401);
         }
         $user = Auth::user();
         $employee = Employee::where('uas_user_id', $user->username)->get();
-        if ($employee->count() == 0) {
+        if ($employee->count() == 0 && backpack_user()->hasRole('employee')) {
             Auth::logout();
-            return abort(405, 'Please you have no employee profile contact admin');
+            return abort(401, 'Please you have no employee profile contact admin');
+        }
+        if ($employee->count() == 0 && !backpack_user()->hasRole('employee')) {
+            return abort(401);
         }
         $employee = $employee->first();
         $employee->totalExperiences();
         $positions = Position::all();
-        $placementRound = PlacementRound::where('is_open',true)->first();
-        return view('home', compact('user', 'employee','positions','placementRound'));
+        $placementRound = PlacementRound::where('is_open', true)->first();
+        return view('home', compact('user', 'employee', 'positions', 'placementRound'));
     }
     public function importPage()
     {

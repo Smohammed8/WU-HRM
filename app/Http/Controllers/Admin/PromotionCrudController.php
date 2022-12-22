@@ -49,6 +49,8 @@ class PromotionCrudController extends CrudController
         CRUD::column('new_unit_id');
         CRUD::column('old_job_title_id');
         CRUD::column('new_job_title_id');
+        $this->crud->denyAccess('create');
+
         CRUD::column('created_by_id');
         CRUD::column('reason_of_promotion');
 

@@ -50,7 +50,7 @@ class DemotionCrudController extends CrudController
         CRUD::column('new_job_title_id');
         CRUD::column('created_by_id');
         CRUD::column('reason_of_demotion');
-
+        $this->crud->denyAccess('create');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

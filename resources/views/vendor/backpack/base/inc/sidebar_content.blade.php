@@ -1,42 +1,53 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
-<li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-home nav-icon"></i>
-        Home </a></li>
-
-<li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
-        {{ trans('backpack::base.dashboard') }}</a>
-</li>
-
+@can('employee.home')
+    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-home nav-icon"></i>
+            Home </a></li>
+@endcan
+@can('dashboard.content')
+    <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
+            {{ trans('backpack::base.dashboard') }}</a>
+    </li>
+@endcan
+@canany(['user.icrud', 'user.index', 'role.icrud', 'role.index', 'permission.icrud', 'permission.index'])
+    <li class="nav-item nav-dropdown">
+        <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i>User Managment</a>
+        <ul class="nav-dropdown-items">
+            @canany(['user.index', 'user.icrud'])
+                <li class="nav-item"><a class="nav-link" href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i>
+                        <span>Users</span></a></li>
+            @endcanany
+            @canany(['role.index', 'role.icrud'])
+                <li class="nav-item"><a class="nav-link" href="{{ backpack_url('role') }}"><i
+                            class="nav-icon la la-id-badge"></i> <span>Roles</span></a></li>
+            @endcanany
+            @canany(['permission.index', 'permission.icrud'])
+                <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i
+                            class="nav-icon la la-key"></i> <span>Permissions</span></a></li>
+            @endcanany
+        </ul>
+    </li>
+@endcanany
 <!-- Users, Roles, Permissions -->
-<li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i>User Managment</a>
-    <ul class="nav-dropdown-items">
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i>
-                <span>Users</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('role') }}"><i
-                    class="nav-icon la la-id-badge"></i> <span>Roles</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i
-                    class="nav-icon la la-key"></i> <span>Permissions</span></a></li>
-    </ul>
-</li>
+
 
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-id-card"></i>ID</a>
     <ul class="nav-dropdown-items">
         <li class="nav-item"><a class="nav-link" href="{{ route('idcard.index') }}">
-            <i class="nav-icon la la-user"></i>
+                <i class="nav-icon la la-user"></i>
                 <span>ID Design</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="">
-            <i class="nav-icon la la-id-badge"></i>
-            <span>ID Print</span></a>
+        <li class="nav-item"><a class="nav-link" href="#iprint">
+                <i class="nav-icon la la-id-badge"></i>
+                <span>ID Print</span></a>
         </li>
         <li class="nav-item"><a class="nav-link" href="{{ route('attribute.index') }}">
-            <i class="nav-icon la la-id-badge"></i>
-            <span>ID Setting</span></a>
+                <i class="nav-icon la la-id-badge"></i>
+                <span>ID Setting</span></a>
         </li>
     </ul>
 </li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-user-tie'></i>
-    Employees</a></li>
+        Employees</a></li>
 
 <!-- Users, Roles, Permissions -->
 <li class="nav-item nav-dropdown">
@@ -47,9 +58,9 @@
         {{-- @if (backpack_user()->hasPermissionTo('structure.show')) --}}
         {{-- @if (backpack_user()->hasRole('Admin')) --}}
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('organization') }}'>
-        <i class='nav-icon la la-caret-right'></i>Organizations</a></li>
-         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('unit') }}'>
-         <i class='nav-icon la la-caret-right'></i> Organizational Units</a></li>
+                <i class='nav-icon la la-caret-right'></i>Organizations</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('unit') }}'>
+                <i class='nav-icon la la-caret-right'></i> Organizational Units</a></li>
 
     </ul>
 </li>
@@ -110,12 +121,12 @@
 
         <!-- //////////////////////////////////////////////////////// -->
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template') }}'>
-            <i class='nav-icon la la-caret-right'></i> Templates</a></li>
+                <i class='nav-icon la la-caret-right'></i> Templates</a></li>
 
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-type') }}'>
 
-            <i class='nav-icon la la-caret-right'></i> Template types</a></li>
+                <i class='nav-icon la la-caret-right'></i> Template types</a></li>
         <!-- /////////////////////////////////////////////////////////////-->
     </ul>
 </li>
@@ -126,38 +137,38 @@
 
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'>
-            <i class='nav-icon la la-caret-right'></i>Job title categories</a></li>
+                <i class='nav-icon la la-caret-right'></i>Job title categories</a></li>
 
-            {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'>
+        {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title') }}'>
                <i class='nav-icon la la-caret-right'></i>Job titles </a></li>
     --}}
 
 
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'>
 
-        <i class='nav-icon la la-caret-right'></i>Job Levels</a></li>
-
-
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-grade') }}'>
- <i class='nav-icon la la-caret-right'></i> Job grades</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-scale') }}'>
-        <i class='nav-icon la la-caret-right'></i> Salary scales</a></li>
+                <i class='nav-icon la la-caret-right'></i>Job Levels</a></li>
 
 
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-grade') }}'>
+                <i class='nav-icon la la-caret-right'></i> Job grades</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-scale') }}'>
+                <i class='nav-icon la la-caret-right'></i> Salary scales</a></li>
 
 
 
-            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'>
-           <i class='nav-icon la la-caret-right'></i>Employment types</a></li>
+
+
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'>
+                <i class='nav-icon la la-caret-right'></i>Employment types</a></li>
 
 
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
-            class='nav-icon la la-caret-right'></i> Positions</a></li>
+                    class='nav-icon la la-caret-right'></i> Positions</a></li>
     </ul>
 </li>
 
 
-<li class="nav-item nav-dropdown">
+{{-- <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-book"></i> ID Managment </a>
         <ul class="nav-dropdown-items">
 
@@ -167,14 +178,15 @@
 
 
      </ul>
-    </li>
+    </li> --}}
 
 
 
 
 
 <li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i> Efficiency settings
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i> Efficiency
+        settings
     </a>
     <ul class="nav-dropdown-items">
 
@@ -187,14 +199,14 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evalution-creteria') }}'><i
                     class='nav-icon la la-caret-right'></i> Evalution creterias</a></li>
 
-         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i
                     class='nav-icon la la-caret-right'></i> Evaluations</a></li> --}}
 
 
     </ul>
 </li>
 
-<li class="nav-item nav-dropdown">
+{{-- <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-th-list"></i>Employee Placement </a>
 
 
@@ -213,7 +225,7 @@
                     class='nav-icon la la-caret-right'></i> Placement rounds</a></li>
     </ul>
 
-</li>
+</li> --}}
 
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-plus"></i> Recruitment
@@ -224,12 +236,12 @@
                     class='nav-icon la la-caret-right'>
                 </i>Vacancy</a></li>
 
-                {{-- <li class='nav-item'><a class='nav-link' href=''> <i
+        {{-- <li class='nav-item'><a class='nav-link' href=''> <i
                     class='nav-icon la la-caret-right'>
                 </i>Candidates</a></li> --}}
 
 
-                {{-- <li class='nav-item'><a class='nav-link' href=''> <i
+        {{-- <li class='nav-item'><a class='nav-link' href=''> <i
                     class='nav-icon la la-caret-right'>
                 </i>Exam Result</a></li> --}}
 
@@ -262,8 +274,6 @@
                     class='nav-icon la la-caret-right'></i> Evaluation periods</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('form-style') }}'> <i
                     class='nav-icon la la-caret-right'></i> Efficiency Form style</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('form-style') }}'> <i
-                    class='nav-icon la la-caret-right'></i> Employee Form style</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-increament') }}'><i
                     class='nav-icon la la-caret-right'></i> Salary increaments</a></li>
 
@@ -273,7 +283,6 @@
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-print"></i> Reports</a>
     <ul class="nav-dropdown-items">
-
         <li class='nav-item'><a class='nav-link' href='#'> <i
                     class='nav-icon la la-caret-right'></i>Efficiency</a></li>
         <li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i>
@@ -284,7 +293,3 @@
                 Recruitments</a></li>
     </ul>
 </li>
-
-
-
-
