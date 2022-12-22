@@ -61,7 +61,17 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('setting.delete');
 
         // Permission for id
-        Permission::findOrCreate('id.design');
+        Permission::findOrCreate('id.icrud');
+        Permission::findOrCreate('id.index');
+        Permission::findOrCreate('id.create');
+        Permission::findOrCreate('id.show');
+        Permission::findOrCreate('id.delete');
+        Permission::findOrCreate('id.design.icrud');
+        Permission::findOrCreate('id.design.index');
+        Permission::findOrCreate('id.design.create');
+        Permission::findOrCreate('id.design.show');
+        Permission::findOrCreate('id.design.delete');
+        // Permission for id setting
         Permission::findOrCreate('id.setting.icrud');
         Permission::findOrCreate('id.setting.index');
         Permission::findOrCreate('id.setting.create');
