@@ -179,6 +179,13 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('job_grade.show');
         Permission::findOrCreate('job_grade.edit');
         Permission::findOrCreate('job_grade.delete');
+        // Permission for job grades
+        Permission::findOrCreate('salary_increament.icrud');
+        Permission::findOrCreate('salary_increament.index');
+        Permission::findOrCreate('salary_increament.create');
+        Permission::findOrCreate('salary_increament.show');
+        Permission::findOrCreate('salary_increament.edit');
+        Permission::findOrCreate('salary_increament.delete');
 
         // Permission for salary scale
         Permission::findOrCreate('salary_scale.icrud');

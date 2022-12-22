@@ -30,7 +30,56 @@ class JobGradeCrudController extends CrudController
         CRUD::setModel(\App\Models\JobGrade::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/job-grade');
         CRUD::setEntityNameStrings('job grade', 'job grades');
+        $this->setupPermission();
     }
+
+
+    public function setupPermission()
+    {
+        $permission_base = 'job_grade';
+        if (!backpack_user()->can($permission_base . '.icrud')) {
+            $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
+            if (in_array('show', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.show')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('create', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.create')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('edit', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.edit')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('delete', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.delete')) {
+                    return abort(401);
+                }
+            }
+            if ($explodedRoute[count($explodedRoute) - 1] == 'job-grade' && !backpack_user()->can($permission_base . '.index')) {
+                return abort(401);
+            }
+            if (!backpack_user()->can($permission_base . '.create')) {
+                $this->crud->denyAccess('create');
+            }
+
+            if (!backpack_user()->can($permission_base . '.show')) {
+                $this->crud->denyAccess('show');
+            }
+
+            if (!backpack_user()->can($permission_base . '.edit')) {
+                $this->crud->denyAccess('update');
+            }
+
+            if (!backpack_user()->can($permission_base . '.delete')) {
+                $this->crud->denyAccess('delete');
+            }
+        }
+    }
+
 
     /**
      * Define what happens when the List operation is loaded.
@@ -46,15 +95,15 @@ class JobGradeCrudController extends CrudController
 
         $this->crud->denyAccess('delete');
         $this->crud->setDefaultPageLength(22);
-       CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->size(6);
-      //  CRUD::column('start_salary')->label('Start');
+        CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->size(6);
+        //  CRUD::column('start_salary')->label('Start');
         $this->crud->addColumn([
             'name'  => 'start_salary', // The db column name
             'label' => 'Start', // Table column heading
             'type'  => 'number',
             'dec_point'     => ','
 
-              ]);
+        ]);
 
 
         CRUD::column('one')->label('1st');
@@ -66,21 +115,21 @@ class JobGradeCrudController extends CrudController
         CRUD::column('seven')->label('7th');
         CRUD::column('eight')->label('8th');
         CRUD::column('nine')->label('9th');
-       // CRUD::column('ceil_salary')->label('Ceil');
+        // CRUD::column('ceil_salary')->label('Ceil');
 
         $this->crud->addColumn([
             'name'  => 'ceil_salary', // The db column name
             'label' => 'Ceil', // Table column heading
             'type'  => 'number',
-           // 'prefix'        => 'ETB',
+            // 'prefix'        => 'ETB',
             //'suffix'        => ' EUR',
-           // 'decimals'      => 2,
+            // 'decimals'      => 2,
             'dec_point'     => ',',
-          //  'thousands_sep' => '.',
-          //  decimals, dec_point and thousands_sep are used to format the number;
-          //  for details on how they work check out PHP's number_format() method, they're passed directly to it;
-          //  https://www.php.net/manual/en/function.number-format.php
-              ]);
+            //  'thousands_sep' => '.',
+            //  decimals, dec_point and thousands_sep are used to format the number;
+            //  for details on how they work check out PHP's number_format() method, they're passed directly to it;
+            //  https://www.php.net/manual/en/function.number-format.php
+        ]);
 
 
         // $this->crud->addColumn([
