@@ -36,7 +36,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('idcard.index') }}">
                 <i class="nav-icon la la-user"></i>
                 <span>ID Design</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#iprint">
+        <li class="nav-item"><a class="nav-link" href="{{ route('emp.list') }}">
                 <i class="nav-icon la la-id-badge"></i>
                 <span>ID Print</span></a>
         </li>

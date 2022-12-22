@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\IDCard;
 use App\Http\Requests\StoreIDCardRequest;
 use App\Http\Requests\UpdateIDCardRequest;
+use App\Models\Employee;
 use App\Models\IdAttribute;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class IDCardController extends Controller
 {
@@ -148,5 +150,23 @@ class IDCardController extends Controller
         $back_tab = $request->get('tab2_temp');
         $check = $idCard->update(['front_page_tab' => $front_tab, 'back_page_tab' => $back_tab, 'front_page_template' => $front_data, 'back_page_template' => $back_data]);
         return response()->json(['data' => $check]);
+    }
+
+    public function printList(Request $request)
+    {
+        $employees = Employee::paginate(10);
+        return view('ID.emp_list', compact('employees'));
+    }
+
+    public function printID($emp_id)
+    {
+        $employee = Employee::find($emp_id);
+        if (count(explode('photo//', $employee->photo)) > 1) {
+            $img = explode('photo//', $employee->photo)[1];
+        } else {
+            $img = 'profile.png';
+        }
+        $pdf = Pdf::loadView('ID.id_print', compact('employee', 'img'))->setPaper('a4', 'landscape');
+        return $pdf->stream();
     }
 }

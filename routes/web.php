@@ -80,3 +80,5 @@ Route::resource('idcard', IDCardController::class);
 Route::get('idcard/{idcard}/show',[IDCardController::class, 'design'])->name('idcard.design');
 Route::resource('attribute', IdAttributeController::class);
 Route::post('{idcard}/save/design', [IDCardController::class, 'saveDesign'])->name('save.design');
+Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.list');
+Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id');
