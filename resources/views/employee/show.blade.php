@@ -286,7 +286,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                                 <label for=""><b> Employee title : </b></label>
                                 <label for=""> {{    $crud->entry->employeeTitle->title?? '-'   }} </label>
                             </div>
-                           
+
 
 
                         </div>
@@ -314,14 +314,16 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </i> &nbsp; {{ 'Employee Education' }}</a>
                 </li> --}}
 
-                {{-- <li role="presentation" class="nav-item">
-                    <a href="#tab_employee_education" aria-controls="" role="tab" tab_name="tab_employee_education" data-toggle="tab" class="nav-link active">
-                        <i class="la la la-mortar-board" style="font-size: 20px;"> </i>&nbsp; {{ 'Education' }}</a>
-                </li> --}}
+                <li role="presentation" class="nav-item">
+                    <a href="#tab_employee_contact" aria-controls="" role="tab" tab_name="tab_employee_contact" data-toggle="tab" class="nav-link active">
+                        <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contacts' }}</a>
+                </li>
+
+
 
                 <li role="presentation" class="nav-item">
                     <a href="#tab_employee_skill" aria-controls="tab_employee_skill" role="tab" tab_name="tab_employee_skill" data-toggle="tab"
-                        class="nav-link active"> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
+                        class="nav-link"> <i class="la la-empire" style="font-size: 20px;"> </i>&nbsp; {{ 'Skill'
                         }}</a>
                 </li>
 
@@ -431,7 +433,58 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                 </div>
             </div> --}}
 
-            <div role="tabpanel" class="tab-pane active" id="tab_employee_skill">
+
+
+            <div role="tabpanel" class="tab-pane active" id="tab_employee_contact">
+                <h3>Emergency Contacts </h3>
+                <div class="no-padding no-border">
+                    <div class="">
+                        <a href="{{ route('{employee}/employee-contact.create',['employee'=>$crud->entry?->id]) }}"
+                            class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
+                                    class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Emeregency Contacts'}}</span>
+                                </a>
+                    </div>
+                    <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
+                        cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Relation</th>
+                                <th>Contact Name</th>
+                                <th>Contact</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employeeContacts as $employeeContact)
+                            <tr>
+                                <td>{{ $employeeContact?->contactType?->name }}</td>
+                                <td>{{ $employeeContact->contactName }}</td>
+                                <td>{{ $employeeContact->contact }}</td>
+                                <td>
+                                    <a href="{{ route('{employee}/employeeContact.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeContact->id]) }}"
+                                        class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                                    <a href="javascript:void(0)" onclick="deleteEntry(this)"
+                                        data-route="{{ route('{employee}/employeeContact.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeContact->id]) }}"
+                                        class="btn btn-sm btn-link" data-button-type="delete"><i
+                                            class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @if(count($employeeContacts)==0)
+                            <tr>
+                                <td colspan="3" class="text-center">No emergency contacts </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                    <div>
+                        {{ $employeeSkills->links() }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div role="tabpanel" class="tab-pane" id="tab_employee_skill">
                 <h3>Employee Skill</h3>
                 <div class="no-padding no-border">
                     <div class="">

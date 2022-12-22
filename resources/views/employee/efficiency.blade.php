@@ -11,7 +11,8 @@
     <div class="modal-dialog modal-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud?->entry?->name }} &nbsp; &nbsp; &nbsp;
+                <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud?->entry?->name }} &nbsp; &nbsp;
+                    &nbsp;
                     Unit: {{ $crud?->entry?->unit?->name }} &nbsp; &nbsp; Last Efficiency : 92.5% &nbsp; &nbsp; Job
                     Position : {{ $crud?->entry?->jobTitle?->name }} </h6>
 

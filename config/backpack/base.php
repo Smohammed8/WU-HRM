@@ -12,7 +12,7 @@ return [
     */
 
     // Date & Datetime Format Syntax: https://carbon.nesbot.com/docs/#api-localization
-    'default_date_format'     => 'D MMM YYYY',
+    'default_date_format'     => 'D/M/YYYY',
     'default_datetime_format' => 'D MMM YYYY, HH:mm',
 
     // Direction, according to language
@@ -58,7 +58,8 @@ return [
         'packages/line-awesome/css/line-awesome.min.css',
         'packages/backpack/base/css/blue-bundle.css',
         'nassets/css/adminlte.min.css',
-        'nassets/css/abdi.css'
+        'nassets/css/abdi.css',
+        'assets/calendar/css/redmond.calendars.picker.css',
         // Example (the fonts above, loaded from CDN instead)
         // 'https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css',
         // 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic',
@@ -128,7 +129,14 @@ return [
     'scripts' => [
         // Backstrap includes jQuery, Bootstrap, CoreUI, PNotify, Popper
         'packages/backpack/base/js/bundle.js',
-
+        'assets/calendar/js/jquery.plugin.js',
+        'assets/calendar/js/jquery.calendars.js',
+        'assets/calendar/js/jquery.calendars.plus.js',
+        'assets/calendar/js/jquery.calendars.picker.js',
+        'assets/calendar/js/jquery.calendars.ethiopian.js',
+        'assets/calendar/js/jquery.calendars.ethiopian-am.js',
+        'assets/calendar/js/jquery.calendars.picker-am.js',
+        'assets/calendar/custom/script.js',
         // examples (everything inside the bundle, loaded from CDN)
         // 'https://code.jquery.com/jquery-3.4.1.min.js',
         // 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
@@ -145,7 +153,7 @@ return [
     ],
 
     // JS files that are loaded in all pages, using Laravel's mix() helper
-    'mix_scripts' => [// file_path => manifest_directory_path
+    'mix_scripts' => [ // file_path => manifest_directory_path
         // 'js/app.js' => '',
     ],
 
@@ -240,7 +248,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-  // enable the datatables-responsive plugin, which hides columns if they don't fit?
+    // enable the datatables-responsive plugin, which hides columns if they don't fit?
     // if not, a horizontal scrollbar will be shown instead
     'responsive_table' => true,
     'persistent_table' => true,
@@ -257,7 +265,7 @@ return [
     'middleware_class' => [
         App\Http\Middleware\CheckIfAdmin::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-         \Backpack\CRUD\app\Http\Middleware\UseBackpackAuthGuardInsteadOfDefaultAuthGuard::class,
+        \Backpack\CRUD\app\Http\Middleware\UseBackpackAuthGuardInsteadOfDefaultAuthGuard::class,
     ],
 
     // Alias for that middleware

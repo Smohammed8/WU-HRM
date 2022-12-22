@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SkillRequest;
-use App\Models\SkillType;
+use App\Constants;
+use App\Http\Requests\VacancyRequest;
+use App\Models\Position;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
+use Faker\Core\DateTime;
 
 /**
- * Class SkillCrudController
+ * Class VacancyCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class SkillCrudController extends CrudController
+class VacancyCrudController extends CrudController
 {
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -27,32 +30,9 @@ class SkillCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Skill::class);
-        $employeeId = \Route::current()->parameter('employee');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/skill');
-        CRUD::setEntityNameStrings('skill', 'skills');
-        $this->setupBreadcrumb($employeeId);
-    }
-
-
-    public function setupBreadcrumb($employeeId)
-    {
-        $breadcrumbs = [
-            'Admin' => route('dashboard'),
-            'Employees' => route('employee.index'),
-            'Skills' => route('employee.show',['id'=>$employeeId]).'#employee_skill',
-        ];
-        // dd($this->crud->getRequest()->getRequestUri());
-        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
-            $breadcrumbs['Preview'] = false;
-        }
-        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
-            $breadcrumbs['Update'] = false;
-        }
-        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
-            $breadcrumbs['Add'] = false;
-        }
-        $this->data['breadcrumbs'] = $breadcrumbs;
+        CRUD::setModel(\App\Models\Vacancy::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/vacancy');
+        CRUD::setEntityNameStrings('vacancy', 'vacancies');
     }
 
     /**
@@ -63,13 +43,12 @@ class SkillCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
-        CRUD::column('employee_id');
-        CRUD::column('skill_type_id');
-        CRUD::column('name');
-        CRUD::column('level');
+        CRUD::column('type');
+        CRUD::column('registration_start_date');
+        CRUD::column('registration_end_date');
+        CRUD::column('position_id')->label('Job Position')->type('select')->entity('position')->model(Position::class)->attribute('position_info')->size(6);
         CRUD::column('description');
-
+        $this->crud->addButtonFromModelFunction('line', 'candidates', 'candidatesButtonView', 'beginning');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -86,13 +65,15 @@ class SkillCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
-        CRUD::setValidation(SkillRequest::class);
-        CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name')->size(6);
-        CRUD::field('name')->size(6);
-        CRUD::field('level')->size(6);
-        CRUD::field('description');
+        CRUD::setValidation(VacancyRequest::class);
+
+        CRUD::field('type')->type('enum')->size(6);
+        CRUD::field('registration_start_date')->size(6);
+        CRUD::field('registration_end_date')->size(6);
+        // CRUD::field('position.jobTitle.name')->type('select2')->label('Position')->size(6);
+        CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6);
+        CRUD::field('description')->size(12)->type('summernote');
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -108,8 +89,6 @@ class SkillCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
-
         $this->setupCreateOperation();
     }
 }

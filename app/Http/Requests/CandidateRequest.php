@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EducationalLevelRequest extends FormRequest
+class CandidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,7 @@ class EducationalLevelRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:educational_levels',
-            'description'=>'nullable|regex:/^[a-zA-Z]+$/u|min:20|max:255',
+            // 'name' => 'required|min:5|max:255'
         ];
     }
 

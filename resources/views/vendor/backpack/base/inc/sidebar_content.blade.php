@@ -26,11 +26,11 @@
             <i class="nav-icon la la-user"></i>
                 <span>ID Design</span></a></li>
         <li class="nav-item"><a class="nav-link" href="">
-            <i class="nav-icon la la-id-badge"></i> 
+            <i class="nav-icon la la-id-badge"></i>
             <span>ID Print</span></a>
         </li>
         <li class="nav-item"><a class="nav-link" href="{{ route('attribute.index') }}">
-            <i class="nav-icon la la-id-badge"></i> 
+            <i class="nav-icon la la-id-badge"></i>
             <span>ID Setting</span></a>
         </li>
     </ul>
@@ -220,18 +220,18 @@
     </a>
     <ul class="nav-dropdown-items">
 
-        <li class='nav-item'><a class='nav-link' href=''> <i
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('vacancy') }}'> <i
                     class='nav-icon la la-caret-right'>
                 </i>Vacancy</a></li>
 
-                <li class='nav-item'><a class='nav-link' href=''> <i
+                {{-- <li class='nav-item'><a class='nav-link' href=''> <i
                     class='nav-icon la la-caret-right'>
-                </i>Applicants</a></li>
+                </i>Candidates</a></li> --}}
 
 
-                <li class='nav-item'><a class='nav-link' href=''> <i
+                {{-- <li class='nav-item'><a class='nav-link' href=''> <i
                     class='nav-icon la la-caret-right'>
-                </i>Exam Result</a></li>
+                </i>Exam Result</a></li> --}}
 
 
     </ul>

@@ -92,6 +92,8 @@ class Employee extends  Model
         'employee_title_id'
 
     ];
+
+
     public function setPhotoAttribute($value)
     {
         $attribute_name = "photo";
@@ -172,6 +174,16 @@ class Employee extends  Model
         'employment_status_id' => 'integer',
         'employee_title_id' =>'integer'
     ];
+
+    public function getDateOfBirthAttribute()
+    {
+        return Constants::gcToEt($this->attributes['date_of_birth']);
+    }
+
+    public function setDateOfBirthAttribute($dateOfBirth)
+    {
+        $this->attributes['date_of_birth'] = Constants::etToGc($dateOfBirth);
+    }
 
     public function getNameAttribute()
     {

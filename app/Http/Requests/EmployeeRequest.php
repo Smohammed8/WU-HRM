@@ -24,14 +24,13 @@ class EmployeeRequest extends FormRequest
      */
     public function rules()
     {
-        // |dimensions:min_width=100,min_height=100
         return [
-            'first_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'father_name'=>'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'grand_father_name' => 'required|regex:/^[a-zA-Z]+$/u|min:3|max:30',
-            'first_name_am'=>'nullable|min:3|max:30',
-            'father_name_am'=>'nullable|min:3|max:30',
-            'grand_father_name_am' => 'nullable|min:3|max:30',
+            'first_name'=>'required',
+            'father_name'=>'required',
+            'grand_father_name' => 'required',
+            'first_name_am'=>'nullable',
+            'father_name_am'=>'nullable',
+            'grand_father_name_am' => 'nullable',
             'gender'=>'required',
             'date_of_birth' =>'required',
             'photo' =>'nullable',
@@ -40,7 +39,7 @@ class EmployeeRequest extends FormRequest
             'driving_licence' =>'nullable',
             'blood_group' =>'nullable',
             'eye_color' =>'nullable',
-            'phone_number' => 'required|numeric|digits:10|unique:employees,phone_number',
+            'phone_number' => 'required|numeric|digits:10',
             'alternate_email' => 'nullable|email|unique:employees,alternate_email',
             'rfid' => 'nullable|numeric|unique:employees,rfid',
             'employment_identity' => 'nullable|numeric|unique:employees,employment_identity',
@@ -50,7 +49,7 @@ class EmployeeRequest extends FormRequest
             'unit_id' =>'nullable',
             'employement_date'=>'required|date',
             'salary_step' =>'nullable',
-           // 'nationality_id' =>'required',
+            'nationality_id' =>'required',
             'employment_type_id' =>'required',
             'employee_category_id'=>'required',
             'pention_number'  => 'nullable|numeric|unique:employees,pention_number',
@@ -60,7 +59,6 @@ class EmployeeRequest extends FormRequest
             'position_id'=> 'nullable',
             'educational_level_id' => 'required',
             'field_of_study_id' => 'required',
-
         ];
     }
 
