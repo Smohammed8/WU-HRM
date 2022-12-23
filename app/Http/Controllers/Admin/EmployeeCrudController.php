@@ -184,7 +184,7 @@ class EmployeeCrudController extends CrudController
         });
         CRUD::column('employment_identity')->label('ID Number');
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
-        CRUD::column('position.unit.name')->label('Unit')->type('select')->entity('position.unit')->model(Unit::class);
+        CRUD::column('position.unit.name')->label('Origanizational unit')->type('select')->entity('position.unit')->model(Unit::class);
         CRUD::column('employement_date')->type('date');
         $this->crud->addFilter(
             [
@@ -466,8 +466,7 @@ class EmployeeCrudController extends CrudController
         $this->data['demotions'] = $demotions;
 
 
-        $levels =    Level::orderBy('id', 'asc')->Paginate(22);
-        $this->data['levels'] = $levels;
+
 
 
         $type_of_misconducts =    TypeOfMisconduct::orderBy('id', 'desc')->Paginate(10);
@@ -507,8 +506,12 @@ class EmployeeCrudController extends CrudController
 
         $ep = EvaluationPeriod::select('name')->get()->first()->name ?? '-';
         $this->data['ep'] = $ep;
+       // $this->data['entry'] = $this->crud->getEntry($id);
 
-        $startSalary = JobGrade::where('level_id',2)->select('start_salary')->get()->first()->start_salary ?? '-';
+        $levels =    Level::orderBy('id', 'asc')->Paginate(22);
+        $this->data['levels'] = $levels;
+
+         $startSalary  =    JobGrade::where('level_id',3)->first()->start_salary;
         $this->data['startSalary'] = $startSalary;
 
         /////////// Laraevl count ////////////////////////

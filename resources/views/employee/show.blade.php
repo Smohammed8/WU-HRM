@@ -201,10 +201,16 @@
                                 </div>
 
 
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b>Horizonat Level: </b></label>
+                                    <label for="">Start salary </label>
+                                    {{-- {{  '1'}}<sup>st</sup>   --}}
+                                </div>
+
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b> Position ID : </b></label>
-                                    <label for=""> {{ '-' }} </label>
+                                    <label for=""><b> የመደብ መታወቂያ ቁጥር : </b></label>
+                                    <label for=""> {{ 'ጅዩ-129/2' }} </label>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
@@ -219,6 +225,9 @@
                                         {{ \Carbon\Carbon::parse($crud->entry->employement_date)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') ?? '-' }}
                                     </label>
                                 </div>
+
+
+
 
 
                             </div>
@@ -256,10 +265,13 @@
                                     <label for="">{{ $crud->entry?->employment_identity }}</label>
                                 </div>
 
+<style>
 
+ #sal{ border-bottom: 3px double; }
+</style>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> Gross Salary : </b></label>
-                                    <label for=""> ETB {{  $start_salary ?? '3,934' }}</label>
+                                    <label id="sal" for=""> ETB {{  number_format($startSalary,2)  ?? '-' }} </label>
                                     {{-- <label for=""> ETB {{ number_format($crud->entry->salaryStep->jobGrade->start_salary,2) }}</label> --}}
                                 </div>
 
