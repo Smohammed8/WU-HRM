@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Constants;
 use App\Models\Employee;
+use App\Models\EmployeeCategory;
 use App\Models\EmploymentStatus;
 use App\Models\EmploymentType;
 use App\Models\Ethnicity;
@@ -57,16 +58,20 @@ class DatabaseSeeder extends Seeder
                 'pobox' => '144, Oromia, Ethiopia',
                 'seal' => '',
             ]);
-        // MaritalStatus::factory(4)->create();
-        // $nationality = Nationality::create(['nation'=>'Ethiopian','code'=>'ET','label'=>'Ethiopia']);
-        // $region = Region::create(['name'=>'Oroomia','nationality_id'=>$nationality->id]);
-        // $ethnicity = Ethnicity::create(['name'=>'Oromo','region_id'=>$region->id]);
-        // $isReligion = Religion::create(['name'=>'Islam']);
-        // $chReligion = Religion::create(['name'=>'Christian']);
-        // Unit::factory(1)->create();
-        // $jobCategory = JobTitleCategory::create(['name'=>"IT",'unit_id'=>1]);
-        // $jobTitle = JobTitle::create(['name'=>'Software Developer','job_title_category_id'=>$jobCategory->id]);
-        // $employementType = EmploymentType::create(['name'=>'Permanent']);
-        // $employmentStatus = EmploymentStatus::create(['name'=>'Working']);
+        $martialStatus = ['Divorce', 'Married', 'Single', 'Widow'];
+        foreach ($martialStatus as $mStatus) {
+            if (MaritalStatus::where('name', $mStatus)->count() == 0)
+                MaritalStatus::create(['name' => $mStatus]);
+        }
+        if (Nationality::where('nation', 'Ethiopian[ኢትዮጵያዊ')->count() == 0)
+            Nationality::create(['nation' => 'Ethiopian[ኢትዮጵያዊ', 'code' => 'ET[ኢት', 'label' => 'Ethiopia[ኢትዮጵያ']);
+        if (EmployeeCategory::where('name', 'Administrative Staff')->count() == 0)
+            EmployeeCategory::create(['name' => 'Administrative Staff']);
+        if (EmployeeCategory::where('name', 'Academic Staff')->count() == 0)
+            EmployeeCategory::create(['name' => 'Academic Staff']);
+        if (EmploymentType::where('name', 'Permanent')->count() == 0)
+            EmploymentType::create(['name' => 'Permanent']);
+        if (EmploymentStatus::where('name', 'Working')->count() == 0)
+            EmploymentStatus::create(['name' => 'Working']);
     }
 }

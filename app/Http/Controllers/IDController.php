@@ -12,6 +12,13 @@ class IDController extends Controller
     {
         $role_left = '';
         $employee = Employee::find($request->get('user_id'));
+        if (!$employee->position) {
+            return abort(405, 'Please make sure employee position specified');
+        }
+        if (!$employee->photo) {
+            return abort(405, 'Please make sure employee photo specified');
+        }
+        // dd(explode('photo//', $employee->photo));
         $a = strlen($employee->position->jobTitle->name);
         if ($a < 23) {
             $role_left = '0px';
@@ -19,7 +26,6 @@ class IDController extends Controller
             $role_left = '35px';
         }
         $img = explode('photo//', $employee->photo)[1];
-        // dd(public_path('storage/employee/photo/'.$img));
         $qrcode = $request->get('qrValue');
         $barcode = $request->get('barValue');
         $pdf = Pdf::loadView('ID.printID', compact('employee', 'qrcode', 'barcode', 'role_left', 'img'))->setPaper('a4', 'landscape');
