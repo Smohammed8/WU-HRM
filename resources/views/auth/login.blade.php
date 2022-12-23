@@ -18,18 +18,19 @@
 
                 <div class="card-header text-center">
 
-                    <span> <img src="{{ asset('logo_transparent.png') }}" alt="" style="width: 80px; ">
+                    <span> <img src="{{ asset('logo_transparent.png') }}" alt="" style="width: 100px; ">
                         <br>
                     </span>
-                    <small> Human Resource Managment System(2022)
+                    <strong style=" text-align:center;color:blue;""> Bule Hora University </strong> <br>
+                    <small><strong style=" text-align:center;color:blue;"">BHU-Human Resource Managment System(HRM) </strong>
 
                     </small>
                 </div>
 
                 <div class="card-body">
-                    <p class="login-box-msg" style=" text-align:center;color:blue;"> <i class="la la-hand-point-right">
+                    {{-- <p class="login-box-msg" style=" text-align:center;color:blue;"> <i class="la la-hand-point-right">
                         </i>
-                        Sign in to start your session </p>
+                        Sign in to start your session </p> --}}
                     <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('login') }}">
                         {!! csrf_field() !!}
 
