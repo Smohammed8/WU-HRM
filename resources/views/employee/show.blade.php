@@ -68,7 +68,7 @@
             <input type="hidden" id="barValue" name="barValue">
         </form>
         @can('employee.id.print')
-            <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
+            <a href="{{ route('print.id',['employee'=>$crud->entry?->id]) }}" class="btn  btn-sm btn-outline-primary float-right mr-1">
                 <i class="la la-exclamation-circle"></i>
                 Print ID
             </a>
