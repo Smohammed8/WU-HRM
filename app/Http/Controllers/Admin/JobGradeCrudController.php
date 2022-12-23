@@ -90,7 +90,7 @@ class JobGradeCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->denyAccess('show');
-        $this->crud->enableExportButtons();
+       //  $this->crud->enableExportButtons();
         $this->crud->ajax_table = false;
 
         $this->crud->denyAccess('delete');
