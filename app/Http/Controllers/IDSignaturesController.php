@@ -66,9 +66,10 @@ class IDSignaturesController extends Controller
      * @param  \App\Models\IDSignatures  $iDSignatures
      * @return \Illuminate\Http\Response
      */
-    public function show(IDSignatures $iDSignatures)
+    public function show($id)
     {
-        //
+        $iDSignature = IDSignatures::find($id);
+        return view('signature.show', compact('iDSignature'));
     }
 
     /**
