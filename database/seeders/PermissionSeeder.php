@@ -277,5 +277,14 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('salary_increment.show');
         Permission::findOrCreate('salary_increment.edit');
         Permission::findOrCreate('salary_increment.delete');
+        // Signature
+        Permission::findOrCreate('signature.icrud');
+        Permission::findOrCreate('signature.index');
+        Permission::findOrCreate('signature.create');
+        Permission::findOrCreate('signature.show');
+        Permission::findOrCreate('signature.edit');
+        Permission::findOrCreate('signature.delete');
+
+
     }
 }

@@ -44,6 +44,12 @@
                         <span>ID Setting</span></a>
                 </li>
             @endcanany
+            @canany(['signature.icrud', 'signature.index'])
+                <li class="nav-item"><a class="nav-link" href="{{ route('signature.index') }}">
+                        <i class="nav-icon la la-id-badge"></i>
+                        <span>Signature</span></a>
+                </li>
+            @endcanany
         </ul>
     </li>
 @endcanany
