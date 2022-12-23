@@ -83,7 +83,7 @@
                 <div class="col-sm-6 col-lg-3">
                     <div class="card border-0 text-white bg-dark">
                         <div class="card-body">
-                            <div class="text-value">0</div>
+                            <div class="text-value">{{ $units }}</div>
                             <div> Organizational units .</div>
                             <div class="progress progress-white progress-xs my-2">
                                 <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
@@ -107,8 +107,7 @@
                                     aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
 
-                            <small class="text-muted"><a href="" style="color:white;"> <i
-                                        class=" la la-download"></i>
+                            <small class="text-muted"><a href="" style="color:white;"> <i class=" la la-download"></i>
                                     View more </a></small>
                         </div>
 
@@ -119,7 +118,7 @@
 
                     <div class="card border-0 text-white bg-pink">
                         <div class="card-body">
-                            <div class="text-value">0</div>
+                            <div class="text-value">{{ $positions }}</div>
                             <div> Job positions </div>
                             <div class="progress progress-white progress-xs my-2">
                                 <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
@@ -164,70 +163,22 @@
 
             <div class="row" name="widget_707545443" section="after_content">
 
-                <div class="col-sm-6 col-md-4">
+                <div class="col-sm-6">
                     <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"> <i class="la la-list"> </i> Employees Under JiT HRO</div>
-                        <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
+                        <div class="card-header"> <i class="la la-list"> </i> Employees Statistics</div>
+                        <div class="card-body">
+                            @foreach ($employeeTypes as $employeeType)
+                                {{ $employeeType->name . ' Staff : ' . $employeeType->employees()->count() }}&nbsp;
+                            @endforeach
+                        </div>
                     </div>
                 </div>
 
 
-                <div class="col-sm-6 col-md-4">
+                <div class="col-sm-6">
                     <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"> <i class="la la-list"> </i> Employees Under JUAVM HRO</div>
-                        <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"> <i class="la la-list"> </i> Employees Under HI HRO</div>
-                        <div class="card-body"> Admin Staff :0 &nbsp; Academic Staff: 0 </div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"><i class="la la-list"> </i> Employees Under CEBS HRO</div>
-                        <div class="card-body"> Admin Staff : 1656 &nbsp; Academic Staff: 55</div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"> <i class="la la-list"> </i> Employees Under CBC HRO</div>
-                        <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4">
-                    <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"> <i class="la la-list"> </i> Employees Under JUAVM HRO</div>
-                        <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"> <i class="la la-list"> </i> Employees Under CNS HRO </div>
-                        <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4">
-                    <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"><i class="la la-list"> </i> Employees Under CSS HRO </div>
-                        <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
-                        <div class="card-header"><i class="la la-list"> </i> Employees Under HI HRO</div>
-                        <div class="card-body"> Admin Staff : 0 &nbsp; Academic Staff: 0 </div>
+                        <div class="card-header"> <i class="la la-list"> </i> Gender Based Statistics</div>
+                        <div class="card-body"> Male Staff : {{ $males }} &nbsp; Female Staff: {{ $females }} </div>
                     </div>
                 </div>
             </div>
