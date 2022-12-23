@@ -29,6 +29,7 @@ use App\Models\ExternalExperience;
 use App\Models\FieldOfStudy;
 use App\Models\FormStyle;
 use App\Models\InternalExperience;
+use App\Models\JobGrade;
 use App\Models\JobTitle;
 use App\Models\Leave;
 use App\Models\Level;
@@ -451,6 +452,8 @@ class EmployeeCrudController extends CrudController
         $this->data['employee.leave'] = $type_of_leaves;
 
         $misconducts =    Misconduct::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+
+
         $this->data['misconducts'] = $misconducts;
 
         $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
@@ -499,13 +502,14 @@ class EmployeeCrudController extends CrudController
         $style = FormStyle::select('name')->get()->first()->name ?? null;
         $this->data['style'] = $style;
 
-        $ep = EvaluationPeriod::select('name')->get()->first()->name ?? null;
+        $ep = EvaluationPeriod::select('name')->get()->first()->name ?? '-';
         $this->data['ep'] = $ep;
 
-        $ep = EvaluationPeriod::select('name')->get()->first()->name ?? null;
+        $ep = EvaluationPeriod::select('name')->get()->first()->name ?? '-';
         $this->data['ep'] = $ep;
 
-
+        $startSalary = JobGrade::where('level_id',2)->select('start_salary')->get()->first()->start_salary ?? '-';
+        $this->data['startSalary'] = $startSalary;
 
         /////////// Laraevl count ////////////////////////
         //   $employee = Employee::where('id', '<=', 100)->get();

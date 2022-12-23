@@ -259,7 +259,7 @@
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> Gross Salary : </b></label>
-                                    <label for=""> ETB {{ $crud->entry->level->name ?? '-' }}</label>
+                                    <label for=""> ETB {{  $start_salary ?? '3,934' }}</label>
                                     {{-- <label for=""> ETB {{ number_format($crud->entry->salaryStep->jobGrade->start_salary,2) }}</label> --}}
                                 </div>
 

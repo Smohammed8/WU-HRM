@@ -21,8 +21,8 @@
                     <span> <img src="{{ asset('logo_transparent.png') }}" alt="" style="width: 100px; ">
                         <br>
                     </span>
-                    <strong style=" text-align:center;color:blue;""> Bule Hora University </strong> <br>
-                    <small><strong style=" text-align:center;color:blue;"">Human Resource Managment System(HRM) </strong>
+                    <strong style=" text-align:center;color:blue;"> Bule Hora University </strong> <br>
+                    <small><strong style=" text-align:center;color:blue;">Human Resource Managment System(HRM) </strong>
 
                     </small>
                 </div>
