@@ -22,7 +22,7 @@
                         <br>
                     </span>
                     <strong style=" text-align:center;color:blue;""> Bule Hora University </strong> <br>
-                    <small><strong style=" text-align:center;color:blue;"">BHU-Human Resource Managment System(HRM) </strong>
+                    <small><strong style=" text-align:center;color:blue;"">Human Resource Managment System(HRM) </strong>
 
                     </small>
                 </div>
