@@ -31,6 +31,53 @@ class FormStyleCrudController extends CrudController
         CRUD::setModel(\App\Models\FormStyle::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/form-style');
         CRUD::setEntityNameStrings('form style', 'form styles');
+        $this->setupPermission();
+    }
+
+    public function setupPermission()
+    {
+        $permission_base = 'efficency_form_style';
+        if (!backpack_user()->can($permission_base . '.icrud')) {
+            $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
+            if (in_array('show', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.show')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('create', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.create')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('edit', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.edit')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('delete', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.delete')) {
+                    return abort(401);
+                }
+            }
+            if ($explodedRoute[count($explodedRoute) - 1] == 'form-style' && !backpack_user()->can($permission_base . '.index')) {
+                return abort(401);
+            }
+            if (!backpack_user()->can($permission_base . '.create')) {
+                $this->crud->denyAccess('create');
+            }
+
+            if (!backpack_user()->can($permission_base . '.show')) {
+                $this->crud->denyAccess('show');
+            }
+
+            if (!backpack_user()->can($permission_base . '.edit')) {
+                $this->crud->denyAccess('update');
+            }
+
+            if (!backpack_user()->can($permission_base . '.delete')) {
+                $this->crud->denyAccess('delete');
+            }
+        }
     }
 
     /**

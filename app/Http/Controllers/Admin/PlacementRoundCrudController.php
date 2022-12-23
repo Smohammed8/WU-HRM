@@ -43,7 +43,7 @@ class PlacementRoundCrudController extends CrudController
         CRUD::column('year');
         CRUD::column('is_open')->label('Open')->type('boolean');
         $this->crud->addButtonFromModelFunction('line', 'placementChoices', 'placementChoicesButtonView', 'beginning');
-        
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

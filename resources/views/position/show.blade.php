@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Position Type: </b></label>
-                                    <label for="">{{ $crud->entry->jobTitle->positionType->title }}</label>
+                                    <label for="">{{ $crud->entry->jobTitle->positionType?->title }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Is it available for placement : </b></label>
