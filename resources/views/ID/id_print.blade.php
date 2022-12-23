@@ -29,14 +29,13 @@
             <strong style="font-family: 'Noto Serif Ethiopic'">ሙሉ ስም፦</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -519px; left: 220px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->first_name_am }}
-                {{ $employee?->father_name_am }} {{ $employee?->grand_father_name_am }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->first_name_am ?? 'UNKNOWN'  }} {{ $employee?->father_name_am  }} {{ $employee?->grand_father_name_am }}</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -545px; left: 60px;">
             <strong>Full Name:</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -609px; left: 220px;">
-            <strong>{{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
+            <strong>{{ $employee->first_name ?? 'UNKNOWN' }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -640px; left: 60px;">
             <strong style="font-family: 'Noto Serif Ethiopic'">ዜግነት፦</strong>
@@ -56,33 +55,31 @@
             <strong style="font-family: 'Noto Serif Ethiopic'">የስራ ክፍል፦</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -938px; left: 234px;">
-            <strong
-                style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->jobTitleCategory?->unit?->name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->jobTitleCategory?->unit?->name ?? 'UNKNOWN' }}</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -965px; left: 60px;">
             <strong>Department:</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -1042px; left: 244px;">
-            <strong
-                style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->jobTitleCategory?->unit?->name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->jobTitleCategory?->unit?->name ?? 'UNKNOWN'}}</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -1075px; left: 60px;">
             <strong style="font-family: 'Noto Serif Ethiopic'">የስራ መደብ:-</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -1158px; left: 234px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->name ?? 'UNKNOWN'}}</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -1195px; left: 60px;">
             <strong style="font-family: 'Noto Serif Ethiopic'">Job Position:</strong>
         </p>
         <p style="font-size: 30px; color: black; position: relative; top: -1278px; left: 264px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->position?->jobTitle?->name ?? 'UNKNOWN' }}</strong>
         </p>
         <p style="font-size: 25px; color: rgb(21, 58, 226); position: relative; top: -1720px; left: 660px;">
             <strong style="font-family: 'Noto Serif Ethiopic'">የመ.ቁጥር/ID No.</strong>
         </p>
         <p style="font-size: 25px; color: rgb(21, 58, 226); position: relative; top: -1790px; left: 860px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->employment_identity }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->employment_identity ?? 'UNKNOWN' }}</strong>
         </p>
         <div style="position: relative; float: right; top: -1810px; left: -90px;">
             <img src="{{ storage_path('/employee/photo/' . $img) }}" alt=""
