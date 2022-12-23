@@ -168,7 +168,7 @@
                         <div class="card-header"> <i class="la la-list"> </i> Employees Statistics</div>
                         <div class="card-body">
                             @foreach ($employeeTypes as $employeeType)
-                                {{ $employeeType->name . ' Staff : ' . $employeeType->employees()->count() }}&nbsp;
+                                {{ $employeeType->name . ' : ' . $employeeType->employees()->count() }}&nbsp;
                             @endforeach
                         </div>
                     </div>
@@ -178,7 +178,8 @@
                 <div class="col-sm-6">
                     <div class="card" style="border-radius:2%; border-top-color: blue; border-top-width:2px;">
                         <div class="card-header"> <i class="la la-list"> </i> Gender Based Statistics</div>
-                        <div class="card-body"> Male Staff : {{ $males }} &nbsp; Female Staff: {{ $females }} </div>
+                        <div class="card-body"> Male Staff : {{ $males }} &nbsp; Female Staff: {{ $females }}
+                        </div>
                     </div>
                 </div>
             </div>
