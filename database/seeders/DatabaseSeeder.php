@@ -63,8 +63,8 @@ class DatabaseSeeder extends Seeder
             if (MaritalStatus::where('name', $mStatus)->count() == 0)
                 MaritalStatus::create(['name' => $mStatus]);
         }
-        if (Nationality::where('nation', 'Ethiopian')->count() == 0)
-            Nationality::create(['nation' => 'Ethiopian', 'code' => 'ET', 'label' => 'Ethiopia']);
+        if (Nationality::where('nation', 'Ethiopian[ኢትዮጵያዊ')->count() == 0)
+            Nationality::create(['nation' => 'Ethiopian[ኢትዮጵያዊ', 'code' => 'ET[ኢት', 'label' => 'Ethiopia[ኢትዮጵያ']);
         if (EmployeeCategory::where('name', 'Administrative Staff')->count() == 0)
             EmployeeCategory::create(['name' => 'Administrative Staff']);
         if (EmployeeCategory::where('name', 'Academic Staff')->count() == 0)

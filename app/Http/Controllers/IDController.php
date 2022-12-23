@@ -18,16 +18,14 @@ class IDController extends Controller
         if (!$employee->photo) {
             return abort(405, 'Please make sure employee photo specified');
         }
+        // dd(explode('photo//', $employee->photo));
         $a = strlen($employee->position->jobTitle->name);
         if ($a < 23) {
             $role_left = '0px';
         } else {
             $role_left = '35px';
         }
-        if (in_array('profile.jpg', explode('/', $employee->photo)) && in_array('image', explode('/', $employee->photo)))
-            $img = $employee->photo;
-        else
-            $img = '/storage/employee/photo/' . (explode('photo//', $employee->photo)[1]);
+        $img = explode('photo//', $employee->photo)[1];
         $qrcode = $request->get('qrValue');
         $barcode = $request->get('barValue');
         $pdf = Pdf::loadView('ID.printID', compact('employee', 'qrcode', 'barcode', 'role_left', 'img'))->setPaper('a4', 'landscape');
