@@ -35,9 +35,10 @@
             @foreach ($idSignatures as $key=>$idSignature)
               <tbody>
                   <td>{{ $key+1 }}</td>
-                  <td>{{ $idSignature->username }}</td>
+                  <td>{{ $idSignature->user->username }}</td>
                   <td>
-                    <a href="{{ route('signature.show', ['signature'=>$idSignature->id]) }}" class="btn btn-primary btn-sm" title="show">show
+                    <a href="{{ route('signature.show', ['signature'=>$idSignature->id]) }}" class="btn btn-default btn-sm" title="edit">
+                      <i class="fa fa-eye"></i>
                     </a>
                   </td>
               </tbody>
