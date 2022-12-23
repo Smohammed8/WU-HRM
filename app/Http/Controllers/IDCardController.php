@@ -7,6 +7,7 @@ use App\Http\Requests\StoreIDCardRequest;
 use App\Http\Requests\UpdateIDCardRequest;
 use App\Models\Employee;
 use App\Models\IdAttribute;
+use App\Models\IDSignatures;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -166,7 +167,8 @@ class IDCardController extends Controller
         } else {
             $img = 'profile.png';
         }
-        $pdf = Pdf::loadView('ID.id_print', compact('employee', 'img'))->setPaper('a4', 'landscape');
+        $idsign = IDSignatures::latest()->first();
+        $pdf = Pdf::loadView('ID.id_print', compact('employee', 'img', 'idsign'))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 }

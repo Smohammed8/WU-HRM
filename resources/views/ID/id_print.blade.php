@@ -90,13 +90,13 @@
             <strong style="font-family: 'Noto Serif Ethiopic'">የባለስልጣኑ ፊርሚያ</strong>
         </p>
         <div style="position: relative; left: 250px;  top: -640px;">
-            <img src="{{ storage_path('/signature/signature.png') }}" alt="" style="width: 200px; height: 220px;">
+            <img src="{{ public_path('/storage/signature/'.$idsign->signature) }}" alt="" style="width: 200px; height: 220px;">
         </div>
         <div style="position: relative; left: 250px;  top: -710px;">
-            <img src="{{ storage_path('/signature/titter.png') }}" alt="" style="width: 200px; height: 200px;">
+            <img src="{{ public_path('/storage/signature/'.$idsign->titter) }}" alt="" style="width: 200px; height: 200px;">
         </div>
         <div style="position: relative; left: 650px;  top: -990px;">
-            <img src="{{ storage_path('/signature/seal.png') }}" alt="" style="width: 270px; height: 270px;">
+            <img src="{{ public_path('/storage/signature/'.$idsign->seal) }}" alt="" style="width: 270px; height: 270px;">
         </div>
     </div>
 </body>

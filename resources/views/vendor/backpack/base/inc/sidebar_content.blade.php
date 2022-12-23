@@ -44,6 +44,10 @@
                 <i class="nav-icon la la-id-badge"></i>
                 <span>ID Setting</span></a>
         </li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('signature.index') }}">
+            <i class="nav-icon la la-id-badge"></i>
+            <span>Signature</span></a>
+        </li>
     </ul>
 </li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-user-tie'></i>
