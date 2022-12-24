@@ -514,8 +514,8 @@ class EmployeeCrudController extends CrudController
         $this->data['levels'] = $levels;
 
 
-          $level  =    Employee::where('id', $employeeId)->first()->level_id;
-          $startSalary  =    JobGrade::where('level_id',$level)->first()->start_salary;
+          $level  =    Employee::where('id', $employeeId)->first()?->level_id;
+          $startSalary  =    JobGrade::where('level_id',$level)->first()?->start_salary;
           $this->data['startSalary'] = $startSalary;
 
         /////////// Laraevl count ////////////////////////
