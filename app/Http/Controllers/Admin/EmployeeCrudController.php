@@ -481,6 +481,8 @@ class EmployeeCrudController extends CrudController
         $this->data['quarters'] = $quarters;
         ////////////////////////////////////////////////////////////////////
         $this->data['last_effiency'] =  $this->getEffiency($this->crud->getCurrentEntryId());
+
+
         ////////////////////////////////////////////////////////////////////
 
         $employeeEvaluations = EmployeeEvaluation::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
@@ -511,8 +513,10 @@ class EmployeeCrudController extends CrudController
         $levels =    Level::orderBy('id', 'asc')->Paginate(22);
         $this->data['levels'] = $levels;
 
-         $startSalary  =    JobGrade::where('level_id',3)->first()->start_salary;
-        $this->data['startSalary'] = $startSalary;
+
+          $level  =    Employee::where('id', $employeeId)->first()->level_id;
+          $startSalary  =    JobGrade::where('level_id',$level)->first()->start_salary;
+          $this->data['startSalary'] = $startSalary;
 
         /////////// Laraevl count ////////////////////////
         //   $employee = Employee::where('id', '<=', 100)->get();
