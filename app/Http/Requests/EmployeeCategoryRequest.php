@@ -26,7 +26,7 @@ class EmployeeCategoryRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-            'name' => 'required|unique:employee_categories|regex:/^[a-z A-Z]+$/u|min:5|max:50',
+            'name' => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50|unique:employee_categories,name,'.request()->id,
            // 'description'=>'regex:/^[a-zA-Z]+$/u|min:20|max:255',
         ];
     }
