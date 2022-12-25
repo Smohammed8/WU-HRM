@@ -24,9 +24,9 @@ class ChairManTypeRequest extends FormRequest
     public function rules()
     {
         return [
-           'name' => 'required|unique:chair_man_types|regex:/^[a-z A-Z]+$/u|min:5|max:50',
-          //'username' => 'required|string|min:3|max:50|alpha_dash|unique:chair_man_types',
-            'description'=>'nullable|min:10|max:255',
+            'name' => 'required|unique:chair_man_types,name,' . request()->id,
+            'username' => 'required|string|min:3|max:50|alpha_dash|unique:chair_man_types,username,' . request()->id,
+            'description' => 'nullable|min:10|max:255',
         ];
     }
 

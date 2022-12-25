@@ -91,7 +91,7 @@ class Unit extends Model
             return null;
         }
 
-        $route =  backpack_url('job-grade'); // custome toute here
+        $route =  route('position.index', ['unit_id' => $this->attributes['id']]); // custome toute here
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View Positions"><i class="la la-flag"></i> Positions </a>';
     }
@@ -104,7 +104,7 @@ class Unit extends Model
         if (!backpack_user()->can('employee.index')) {
             return null;
         }
-        $route =  backpack_url('job-grade'); // custome toute here
+        $route =  route('employee.index', ['unit_id' => $this->attributes['id']]); // custome toute here
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View employee"><i class="la la-users"></i> Employee </a>';
     }
