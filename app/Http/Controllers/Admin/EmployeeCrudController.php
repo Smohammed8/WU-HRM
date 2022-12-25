@@ -201,6 +201,21 @@ class EmployeeCrudController extends CrudController
                 // $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
             }
         );
+        $this->crud->addFilter(
+            [
+                'type' => 'select2',
+                'name' => 'job_title_id',
+                'label' => 'Job title '
+            ],
+            function () {
+                return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
+            },
+            function ($value) { // if the filter is active, apply these constraints
+                $jobTitle = JobTitle::find($value);
+                $positions = Position::where('job_title_id', $jobTitle->id)->pluck('id');
+                $this->crud->addClause('whereIn', 'position_id', $positions);
+            }
+        );
         $this->crud->addFilter([
             'name' => 'unit_id',
             'type' => 'select2',
