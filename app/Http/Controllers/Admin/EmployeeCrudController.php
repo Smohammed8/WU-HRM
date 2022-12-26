@@ -529,10 +529,6 @@ class EmployeeCrudController extends CrudController
         // $evaluations = Evaluation::orderBy('id', 'desc')->limit(3)->get();
         // $this->data['evs'] = $evs;
 
-
-
-
-
         // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
         // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
         // and we plan to change behaviour in the next version; see this Github issue for more details
