@@ -188,26 +188,44 @@ class EmployeeCrudController extends CrudController
         CRUD::column('employement_date')->type('date');
         $this->crud->addFilter(
             [
-                'type'  => 'date_range',
-                'name'  => 'employement_date ',
-                'label' => 'By hire date '
+                'type'  => 'select2',
+                'name'  => 'employee_category_id',
+                'label' => 'By employee category '
             ],
-            false,
+            function () {
+                return \App\Models\EmployeeCategory::all()->pluck('name', 'id')->toArray();
+            },
             function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value);
-                $this->crud->addClause('where', ' employement_date ', '>=', $dates->from);
-                $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
+                // $dates = json_decode($value);
+                $this->crud->addClause('where', 'employee_category_id', $value);
+                // $this->crud->addClause('where', ' employement_date ', '>=', $dates->from);
+                // $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
+            }
+        );
+        $this->crud->addFilter(
+            [
+                'type' => 'select2',
+                'name' => 'job_title_id',
+                'label' => 'Job title '
+            ],
+            function () {
+                return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
+            },
+            function ($value) { // if the filter is active, apply these constraints
+                $jobTitle = JobTitle::find($value);
+                $positions = Position::where('job_title_id', $jobTitle->id)->pluck('id');
+                $this->crud->addClause('whereIn', 'position_id', $positions);
             }
         );
         $this->crud->addFilter([
-            'name'  => 'unit_id',
-            'type'  => 'select2_multiple',
+            'name' => 'unit_id',
+            'type' => 'select2',
             'label' => 'Filter by office'
-
         ], function () {
             return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
-        }, function ($values) {
-            $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
+        }, function ($value) {
+            $positions = Position::where('unit_id', $value)->pluck('id')->toArray();
+            $this->crud->addClause('whereIn', 'position_id', ($positions));
         });
         $this->crud->addFilter([
             'name'  => 'employment_type_id',
@@ -223,28 +241,20 @@ class EmployeeCrudController extends CrudController
             'type'  => 'select2_multiple',
             'label' => 'By job position'
         ], function () {
-            return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
+            return \App\Models\Position::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'position_id', json_decode($values));
         });
         $this->crud->addFilter(
             [
-                'name'       => 'static_salary ',
-                'type'       => 'range',
-                'label'      => 'By Gross salary',
-                'label_from' => 'min value',
-                'label_to'   => 'max value',
-                'size' => 5
+                'type'  => 'date_range',
+                'name'  => 'employement_date',
+                'label' => 'By hire date '
             ],
             false,
-            function ($value) {
-                $range = json_decode($value);
-                if ($range->from) {
-                    $this->crud->addClause('where', 'static_salary ', '>=', (float) $range->from);
-                }
-                if ($range->to) {
-                    $this->crud->addClause('where', 'static_salary ', '<=', (float) $range->to);
-                }
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('whereBetween', 'employement_date', [$dates->from, $dates->to]);
             }
         );
     }

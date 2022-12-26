@@ -25,7 +25,7 @@ class EducationalLevelRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:educational_levels',
+            'name' => 'required|unique:educational_levels,name,'.request()->id,
             'description'=>'nullable|regex:/^[a-zA-Z]+$/u|min:20|max:255',
         ];
     }
