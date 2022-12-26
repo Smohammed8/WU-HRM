@@ -103,7 +103,7 @@ class JobTitleCrudController extends CrudController
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
         //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
        $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
-
+       $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Job Title Categories' => route('job-title-category.index'),
@@ -129,8 +129,6 @@ class JobTitleCrudController extends CrudController
         }, function ($values) {
             $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
         });
-
-
         $this->crud->addFilter([
             'name'  => 'educational_level_id',
             'type'  => 'select2_multiple',

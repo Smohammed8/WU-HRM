@@ -25,7 +25,7 @@ class EvaluationLevelRequest extends FormRequest
     public function rules()
     {
         return [
-             'name' =>  'required|unique:evaluation_levels,name|regex:/^[a-z A-Z]+$/u|min:2|max:30',
+             'name' =>  'required|unique:evaluation_levels,name,'.request()->id,
              'weight' => 'required|numeric|min:1|max:4',
              'discription'=>  'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',
         ];

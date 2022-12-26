@@ -96,6 +96,15 @@ class PositionCrudController extends CrudController
         CRUD::column('available_for_placement')->type('boolean');
         CRUD::column('status')->type('select_from_array')->options(Constants::POSITION_STATUS);
 
+        $this->crud->addFilter([
+            'name'  => 'unit_id',
+            'type'  => 'select2',
+            'label' => 'Office'
+        ], function () {
+            return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
+        }, function ($value) {
+            $this->crud->addClause('where', 'unit_id', $value);
+        });
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
