@@ -18,10 +18,10 @@
 
                 <div class="card-header text-center">
 
-                    <span> <img src="{{ asset('logo_transparent.png') }}" alt="" style="width: 100px; ">
+                    <span> <img src="{{ asset(\App\Constants::LOGO_PATH) }}" alt="" style="width: 100px; ">
                         <br>
                     </span>
-                    <strong style=" text-align:center;color:blue;"> Bule Hora University </strong> <br>
+                    <strong style=" text-align:center;color:blue;"> {{ \App\Constants::ORG_LONG }} </strong> <br>
                     <small><strong style=" text-align:center;color:blue;">Human Resource Managment System(HRM) </strong>
 
                     </small>
