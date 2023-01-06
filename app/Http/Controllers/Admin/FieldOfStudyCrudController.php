@@ -6,6 +6,7 @@ use App\Http\Requests\FieldOfStudyRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\EducationalLevel;
+use App\Models\FieldOfStudy;
 
 /**
  * Class FieldOfStudyCrudController
@@ -31,6 +32,19 @@ class FieldOfStudyCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/field-of-study');
         CRUD::setEntityNameStrings('field of study', 'field of studies');
         $this->setupPermission();
+    }
+
+    public function syncFieldOfStudy()
+    {
+        $fieldOfStudies = [
+            "Biology", "Chemistry", "Physics", "Mathematics", "Engineering", "Computer Science", "Economics", "Business Management", "Psychology", "Sociology", "Anthropology", "History", "Art", "Music", "Literature", "Law", "Political Science", "Linguistics", "Philosophy", "Geography", "Earth Sciences", "Astronomy", "Medicine", "computer science",
+            "software engineering", "data science", "computer engineering", "information systems", "artificial intelligence", "web development", "cybersecurity", "game development", "computer graphics", "computer animation", "cloud computing", "Accounting", "Anthropology", "Archaeology", "Architecture", "Art History", "Biochemistry", "Bioinformatics", "Biology", "Business", "Chemistry", "Computer Science", "Criminology", "Economics", "Engineering", "English", "Environmental Science", "Finance", "Geography", "History", "Law", "Management", "Marketing", "Mathematics", "Philosophy", "Physics", "Political Science", "Psychology", "Sociology"
+        ];
+        foreach ($fieldOfStudies as $fieldOfStudy) {
+            FieldOfStudy::firstOrCreate(['name' => ucfirst($fieldOfStudy)], ['name' => ucfirst($fieldOfStudy)]);
+        }
+        \Alert::success('Field of study synced successfully')->flash();
+        return redirect()->back();
     }
 
     public function setupPermission()
@@ -87,9 +101,9 @@ class FieldOfStudyCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
         CRUD::column('name')->label('Field of study');
         CRUD::column('description');
+
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

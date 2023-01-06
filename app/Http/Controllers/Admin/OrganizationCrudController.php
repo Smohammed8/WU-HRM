@@ -128,21 +128,21 @@ class OrganizationCrudController extends CrudController
     {
         CRUD::setValidation(OrganizationRequest::class);
 
-        CRUD::field('name')->size(4);
-        CRUD::field('email')->size(4);
-        CRUD::field('mission')->size(4);
-        CRUD::field('vision')->size(4);
-        CRUD::field('motto')->size(4);
-        CRUD::field('logo')->size(4);
-        CRUD::field('web_address')->size(4);
-        CRUD::field('fax')->size(4);
-        CRUD::field('telephone')->size(4);
-        CRUD::field('pobox')->size(4);
-        CRUD::field('seal')->size(4);
-        CRUD::field('president_signature')->size(4);
-        CRUD::field('account_number')->size(4);
-        CRUD::field('header')->size(4);
-        CRUD::field('footer')->size(4);
+        CRUD::field('name')->size(12);
+        // CRUD::field('email')->size(4);
+        // CRUD::field('mission')->size(4);
+        // CRUD::field('vision')->size(4);
+        CRUD::field('motto')->size(12);
+        // CRUD::field('logo')->size(4);
+        // CRUD::field('web_address')->size(4);
+        // CRUD::field('fax')->size(4);
+        // CRUD::field('telephone')->size(4);
+        // CRUD::field('pobox')->size(4);
+        // CRUD::field('seal')->size(4);
+        // CRUD::field('president_signature')->size(4);
+        // CRUD::field('account_number')->size(4);
+        // CRUD::field('header')->size(4);
+        // CRUD::field('footer')->size(4);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

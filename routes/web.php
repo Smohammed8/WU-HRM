@@ -3,6 +3,7 @@
 use App\Constants;
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
+use App\Http\Controllers\Admin\FieldOfStudyCrudController;
 use App\Http\Controllers\Admin\LeaveCrudController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -83,3 +84,4 @@ Route::post('{idcard}/save/design', [IDCardController::class, 'saveDesign'])->na
 Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.list')->middleware('auth');
 Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id')->middleware('auth');
 Route::resource('signature', IDSignaturesController::class)->middleware('auth');
+Route::get('field_of_study/sync',[ FieldOfStudyCrudController::class,'syncFieldOfStudy'])->middleware('auth');
