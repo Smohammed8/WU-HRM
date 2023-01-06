@@ -103,6 +103,8 @@ class FieldOfStudyCrudController extends CrudController
     {
         CRUD::column('name')->label('Field of study');
         CRUD::column('description');
+        $this->crud->addButtonFromModelFunction('top', 'sync', 'syncButton', 'end');
+
 
 
         /**

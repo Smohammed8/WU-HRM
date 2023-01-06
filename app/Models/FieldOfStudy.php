@@ -36,8 +36,11 @@ class FieldOfStudy extends Model
         return $this->belongsToMany(\App\Models\JobTitle::class)
             ->withPivot('job_title_id', 'Field_fo_study_id');
     }
-
-
+    public function syncButton()
+    {
+        $syncroute = route('field_of_study.sync');
+        return '<a href="'.$syncroute.'" class="btn btn-primary"> <i class="la la-sync"></i> Sync Field of study</a>';
+    }
     public function educationalLevel()
     {
         return $this->belongsTo(EducationalLevel::class);
