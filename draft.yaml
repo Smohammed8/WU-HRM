@@ -1,8 +1,8 @@
 models:
-  PositionCode:
-    employee_id: id foreign nullable
-    position_id: id foreign
-    code: string:255
+  # PositionCode:
+  #   employee_id: id foreign nullable
+  #   position_id: id foreign
+  #   code: string:255
   # Candidate:
   #   vacancy_id: id foreign
   #   employee_id: id foreign nullable

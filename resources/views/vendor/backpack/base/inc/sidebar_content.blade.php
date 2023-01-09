@@ -298,3 +298,5 @@
                 Recruitments</a></li>
     </ul>
 </li>
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-code') }}'><i class='nav-icon la la-question'></i> Position codes</a></li>

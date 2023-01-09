@@ -1,10 +1,7 @@
 created:
-    - database/factories/CandidateFactory.php
-    - database/factories/VacancyFactory.php
-    - database/migrations/2022_12_20_191307_create_candidates_table.php
-    - database/migrations/2022_12_20_191308_create_vacancies_table.php
-    - app/Models/Candidate.php
-    - app/Models/Vacancy.php
+    - database/factories/PositionCodeFactory.php
+    - database/migrations/2023_01_09_124612_create_position_codes_table.php
+    - app/Models/PositionCode.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -72,3 +69,4 @@ models:
     JobTitleFieldOfStudy: { job_title_id: 'id foreign:job_titles.id', field_of_study_id: 'id foreign:field_of_studies.id' }
     Candidate: { vacancy_id: 'id foreign', employee_id: 'id foreign nullable', first_name: 'string:255 nullable', father_name: 'string:255 nullable', grand_father_name: 'string:255 nullable', dob: 'date nullable', field_of_study_id: 'id foreign', educational_level_id: 'id foreign', gpa: float, gender: 'enum:Male,Female', disablity_status: 'bool nullable', email: 'string:255 nullable', phone: 'string:255 nullable', year_of_graduation: 'integer nullable', nationality_id: 'id foreign', total_experience: 'integer nullable default:0', job_position_experience: 'integer nullable default:0', mark: float }
     Vacancy: { type: 'enum:Internal,External', registration_start_date: date, registration_end_date: date, position_id: 'id foreign', description: 'text nullable' }
+    PositionCode: { employee_id: 'id foreign nullable', position_id: 'id foreign', code: 'string:255' }
