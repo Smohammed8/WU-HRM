@@ -21,7 +21,7 @@ class Position extends Model
     protected $fillable = [
         'unit_id',
         'job_title_id',
-        'total_employees',
+        // 'total_employees',
         'available_for_placement',
         'position_type_id',
         'status',
@@ -39,6 +39,10 @@ class Position extends Model
         'job_title_id' => 'integer',
     ];
 
+    public function totalPositions()
+    {
+        return PositionCode::where('position_id', $this->attributes['id'])->count();
+    }
     public function getPositionInfoAttribute()
     {
         return $this->jobTitle->name.' at '.$this->unit->name;
@@ -76,6 +80,10 @@ class Position extends Model
     public function placementChoiceOnes(): HasMany
     {
         return $this->hasMany(PlacementChoice::class, 'choice_two_id', 'id');
+    }
+    public function positionCodes(): HasMany
+    {
+        return $this->hasMany(PositionCode::class, 'position_id', 'id');
     }
     public function placementChoices()
     {

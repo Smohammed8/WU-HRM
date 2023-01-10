@@ -6,8 +6,10 @@ use App\Constants;
 use App\Http\Requests\PositionRequest;
 use App\Models\JobTitle;
 use App\Models\MinimumRequirement;
+use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class PositionCrudController
@@ -92,7 +94,7 @@ class PositionCrudController extends CrudController
     {
         CRUD::column('unit.name')->label('Organizational unit');
         CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        CRUD::column('total_employees');
+        CRUD::column('total_employees')->type('model_function')->function_name('totalPositions');
         CRUD::column('available_for_placement')->type('boolean');
         CRUD::column('status')->type('select_from_array')->options(Constants::POSITION_STATUS);
 
@@ -124,9 +126,12 @@ class PositionCrudController extends CrudController
 
         CRUD::field('unit_id')->label('Organizational unit')->size(6);
         CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
-        CRUD::field('total_employees')->label('No of vacant posts')->size(6);
-        CRUD::field('position_available_for_placement')->label('No of available for placement')->size(6);
-        CRUD::field('available_for_placement')->value(true)->size(6);
+        CRUD::field('job_code_prefix')->size(3);
+        CRUD::field('job_code_starting_number')->size(3);
+        CRUD::field('total_employees')->label('No of vacant posts')->size(3);
+        CRUD::field('position_available_for_placement')->label('No of available for placement')->size(3);
+        CRUD::field('available_for_placement')->value(true)->size(3);
+
         // CRUD::field('status')->type('select_from_array')->options(Constants::POSITION_STATUS)->size(6);
 
         /**
@@ -134,6 +139,33 @@ class PositionCrudController extends CrudController
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+    }
+
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+        $jobCodePrefix = $data['job_code_prefix'];
+        $jobCodeStartingNumber = $data['job_code_starting_number'];
+        if(PositionCode::where('code', $jobCodePrefix . $jobCodeStartingNumber)->count()>0){
+            throw ValidationException::withMessages(['job_code_prefix' => 'Duplicate position code found','job_code_starting_number' => 'Duplicate position code found']);
+        }
+        // unset($data['total_employees']);
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+        $counter = $jobCodeStartingNumber;
+        for($currentCodeNumber = $jobCodeStartingNumber;$currentCodeNumber<$jobCodeStartingNumber+$data['total_employees'];) {
+            $code = $jobCodePrefix.$counter;
+            $counter++;
+            if(PositionCode::where('code',$code)->count()==0){
+                $currentCodeNumber++;
+                PositionCode::firstOrCreate(['code'=>$code],['position_id'=>$item->id,'code'=>$code]);
+            }
+        }
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
     }
 
     /**
@@ -146,8 +178,6 @@ class PositionCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
-
-
 
     protected function setupShowOperation()
     {

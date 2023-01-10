@@ -36,7 +36,9 @@ class PositionRequest extends FormRequest
             }
         }
         return [
-            // 'name' => 'required|min:5|max:255',
+            'job_code_prefix' => 'required|',
+            'job_code_starting_number'=>'required|numeric',
+            'total_employees'=>'required|numeric',
             // '' => [
             //     Rule::unique('positions')->where(function ($query) use($jobTitleId) {
             //         return $query->where('ip', $ip);

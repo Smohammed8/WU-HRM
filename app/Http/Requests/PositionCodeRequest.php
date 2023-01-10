@@ -25,7 +25,8 @@ class PositionCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'code'=>'required',
+            'old_job_code'=>'nullable'
         ];
     }
 
@@ -37,7 +38,7 @@ class PositionCodeRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'code',
         ];
     }
 

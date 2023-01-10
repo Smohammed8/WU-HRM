@@ -7,7 +7,6 @@ use App\Http\Controllers\IDController;
 use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\RoundController;
 use Illuminate\Support\Facades\Route;
-
 // --------------------------
 // Custom Backpack Routes
 // --------------------------
@@ -109,6 +108,6 @@ Route::group([
     Route::crud('vacancy', 'VacancyCrudController');
     Route::crud('vacancy/{vacancy}/candidate', 'CandidateCrudController');
     Route::post('vacancy/{vacancy}/candidate/{candidate}/addMark', [CandidateCrudController::class,'addMark'])->name('candidate.addMark');
+    Route::crud('position/{position}/position-code', 'PositionCodeCrudController');
     Route::get('vacancy/{vacancy}/screen', 'VacancyCrudController@screen')->name('vacancy.screen');
-    Route::crud('position-code', 'PositionCodeCrudController');
 });

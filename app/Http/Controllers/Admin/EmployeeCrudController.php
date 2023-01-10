@@ -39,6 +39,7 @@ use App\Models\MaritalStatus;
 use App\Models\Misconduct;
 use App\Models\Nationality;
 use App\Models\Position;
+use App\Models\PositionCode;
 use App\Models\Promotion;
 use App\Models\SalaryIncreament;
 use App\Models\Skill;
@@ -52,6 +53,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
@@ -327,6 +329,28 @@ class EmployeeCrudController extends CrudController
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
     }
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+        if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
+            throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+        }
+        // insert item in the db
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+        PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->first()->update(['employee_id' => $item->id]);
+        // show a success message
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return $this->crud->performSaveAction($item->getKey());
+    }
 
     /**
      * Define what happens when the Update operation is loaded.
@@ -395,10 +419,27 @@ class EmployeeCrudController extends CrudController
         // $employeeAddressRequest = new EmployeeAddressRequest();
         // $employeeAddressRules = $employeeAddressRequest->rules();
         $response = $this->traitUpdate();
-
         $employee_id = $this->crud->entry->id;
         $created_ids = [];
-
+        $currentPosition = $this->crud->getCurrentEntry()->position;
+        $newPosition = Position::find(request()->position_id)->first();
+        $employee = $this->crud->getCurrentEntry();
+        if ($currentPosition->id == $newPosition->id) {
+            if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
+                PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
+                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
+                    throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+                }else{
+                    PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
+                }
+            }
+        }else{
+            if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
+                throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+            }
+            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+            PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
+        }
         $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
             $item['employee_id'] = $employee_id;
             if ($item['id']) {
@@ -408,8 +449,6 @@ class EmployeeCrudController extends CrudController
                 $created_ids[] = EmployeeAddress::create($item)->id;
             }
         });
-
-        // delete removed Comments
         $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
         $related_items_in_db = $this->crud->entry->addresses;
 
@@ -518,15 +557,15 @@ class EmployeeCrudController extends CrudController
 
         $ep = EvaluationPeriod::select('name')->get()->first()->name ?? '-';
         $this->data['ep'] = $ep;
-       // $this->data['entry'] = $this->crud->getEntry($id);
+        // $this->data['entry'] = $this->crud->getEntry($id);
 
         $levels =    Level::orderBy('id', 'asc')->Paginate(22);
         $this->data['levels'] = $levels;
 
 
-          $level  =    Employee::where('id', $employeeId)->first()?->level_id;
-          $startSalary  =    JobGrade::where('level_id',$level)->first()?->start_salary;
-          $this->data['startSalary'] = $startSalary;
+        $level  =    Employee::where('id', $employeeId)->first()?->level_id;
+        $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
+        $this->data['startSalary'] = $startSalary;
 
         /////////// Laraevl count ////////////////////////
         //   $employee = Employee::where('id', '<=', 100)->get();

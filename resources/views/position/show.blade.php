@@ -11,13 +11,17 @@
     $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 @endphp
 
+<link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
+
 @section('header')
     <section class="container-fluid d-print-none">
         <h2>
             <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
             <small>{!! $crud->getSubheading() ?? mb_ucfirst(trans('backpack::crud.preview')) . ' ' . $crud->entity_name !!}.</small>
             @if ($crud->hasAccess('list'))
-                <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i class="la la-angle-double-left"></i>
+                <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i
+                            class="la la-angle-double-left"></i>
                         {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
             @endif
         </h2>
@@ -35,7 +39,7 @@
                             <div class="col-md-6">
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Organization : </b> </label>
-                                    <label for="">{{ $crud->entry->unit->organization->name }}</label>
+                                    <label for="">{{ $crud->entry->unit?->organization?->name }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Unit Name : </b> </label>
@@ -61,83 +65,135 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Is it available for placement : </b></label>
-                                    <label for="">{{ $crud->entry->available_for_placement ? 'Yes' : 'No' }}</label>
-                                </div>
-                                {{-- <div class="d-flex justify-content-between">
-                                    <label for=""><b>Status : </b></label>
                                     <label
-                                        for="">{{ \App\Constants::POSITION_STATUS[$crud?->entry?->status] }}</label>
-                                </div> --}}
+                                        for="">{{ $crud->entry->available_for_placement ? 'Yes' : 'No' }}</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
-        {{-- <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-between">
-                        <h3>Minimum Requirements</h3>
-                        <a href="{{ route('{position}/minimum-requirement.create', ['position' => $crud->entry->id]) }}"
-                            class="btn btn-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i
-                                    class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                {{ 'Minimum Requirement' }}</span></a>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <label for="">Add Job Code</label>
+            <button class="btn float-right" data-toggle="collapse" data-target="#newJobCodeCollapse"><i
+                    class="la la-angle-down"></i></button>
+        </div>
+        <div class="card-body">
+            <div class="row @if($errors->has('new')==null) collapse @endif " id="newJobCodeCollapse">
+                <form method="POST" action="{{ route('position/{position}/position-code.store', ['position'=>$crud->getCurrentEntry()->id]) }}" class="row col-md-12">
+                    @csrf
+                    <input type="hidden" name="position_id" value="{{ $crud->getCurrentEntry()->id }}">
+                    <div class="form-group col-md-12">
+                        <label for="">Job Code</label>
+                        <input type="text" value="{{ old('code') }}" name="code" class="form-control" id="">
+                        @error('code')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
+                    {{-- <div class="form-group col-md-4">
+                        <label for="">Starting Number</label>
+                        <input type="text" name="job_starting_number" class="form-control" id="">
+                        @error('job_starting_number')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="">Total codes</label>
+                        <input type="text" name="total_codes" class="form-control" id="">
+                        @error('total_codes')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div> --}}
                     <div class="col-md-12">
-                        <div class="no-padding no-border">
+                        <input type="submit" value="Add Job Code" class="float-right btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+        <div class="card-body">
+            <div class="row">
+                {{-- <label for=""></label> --}}
 
-                            <table id="crudTable"
-                                class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
-                                cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Experience</th>
-                                        <th>Education</th>
-                                        <th>Min Efficency</th>
-                                        <th>Min Profile Value</th>
-                                        <th>Related Jobs</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($minimumRequirements as $minimumRequirement)
-                                        <tr>
-                                            <td>{{ $minimumRequirement->experience }} Years</td>
-                                            <td>{{ $minimumRequirement->educationalLevel->name }}</td>
-                                            <td>{{ $minimumRequirement->minimum_efficeny }}</td>
-                                            <td>{{ $minimumRequirement->minimum_employee_profile_value }}</td>
-                                            <td>
-                                                @foreach ($minimumRequirement->relatedJobs as $relatedJob)
-                                                    {{ $relatedJob->jobTitle->name . ', ' }}
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('{position}/minimum-requirement.edit', ['position' => $crud->entry->id, 'id' => $minimumRequirement->id]) }}"
-                                                    class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
-                                                <a href="javascript:void(0)" onclick="deleteEntry(this)"
-                                                    data-route="{{ route('{position}/minimum-requirement.destroy', ['position' => $crud->entry->id, 'id' => $minimumRequirement->id]) }}"
-                                                    class="btn btn-sm btn-link" data-button-type="delete"><i
-                                                        class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    @if (count($minimumRequirements) == 0)
-                                        <tr>
-                                            <td colspan="6" class="text-center">No Minimum Requirement for this job</td>
-                                        </tr>
+                <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Job code</th>
+                            <th>Employee Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($crud->entry->positionCodes as $positionCode)
+                            <tr>
+                                <td>{{ $positionCode->code }}</td>
+                                <td><a
+                                        href="{{ $positionCode?->employee != null ? route('employee.show', ['id' => $positionCode?->employee?->id]) : '#' }}">{{ $positionCode?->employee?->name ?? 'Not assigned' }}</a>
+                                </td>
+                                <td>
+                                    <a href="#"
+                                        onclick="editEntry('{{ route('position/{position}/position-code.update', ['position' => $crud->entry->id, 'id' => $positionCode->id]) }}','{{ $positionCode->code }}')"
+                                        data-toggle="modal" data-target="#position_code_edit" target="_self">
+                                        <i class="la la-edit"></i> Edit
+                                    </a>
+                                    @if ($positionCode->employee == null)
+                                        <a href="javascript:void(0)" onclick="deleteEntry(this)"
+                                            data-route="{{ route('position/{position}/position-code.destroy', ['position' => $crud->entry?->id, 'id' => $positionCode->id]) }}">
+                                            <i class="la la-trash"></i> Delete
+                                        </a>
                                     @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" data-backdrop="false" id="position_code_edit" tabindex="-1" role="dialog"
+        aria-labelledby="position_code_edit" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="editPositionModalLabel">Edit Position Code</h6>
+
+                    <button type="button" class="btn  btn-sm btn-outline-primary pull-right mr-1" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true"> <i class="la la-times"></i> Close </span>
+                    </button>
+                </div>
+                <div class="" id="position_code_edit_collapse">
+                    <div class="card card-body">
+                        <!--- ////////////////////// leave form ----------->
+                        <form action="" id="position_code_edit_form" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="">Current Job Code</label>
+                                <input type="text" value="@error('old_job_code') {{ $message }} @enderror"
+                                    disabled name="old_job_code" id="old_job_code" class="form-control disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Job Code</label>
+                                <input type="text" value="{{ old('code') }}" name="code" id="job_code"
+                                    class="form-control">
+                                @error('code')
+                                    <span class="{{ 'text-danger' }}">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <input type="submit" value="Change Code" class="btn btn-primary">
+                        </form>
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
-    {{-- </div> --}}
 @endsection
 
 
@@ -154,6 +210,17 @@
     <script src="{{ asset('packages/backpack/crud/js/show.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
     </script>
     <script>
+        $(function() {
+            @if (old('code') != null && $errors->has('new')==false)
+                $('#position_code_edit').modal('show')
+            @endif
+        });
+
+        function editEntry(route, value) {
+            $('#position_code_edit_form').attr('action', route);
+            $('#old_job_code').val(value);
+            $('#job_code').val('');
+        }
         if (typeof deleteEntry != 'function') {
             $("[data-button-type=delete]").unbind('click');
 

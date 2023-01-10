@@ -251,6 +251,11 @@ class Employee extends  Model
     }
 
 
+    public function positionCode()
+    {
+        return $this->hasOne(PositionCode::class,'employee_id','id');
+    }
+
 
     public function age()
     {
