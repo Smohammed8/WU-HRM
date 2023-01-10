@@ -161,14 +161,37 @@ class IDCardController extends Controller
 
     public function printID($emp_id)
     {
+        $role_left = '';
         $employee = Employee::find($emp_id);
+        // dd($employee);
+        $a = strlen($employee->position->jobTitle->name);
+        if ($a < 23) {
+            $role_left = '0px';
+        } else {
+            $role_left = '35px';
+        }
         if (count(explode('photo//', $employee->photo)) > 1) {
             $img = explode('photo//', $employee->photo)[1];
         } else {
             $img = 'profile.png';
         }
         $idsign = IDSignatures::latest()->first();
-        $pdf = Pdf::loadView('ID.id_print', compact('employee', 'img', 'idsign'))->setPaper('a4', 'landscape');
+        // dd($img);
+        // dd(public_path('storage/employee/photo/'.$img));
+        $qrcode = $request->get('qrValue');
+        $barcode = $request->get('barValue');
+        // dd($idsign);
+        $pdf = Pdf::loadView('ID.printID', compact('employee', 'qrcode', 'barcode', 'role_left', 'img'))->setPaper('a4', 'landscape');
         return $pdf->stream();
+
+        // $employee = Employee::find($emp_id);
+        // if (count(explode('photo//', $employee->photo)) > 1) {
+        //     $img = explode('photo//', $employee->photo)[1];
+        // } else {
+        //     $img = 'profile.png';
+        // }
+        // $idsign = IDSignatures::latest()->first();
+        // $pdf = Pdf::loadView('ID.id_print', compact('employee', 'img', 'idsign'))->setPaper('a4', 'landscape');
+        // return $pdf->stream();
     }
 }

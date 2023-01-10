@@ -25,13 +25,13 @@
         </div>
         <div style="width: 350px; position: relative; float: right; left: -165px; top: -285px; background-color: inherit; text-align: center; ">
             <p style="font-size: 27px; color: black;">
-                <strong>Mr. {{ $employee->first_name }} {{ $employee->father_name }}</strong>
+                <strong>{{ $employee->first_name }} {{ $employee->father_name }}</strong>
             </p>
             <p style="position: relative; font-size: 20px; color: black; top: -40px;">
                 <strong style="font-family: 'Noto Serif Ethiopic'">አቶ ሚልኪ ሰይፉ</strong>
             </p>
             <p style="position: relative; font-size: {{ strlen($employee->position->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black; top: -65px; line-height: 0.6;">
-                <strong style="font-family: 'Noto Serif Ethiopic'">Administrative Staff</strong>
+                <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->employeeCategory->name }}</strong>
             </p>
             <div style="position: relative; background-color: inherit;  text-align: center; width: {{ strlen($employee->position->jobTitle->name) < 23 ? '100%' : '80%' }}; top: {{ strlen($employee->position->jobTitle->name) < 23 ? '-115px' : '-110px' }}; left: {{ $role_left }};">
                 <p style="font-size: {{ strlen($employee->position->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black;  line-height: 0.6;">
@@ -59,12 +59,17 @@
     </div>
 
     <div style="width: 54%; height: auto; break-after: page; position: absolute; margin-left: -45px; margin-top: -59px; page-break-after: always;">
-        <img width="100%" src="images/back.png" alt="">
+        @if ($employee->employeeCategory->name == "Student Staff")
+            <img width="100%" src="images/back2.png" alt="">
+        @else
+            <img width="100%" src="images/back.png" alt="">
+        @endif
+        {{-- <img width="100%" src="images/back.png" alt=""> --}}
         <p style="font-size: 18px; color: black; position: relative; top: -290px; left: 10px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">Mr. {{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
         </p>
         <p style="font-size: 16px; color: black; position: relative; top: -315px; left: 14px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee?->first_name_am  }} {{ $employee?->father_name_am  }} {{ $employee?->grand_father_name_am }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">Mr. {{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
         </p>
         <p style="font-size: 18px; color: black; position: relative; top: -305px; left: 14px;">
             <strong style="font-family: 'Noto Serif Ethiopic'">Ethiopian</strong>
@@ -86,4 +91,3 @@
     </div>
 </body>
 </html>
-
