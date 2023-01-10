@@ -126,6 +126,7 @@ class PositionCrudController extends CrudController
 
         CRUD::field('unit_id')->label('Organizational unit')->size(6);
         CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+
         CRUD::field('job_code_prefix')->size(3);
         CRUD::field('job_code_starting_number')->size(3);
         CRUD::field('total_employees')->label('No of vacant posts')->size(3);
@@ -176,7 +177,14 @@ class PositionCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        // $this->setupCreateOperation();
+        CRUD::field('unit_id')->label('Organizational unit')->size(6);
+        CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+        CRUD::field('position_available_for_placement')->label('No of available for placement')->size(3);
+        CRUD::field('available_for_placement')->value(true)->size(3);
+        CRUD::field('job_code_prefix')->value(null)->size(3)->type('hidden');
+        CRUD::field('job_code_starting_number')->value(0)->size(3)->type('hidden');
+        CRUD::field('total_employees')->value(0)->label('No of vacant posts')->size(3)->type('hidden');
     }
 
     protected function setupShowOperation()
