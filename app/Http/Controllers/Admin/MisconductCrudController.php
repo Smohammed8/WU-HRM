@@ -32,6 +32,53 @@ class MisconductCrudController extends CrudController
         CRUD::setModel(\App\Models\Misconduct::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/misconduct');
         CRUD::setEntityNameStrings('misconduct', 'misconducts');
+        $this->setupPermission();
+    }
+
+    public function setupPermission()
+    {
+        $permission_base = 'employee.discipline';
+        if (!backpack_user()->can($permission_base . '.icrud')) {
+            $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
+            if (in_array('show', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.show')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('create', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.create')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('edit', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.edit')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('delete', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.delete')) {
+                    return abort(401);
+                }
+            }
+            if ($explodedRoute[count($explodedRoute) - 1] == 'misconduct' && !backpack_user()->can($permission_base . '.index')) {
+                return abort(401);
+            }
+            if (!backpack_user()->can($permission_base . '.create')) {
+                $this->crud->denyAccess('create');
+            }
+
+            if (!backpack_user()->can($permission_base . '.show')) {
+                $this->crud->denyAccess('show');
+            }
+
+            if (!backpack_user()->can($permission_base . '.edit')) {
+                $this->crud->denyAccess('update');
+            }
+
+            if (!backpack_user()->can($permission_base . '.delete')) {
+                $this->crud->denyAccess('delete');
+            }
+        }
     }
 
     /**
@@ -49,6 +96,8 @@ class MisconductCrudController extends CrudController
         CRUD::column('action_taken');
         CRUD::column('serverity');
         CRUD::column('description');
+        $this->crud->denyAccess('create');
+
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -74,7 +123,6 @@ class MisconductCrudController extends CrudController
         CRUD::field('action_taken');
         CRUD::field('serverity');
         CRUD::field('description');
-
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

@@ -39,13 +39,20 @@ class JobTitleCategory extends Model
 
     public function jobTitleButtonView($crud = false)
     {
-        $route =  route('job-title-category/{job_title_category}/job-title.index',['job_title_category'=>$this->id]); // custome toute here
+        if (!backpack_user()->canany(['job_title_category.job_title.index', 'job_title_category.job_title.icrud'])) {
+            return null;
+        }
+        $route =  route('job-title-category/{job_title_category}/job-title.index', ['job_title_category' => $this->id]); // custome toute here
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-list"></i>Job Title </a>';
     }
 
     public function fieldOfStudyButtonView($crud = false)
     {
-        $route =  route('job-title-category/{job_title_category}/related-work.index',['job_title_category'=>$this->id]); // custome toute here
+
+        if (!backpack_user()->canany(['job_title_category.field_of_study.index', 'job_title_category.field_of_study.icrud'])) {
+            return null;
+        }
+        $route =  route('job-title-category/{job_title_category}/related-work.index', ['job_title_category' => $this->id]); // custome toute here
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-list"></i>Field of studies</a>';
     }
 }

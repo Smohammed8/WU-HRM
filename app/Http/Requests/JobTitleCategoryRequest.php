@@ -25,7 +25,7 @@ class JobTitleCategoryRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-            'name' => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50',
+            'name' => 'required|unique:job_title_categories,name,'.request()->id,
             'description'=>'nullable|regex:/^[a-z A-Z]+$/u|min:2|max:255',
         ];
     }

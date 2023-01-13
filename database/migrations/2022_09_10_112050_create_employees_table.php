@@ -2,6 +2,7 @@
 
 use App\Models\EducationalLevel;
 use App\Models\EmployeeCategory;
+use App\Models\EmployeeTitle;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +34,8 @@ class CreateEmployeesTable extends Migration
             $table->string('email', 255)->nullable();
             $table->string('rfid', 100)->nullable();
             $table->string('employment_identity')->nullable();
-            $table->foreignIdFor(EducationalLevel::class);
+            $table->foreignIdFor(EmployeeTitle::class)->nullable();
+            $table->foreignIdFor(EducationalLevel::class)->nullable();
             $table->foreignId('marital_status_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('ethnicity_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('religion_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
@@ -46,7 +48,7 @@ class CreateEmployeesTable extends Migration
             $table->string('pention_number')->nullable();
             $table->foreignId('employment_status_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('nationality_id')->nullable()->constrained('nationalities')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('uas_user_id')->foreignId('user_id')->constrained()->nullable()->onUpdate('cascade')->onDelete('cascade');
+            $table->string('uas_user_id')->nullable()->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -13,10 +13,8 @@ class UpdatingEmployees extends Migration
      */
     public function up()
     {
-        
+
         Schema::table('employees', function (Blueprint $table) {
-            $table->foreignId('employee_title_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
-         
         });
     }
 

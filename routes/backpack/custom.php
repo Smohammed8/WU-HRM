@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CandidateCrudController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IDCardController;
 use App\Http\Controllers\IDController;
 use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\RoundController;
 use Illuminate\Support\Facades\Route;
-
 // --------------------------
 // Custom Backpack Routes
 // --------------------------
@@ -105,4 +105,9 @@ Route::group([
     Route::get('placement-round/{placement_round}/reset',[PlacementController::class,'reset'])->name('placement.reset');
     Route::get('placement-round/{placement_round}/approve',[PlacementController::class,'approve'])->name('placement.approve');
     Route::get('placement-round/{placement_round}/close',[PlacementController::class,'close'])->name('placement.close');
+    Route::crud('vacancy', 'VacancyCrudController');
+    Route::crud('vacancy/{vacancy}/candidate', 'CandidateCrudController');
+    Route::post('vacancy/{vacancy}/candidate/{candidate}/addMark', [CandidateCrudController::class,'addMark'])->name('candidate.addMark');
+    Route::crud('position/{position}/position-code', 'PositionCodeCrudController');
+    Route::get('vacancy/{vacancy}/screen', 'VacancyCrudController@screen')->name('vacancy.screen');
 });

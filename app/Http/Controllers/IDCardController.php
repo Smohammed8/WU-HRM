@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\IDCard;
 use App\Http\Requests\StoreIDCardRequest;
 use App\Http\Requests\UpdateIDCardRequest;
+use App\Models\Employee;
 use App\Models\IdAttribute;
+use App\Models\IDSignatures;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class IDCardController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +22,9 @@ class IDCardController extends Controller
      */
     public function index()
     {
+        if (!backpack_user()->canany(['id.index', 'id.icrud'])) {
+            return abort(401);
+        }
         $idcards = IDCard::all();
         return view('ID.index', compact('idcards'));
     }
@@ -28,6 +36,10 @@ class IDCardController extends Controller
      */
     public function create()
     {
+
+        if (!backpack_user()->canany(['id.index', 'id.icrud'])) {
+            return abort(401);
+        }
         return view('ID.new');
     }
 
@@ -39,6 +51,9 @@ class IDCardController extends Controller
      */
     public function store(Request $request)
     {
+        if (!backpack_user()->canany(['id.create', 'id.icrud'])) {
+            return abort(401);
+        }
         $path = 'idcard';
         $frontPage = $request->file('front');
         $backPage = $request->file('back');
@@ -58,7 +73,7 @@ class IDCardController extends Controller
             $frontPagePath = $frontPage->storeAs($path, $frontPageName, 'public');
             $backPageName = time() . '_' . $backPage->getClientOriginalName();
             $backPagePath = $backPage->storeAs($path, $backPageName, 'public');
-            IDCard::create(['name'=>$request->get('name'),'front_page'=>$frontPageName, 'back_page'=>$backPageName, 'signature'=>$signatureName, 'seal'=>$sealName]);
+            IDCard::create(['name' => $request->get('name'), 'front_page' => $frontPageName, 'back_page' => $backPageName, 'signature' => $signatureName, 'seal' => $sealName]);
             return redirect()->back()->with('success', 'Successfully Saved');
         }
 
@@ -73,6 +88,9 @@ class IDCardController extends Controller
      */
     public function show($id)
     {
+        if (!backpack_user()->canany(['id.show', 'id.icrud'])) {
+            return abort(401);
+        }
         $iDCard = IDCard::find($id);
         return view('ID.show', compact('iDCard'));
     }
@@ -113,6 +131,9 @@ class IDCardController extends Controller
 
     public function design($id)
     {
+        if (!backpack_user()->canany(['id.design.index', 'id.design.icrud'])) {
+            return abort(401);
+        }
         $idCard = IDCard::find($id);
         $attributes = IdAttribute::all();
         return view('ID.design', compact('idCard', 'attributes'));
@@ -120,14 +141,34 @@ class IDCardController extends Controller
 
     public function saveDesign($id, Request $request)
     {
+        if (!backpack_user()->canany(['id.design.store', 'id.design.icrud'])) {
+            return abort(401);
+        }
         $idCard = IDCard::find($id);
         $front_data = $request->get('front_data');
         $back_data = $request->get('back_data');
         $front_tab = $request->get('tab1_temp');
         $back_tab = $request->get('tab2_temp');
-
-        $check = $idCard->update(['front_page_tab'=>$front_tab, 'back_page_tab'=>$back_tab, 'front_page_template'=>$front_data, 'back_page_template'=>$back_data]);
-        
+        $check = $idCard->update(['front_page_tab' => $front_tab, 'back_page_tab' => $back_tab, 'front_page_template' => $front_data, 'back_page_template' => $back_data]);
         return response()->json(['data' => $check]);
+    }
+
+    public function printList(Request $request)
+    {
+        $employees = Employee::paginate(10);
+        return view('ID.emp_list', compact('employees'));
+    }
+
+    public function printID($emp_id)
+    {
+        $employee = Employee::find($emp_id);
+        if (count(explode('photo//', $employee->photo)) > 1) {
+            $img = explode('photo//', $employee->photo)[1];
+        } else {
+            $img = 'profile.png';
+        }
+        $idsign = IDSignatures::latest()->first();
+        $pdf = Pdf::loadView('ID.id_print', compact('employee', 'img', 'idsign'))->setPaper('a4', 'landscape');
+        return $pdf->stream();
     }
 }

@@ -11,34 +11,23 @@
     <div class="modal-dialog modal-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud?->entry?->name }} &nbsp; &nbsp; &nbsp;
+                <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud?->entry?->name }} &nbsp; &nbsp;
+                    &nbsp;
                     Unit: {{ $crud?->entry?->unit?->name }} &nbsp; &nbsp; Last Efficiency : 92.5% &nbsp; &nbsp; Job
                     Position : {{ $crud?->entry?->jobTitle?->name }} </h6>
-
-
                 <div class="row">
-
-
-
-                    <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse"
-                        href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        <span aria-hidden="true"> <i class="la la-plus"></i> Add new </span>
-                    </a>
-
+                    @canany(['employee.efficency.icrud', 'employee.efficency.create'])
+                        <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse"
+                            href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <span aria-hidden="true"> <i class="la la-plus"></i> Add new </span>
+                        </a>
+                    @endcanany
                     <button type="button" class="btn  btn-sm btn-outline-primary pull-right mr-1" data-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true"> <i class="la la-times"></i> Close </span>
                     </button>
-
-
-
-
-
                 </div>
-
             </div>
-
-
             <!-------- //////////////////////////// -->
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
@@ -47,8 +36,6 @@
                         @csrf
 
                         <span class="float-right"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fiscal quarter:&nbsp;&nbsp;&nbsp;
-
-
                             <select name="quarter" id="quarter"style="width:100%;" class="form-control select2"
                                 required="required">
                                 <option value="">Select fiscal quater.. </option>
@@ -56,8 +43,6 @@
                                     <option value="{{ $quarter->id }}">{{ $quarter->name }}</option>
                                 @endforeach
                             </select>
-
-
                         </span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="float-right"> Fiscal Year: &nbsp;&nbsp;&nbsp;
@@ -67,29 +52,18 @@
                                 <option value="2015"> 2015 </option>
                                 <option value="2016"> 2016</option>
                                 <option value="2017"> 2017</option>
-
-
-
                             </select>
                         </span>
-
-
-
                         <table class="table table-hover" cellpadding="0" cellspacing="0">
                             <thead>
-
                                 <tr style="background-color: lightblue">
                                     <th>#</th>
                                     <th> Employee Evalution Criteria</th>
                                     <th> Evaluation Levels </th>
-
                                 </tr>
                             </thead>
-
                             <tbody>
-
                                 <input type="hidden" name="employee" value="{{ $crud->entry->id }}">
-
                                 @foreach ($evalutionCreterias as $evalutionCreteria)
                                     <tr>
 

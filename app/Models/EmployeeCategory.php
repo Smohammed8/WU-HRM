@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EmployeeCategory extends Model
 {
@@ -28,4 +29,13 @@ class EmployeeCategory extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+    /**
+     * Get all of the employees for the EmployeeCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function employees(): HasMany
+    {
+        return $this->hasMany(Employee::class);
+    }
 }

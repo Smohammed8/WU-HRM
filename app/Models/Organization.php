@@ -61,10 +61,12 @@ class Organization extends Model
     }
 
     public function viewStructure($crud = false)
-{
+    {
 
-    $route = route('hierarchy');
-
-    return '<a class="btn btn-sm btn-link"  href="'.$route.'" data-toggle="tooltip" title="View organization structure"><i class="la la-sitemap"></i> Structure</a>';
-}
+        if (!backpack_user()->can('organization.structure.view')) {
+            return null;
+        }
+        $route = route('hierarchy');
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View organization structure"><i class="la la-sitemap"></i> Structure</a>';
+    }
 }

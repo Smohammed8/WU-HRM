@@ -59,10 +59,11 @@ class Unit extends Model
     public function teter()
     {
 
-     return $this->belongsTo(UploadFile::class);
+        return $this->belongsTo(UploadFile::class);
     }
 
-    public function chairManType() {
+    public function chairManType()
+    {
 
         return $this->belongsTo(Employee::class);
     }
@@ -86,7 +87,11 @@ class Unit extends Model
     public function viewOffice($crud = false)
     {
 
-        $route =  backpack_url('job-grade'); // custome toute here
+        if (!backpack_user()->can('position.index')) {
+            return null;
+        }
+
+        $route =  route('position.index', ['unit_id' => $this->attributes['id']]); // custome toute here
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View Positions"><i class="la la-flag"></i> Positions </a>';
     }
@@ -96,16 +101,19 @@ class Unit extends Model
     public function viewEmployee($crud = false)
     {
 
-        $route =  backpack_url('job-grade'); // custome toute here
+        if (!backpack_user()->can('employee.index')) {
+            return null;
+        }
+        $route =  route('employee.index', ['unit_id' => $this->attributes['id']]); // custome toute here
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View employee"><i class="la la-users"></i> Employee </a>';
     }
 
 
 
-    public function childs() {
+    public function childs()
+    {
 
-        return $this->hasMany(Self::class,'parent_unit_id','id') ;
-
+        return $this->hasMany(Self::class, 'parent_unit_id', 'id');
     }
 }

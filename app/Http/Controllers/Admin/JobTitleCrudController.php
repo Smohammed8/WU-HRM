@@ -36,6 +36,53 @@ class JobTitleCrudController extends CrudController
         $jobTitleCategory = \Route::current()->parameter('job_title_category');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title-category/' . $jobTitleCategory . '/job-title');
         CRUD::setEntityNameStrings('job title', 'job titles');
+        $this->setupPermission();
+    }
+
+    public function setupPermission()
+    {
+        $permission_base = 'job_title_category.job_title';
+        if (!backpack_user()->can($permission_base . '.icrud')) {
+            $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
+            if (in_array('show', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.show')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('create', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.create')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('edit', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.edit')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('delete', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.delete')) {
+                    return abort(401);
+                }
+            }
+            if ($explodedRoute[count($explodedRoute) - 1] == 'job-title' && !backpack_user()->can($permission_base . '.index')) {
+                return abort(401);
+            }
+            if (!backpack_user()->can($permission_base . '.create')) {
+                $this->crud->denyAccess('create');
+            }
+
+            if (!backpack_user()->can($permission_base . '.show')) {
+                $this->crud->denyAccess('show');
+            }
+
+            if (!backpack_user()->can($permission_base . '.edit')) {
+                $this->crud->denyAccess('update');
+            }
+
+            if (!backpack_user()->can($permission_base . '.delete')) {
+                $this->crud->denyAccess('delete');
+            }
+        }
     }
 
     /**
@@ -50,13 +97,13 @@ class JobTitleCrudController extends CrudController
         $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
         $this->crud->setHeading(JobTitleCategory::find($jobTitleCategoryId)->name.' Job titles');
         CRUD::column('name')->label('የስራ መደቡ መጠሪያ');
-        CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
+        // CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job grade');
         // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
         //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
-       // $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
-
+       $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
+       $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Job Title Categories' => route('job-title-category.index'),
@@ -82,8 +129,6 @@ class JobTitleCrudController extends CrudController
         }, function ($values) {
             $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
         });
-
-
         $this->crud->addFilter([
             'name'  => 'educational_level_id',
             'type'  => 'select2_multiple',
@@ -172,10 +217,10 @@ class JobTitleCrudController extends CrudController
         $this->data['breadcrumbs'] = $breadcrumbs;
         $this->crud->setHeading('Add Job title in');
         $this->crud->setSubHeading(JobTitleCategory::find($jobTitleCategoryId)->name);
-        CRUD::field('name')->label('Job title')->label('የስራመደቡመጠሪያ')->size(6);
-        CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(6);
-        CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(6);
-        CRUD::field('job_code')->label('የመደብ መታወቂያ ቁጥር')->size(6);
+        CRUD::field('name')->label('Job title')->label('የስራመደ(ቡመጠሪያ')->size(6);
+        CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(3);
+        CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(3);
+        // CRUD::field('job_code')->label('የመደብ መታወቂያ ቁጥር')->size(6);
         CRUD::field('job_title_category_id')->type('hidden')->value($jobTitleCategoryId);
         // CRUD::field('job_title_category_id')->type('select2')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name')->size(4);
         CRUD::field('position_type_id')->label('Position Type')->type('select2')->model(PositionType::class)->size(4)->attribute('title');

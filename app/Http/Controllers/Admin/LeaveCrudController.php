@@ -36,7 +36,9 @@ class LeaveCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\ReviseOperation\ReviseOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as traitUpdate;
+    } //IMPORTANT HERE
 
 
     /**
@@ -49,8 +51,54 @@ class LeaveCrudController extends CrudController
         CRUD::setModel(\App\Models\Leave::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/leave');
         CRUD::setEntityNameStrings('leave', 'leaves');
-        $this->crud->orderBy('id','DESC');
+        $this->crud->orderBy('id', 'DESC');
+        $this->setupPermission();
+    }
 
+    public function setupPermission()
+    {
+        $permission_base = 'employee.leave';
+        if (!backpack_user()->can($permission_base . '.icrud')) {
+            $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
+            if (in_array('show', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.show')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('create', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.create')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('edit', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.edit')) {
+                    return abort(401);
+                }
+            }
+            if (in_array('delete', $explodedRoute)) {
+                if (!backpack_user()->can($permission_base . '.delete')) {
+                    return abort(401);
+                }
+            }
+            if ($explodedRoute[count($explodedRoute) - 1] == 'misconduct' && !backpack_user()->can($permission_base . '.index')) {
+                return abort(401);
+            }
+            if (!backpack_user()->can($permission_base . '.create')) {
+                $this->crud->denyAccess('create');
+            }
+
+            if (!backpack_user()->can($permission_base . '.show')) {
+                $this->crud->denyAccess('show');
+            }
+
+            if (!backpack_user()->can($permission_base . '.edit')) {
+                $this->crud->denyAccess('update');
+            }
+
+            if (!backpack_user()->can($permission_base . '.delete')) {
+                $this->crud->denyAccess('delete');
+            }
+        }
     }
 
     /**
@@ -61,6 +109,7 @@ class LeaveCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->denyAccess('create');
 
         CRUD::column('employee_id');
         CRUD::column('type_of_leave_id');
@@ -79,14 +128,15 @@ class LeaveCrudController extends CrudController
     }
 
 
-    function addDayswithdate($date, $days){
+    function addDayswithdate($date, $days)
+    {
 
-            $date = strtotime("+".$days."days",strtotime($date));
+        $date = strtotime("+" . $days . "days", strtotime($date));
 
-            return date("Y-m-d",$date);
+        return date("Y-m-d", $date);
     }
 
-/*
+    /*
 $gregorian = new DateTime('now');
 $ethiopic = Andegna\DateTimeFactory::fromDateTime($gregorian);
 
@@ -111,7 +161,8 @@ if (Carbon::now()->isWeekend()) {
 }
 echo Carbon::now()->subMinutes(2)->diffForHumans(); // '2 minutes ago'
 */
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
         $leave          = $request->get('leave_type');
         $employee       = $request->get('employee');
@@ -125,39 +176,37 @@ echo Carbon::now()->subMinutes(2)->diffForHumans(); // '2 minutes ago'
         $day = $date->format('d');;
         $sGC = DateTimeFactory::of($year, $month, $day)->toGregorian();
         $leave_date = $sGC->format('Y/m/d');
-        $dudate = $this->addDayswithdate($leave_date,$days);
+        $dudate = $this->addDayswithdate($leave_date, $days);
 
         $current_time = Carbon::now()->toDateTimeString();
         /*  if(Carbon::now() > cdate) */
 
-          if($current_time  >  $leave_date){
+        if ($current_time  >  $leave_date) {
 
-           return redirect()->route('employee.show')->with('error', 'Leave date must be the past!');
-          }
+            return redirect()->route('employee.show')->with('error', 'Leave date must be the past!');
+        }
 
-          $leave =  Leave::create(['type_of_leave_id'=>$leave,
-                           'employee_id'=>$employee,
-                           'created_by_id'=>1,
-                           'approved_by_id'=>1,
-                           'created_at '=>now(),
-                           'leave_date'=>$leave_date,
-                           'due_date'=>$dudate,
-                           'status'=>$status,
-                           'description'=>$comment
+        $leave =  Leave::create([
+            'type_of_leave_id' => $leave,
+            'employee_id' => $employee,
+            'created_by_id' => 1,
+            'approved_by_id' => 1,
+            'created_at ' => now(),
+            'leave_date' => $leave_date,
+            'due_date' => $dudate,
+            'status' => $status,
+            'description' => $comment
 
-                        ]);
+        ]);
 
-                 if ($leave) {
-                    //         return response()->json(['status' => 'success', 'message' =>'Employee leave has been created!']);
-                    //     }
-                    //     return response()->json(['status' => 'failed', 'message' => 'Failed! Leave not created']);
-                    // }
-                    return redirect()->route('employee.show',$employee)->with('message', 'Employee leave out successful!');
-
-
-                }
-
-                }
+        if ($leave) {
+            //         return response()->json(['status' => 'success', 'message' =>'Employee leave has been created!']);
+            //     }
+            //     return response()->json(['status' => 'failed', 'message' => 'Failed! Leave not created']);
+            // }
+            return redirect()->route('employee.show', $employee)->with('message', 'Employee leave out successful!');
+        }
+    }
 
 
     /**
@@ -196,5 +245,4 @@ echo Carbon::now()->subMinutes(2)->diffForHumans(); // '2 minutes ago'
     {
         $this->setupCreateOperation();
     }
-
 }

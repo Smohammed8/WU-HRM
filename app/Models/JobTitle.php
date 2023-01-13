@@ -23,7 +23,7 @@ class JobTitle extends Model
         'vacant_post',
         'educational_level_id',
         'field_of_study_id',
-        'unit_id',
+        // 'unit_id',
         'job_code',
         'position_type_id',
         'work_experience'
@@ -40,15 +40,15 @@ class JobTitle extends Model
         'educational_level_id' => 'integer',
         'field_of_study_id' => 'integer',
         'unit_id' => 'integer',
-        'level_id' =>'integer'
+        'level_id' => 'integer'
     ];
 
 
     public function fieldOfStudy()
-     {
-    return $this->belongsToMany(\App\Models\FieldOfStudy::class)
-                  ->withPivot('job_title_id', 'Field_fo_study_id');
-     }
+    {
+        return $this->belongsToMany(\App\Models\FieldOfStudy::class)
+            ->withPivot('job_title_id', 'Field_fo_study_id');
+    }
 
     public function jobTitleCategory()
     {
@@ -79,5 +79,15 @@ class JobTitle extends Model
     {
         return $this->belongsTo(PositionType::class);
     }
+    public function viewEmployee()
+    {
 
+        if (!backpack_user()->can('employee.index')) {
+            return null;
+        }
+
+        $route =  route('employee.index', ['job_title_id' => $this->attributes['id']]); // custome toute here
+
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View Positions"><i class="la la-flag"></i> Employee </a>';
+    }
 }

@@ -89,9 +89,9 @@ class SkillCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(SkillRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name');
-        CRUD::field('name');
-        CRUD::field('level');
+        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name')->size(6);
+        CRUD::field('name')->size(6);
+        CRUD::field('level')->size(6);
         CRUD::field('description');
         /**
          * Fields can be defined using the fluent syntax or array syntax:

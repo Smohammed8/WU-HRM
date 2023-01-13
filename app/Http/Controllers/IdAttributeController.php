@@ -17,6 +17,9 @@ class IdAttributeController extends Controller
     public function index()
     {
         $attributes = IdAttribute::paginate(10);
+        if (!backpack_user()->canany(['id.setting.icrud', 'id.setting.index'])) {
+            return abort(401);
+        }
         return view('id_attributes.index', compact('attributes'));
     }
 
@@ -27,6 +30,9 @@ class IdAttributeController extends Controller
      */
     public function create()
     {
+        if (!backpack_user()->canany(['id.setting.icrud', 'id.setting.create'])) {
+            return abort(401);
+        }
         return view('id_attributes.new');
     }
 
@@ -38,7 +44,10 @@ class IdAttributeController extends Controller
      */
     public function store(Request $request)
     {
-        IdAttribute::create(['name'=>$request->get('name')]);
+        if (!backpack_user()->canany(['id.setting.icrud', 'id.setting.create'])) {
+            return abort(401);
+        }
+        IdAttribute::create(['name' => $request->get('name')]);
         return redirect()->route('attribute.index');
     }
 
@@ -50,7 +59,9 @@ class IdAttributeController extends Controller
      */
     public function show(IdAttribute $idAttribute)
     {
-        dd($idAttribute);
+        if (!backpack_user()->canany(['id.setting.icrud', 'id.setting.show'])) {
+            return abort(401);
+        }
     }
 
     /**
@@ -61,7 +72,9 @@ class IdAttributeController extends Controller
      */
     public function edit(IdAttribute $idAttribute)
     {
-        dd($idAttribute);
+        if (!backpack_user()->canany(['id.setting.icrud', 'id.setting.update'])) {
+            return abort(401);
+        }
     }
 
     /**

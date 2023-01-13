@@ -54,7 +54,6 @@ class EmployeeEvaluationCrudController extends CrudController
         CRUD::field('obtained_mark');
 
 
-
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -70,49 +69,49 @@ class EmployeeEvaluationCrudController extends CrudController
      */
 
 
-   public function create(Request $request){
+    public function create(Request $request)
+    {
 
-   // dd(Auth::guard('backpack')->user()->id);
-    $quarter            = $request->get('quarter');
-    $year               = $request->get('year');
-    $criterai           = $request->get('criteria');
-    $employee           = $request->get('employee');
-    $level              = $request->get('level');
+        // dd(Auth::guard('backpack')->user()->id);
+        $quarter            = $request->get('quarter');
+        $year               = $request->get('year');
+        $criterai           = $request->get('criteria');
+        $employee           = $request->get('employee');
+        $level              = $request->get('level');
 
-    $evalution =  Evaluation::create([
-        'quarter_id' =>$quarter,
-        'employee_id'=>$employee,
-        'total_mark' =>0,
-      //  'created_by_id'=>Auth::user()->id
-        'created_by_id'=>backpack_user()->id
-         ]);
-if($evalution->id){
-foreach ($criterai as $key => $id) {
-    $evluation_id =  $evalution->id;
-     EmployeeEvaluation::create([
-                'employee_id'=>$employee,
-                'evalution_creteria_id'=>$id,
-                'evaluation_level_id'=>$request->get('level'.$id)[0],
-                'evaluation_id'=>$evluation_id,
-          ]);
-  }
+        $evalution =  Evaluation::create([
+            'quarter_id' => $quarter,
+            'employee_id' => $employee,
+            'total_mark' => 0,
+            //  'created_by_id'=>Auth::user()->id
+            'created_by_id' => backpack_user()->id
+        ]);
+        if ($evalution->id) {
+            foreach ($criterai as $key => $id) {
+                $evluation_id =  $evalution->id;
+                EmployeeEvaluation::create([
+                    'employee_id' => $employee,
+                    'evalution_creteria_id' => $id,
+                    'evaluation_level_id' => $request->get('level' . $id)[0],
+                    'evaluation_id' => $evluation_id,
+                ]);
+            }
+        }
 
-}
+        return redirect()->route('employee.show', $employee)->with('message', 'Employee efficiency added successfully!');
+    }
 
- return redirect()->route('employee.show',$employee)->with('message', 'Employee efficiency added successfully!');
-}
-
-public function evaluation_show($evaluation_id){
+    public function evaluation_show($evaluation_id)
+    {
 
 
-   // $payroll=  EmployeeEvaluation::findOrFail($evaluation_id);
-    // $training_centers = TraininingCenter::all();
-    // $training_sessions = TrainingSession::all();
-     $employeeEvaluations = EmployeeEvaluation::select('*')->where('evaluation_id', '=',$evaluation_id)->paginate(10);
+        // $payroll=  EmployeeEvaluation::findOrFail($evaluation_id);
+        // $training_centers = TraininingCenter::all();
+        // $training_sessions = TrainingSession::all();
+        $employeeEvaluations = EmployeeEvaluation::select('*')->where('evaluation_id', '=', $evaluation_id)->paginate(10);
 
-     return view('employee.efficinecy_show', compact('employeeEvaluations'));
-
- }
+        return view('employee.efficinecy_show', compact('employeeEvaluations'));
+    }
 
     protected function setupCreateOperation()
     {
@@ -123,7 +122,7 @@ public function evaluation_show($evaluation_id){
         CRUD::field('evaluation_level_id')->type('select2')->entity('evaluationLevel')->model(EvaluationLevel::class)->attribute('name')->size(6);
         CRUD::field('evalution_creteria_id')->type('select2')->entity('evalutionCreteria')->model(EvalutionCreteria::class)->attribute('name')->size(6);
 
-      //  CRUD::field('obtained_mark')->size(6);
+        //  CRUD::field('obtained_mark')->size(6);
 
         $this->crud->addField([
             'name'        => 'obtained_mark',
@@ -131,13 +130,13 @@ public function evaluation_show($evaluation_id){
             'type'        => 'radio',
             'default'      => 0,
             'options'     => [
-                             4 => "Excellent[4]",
-                             3 => "Very good[3]",
-                             2 => "Good [2]",
-                             1 => "Poor [1]"
-                             ],
-                             'inline' => true,
-                             'label' => 'Questions',
+                4 => "Excellent[4]",
+                3 => "Very good[3]",
+                2 => "Good [2]",
+                1 => "Poor [1]"
+            ],
+            'inline' => true,
+            'label' => 'Questions',
 
         ]);
 
@@ -165,9 +164,9 @@ public function evaluation_show($evaluation_id){
     protected function setupShowOperation()
     {
 
-        $employeeEvaluations= EmployeeEvaluation::paginate(10);
+        $employeeEvaluations = EmployeeEvaluation::paginate(10);
         $this->data['employeeEvaluations'] = $employeeEvaluations;
-        $evalutionCreterias=  EvalutionCreteria::paginate(20);
+        $evalutionCreterias =  EvalutionCreteria::paginate(20);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
 
