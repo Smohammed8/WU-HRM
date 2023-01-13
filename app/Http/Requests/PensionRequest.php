@@ -27,7 +27,7 @@ class PensionRequest extends FormRequest
         return [
             // 'name' => 'required|min:5|max:255'
 
-            'name' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
+            'name' =>'required',
             'gender' =>'required',
             'year' =>  'required|numeric|min:50|max:60',
             'extend_year' => 'required|numeric|min:60|max:65',

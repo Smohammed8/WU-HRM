@@ -25,7 +25,7 @@ class EvaluationCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-             'name' => 'required|min:5|max:255|regex:/^[a-z A-Z]+$/u|unique:evaluation_categories,name,'.request()->id,
+             'name' => 'required|unique:evaluation_categories,name,'.request()->id,
             //'name' =>  'required|unique:evaluation_categories,name||min:2|max:255',
             'percent' => 'required|numeric|min:3|max:50',
             'discription '=>  'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',

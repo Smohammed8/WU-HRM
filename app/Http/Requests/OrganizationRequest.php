@@ -27,7 +27,7 @@ class OrganizationRequest extends FormRequest
         return [
             // 'name' => 'required|min:5|max:255'
 
-            'name' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:30',
+            'name' =>'required',
             'email' =>'required|email',
             'mission'=>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',
             'vision' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',

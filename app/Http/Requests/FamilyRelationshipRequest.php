@@ -27,7 +27,7 @@ class FamilyRelationshipRequest extends FormRequest
         return [
             // 'name' => 'required|min:5|max:255'
 
-            'name' =>'required|regex:/^[a-z A-Z]+$/u|min:5|max:100',
+            'name' =>'required',
             'gender'=>'required'
         ];
     }
