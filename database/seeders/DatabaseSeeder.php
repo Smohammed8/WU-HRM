@@ -49,13 +49,13 @@ class DatabaseSeeder extends Seeder
         $user->assignRole(Constants::USER_TYPE_SUPER_ADMIN);
         if (Organization::count() == 0)
             Organization::create([
-                'name' => 'Bule Hoara university',
-                'email' => 'ero@bhu.edu.et',
-                'motto' => 'Jijjiiramaa Fula\'aaf Hojjanna!',
-                'web_address' => 'www.bhu.edu.et',
-                'fax' => '+251-(0)46-443-0355',
-                'telephone' => '+251-(0)46-443-0199',
-                'pobox' => '144, Oromia, Ethiopia',
+                'name' => 'Jimma university',
+                'email' => 'ero@ju.edu.et',
+                'motto' => 'We are in the community!',
+                'web_address' => 'www.ju.edu.et',
+                'fax' => '+251-(0)47-443-0355',
+                'telephone' => '+251-(0)47-443-0199',
+                'pobox' => '213, Oromia, Ethiopia',
                 'seal' => '',
             ]);
         $martialStatus = ['Divorce', 'Married', 'Single', 'Widow'];

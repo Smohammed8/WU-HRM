@@ -217,7 +217,7 @@ class JobTitleCrudController extends CrudController
         $this->data['breadcrumbs'] = $breadcrumbs;
         $this->crud->setHeading('Add Job title in');
         $this->crud->setSubHeading(JobTitleCategory::find($jobTitleCategoryId)->name);
-        CRUD::field('name')->label('Job title')->label('የስራመደ(ቡመጠሪያ')->size(6);
+        CRUD::field('name')->label('Job title')->label('የስራመደቡ መጠሪያ')->size(6);
         CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(3);
         CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(3);
         // CRUD::field('job_code')->label('የመደብ መታወቂያ ቁጥር')->size(6);
