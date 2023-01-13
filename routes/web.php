@@ -64,8 +64,7 @@ Route::get('/calculate', [EmployeeController::class, 'calculate'])->middleware('
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class)->middleware('auth');
 // Route::resource('leave', LeaveCrudController::class);
 
-Route::get(
-    '/hierarchy',
+Route::get( '/hierarchy',
     function () {
         $units = Unit::where('parent_unit_id')->latest()->get();
         return view('unit.tree', ['orgs' => $units]);

@@ -36,7 +36,8 @@
     padding-top: 20px;
     position: relative;
     padding-left: 0px;
-    display: flex;
+    display: block;
+    /* display: flex; */
 }
 
 .genealogy-tree li {

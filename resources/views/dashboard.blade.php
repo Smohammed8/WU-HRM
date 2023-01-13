@@ -7,152 +7,130 @@
     @endcan
     @can('dashboard.content')
         <div class="container-fluid animated fadeIn">
-            <div name="widget_81117463" section="before_content" class="row">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border-0 text-white bg-primary">
-                        <div class="card-body">
-                            <div class="text-value">{{ number_format($employees, 0, '.', ',') }}</div>
 
-                            <div> Total Employees</div>
+            <h5 class="mb-2"> Real time stastices </h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                       <span class="info-box-icon bg-info"> <a href="{{ route('employee.index', []) }}" title="Click to view details">  <i class="fa fa-users"></i></a></span>
 
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <small class="text-muted"><a href="{{ route('employee.index', []) }}" style="color:white;"> </a><i
-                                    class=" la la-download"></i> View more </a></small>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Employees</span>
+                            <span class="info-box-number">{{ number_format($employees, 0, '.', ',') }}</span>
                         </div>
-
+                        <!-- /.info-box-content -->
                     </div>
+                    <!-- /.info-box -->
                 </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="fa fa-user-minus"></i></span>
 
-                <!-- /////////////////////////////////////////////////// -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border-0 text-white bg-success">
-                        <div class="card-body">
-                            <div class="text-value">0</div>
-
-                            <div> Ready for penssion</div>
-
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="80"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <small class="text-muted"><a href="" style="color:white;"> <i class=" la la-download"></i>
-                                    View more </a></small>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Reay for retirments</span>
+                            <span class="info-box-number">0</span>
                         </div>
-
+                        <!-- /.info-box-content -->
                     </div>
+                    <!-- /.info-box -->
                 </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warning"><i class="fa fa-user-plus"></i></span>
 
-                <!-- /////////////////////////////////////////////////// -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border-0 text-white bg-warning">
-                        <div class="card-body">
-                            <div class="text-value"> 0</div>
-                            <div> On annual leave</div>
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="30"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small class="text-muted"><a href="" style="color:white;"> <i class=" la la-download"></i>
-                                    View more </a></small>
+                        <div class="info-box-content">
+                            <span class="info-box-text"> On Leave</span>
+                            <span class="info-box-number">0</span>
                         </div>
+                        <!-- /.info-box-content -->
                     </div>
+                    <!-- /.info-box -->
                 </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-danger"><i class="fa fa-user-minus"></i></span>
 
-                <!-- /////////////////////////////////////////////////// -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border-0 text-white bg-danger">
-                        <div class="card-body">
-                            <div class="text-value"> 0</div>
-                            <div> Resignation </div>
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="30"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small class="text-muted"><a href="" style="color:white;"> <i class=" la la-download"></i>
-                                    View more </a></small>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Resignations</span>
+                            <span class="info-box-number">0</span>
                         </div>
+                        <!-- /.info-box-content -->
                     </div>
+                    <!-- /.info-box -->
                 </div>
-
-                <!-- /////////////////////////////////////////////////// -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border-0 text-white bg-dark">
-                        <div class="card-body">
-                            <div class="text-value">{{ $units }}</div>
-                            <div> Organizational units .</div>
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <small class="text-muted"><a href="" style="color:white;"> <i class=" la la-download"></i>
-                                    View more </a></small>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- /////////////////////////////////////////////////// -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border-0 text-white bg-info">
-                        <div class="card-body">
-                            <div class="text-value">0</div>
-                            <div> Trail periods </div>
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <small class="text-muted"><a href="" style="color:white;"> <i class=" la la-download"></i>
-                                    View more </a></small>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- /////////////////////////////////////////////////// -->
-                <div class="col-sm-6 col-lg-3">
-
-                    <div class="card border-0 text-white bg-pink">
-                        <div class="card-body">
-                            <div class="text-value">{{ $positions }}</div>
-                            <div> Job positions </div>
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <small class="text-muted"><a href="" style="color:white;"> <i
-                                        class=" la la-download"></i> View more </a></small>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- /////////////////////////////////////////////////// -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border-0 text-white bg-green">
-                        <div class="card-body">
-                            <div class="text-value">0</div>
-                            <div>New promotions</div>
-                            <div class="progress progress-white progress-xs my-2">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <small class="text-muted"><a href="" style="color:white;"> <i
-                                        class=" la la-download"></i> View more </a></small>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- ////////////////// the end of cards ///////////////////////// -->
-
-
-
+                <!-- /.col -->
             </div>
+            <!-- /.row -->
+
+            <!-- =========================================================== -->
+            <h5 class="mb-2">Info Box With Custom Shadows <small><i>Using Bootstrap's Shadow Utility</i></small></h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box shadow-none">
+                        <span class="info-box-icon bg-info"><i class="fa fa-sitemap"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Organizational units</span>
+                            <span class="info-box-number">{{ $units }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box shadow-sm">
+                        <span class="info-box-icon bg-success"><i class="fa fa-user-plus"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Trail periods </span>
+                            <span class="info-box-number">8</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box shadow">
+                        <span class="info-box-icon bg-warning"><i class="fa fa-flag"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Free Job positions </span>
+                            <span class="info-box-number"> {{ $positions }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box shadow-lg">
+                        <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">New promotions</span>
+                            <span class="info-box-number">13</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+
+
+
+
+
+
+
+
 
             <style>
                 .card-header {
