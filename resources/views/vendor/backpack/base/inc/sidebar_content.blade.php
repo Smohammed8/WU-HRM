@@ -198,7 +198,7 @@
     </li>
 @endcanany
 
-{{-- <li class="nav-item nav-dropdown">
+<li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-th-list"></i>Employee Placement </a>
 
 
@@ -217,7 +217,7 @@
                     class='nav-icon la la-caret-right'></i> Placement rounds</a></li>
     </ul>
 
-</li> --}}
+</li>
 @canany(['vacancy.icrud', 'vacancy.index'])
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-plus"></i> Recruitment
