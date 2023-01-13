@@ -68,8 +68,12 @@
             <input type="hidden" id="barValue" name="barValue">
         </form>
         @can('employee.id.print')
+<<<<<<< HEAD
             <a href="{{ route('print.id', ['employee' => $crud->entry?->id]) }}"
                 class="btn  btn-sm btn-outline-primary float-right mr-1">
+=======
+            <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
+>>>>>>> e6475b292c337d1632ad45e49602fc4db0ba0e6e
                 <i class="la la-exclamation-circle"></i>
                 Print ID
             </a>
