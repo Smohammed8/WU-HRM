@@ -93,9 +93,10 @@ class SalaryScaleCrudController extends CrudController
         $this->crud->addButtonFromModelFunction('line', 'salary_scale', 'salarySale', 'end');
 
 
-        CRUD::column('name');
-        CRUD::column('organization_id');
-        CRUD::column('civil_service_year');
+        CRUD::column('name')->label('Percentage(%)');
+      //  CRUD::column('organization_id');
+        CRUD::column('type')->label('Update type');
+        CRUD::column('civil_service_year')->type('date');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -114,9 +115,10 @@ class SalaryScaleCrudController extends CrudController
     {
         CRUD::setValidation(SalaryScaleRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('organization_id');
-        CRUD::field('civil_service_year');
+        CRUD::field('name')->label('Percentage(%)')->size(6);
+        CRUD::field('organization_id')->size(6);
+        CRUD::field('type')->type('enum')->label('Update type')->size(6);
+        CRUD::field('civil_service_year')->size(6);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

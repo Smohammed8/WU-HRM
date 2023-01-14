@@ -93,6 +93,7 @@ class EmployeeCrudController extends CrudController
         // $this->crud->enableAjaxTable();
         $this->crud->enableDetailsRow();
         $this->setupPermission();
+        $this->crud->enableExportButtons();
     }
 
 
@@ -328,9 +329,9 @@ class EmployeeCrudController extends CrudController
         CRUD::field('email')->type('email')->size(6)->tab($ci);
         CRUD::field('phone_number')->size(6)->tab($ci);
 
-
         // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
         CRUD::field('employement_date')->size(6)->tab($job);
+        CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);

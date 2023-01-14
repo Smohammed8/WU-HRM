@@ -193,7 +193,7 @@
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Job grade: </b></label>
-                                    <label for=""> {{ $crud->entry->level->name ?? '-' }} </label>
+                                    <label for=""> {{ $crud->entry->position->jobTitle->level->name ?? '-' }} </label>
                                 </div>
 
 
@@ -292,7 +292,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b> Organization unit : </b></label>
+                                    <label for=""><b> Working office : </b></label>
                                     <label for=""> {{ $crud->entry->position->unit->name ?? '-' }} </label>
                                 </div>
 
@@ -305,8 +305,14 @@
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> Employee title : </b></label>
-                                    <label for=""> {{ $crud->entry->employeeTitle->title ?? '-' }} </label>
+                                    <label for=""> {{ $crud->entry->employeeTitle->title ?? '-' }}. </label>
                                 </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b> Pention number: </b></label>
+                                    <label for=""> {{ $crud->entry->pention_number?? '-' }} </label>
+                                </div>
+
 
 
 

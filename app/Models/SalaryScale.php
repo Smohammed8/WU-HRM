@@ -19,6 +19,7 @@ class SalaryScale extends Model
         'name',
         'organization_id',
         'civil_service_year',
+        'type',
     ];
 
     /**

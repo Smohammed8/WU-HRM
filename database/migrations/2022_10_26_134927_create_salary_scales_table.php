@@ -20,6 +20,8 @@ class CreateSalaryScalesTable extends Migration
             $table->string('name');
             $table->foreignId('organization_id')->constrained();
             $table->date('civil_service_year');
+            $table->enum('type', ["Increment","Decrement"])->nullable();
+
             $table->timestamps();
         });
 

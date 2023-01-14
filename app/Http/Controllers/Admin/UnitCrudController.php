@@ -35,6 +35,7 @@ class UnitCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/unit');
         CRUD::setEntityNameStrings('unit', 'units');
         $this->setupPermission();
+        $this->crud->enableExportButtons();
     }
 
 

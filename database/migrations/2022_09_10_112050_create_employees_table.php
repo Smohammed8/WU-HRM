@@ -40,7 +40,7 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('ethnicity_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('religion_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('field_of_study_id')->nullable()->constrained('field_of_studies')->onUpdate('cascade')->onDelete('cascade');
-             $table->foreignId('level_id')->nullable()->constrained('levels')->onUpdate('cascade')->onDelete('cascade');
+            //$table->foreignId('level_id')->nullable()->constrained('levels')->onUpdate('cascade')->onDelete('cascade');
             $table->date('employement_date')->nullable();
             $table->foreignId('position_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
            // $table->foreignId('job_title_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');

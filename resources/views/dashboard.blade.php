@@ -172,17 +172,7 @@
                     </div>
                 </div>
             </div>
-            <?php
 
-            $dataPoints1 = array(
-                array("label"=>"Admin Sytaff", "y"=>30),
-                array("label"=>"Academic staff", "y"=>30),
-                array("label"=>"Health staff", "y"=>30),
-                array("label"=>"Others", "y"=>10),
-
-            )
-
-            ?>
 
             <div class="row">
             <div class="col-md-6">
@@ -206,7 +196,7 @@
              <div class="col-md-6">
                 <div class="card card-info">
                     <div class="card-header">
-                      <h4 class="card-title"><i class="fa fa-users"></i> Employement statblity index </h4>
+                      <h4 class="card-title"><i class="fa fa-users"></i> Employement line graph </h4>
 
                       <div class="card-tools">
 
@@ -229,8 +219,18 @@
 
     @endcan
 
+    <?php
 
-{{-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> --}}
+    $dataPoints = array(
+        array("label"=>"Admin Sytaff", "y"=>90),
+        array("label"=>"Academic staff", "y"=>4),
+        array("label"=>"Health staff", "y"=>4),
+        array("label"=>"Others", "y"=>8),
+
+    )
+
+    ?>
+ <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 
         <script>
@@ -247,9 +247,10 @@
         // }],
         data: [{
             type: "pie",
-            yValueFormatString: "#,##0.00\"%\"",
+            //yValueFormatString: "#,##0.00\"%\"",
+            yValueFormatString: "#,##0\"%\"",
             indexLabel: "{label} ({y})",
-            dataPoints: <?php echo json_encode($dataPoints1, JSON_NUMERIC_CHECK); ?>
+            dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
         }]
         });
         chart.render();
