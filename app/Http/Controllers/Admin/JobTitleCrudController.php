@@ -98,8 +98,11 @@ class JobTitleCrudController extends CrudController
         $this->crud->setHeading(JobTitleCategory::find($jobTitleCategoryId)->name.' Job titles');
         CRUD::column('name')->label('የስራ መደቡ መጠሪያ');
         // CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
-        CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job grade');
+        CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job level');
         // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
+
+        CRUD::column('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Min.Educational Req.');
+        CRUD::column('work_experience')->label('Min. Experience');
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
         //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
        $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);

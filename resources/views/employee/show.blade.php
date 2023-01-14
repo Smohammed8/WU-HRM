@@ -139,12 +139,8 @@
 
 @section('content')
     <div class="row">
-        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
-            <!-- //////////////////////////////////////////// -->
 
-
-
-            <!-- //////////////////////////////////////////////-->
+            <div class=" card col-md-12 mb-2 card card-primary card-outline">
 
             <div class="card-body" style="font-family:inherit; font-size:14px;">
                 <div class="row">

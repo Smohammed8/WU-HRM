@@ -60,6 +60,8 @@ return [
         'nassets/css/adminlte.min.css',
         'nassets/css/abdi.css',
         'assets/calendar/css/redmond.calendars.picker.css',
+
+
         // Example (the fonts above, loaded from CDN instead)
         // 'https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css',
         // 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic',
@@ -128,6 +130,7 @@ return [
     // JS files that are loaded in all pages, using Laravel's asset() helper
     'scripts' => [
         // Backstrap includes jQuery, Bootstrap, CoreUI, PNotify, Popper
+        'https://canvasjs.com/assets/script/canvasjs.min.js',
         'packages/backpack/base/js/bundle.js',
         'assets/calendar/js/jquery.plugin.js',
         'assets/calendar/js/jquery.calendars.js',
@@ -137,6 +140,8 @@ return [
         'assets/calendar/js/jquery.calendars.ethiopian-am.js',
         'assets/calendar/js/jquery.calendars.picker-am.js',
         'assets/calendar/custom/script.js',
+        'assets/js/canvasjs.min.js',
+
         // examples (everything inside the bundle, loaded from CDN)
         // 'https://code.jquery.com/jquery-3.4.1.min.js',
         // 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',

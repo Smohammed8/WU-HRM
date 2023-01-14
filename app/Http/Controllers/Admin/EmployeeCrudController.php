@@ -262,8 +262,14 @@ class EmployeeCrudController extends CrudController
     }
 
 
+    public function  getEmployeeID(){
+        $uniqueNumber= rand(10000,99999);
+        $currentYear = date('Y');
+        $srudentID = $uniqueNumber.''.$currentYear ;
 
+         return  $srudentID;
 
+    }
 
     /**
      *
@@ -277,8 +283,8 @@ class EmployeeCrudController extends CrudController
         CRUD::setValidation(EmployeeRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud->enableTabs();
-        // $this->crud->enableVerticalTabs();
-        $this->crud->enableHorizontalTabs();
+        //$this->crud->enableVerticalTabs();
+      $this->crud->enableHorizontalTabs();
         ////////////////////// Tabs //////////////////////
         $pi = 'Personal Information';
         $ci = 'Contact Information';
@@ -287,6 +293,9 @@ class EmployeeCrudController extends CrudController
         $job    = 'Job Information';
         $edu    = 'Employee Credentials';
         $other    = 'Other Information';
+
+
+
         ////////////////////////////////////////////////
         CRUD::field('photo')->label('Employee photo(4x4)')->size(8)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
         CRUD::field('first_name')->size(6)->tab($pi);
@@ -305,7 +314,9 @@ class EmployeeCrudController extends CrudController
         // CRUD::field('job_title_id')->label('Job Position')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
-        CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($job);
+
+        CRUD::field('employment_identity')->type('hidden')->value($this->getEmployeeID());
+
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);

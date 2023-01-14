@@ -301,6 +301,10 @@ class Employee extends  Model
 
 
 
+    public function getUpperText() {
+        return strtoupper($this->field);
+       // return ucfirst(strtolower($this->field));
+    }
 
     /**
      * Get all of the externalExperiences for the Employee
