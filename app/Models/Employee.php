@@ -16,6 +16,7 @@ use Carbon\Carbon;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles;
@@ -300,11 +301,32 @@ class Employee extends  Model
     }
 
 
-
-    public function getUpperText() {
-        return strtoupper($this->field);
-       // return ucfirst(strtolower($this->field));
+    protected function firstName(): Attribute
+    {
+        return new Attribute(
+            set: fn ($value) => strtoupper($value),
+        );
     }
+
+    protected function fatherName(): Attribute
+    {
+        return new Attribute(
+            set: fn ($value) => strtoupper($value),
+        );
+    }
+
+    protected function grandFatherName(): Attribute
+    {
+        return new Attribute(
+            set: fn ($value) => strtoupper($value),
+        );
+    }
+
+
+    // public function getUpperText() {
+    //     return strtoupper($this->field);
+    //    // return ucfirst(strtolower($this->field));
+    // }
 
     /**
      * Get all of the externalExperiences for the Employee

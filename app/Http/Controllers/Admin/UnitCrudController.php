@@ -23,7 +23,6 @@ class UnitCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -37,8 +36,6 @@ class UnitCrudController extends CrudController
         $this->setupPermission();
         $this->crud->enableExportButtons();
     }
-
-
     public function setupPermission()
     {
         $permission_base = 'unit';

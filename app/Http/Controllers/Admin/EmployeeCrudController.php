@@ -95,8 +95,6 @@ class EmployeeCrudController extends CrudController
         $this->setupPermission();
         $this->crud->enableExportButtons();
     }
-
-
     public function setupPermission()
     {
         $permission_base = 'employee';
@@ -287,24 +285,25 @@ class EmployeeCrudController extends CrudController
         //$this->crud->enableVerticalTabs();
       $this->crud->enableHorizontalTabs();
         ////////////////////// Tabs //////////////////////
-        $pi = 'Personal Information';
-        $ci = 'Contact Information';
-        $bio = 'Bio Information';
-        $address = 'Address Information';
-        $job    = 'Job Information';
-        $edu    = 'Employee Credentials';
+        $pi       = 'Personal Information';
+        $ci       = 'Contact Information';
+        $bio      = 'Bio Information';
+        $address  = 'Address Information';
+        $job      = 'Job Information';
+        $edu      = 'Employee Credentials';
         $other    = 'Other Information';
-
-
 
         ////////////////////////////////////////////////
         CRUD::field('photo')->label('Employee photo(4x4)')->size(8)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
+
         CRUD::field('first_name')->size(6)->tab($pi);
         CRUD::field('father_name')->size(6)->tab($pi);
         CRUD::field('grand_father_name')->size(6)->tab($pi);
+
         CRUD::field('first_name_am')->label('የመጀመሪያ ስም')->size(6)->tab($pi);
         CRUD::field('father_name_am')->label('የአባት ስም')->size(6)->tab($pi);
         CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
+
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('religion_id')->size(6)->tab($pi);
 

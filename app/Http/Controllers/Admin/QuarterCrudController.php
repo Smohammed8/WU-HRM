@@ -87,8 +87,8 @@ class QuarterCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        CRUD::column('start_date');
-        CRUD::column('end_date');
+        CRUD::column('start_date')->type('date');
+        CRUD::column('end_date')->type('date');
         CRUD::column('description');
 
         /**
