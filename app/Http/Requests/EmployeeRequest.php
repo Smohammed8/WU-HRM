@@ -45,7 +45,7 @@ class EmployeeRequest extends FormRequest
             'employment_identity' => 'nullable|numeric|unique:employees,employment_identity,'.request()->id,
             'marital_status_id' =>'required',
             'ethnicity_id' =>'nullable',
-            'religion_id' =>'required',
+            'religion_id' =>'nullable',
             'unit_id' =>'nullable',
             'employement_date'=>'required|date',
             'salary_step' =>'nullable',
