@@ -177,7 +177,7 @@ class EmployeeCrudController extends CrudController
         $this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
         $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
-        $this->crud->denyAccess('delete');
+    //    $this->crud->denyAccess('delete');
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
