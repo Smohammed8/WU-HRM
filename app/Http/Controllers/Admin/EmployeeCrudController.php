@@ -93,7 +93,7 @@ class EmployeeCrudController extends CrudController
         // $this->crud->enableAjaxTable();
         $this->crud->enableDetailsRow();
         $this->setupPermission();
-        $this->crud->enableExportButtons();
+      //  $this->crud->enableExportButtons();
     }
     public function setupPermission()
     {
@@ -574,7 +574,10 @@ class EmployeeCrudController extends CrudController
         $this->data['levels'] = $levels;
 
 
-        $level  =    Employee::where('id', $employeeId)->first()?->level_id;
+
+
+        $level  =    Employee::where('id', $employeeId)->first()?->position->jobTitle->level_id;
+      //  dd($level);
         $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
         $this->data['startSalary'] = $startSalary;
 
@@ -583,8 +586,6 @@ class EmployeeCrudController extends CrudController
         //   $totalEmployee = $employee->count();
 
         //  $totalRows  = $this->crud->count();
-
-
         // $evs = Evaluation::where('employee_id',$this->crud->getCurrentEntryId())->limit(3)->get();
         // $evaluations = Evaluation::orderBy('id', 'desc')->limit(3)->get();
         // $this->data['evs'] = $evs;

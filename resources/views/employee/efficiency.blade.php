@@ -13,8 +13,8 @@
             <div class="modal-header">
                 <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud?->entry?->name }} &nbsp; &nbsp;
                     &nbsp;
-                    Unit: {{ $crud?->entry?->unit?->name }} &nbsp; &nbsp; Last Efficiency : 92.5% &nbsp; &nbsp; Job
-                    Position : {{ $crud?->entry?->jobTitle?->name }} </h6>
+                    Working Unit: {{ $crud?->entry?->position->unit?->name }} &nbsp; &nbsp;<br> Last Efficiency : 92.5% &nbsp; &nbsp; Job
+                    Position : {{ $crud?->entry?->position?->name }} </h6>
                 <div class="row">
                     @canany(['employee.efficency.icrud', 'employee.efficency.create'])
                         <a class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="collapse"

@@ -107,12 +107,14 @@
                             <tr>
 
 
+
+
                                 <td>{{ $loop->index + 1 }} </td>
                                 <td>{{ $leave->typeOfLeave->name }}</td>
                                 <td>{{ $leave->createdBy->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($leave->leave_date)->format('d, F Y') }} </td>
                                 <td>{{ $leave->due_date->format('d, F Y') }} </td>
-                                @if ($leave->status == 'Leave out')
+                                @if ($leave->status == 'Closed')
                                     <td> {{ date_diff(new \Datetime($leave->due_date), new \DateTime('now'))->format(' %y Years,%m Months,%d days') }}
                                     </td>
                                 @else
@@ -142,7 +144,7 @@
 
 
 
-                {{-- {!! $leaves->links() !!} --}}
+                 {!! $leaves->links() !!}
             </div>
         </div>
     </div>

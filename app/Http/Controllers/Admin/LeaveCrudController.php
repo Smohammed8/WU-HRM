@@ -169,7 +169,7 @@ echo Carbon::now()->subMinutes(2)->diffForHumans(); // '2 minutes ago'
         $ldate          = $request->get('ldate');
         $days             = $request->get('days');
         $comment            = $request->get('comment');
-        $status = 'Leave out';
+        $status = 'Active';  //    Active , Closed and Missing
         $date =  DateTime::createFromFormat('d/m/Y', $ldate);
         $year = $date->format('Y');
         $month = $date->format('m');
