@@ -98,7 +98,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Trail periods </span>
-                                <span class="info-box-number">8</span>
+                                <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -124,7 +124,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">New promotions</span>
-                                <span class="info-box-number">13</span>
+                                <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
