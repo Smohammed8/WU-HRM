@@ -39,7 +39,7 @@ class EmployeeRequest extends FormRequest
             'driving_licence' =>'nullable',
             'blood_group' =>'nullable',
             'eye_color' =>'nullable',
-            'phone_number' => 'required|numeric|digits:10',
+            'phone_number' => 'nullable|numeric|digits:10',
             'alternate_email' => 'nullable|email|unique:employees,alternate_email,'.request()->id,
             'rfid' => 'nullable|numeric|unique:employees,rfid,'.request()->id,
             'employment_identity' => 'nullable|numeric|unique:employees,employment_identity,'.request()->id,
