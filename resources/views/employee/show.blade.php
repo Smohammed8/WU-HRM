@@ -218,7 +218,7 @@
                                     <label for=""><b> Experience : </b></label>
                                     <label for=""
                                         title="Hired date: {{ $crud->entry->employement_date->format('d/m/Y') ?? '-' }} ">
-                                        {{ \Carbon\Carbon::parse($crud->entry->employement_date)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') ?? '-' }}
+                                        {{ $crud->entry->getEmployementDateRange() }}
                                     </label>
                                 </div>
 

@@ -284,6 +284,22 @@ class Employee extends  Model
         return $this->belongsTo(EmployeeCategory::class, 'employee_category_id');
     }
 
+    public function getEmployementDateAttribute()
+    {
+        $employementDate =$this->attributes['employement_date'];
+        if($employementDate!=null){
+            return Carbon::createFromDate(Constants::gcToEt($employementDate));
+        }
+        return Carbon::createFromDate(Constants::gcToEt($employementDate));
+    }
+
+    public function getEmployementDateRange()
+    {
+        $employementDate =$this->attributes['employement_date'];
+
+        return Carbon::parse($employementDate)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') ?? '-';
+    }
+
 
 
     public function employmentStatus()
