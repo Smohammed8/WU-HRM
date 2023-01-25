@@ -286,6 +286,8 @@ class Employee extends  Model
 
     public function getEmployementDateAttribute()
     {
+        if(!array_key_exists('employement_date',$this->attributes))
+            return null;
         $employementDate =$this->attributes['employement_date'];
         if($employementDate!=null){
             return Carbon::createFromDate(Constants::gcToEt($employementDate));
@@ -296,7 +298,6 @@ class Employee extends  Model
     public function getEmployementDateRange()
     {
         $employementDate =$this->attributes['employement_date'];
-
         return Carbon::parse($employementDate)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') ?? '-';
     }
 
