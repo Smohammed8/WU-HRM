@@ -154,6 +154,7 @@
 
 
     </div>
+    <hr>
 
 
             <style>
@@ -166,7 +167,7 @@
             <div class="row" name="widget_707545443" section="after_content">
 
                 <div class="col-sm-6">
-                    <div class="card card-primary card-outline">
+                    <div class="card">
                         <div class="card-header"> <i class="la la-list"> </i> Employees Statistics</div>
                         <div class="card-body">
                             @foreach ($employeeTypes as $employeeType)
@@ -178,7 +179,7 @@
 
 
                 <div class="col-sm-6">
-                    <div class="card card-primary card-outline">
+                    <div class="card">
                         <div class="card-header"> <i class="la la-list"> </i> Gender Based Statistics</div>
                         <div class="card-body"> Male Staff : {{ $males }} &nbsp; Female Staff: {{ $females }}
                         </div>
@@ -186,7 +187,7 @@
                 </div>
             </div>
 
-
+            <hr>
             <div class="row">
             <div class="col-md-6">
             <div class="card card">  <!-- card card-info -->
