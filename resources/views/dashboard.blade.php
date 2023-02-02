@@ -9,9 +9,21 @@
 
             <!-- /.row -->
 
+<style>
+
+.bg-blue{
+
+    background-color: #0067b8 !important;
+
+}
+
+</style>
 <br><br>
 
-      <div class="card card-primary card-outline">
+     <!-- <div class="card card-primary card-outline"> -->
+        
+      <div class="card">
+
         <div class="card-header">
             <h5 class="mb-2"> Real time stastices </h5>
         </div> <!-- /.card-body -->
@@ -104,6 +116,7 @@
                         </div>
                         <!-- /.info-box -->
                     </div>
+                 
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box shadow">
@@ -176,7 +189,7 @@
 
             <div class="row">
             <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card card">  <!-- card card-info -->
                 <div class="card-header">
                   <h4 class="card-title"><i class="fa fa-users"></i> Employee Classification by Pie Chart</h4>
 
@@ -194,7 +207,7 @@
             </div>
 
              <div class="col-md-6">
-                <div class="card card-info">
+                <div class="card card">  <!-- card card-info -->
                     <div class="card-header">
                       <h4 class="card-title"><i class="fa fa-users"></i> Employement line graph </h4>
 
