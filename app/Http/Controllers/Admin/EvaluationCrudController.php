@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EvaluationRequest;
+use App\Models\Employee;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -86,13 +87,17 @@ class EvaluationCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('employee_id');
-        CRUD::column('quarter_id');
+        
+
+        CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
+
+        //CRUD::column('quarter_id');
         CRUD::column('total_mark');
-        CRUD::column('created_by_id');
+      //  CRUD::column('created_by_id');
+        
 
 
-        $this->crud->denyAccess('create');
+     //   $this->crud->denyAccess('create');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -110,10 +115,14 @@ class EvaluationCrudController extends CrudController
     {
         CRUD::setValidation(EvaluationRequest::class);
 
-        CRUD::field('employee_id');
-        CRUD::field('quarter_id');
-        CRUD::field('total_mark');
-        CRUD::field('created_by_id');
+     //   CRUD::field('employee_id');
+
+        CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
+
+
+        CRUD::field('quarter_id')->type('hidden')->value(1);
+        CRUD::field('total_mark')->label('Total mark(100%)')->size(6);
+        CRUD::field('created_by_id')->type('hidden')->value(backpack_user()->id);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

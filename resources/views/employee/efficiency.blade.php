@@ -52,6 +52,10 @@
                                 <option value="2015"> 2015 </option>
                                 <option value="2016"> 2016</option>
                                 <option value="2017"> 2017</option>
+                                <option value="2018"> 2018 </option>
+                                <option value="2019"> 2019 </option>
+                                <option value="2020"> 2020</option>
+                                <option value="2021"> 2021</option>
                             </select>
                         </span>
                         <table class="table table-hover" cellpadding="0" cellspacing="0">
@@ -64,14 +68,13 @@
                             </thead>
                             <tbody>
                                 <input type="hidden" name="employee" value="{{ $crud->entry->id }}">
-                                @foreach ($evalutionCreterias as $evalutionCreteria)
+                                @foreach ($evalutionCreterias as $evalutionCreteria) 
                                     <tr>
 
                                         <td> {{ $loop->index + 1 }} </td>
 
                                         <td>
-                                            <input name="criteria[]" type="hidden"
-                                                value="{{ $evalutionCreteria->id }}" />
+                                            <input name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" />
 
                                             {{ $evalutionCreteria->name }} [ {{ $evalutionCreteria->percent }}]
                                         </td>
@@ -79,8 +82,7 @@
                                         <td>
                                             @if ($style != null)
                                                 @if ($style == 'Select Box')
-                                                    <select class="form-control select2" style="width:100%;"
-                                                        name="level{{ $evalutionCreteria->id }}[]" required>
+                                                    <select class="form-control select2" style="width:100%;" name="level {{$evalutionCreteria->id}}[]" required>
                                                         <option value=""> Select evaluation mark.. </option>
                                                         <option value="4"> Excellent[4] </option>
                                                         <option value="3"> Very Good[3] </option>
@@ -88,18 +90,13 @@
                                                         <option value="1"> Poor[1] </option>
                                                     </select>
                                                 @else
-                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio"
-                                                        value="4" required /> Excellent(4) &nbsp;
-                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio"
-                                                        value="3" required /> Very good(3) &nbsp;
-                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio"
-                                                        value="2" required /> Good(2) &nbsp;
-                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio"
-                                                        value="1" required /> Poor(1) &nbsp;
+                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="4" required /> Excellent(4) &nbsp;
+                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="3" required /> Very good(3) &nbsp;
+                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="2" required /> Good(2) &nbsp;
+                                                    <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="1" required /> Poor(1) &nbsp;
                                                 @endif
                                             @else
-                                                <select class="form-control select2" style="width:100%;"
-                                                    name="level{{ $evalutionCreteria->id }}[]" required>
+                                                <select class="form-control select2" style="width:100%;" name="level{{$evalutionCreteria->id}}[]" required>
                                                     <option value=""> Select evaluation mark.. </option>
                                                     <option value="4"> Excellent[4] </option>
                                                     <option value="3"> Very Good[3] </option>

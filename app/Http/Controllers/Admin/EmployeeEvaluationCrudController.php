@@ -76,8 +76,11 @@ class EmployeeEvaluationCrudController extends CrudController
         $quarter            = $request->get('quarter');
         $year               = $request->get('year');
         $criterai           = $request->get('criteria');
+       // dd(  $criterai );
         $employee           = $request->get('employee');
         $level              = $request->get('level');
+
+        dd( $level );
 
         $evalution =  Evaluation::create([
             'quarter_id' => $quarter,
@@ -92,7 +95,7 @@ class EmployeeEvaluationCrudController extends CrudController
                 EmployeeEvaluation::create([
                     'employee_id' => $employee,
                     'evalution_creteria_id' => $id,
-                    'evaluation_level_id' => $request->get('level' . $id)[0],
+                    'evaluation_level_id' => $request->get('level' .$id)[0],
                     'evaluation_id' => $evluation_id,
                 ]);
             }
