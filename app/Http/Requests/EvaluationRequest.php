@@ -25,7 +25,10 @@ class EvaluationRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+              // 'employee_id ' => 'required',
+             // 'total_mark ' => 'required|min:0|max:100',
+
+            
         ];
     }
 

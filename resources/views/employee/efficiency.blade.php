@@ -67,6 +67,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                              
                                 <input type="hidden" name="employee" value="{{ $crud->entry->id }}">
                                 @foreach ($evalutionCreterias as $evalutionCreteria) 
                                     <tr>
@@ -79,10 +80,13 @@
                                             {{ $evalutionCreteria->name }} [ {{ $evalutionCreteria->percent }}]
                                         </td>
 
+                                        {{-- <?php //echo dump($evalutionCreteria->id ); ?> --}}
+
+
                                         <td>
                                             @if ($style != null)
                                                 @if ($style == 'Select Box')
-                                                    <select class="form-control select2" style="width:100%;" name="level {{$evalutionCreteria->id}}[]" required>
+                                                    <select name="level{{ $evalutionCreteria->id }}[]" class="form-control select2" style="width:100%;"  required>
                                                         <option value=""> Select evaluation mark.. </option>
                                                         <option value="4"> Excellent[4] </option>
                                                         <option value="3"> Very Good[3] </option>
@@ -96,7 +100,7 @@
                                                     <input name="level{{ $evalutionCreteria->id }}[]" type="radio" value="1" required /> Poor(1) &nbsp;
                                                 @endif
                                             @else
-                                                <select class="form-control select2" style="width:100%;" name="level{{$evalutionCreteria->id}}[]" required>
+                                                <select name="level{{ $evalutionCreteria->id }}[]" class="form-control select2" style="width:100%;" required>
                                                     <option value=""> Select evaluation mark.. </option>
                                                     <option value="4"> Excellent[4] </option>
                                                     <option value="3"> Very Good[3] </option>
@@ -105,6 +109,7 @@
                                                 </select>
                                             @endif
                                         </td>
+                                        
                                     </tr>
                                 @endforeach
                                 @if (count($employeeEvaluations) == 0)

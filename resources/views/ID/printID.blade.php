@@ -31,7 +31,7 @@
                 <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->first_name_am }} {{ $employee->father_name_am }}</strong>
             </p>
             <p style="position: relative; font-size: {{ strlen($employee->position->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black; top: -65px; line-height: 0.6;">
-                <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->employeeCategory->name }}</strong>
+                <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->employeeCategory->name }} Staff</strong>
             </p>
             <div style="position: relative; background-color: inherit;  text-align: center; width: {{ strlen($employee->position->jobTitle->name) < 23 ? '100%' : '80%' }}; top: {{ strlen($employee->position->jobTitle->name) < 23 ? '-115px' : '-110px' }}; left: {{ $role_left }};">
                 <p style="font-size: {{ strlen($employee->position->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black;  line-height: 0.6;">

@@ -92,7 +92,7 @@ class EvaluationCrudController extends CrudController
         CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
 
         //CRUD::column('quarter_id');
-        CRUD::column('total_mark');
+         CRUD::column('total_mark');
       //  CRUD::column('created_by_id');
         
 

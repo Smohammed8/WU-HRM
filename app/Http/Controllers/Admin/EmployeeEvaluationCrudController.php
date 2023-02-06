@@ -72,15 +72,16 @@ class EmployeeEvaluationCrudController extends CrudController
     public function create(Request $request)
     {
 
-        // dd(Auth::guard('backpack')->user()->id);
+
+        
         $quarter            = $request->get('quarter');
         $year               = $request->get('year');
         $criterai           = $request->get('criteria');
        // dd(  $criterai );
-        $employee           = $request->get('employee');
-        $level              = $request->get('level');
-
-        dd( $level );
+        $employee           = $request->get('employee');  
+         $level              = $request->get('level');
+       //   dd( $level );
+        
 
         $evalution =  Evaluation::create([
             'quarter_id' => $quarter,
@@ -89,16 +90,17 @@ class EmployeeEvaluationCrudController extends CrudController
             //  'created_by_id'=>Auth::user()->id
             'created_by_id' => backpack_user()->id
         ]);
-        if ($evalution->id) {
-            foreach ($criterai as $key => $id) {
-                $evluation_id =  $evalution->id;
-                EmployeeEvaluation::create([
-                    'employee_id' => $employee,
-                    'evalution_creteria_id' => $id,
-                    'evaluation_level_id' => $request->get('level' .$id)[0],
-                    'evaluation_id' => $evluation_id,
-                ]);
-            }
+            if ($evalution->id) {
+                foreach ($criterai as $key => $id) {
+                    $evluation_id = $evalution->id;
+                    EmployeeEvaluation::create([
+                        'employee_id' => $employee,
+                        'evalution_creteria_id' => $id,
+                        'evaluation_level_id' => $request->get('level' . $id)[0],
+                        'evaluation_id' => $evluation_id,
+                    ]);
+                }
+            
         }
 
         return redirect()->route('employee.show', $employee)->with('message', 'Employee efficiency added successfully!');
