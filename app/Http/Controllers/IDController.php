@@ -25,7 +25,7 @@ class IDController extends Controller
         } else {
             $role_left = '35px';
         }
-        $img = explode('photo//', $employee->photo)[1];
+        $img = explode('photo//', $employee->photo)[0];
         $qrcode = $request->get('qrValue');
         $barcode = $request->get('barValue');
         $pdf = Pdf::loadView('ID.printID', compact('employee', 'qrcode', 'barcode', 'role_left', 'img'))->setPaper('a4', 'landscape');
