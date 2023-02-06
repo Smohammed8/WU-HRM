@@ -28,7 +28,7 @@
                 <strong>{{ $employee->first_name }} {{ $employee->father_name }}</strong>
             </p>
             <p style="position: relative; font-size: 20px; color: black; top: -40px;">
-                <strong style="font-family: 'Noto Serif Ethiopic'">አቶ ሚልኪ ሰይፉ</strong>
+                <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->first_name_am }} {{ $employee->father_name_am }}</strong>
             </p>
             <p style="position: relative; font-size: {{ strlen($employee->position->jobTitle->name) < 23 ? '25px' : '22px' }}; color: black; top: -65px; line-height: 0.6;">
                 <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->employeeCategory->name }}</strong>
@@ -66,10 +66,10 @@
         @endif
         {{-- <img width="100%" src="images/back.png" alt=""> --}}
         <p style="font-size: 18px; color: black; position: relative; top: -290px; left: 10px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">Mr. {{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'"> {{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
         </p>
         <p style="font-size: 16px; color: black; position: relative; top: -315px; left: 14px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">Mr. {{ $employee->first_name }} {{ $employee->father_name }} {{ $employee->grand_father_name }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'"> {{ $employee->first_name_am }} {{ $employee->father_name_am }} {{ $employee->grand_father_name_am }}</strong>
         </p>
         <p style="font-size: 18px; color: black; position: relative; top: -305px; left: 14px;">
             <strong style="font-family: 'Noto Serif Ethiopic'">Ethiopian</strong>
