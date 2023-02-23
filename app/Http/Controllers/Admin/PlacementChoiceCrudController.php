@@ -54,8 +54,8 @@ class PlacementChoiceCrudController extends CrudController
         // if($this->crud->getCurrentEntry()){
         // }
         // CRUD::column('placementRound.round')->label('Round');
-        CRUD::field('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
-
+        CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->label('Employee');
+        
         CRUD::column('choiceOne.jobTitle.name')->label('Choice One');
         CRUD::column('choiceTwo.jobTitle.name')->label('Choice Two');
         CRUD::column('choice_one_result')->label('Result One');
@@ -86,8 +86,7 @@ class PlacementChoiceCrudController extends CrudController
         $placementRound = \Route::current()->parameter('placement_round');
         CRUD::setValidation(PlacementChoiceRequest::class);
         CRUD::field('placement_round_id')->type('hidden')->value($placementRound);
-       // CRUD::field('employee_id');
-
+        // CRUD::field('employee_id');
         CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
 
         

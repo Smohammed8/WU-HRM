@@ -73,6 +73,7 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
@@ -163,7 +164,6 @@ class EmployeeCrudController extends CrudController
         }
         return $result;
     }
-
     ////////////////////////////////////////////////////////////////////////
     /**
      * Define what happens when the List operation is loaded.
