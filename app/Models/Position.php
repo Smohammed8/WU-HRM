@@ -50,7 +50,7 @@ class Position extends Model
 
     public function getPositionInfoForPlacementAttribute()
     {
-        return $this->jobTitle->name.' at '.$this->unit->name. '('.$this->positionCodes->first()->code.'-'.$this->positionCodes->last()->code.')';
+        return $this->jobTitle->name.' at '.$this->unit->name. '[ '.$this->positionCodes->first()->code.' - '.$this->positionCodes->last()->code.' ]';
     }
 
     public function getNameAttribute()

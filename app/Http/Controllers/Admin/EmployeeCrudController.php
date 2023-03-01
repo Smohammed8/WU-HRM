@@ -438,6 +438,7 @@ class EmployeeCrudController extends CrudController
         if ($currentPosition->id == $newPosition->id) {
             if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
                 PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
+                
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
                     throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
                 }else{
