@@ -12,23 +12,25 @@
 
                     border-top: 3px solid #000FF;
                 }
+
+      
             </style>
             {{-- <h3 class="text-center mb-4">{{ trans('backpack::base.login') }}</h3> --}}
-            <div class="card" style="border-radius:5%; border-top-color: blue; border-top-width:2px;">
+            <div class="card" style="border-radius:5%; border-top-color: #0067b8; border-top-width:2px;">
 
                 <div class="card-header text-center">
 
                     <span> <img src="{{ asset(\App\Constants::LOGO_PATH) }}" alt="" style="width: 100px; ">
                         <br>
                     </span>
-                    <strong style=" text-align:center;color:blue;"> {{ \App\Constants::ORG_LONG }} </strong> <br>
-                    <small><strong style=" text-align:center;color:blue;">Human Resource Managment System(HRM) </strong>
+                    <strong style=" text-align:center;color:#0067b8;"> {{ \App\Constants::ORG_LONG }} </strong> <br>
+                    <small><strong style=" text-align:center;color:#0067b8;">Human Resource Managment System(HRM) </strong>
 
                     </small>
                 </div>
 
                 <div class="card-body">
-                    {{-- <p class="login-box-msg" style=" text-align:center;color:blue;"> <i class="la la-hand-point-right">
+                    {{-- <p class="login-box-msg" style=" text-align:center;color:#0067b8;"> <i class="la la-hand-point-right">
                         </i>
                         Sign in to start your session </p> --}}
                     <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('login') }}">
@@ -79,7 +81,7 @@
 
                         <div class="form-group">
                             <div>
-                                <button type="submit" class="btn btn-block btn-primary">
+                                <button type="submit"  style="background-color:#0067b8;" class="btn btn-block btn-primary">
                                     {{ trans('backpack::base.login') }}
                                 </button>
                             </div>

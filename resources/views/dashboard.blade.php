@@ -9,9 +9,21 @@
 
             <!-- /.row -->
 
+<style>
+
+.bg-blue{
+
+    background-color: #0067b8 !important;
+
+}
+
+</style>
 <br><br>
 
-      <div class="card card-primary card-outline">
+     <!-- <div class="card card-primary card-outline"> -->
+        
+      <div class="card">
+
         <div class="card-header">
             <h5 class="mb-2"> Real time stastices </h5>
         </div> <!-- /.card-body -->
@@ -80,7 +92,7 @@
                <hr>
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow-none">
+                        <div class="info-box"> <!--    <div class="info-box shadow"> -->
                             <span class="info-box-icon bg-info"><i class="fa fa-sitemap"></i></span>
 
                             <div class="info-box-content">
@@ -93,7 +105,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow-sm">
+                        <div class="info-box">
                             <span class="info-box-icon bg-success"><i class="fa fa-user-plus"></i></span>
 
                             <div class="info-box-content">
@@ -104,9 +116,10 @@
                         </div>
                         <!-- /.info-box -->
                     </div>
+                 
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow">
+                        <div class="info-box">
                             <span class="info-box-icon bg-warning"><i class="fa fa-flag"></i></span>
 
                             <div class="info-box-content">
@@ -119,7 +132,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow-lg">
+                        <div class="info-box">
                             <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
 
                             <div class="info-box-content">
@@ -141,6 +154,7 @@
 
 
     </div>
+    <hr>
 
 
             <style>
@@ -151,9 +165,10 @@
 
 
             <div class="row" name="widget_707545443" section="after_content">
-
+ 
                 <div class="col-sm-6">
-                    <div class="card card-primary card-outline">
+                 
+                    <div class="card">
                         <div class="card-header"> <i class="la la-list"> </i> Employees Statistics</div>
                         <div class="card-body">
                             @foreach ($employeeTypes as $employeeType)
@@ -161,11 +176,12 @@
                             @endforeach
                         </div>
                     </div>
+               
                 </div>
 
 
                 <div class="col-sm-6">
-                    <div class="card card-primary card-outline">
+                    <div class="card">
                         <div class="card-header"> <i class="la la-list"> </i> Gender Based Statistics</div>
                         <div class="card-body"> Male Staff : {{ $males }} &nbsp; Female Staff: {{ $females }}
                         </div>
@@ -173,10 +189,10 @@
                 </div>
             </div>
 
-
+            <hr>
             <div class="row">
             <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card card">  <!-- card card-info -->
                 <div class="card-header">
                   <h4 class="card-title"><i class="fa fa-users"></i> Employee Classification by Pie Chart</h4>
 
@@ -194,7 +210,7 @@
             </div>
 
              <div class="col-md-6">
-                <div class="card card-info">
+                <div class="card card">  <!-- card card-info -->
                     <div class="card-header">
                       <h4 class="card-title"><i class="fa fa-users"></i> Employement line graph </h4>
 

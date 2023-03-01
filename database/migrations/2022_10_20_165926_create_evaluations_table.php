@@ -19,7 +19,7 @@ class CreateEvaluationsTable extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained('employees');
             $table->foreignId('quarter_id')->constrained('quarters');
-            $table->integer('total_mark');
+            $table->float('total_mark', 8, 2);
             $table->foreignId('created_by_id')->constrained('users');
             $table->timestamps();
         });
