@@ -7,6 +7,7 @@ use App\Http\Requests\PlacementChoiceRequest;
 use App\Models\PlacementRound;
 use App\Models\Position;
 use App\Models\Employee;
+use App\Models\PlacementChoice;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -55,7 +56,6 @@ class PlacementChoiceCrudController extends CrudController
         // }
         // CRUD::column('placementRound.round')->label('Round');
         CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->label('Employee');
-        
         CRUD::column('choiceOne.jobTitle.name')->label('Choice One');
         CRUD::column('choiceTwo.jobTitle.name')->label('Choice Two');
         CRUD::column('choice_one_result')->label('Result One');
@@ -74,7 +74,6 @@ class PlacementChoiceCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
-
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -86,9 +85,8 @@ class PlacementChoiceCrudController extends CrudController
         $placementRound = \Route::current()->parameter('placement_round');
         CRUD::setValidation(PlacementChoiceRequest::class);
         CRUD::field('placement_round_id')->type('hidden')->value($placementRound);
-        // CRUD::field('employee_id');
         CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
-
+        if(PlacementChoice::where('placement_round',$placementRound))
         
         CRUD::field('choice_one_id')->type('select2')->model(Position::class)->entity('choiceOne')->attribute('position_info')->size(6);
         CRUD::field('choice_two_id')->type('select2')->model(Position::class)->entity('choiceTwo')->attribute('position_info')->size(6);
