@@ -435,6 +435,8 @@ class EmployeeCrudController extends CrudController
         $currentPosition = $this->crud->getCurrentEntry()->position;
         $newPosition = Position::find(request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
+        // dump($currentPosition->id);
+        // dd($newPosition->id);
         if ($currentPosition->id == $newPosition->id) {
             if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
                 PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
