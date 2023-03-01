@@ -29,12 +29,13 @@ class PlacementChoiceRequest extends FormRequest
 
    
                 'employee_id' => 'required|unique:placement_choices,employee_id'.request()->id,
+
+                'choice_one_id' => 'required',
+                'choice_two_id' => 'required',
             
 
-          //  'employee_id' => 'required|unique:placement_choices.employee_id'.request()->id,
-          //  'employee_id' => 'required|unique:placement_choices.employee_id',
-
-         
+              //  'employee_id' => 'required|unique:placement_choices.employee_id'.request()->id,
+             //  'employee_id' => 'required|unique:placement_choices.employee_id',
             //'title' => 'required|unique:posts,title'
             
         ];
