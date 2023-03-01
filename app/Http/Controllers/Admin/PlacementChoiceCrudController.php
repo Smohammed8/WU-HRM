@@ -10,6 +10,11 @@ use App\Models\Employee;
 use App\Models\PlacementChoice;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Dotenv\Exception\ValidationException;
+use Illuminate\Support\Facades\Redirect;
+use Prologue\Alerts\Facades\Alert;
+use App\Http\Requests\CreateTagRequest as StoreRequest;
+use App\Http\Requests\UpdateTagRequest as UpdateRequest;
 
 /**
  * Class PlacementChoiceCrudController
@@ -23,6 +28,8 @@ class PlacementChoiceCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+  
+
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -36,6 +43,8 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-round/' . $placementRound . '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
         $this->crud->setListView('placement_choice.show');
+      
+    
     }
 
     /**
@@ -46,6 +55,9 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+      
+
         $placementRoundId = \Route::current()->parameter('placement_round');
         $placementRound = PlacementRound::find($placementRoundId);
         if ($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_CLOSED) {
@@ -82,15 +94,20 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+       // $this->crud->setValidation(CreateRequest::class);
+      
         $placementRound = \Route::current()->parameter('placement_round');
         CRUD::setValidation(PlacementChoiceRequest::class);
         CRUD::field('placement_round_id')->type('hidden')->value($placementRound);
+
         CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
-        if(PlacementChoice::where('placement_round',$placementRound))
-        
+
+        // if(PlacementChoice::where('placement_round_id',$placementRound)->where('employee_id',$employee_id )->count()>0){
+           
+        //     return Redirect::back()->withErrors(['msg' => 'his employee already applied!']);
+        // }
         CRUD::field('choice_one_id')->type('select2')->model(Position::class)->entity('choiceOne')->attribute('position_info')->size(6);
         CRUD::field('choice_two_id')->type('select2')->model(Position::class)->entity('choiceTwo')->attribute('position_info')->size(6);
-
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
