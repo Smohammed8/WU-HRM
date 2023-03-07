@@ -295,6 +295,10 @@ class Employee extends  Model
         return Carbon::createFromDate(Constants::gcToEt($employementDate));
     }
 
+    public function setEmployementDateAttribute($employementDate)
+    {
+        $this->attributes['employement_date'] = Constants::etToGc($employementDate);
+    }
     public function getEmployementDateRange()
     {
         $employementDate =$this->attributes['employement_date'];

@@ -6,8 +6,15 @@ use App\Constants;
 use App\Http\Requests\PlacementChoiceRequest;
 use App\Models\PlacementRound;
 use App\Models\Position;
+use App\Models\Employee;
+use App\Models\PlacementChoice;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Dotenv\Exception\ValidationException;
+use Illuminate\Support\Facades\Redirect;
+use Prologue\Alerts\Facades\Alert;
+use App\Http\Requests\CreateTagRequest as StoreRequest;
+use App\Http\Requests\UpdateTagRequest as UpdateRequest;
 
 /**
  * Class PlacementChoiceCrudController
@@ -35,7 +42,6 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
         $this->crud->setListView('placement_choice.show');
     }
-
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -44,16 +50,35 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+
+        $this->crud->addFilter([
+        
+            'name'  => 'choice_two_id',
+            'type'  => 'select2_multiple',
+            'label' => 'Who are apply for this postion?'
+        ], function () {
+            return \App\Models\Position::all()->pluck('name', 'id')->toArray();
+        },
+         function ($values) {
+        
+            $this->crud->addClause('whereIn', 'choice_two_id', json_decode($values));
+        });
+
+
+
         $placementRoundId = \Route::current()->parameter('placement_round');
         $placementRound = PlacementRound::find($placementRoundId);
         if ($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_CLOSED) {
             $this->crud->removeAllButtons();
+                  //$this->crud->removeAllButtonsFromStack('line');
         }
-        $this->crud->removeAllButtonsFromStack('line');
+        //$this->crud->removeAllButtonsFromStack('line');
+       
         // if($this->crud->getCurrentEntry()){
         // }
         // CRUD::column('placementRound.round')->label('Round');
-        CRUD::column('employee_id');
+        CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->label('Employee');
         CRUD::column('choiceOne.jobTitle.name')->label('Choice One');
         CRUD::column('choiceTwo.jobTitle.name')->label('Choice Two');
         CRUD::column('choice_one_result')->label('Result One');
@@ -62,8 +87,8 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::column('choice_two_rank')->label('Rank Two');
         CRUD::column('new_position')->type('select')->model(Position::class)->entity('newPosition')->attribute('position_info')->label('New Position');
         $this->crud->denyAccess('show');
-        $this->crud->denyAccess('update');
-        $this->crud->denyAccess('delete');
+       // $this->crud->denyAccess('update');
+       // $this->crud->denyAccess('delete');
         $placementRound = \Route::current()->parameter('placement_round');
         $this->data['placementRound'] = PlacementRound::find($placementRound);
         /**
@@ -72,7 +97,6 @@ class PlacementChoiceCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
-
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -81,13 +105,16 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+       // $this->crud->setValidation(CreateRequest::class);
+      
         $placementRound = \Route::current()->parameter('placement_round');
         CRUD::setValidation(PlacementChoiceRequest::class);
         CRUD::field('placement_round_id')->type('hidden')->value($placementRound);
-        CRUD::field('employee_id');
-        CRUD::field('choice_one_id')->type('select')->model(Position::class)->entity('choiceOne')->attribute('position_info');
-        CRUD::field('choice_two_id')->type('select')->model(Position::class)->entity('choiceTwo')->attribute('position_info');
 
+        CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
+
+        CRUD::field('choice_one_id')->type('select2')->model(Position::class)->entity('choiceOne')->attribute('position_info_for_placement')->size(6);
+        CRUD::field('choice_two_id')->type('select2')->model(Position::class)->entity('choiceTwo')->attribute('position_info_for_placement')->size(6);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

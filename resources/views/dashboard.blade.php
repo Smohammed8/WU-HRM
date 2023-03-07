@@ -92,7 +92,7 @@
                <hr>
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow-none">
+                        <div class="info-box"> <!--    <div class="info-box shadow"> -->
                             <span class="info-box-icon bg-info"><i class="fa fa-sitemap"></i></span>
 
                             <div class="info-box-content">
@@ -105,7 +105,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow-sm">
+                        <div class="info-box">
                             <span class="info-box-icon bg-success"><i class="fa fa-user-plus"></i></span>
 
                             <div class="info-box-content">
@@ -119,7 +119,7 @@
                  
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow">
+                        <div class="info-box">
                             <span class="info-box-icon bg-warning"><i class="fa fa-flag"></i></span>
 
                             <div class="info-box-content">
@@ -132,7 +132,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box shadow-lg">
+                        <div class="info-box">
                             <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
 
                             <div class="info-box-content">
@@ -165,8 +165,9 @@
 
 
             <div class="row" name="widget_707545443" section="after_content">
-
+ 
                 <div class="col-sm-6">
+                 
                     <div class="card">
                         <div class="card-header"> <i class="la la-list"> </i> Employees Statistics</div>
                         <div class="card-body">
@@ -175,6 +176,7 @@
                             @endforeach
                         </div>
                     </div>
+               
                 </div>
 
 

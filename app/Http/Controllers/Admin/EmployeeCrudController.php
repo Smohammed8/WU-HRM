@@ -73,6 +73,7 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
@@ -163,7 +164,6 @@ class EmployeeCrudController extends CrudController
         }
         return $result;
     }
-
     ////////////////////////////////////////////////////////////////////////
     /**
      * Define what happens when the List operation is loaded.
@@ -433,22 +433,26 @@ class EmployeeCrudController extends CrudController
         $employee_id = $this->crud->entry->id;
         $created_ids = [];
         $currentPosition = $this->crud->getCurrentEntry()->position;
-        $newPosition = Position::find(request()->position_id)->first();
+        $newPosition = Position::where('id',request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
         if ($currentPosition->id == $newPosition->id) {
-            if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
+          if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
                 PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
+                
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
                     throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
                 }else{
                     PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
                 }
             }
-        }else{
+           } else{
+
+     
             if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
                 throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
             }
             PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+          
             PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
         }
         $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
@@ -457,6 +461,7 @@ class EmployeeCrudController extends CrudController
                 $comment = EmployeeAddress::find($item['id']);
                 $comment->update($item);
             } else {
+
                 $created_ids[] = EmployeeAddress::create($item)->id;
             }
         });

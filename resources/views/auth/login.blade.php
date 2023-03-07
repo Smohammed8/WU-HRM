@@ -13,12 +13,7 @@
                     border-top: 3px solid #000FF;
                 }
 
-                div {
-
-           color: #0067b8 !important;
-
-}
-
+      
             </style>
             {{-- <h3 class="text-center mb-4">{{ trans('backpack::base.login') }}</h3> --}}
             <div class="card" style="border-radius:5%; border-top-color: #0067b8; border-top-width:2px;">
