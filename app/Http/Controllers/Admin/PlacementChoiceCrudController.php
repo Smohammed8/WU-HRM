@@ -28,8 +28,6 @@ class PlacementChoiceCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-  
-
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -43,10 +41,7 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-round/' . $placementRound . '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
         $this->crud->setListView('placement_choice.show');
-      
-    
     }
-
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -56,14 +51,30 @@ class PlacementChoiceCrudController extends CrudController
     protected function setupListOperation()
     {
 
-      
+
+        $this->crud->addFilter([
+        
+            'name'  => 'choice_two_id',
+            'type'  => 'select2_multiple',
+            'label' => 'Who are apply for this postion?'
+        ], function () {
+            return \App\Models\Position::all()->pluck('name', 'id')->toArray();
+        },
+         function ($values) {
+        
+            $this->crud->addClause('whereIn', 'choice_two_id', json_decode($values));
+        });
+
+
 
         $placementRoundId = \Route::current()->parameter('placement_round');
         $placementRound = PlacementRound::find($placementRoundId);
         if ($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_CLOSED) {
             $this->crud->removeAllButtons();
+                  //$this->crud->removeAllButtonsFromStack('line');
         }
-        $this->crud->removeAllButtonsFromStack('line');
+        //$this->crud->removeAllButtonsFromStack('line');
+       
         // if($this->crud->getCurrentEntry()){
         // }
         // CRUD::column('placementRound.round')->label('Round');
@@ -77,7 +88,7 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::column('new_position')->type('select')->model(Position::class)->entity('newPosition')->attribute('position_info')->label('New Position');
         $this->crud->denyAccess('show');
        // $this->crud->denyAccess('update');
-        $this->crud->denyAccess('delete');
+       // $this->crud->denyAccess('delete');
         $placementRound = \Route::current()->parameter('placement_round');
         $this->data['placementRound'] = PlacementRound::find($placementRound);
         /**
@@ -102,10 +113,6 @@ class PlacementChoiceCrudController extends CrudController
 
         CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
 
-        // if(PlacementChoice::where('placement_round_id',$placementRound)->where('employee_id',$employee_id )->count()>0){
-           
-        //     return Redirect::back()->withErrors(['msg' => 'his employee already applied!']);
-        // }
         CRUD::field('choice_one_id')->type('select2')->model(Position::class)->entity('choiceOne')->attribute('position_info_for_placement')->size(6);
         CRUD::field('choice_two_id')->type('select2')->model(Position::class)->entity('choiceTwo')->attribute('position_info_for_placement')->size(6);
         /**
