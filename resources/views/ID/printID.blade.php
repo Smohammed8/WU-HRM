@@ -80,7 +80,7 @@
         </p>
 
         <p style="font-size: 18px; color: black; position: relative; top: -345px; left: 330px;">
-            <strong style="font-family: 'Noto Serif Ethiopic'">{{ Carbon\Carbon::now()->format('d/m/Y') }}</strong>
+            <strong style="font-family: 'Noto Serif Ethiopic'">{{ Carbon\Carbon::parse($expireDate)->format('d/m/Y') }}</strong>
         </p>
         <div style="position: relative; float: right; top: -630px;">
             <img src="{{ public_path('/storage/employee/photo/'.$img) }}" alt="" style="width: 92px; height: 92px;">

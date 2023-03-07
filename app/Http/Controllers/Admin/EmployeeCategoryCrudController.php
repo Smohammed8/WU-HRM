@@ -89,6 +89,7 @@ class EmployeeCategoryCrudController extends CrudController
     {
         CRUD::column('name');
 
+        CRUD::column('expir_date')->label('Expire Date of ID');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -107,6 +108,7 @@ class EmployeeCategoryCrudController extends CrudController
         CRUD::setValidation(EmployeeCategoryRequest::class);
 
         CRUD::field('name');
+        CRUD::field('expir_date');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

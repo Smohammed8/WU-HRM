@@ -89,8 +89,9 @@ class Score
         $choiceTwoExpScore = Score::getExperinceScore($placementChoice)[1];
         $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
         $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
-        $choiceOneResult = $choiceOneEduScore + $choiceOneExpScore;
-        $choiceTwoResult = $choiceTwoEduScore + $choiceTwoExpScore;
+        $efficiencyScore = Score::getEvaluationScore($placementChoice->employee);
+        $choiceOneResult = $choiceOneEduScore + $choiceOneExpScore + $efficiencyScore;
+        $choiceTwoResult = $choiceTwoEduScore + $choiceTwoExpScore + $efficiencyScore;
         $placementChoice->update([
             'choice_one_result' => $choiceOneResult,
             'choice_two_result' => $choiceTwoResult,
@@ -132,6 +133,7 @@ class Score
 
     public static function checkIfEducationLevel(Position $position)
     {
+
     }
 
     public static function  checkIfExperienceLevel(Position $position, Employee $employee)
@@ -245,5 +247,25 @@ class Score
         }
 
         return $score;
+    }
+
+    public static function getEvaluationScore(Employee $employee)
+    {
+        if (!$employee) {
+            abort(403, 'employee not found');
+        }
+        if ($employee->evaluations->count() < 0) {
+            abort(403, $employee->first_name.' '.$employee->father_name.' '.$employee->grand_father_name.' doesn\'t have evaluation score');
+        }
+        $evalution = $employee->evaluations->where('quarter_id',1)->first();
+        $employeePosType = $employee->position?->jobTitle?->positionType;
+        $requirement = PositionRequirement::where('name', Constants::EFFICIENCY_CRITERIA)->first();
+        if (!$requirement) {
+            abort(403, 'no sch requirement');
+        }
+        $positionValue = PositionValue::where('position_type_id', $employeePosType->id)->where('position_requirement_id', $requirement->id)->first();
+
+        $effScore = $positionValue->value * $evalution->total_mark / 100;
+        return $effScore;
     }
 }

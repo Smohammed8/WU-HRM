@@ -429,4 +429,14 @@ class Employee extends  Model
     {
         return $this->hasMany(PlacementChoice::class);
     }
+
+    /**
+     * Get all of the evaluations for the Employee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function evaluations(): HasMany
+    {
+        return $this->hasMany(Evaluation::class, 'employee_id', 'id');
+    }
 }

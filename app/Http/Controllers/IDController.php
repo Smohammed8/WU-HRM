@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\ExpiryDate;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class IDController extends Controller
 {
@@ -28,7 +30,8 @@ class IDController extends Controller
         $img = explode('photo//', $employee->photo)[0];
         $qrcode = $request->get('qrValue');
         $barcode = $request->get('barValue');
-        $pdf = Pdf::loadView('ID.printID', compact('employee', 'qrcode', 'barcode', 'role_left', 'img'))->setPaper('a4', 'landscape');
+        $expireDate = Carbon::now()->addYears($employee->employeeCategory->expir_date);
+        $pdf = Pdf::loadView('ID.printID', compact('employee', 'qrcode', 'barcode', 'role_left', 'img','expireDate'))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 }

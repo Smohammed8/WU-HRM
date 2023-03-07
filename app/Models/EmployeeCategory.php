@@ -18,6 +18,7 @@ class EmployeeCategory extends Model
      */
     protected $fillable = [
         'name',
+        'expir_date'
     ];
 
 
@@ -28,6 +29,7 @@ class EmployeeCategory extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'expir_date' => 'integer'
     ];
     /**
      * Get all of the employees for the EmployeeCategory
