@@ -133,13 +133,13 @@ class Score
 
     public static function checkIfEducationLevel(Position $position)
     {
-
+        
     }
 
     public static function  checkIfExperienceLevel(Position $position, Employee $employee)
     {
         $eligible = false;
-        $posMinExp = $position->jobTitle->total_minimum_work_experience;
+        $posMinExp = $position->jobTitle?->total_minimum_work_experience;
         $emploExp = Carbon::now()->diff(Carbon::parse($employee->employement_date))->y;
 
         if ($emploExp >= $posMinExp) {
