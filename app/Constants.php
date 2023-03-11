@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use Andegna\DateTimeFactory;
 use Carbon\Carbon;
 
@@ -9,6 +10,30 @@ class Constants
     const EMPLOYEE_PHOTO_UPLOAD_PATH = '/employee/photo/';
     const EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH = '/employee/driver_license/';
     const EMPLOYEE_LICESNSES_UPLOAD_PATH = 'uploads/employee/licenses';
+
+    const JOB_LEVELS = [
+        'I' => 1,
+        'II' => 2,
+        'III' => 3,
+        'IV' => 4,
+        'V' => 5,
+        'VI' => 6,
+        'VII' => 7,
+        'IX' => 8,
+        'X' => 9,
+        'XI' => 10,
+        'XII' => 11,
+        'XIII' => 12,
+        'XIV' => 13,
+        'XV' => 14,
+        'XVI' => 15,
+        'XVII' => 16,
+        'XVIII' => 17,
+        'XIX' => 18,
+        'XX' => 19,
+        'XXI' => 20,
+        'XXII' => 21,
+    ];
     const COLLEGES = [
         0 => 'CENTER',
         1 => 'BECO',

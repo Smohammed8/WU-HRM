@@ -26,18 +26,13 @@ class PlacementChoiceRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-
-   
                 'employee_id' => 'required|unique:placement_choices,employee_id'.request()->id,
-
                 'choice_one_id' => 'required',
                 'choice_two_id' => 'required',
-            
-
               //  'employee_id' => 'required|unique:placement_choices.employee_id'.request()->id,
              //  'employee_id' => 'required|unique:placement_choices.employee_id',
             //'title' => 'required|unique:posts,title'
-            
+
         ];
     }
 
@@ -61,7 +56,7 @@ class PlacementChoiceRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'employee_id.unique'=>'Employee choice exist for this round.'
         ];
     }
 }
