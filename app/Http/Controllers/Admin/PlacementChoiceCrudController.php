@@ -52,18 +52,20 @@ class PlacementChoiceCrudController extends CrudController
     {
 
 
-        $this->crud->addFilter([
-        
-            'name'  => 'choice_two_id',
-            'type'  => 'select2_multiple',
-            'label' => 'Who are apply for this postion?'
-        ], function () {
-            return \App\Models\Position::all()->pluck('name', 'id')->toArray();
-        },
-         function ($values) {
-        
-            $this->crud->addClause('whereIn', 'choice_two_id', json_decode($values));
-        });
+        $this->crud->addFilter(
+            [
+                'name'  => 'choice_two_id',
+                'type'  => 'select2_multiple',
+                'label' => 'Who are apply for this postion?'
+            ],
+            function () {
+                return \App\Models\Position::all()->pluck('name', 'id')->toArray();
+            },
+            function ($values) {
+
+                $this->crud->addClause('whereIn', 'choice_two_id', json_decode($values));
+            }
+        );
 
 
 
@@ -71,24 +73,42 @@ class PlacementChoiceCrudController extends CrudController
         $placementRound = PlacementRound::find($placementRoundId);
         if ($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_CLOSED) {
             $this->crud->removeAllButtons();
-                  //$this->crud->removeAllButtonsFromStack('line');
+            //$this->crud->removeAllButtonsFromStack('line');
         }
         //$this->crud->removeAllButtonsFromStack('line');
-       
+
         // if($this->crud->getCurrentEntry()){
         // }
         // CRUD::column('placementRound.round')->label('Round');
         CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->label('Employee');
-        CRUD::column('choiceOne.jobTitle.name')->label('Choice One');
-        CRUD::column('choiceTwo.jobTitle.name')->label('Choice Two');
+        $this->crud->addColumn([
+            'name'     => 'choiceOne.jobTitle.name',
+            'label'    => 'Choice One',
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                return $entry->is_placement_choice_switched == true ? $entry->choiceTwo->name : $entry->choiceOne->name;
+            }
+        ]);
+        $this->crud->addColumn([
+            'name'     => 'choiceTwo.jobTitle.name',
+            'label'    => 'Choice Two',
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                return $entry->is_placement_choice_switched == true ? $entry->choiceOne->name : $entry->choiceTwo->name;
+            }
+        ]);
+        // CRUD::column('choiceOne.jobTitle.name')->label('Choice One');
+        // CRUD::column('choiceTwo.jobTitle.name')->label('Choice Two');
         CRUD::column('choice_one_result')->label('Result One');
         CRUD::column('choice_two_result')->label('Result Two');
         CRUD::column('choice_one_rank')->label('Rank One');
+
         CRUD::column('choice_two_rank')->label('Rank Two');
         CRUD::column('new_position')->type('select')->model(Position::class)->entity('newPosition')->attribute('position_info')->label('New Position');
         $this->crud->denyAccess('show');
-       // $this->crud->denyAccess('update');
-       // $this->crud->denyAccess('delete');
+
+        // $this->crud->denyAccess('update');
+        // $this->crud->denyAccess('delete');
         $placementRound = \Route::current()->parameter('placement_round');
         $this->data['placementRound'] = PlacementRound::find($placementRound);
         /**
@@ -105,8 +125,8 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-       // $this->crud->setValidation(CreateRequest::class);
-      
+        // $this->crud->setValidation(CreateRequest::class);
+
         $placementRound = \Route::current()->parameter('placement_round');
         CRUD::setValidation(PlacementChoiceRequest::class);
         CRUD::field('placement_round_id')->type('hidden')->value($placementRound);
