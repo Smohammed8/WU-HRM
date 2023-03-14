@@ -50,9 +50,34 @@ class Score
     }
     public static function computeResult()
     {
+        Score::switchUserChoiceBasedOnLevel();
         $palcementChoices = PlacementChoice::all();
         foreach ($palcementChoices as $palcementChoice) {
             Score::calculateChoiceResult($palcementChoice);
+        }
+    }
+
+    public static function switchUserChoiceBasedOnLevel()
+    {
+        $placementChoices = PlacementChoice::all();
+        foreach($placementChoices as $placementChoice){
+            $choiceOneLevel = $placementChoice->choiceOne->jobTitle->level;
+            $choiceTwoLevel = $placementChoice->choiceTwo->jobTitle->level;
+            if(array_key_exists($choiceOneLevel->name,Constants::JOB_LEVELS)){
+                if(array_key_exists($choiceTwoLevel->name,Constants::JOB_LEVELS)){
+                    if(Constants::JOB_LEVELS[$choiceOneLevel->name]<Constants::JOB_LEVELS[$choiceTwoLevel->name] && $placementChoice->is_placement_choice_switched != true ){
+                        $placementChoice->update([
+                            'choice_one_id' => $placementChoice->choice_two_id,
+                            'choice_two_id' => $placementChoice->choice_one_id,
+                            'is_placement_choice_switched' => true
+                        ]);
+                    }
+                }else{
+                    return abort(505,'Unable to find job level of '.$choiceTwoLevel->name);
+                }
+            }else{
+                return abort(505,'Unable to find job level of '.$choiceOneLevel->name);
+            }
         }
     }
 
@@ -133,7 +158,7 @@ class Score
 
     public static function checkIfEducationLevel(Position $position)
     {
-        
+
     }
 
     public static function  checkIfExperienceLevel(Position $position, Employee $employee)
@@ -141,11 +166,9 @@ class Score
         $eligible = false;
         $posMinExp = $position->jobTitle?->total_minimum_work_experience;
         $emploExp = Carbon::now()->diff(Carbon::parse($employee->employement_date))->y;
-
         if ($emploExp >= $posMinExp) {
             $eligible = true;
         }
-
         return $eligible;
     }
     public static function canApplyOnPosition(Position $position, Employee $employee)

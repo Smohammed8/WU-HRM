@@ -24,6 +24,7 @@ class PlacementChoice extends Model
         'choice_two_result',
         'choice_one_rank',
         'choice_two_rank',
+        'is_placement_choice_switched',
         'new_position'
     ];
 
