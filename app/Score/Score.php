@@ -166,11 +166,9 @@ class Score
         $eligible = false;
         $posMinExp = $position->jobTitle?->total_minimum_work_experience;
         $emploExp = Carbon::now()->diff(Carbon::parse($employee->employement_date))->y;
-
         if ($emploExp >= $posMinExp) {
             $eligible = true;
         }
-
         return $eligible;
     }
     public static function canApplyOnPosition(Position $position, Employee $employee)

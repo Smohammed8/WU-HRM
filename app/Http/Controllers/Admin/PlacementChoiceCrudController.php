@@ -41,6 +41,7 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-round/' . $placementRound . '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
         $this->crud->setListView('placement_choice.show');
+
     }
     /**
      * Define what happens when the List operation is loaded.
@@ -50,8 +51,6 @@ class PlacementChoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
-
         $this->crud->addFilter(
             [
                 'name'  => 'choice_two_id',
