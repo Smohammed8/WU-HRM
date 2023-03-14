@@ -15,6 +15,7 @@ use App\Http\Controllers\IDCardController;
 use App\Http\Controllers\IDController;
 use App\Http\Controllers\IDSignaturesController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\PlacementChoiceController;
 use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use App\Models\Employee;
@@ -84,3 +85,8 @@ Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.
 Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id')->middleware('auth');
 Route::resource('signature', IDSignaturesController::class)->middleware('auth');
 Route::get('field_of_study/sync',[ FieldOfStudyCrudController::class,'syncFieldOfStudy'])->name('field_of_study.sync')->middleware('auth');
+
+
+Route::resource('round/{placement_round}/placement-choice', PlacementChoiceController::class);
+Route::post('choice-based-employee', [PlacementChoiceController::class, 'choiceBasedEmployee']);
+Route::post('remove-choosed-position', [PlacementChoiceController::class, 'removeChoosedPosition']);
