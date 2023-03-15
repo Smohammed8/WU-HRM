@@ -238,10 +238,11 @@
     <?php
 
     $dataPoints = array(
-        array("label"=>"Admin Sytaff", "y"=>90),
-        array("label"=>"Academic staff", "y"=>4),
-        array("label"=>"Health staff", "y"=>4),
-        array("label"=>"Others", "y"=>8),
+        array("label"=>"Administrative staff", "y"=>99),
+        array("label"=>"Academics 	 staff", "y"=>0.3),
+        array("label"=>"Health staff", "y"=>0.3),
+        array("label"=>"Research", "y"=>0.4),
+
 
     )
 

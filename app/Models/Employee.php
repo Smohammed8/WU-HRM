@@ -173,7 +173,8 @@ class Employee extends  Model
         'job_title_id' => 'integer',
         'employment_type_id' => 'integer',
         'employment_status_id' => 'integer',
-        'employee_title_id' =>'integer'
+        'employee_title_id' =>'integer',
+        'educational_level_id' =>'integer',
     ];
 
     public function getDateOfBirthAttribute()

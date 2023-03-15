@@ -59,6 +59,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
+use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
 /**
  * Class EmployeeCrudController
@@ -73,11 +74,12 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
 
     /**
@@ -176,18 +178,40 @@ class EmployeeCrudController extends CrudController
         $this->crud->enableDetailsRow();
         $this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
-        $this->crud->setOperationSetting('persistentTableDuration', 120); //for 2 hours persistency.
-    //    $this->crud->denyAccess('delete');
+     //   $this->crud->disablePersistentTable();
+        $this->crud->setOperationSetting('persistentTableDuration', 60); //for 1 hours persistency.
+        $this->crud->denyAccess('delete');
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
+
+// column with custom search logic
+$this->crud->addColumn([
+    'name'        => 'first_name',
+    'label'       => 'FirstName',
+    'searchLogic' => function ($query, $column, $searchTerm) {
+        $query->orWhere('first_name', 'like', '%'.$searchTerm.'%');
+    }
+]);
+
 
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-        CRUD::column('employment_identity')->label('ID Number');
+      //  CRUD::column('employment_identity')->label('ID Number');
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
         CRUD::column('position.unit.name')->label('Origanizational unit')->type('select')->entity('position.unit')->model(Unit::class);
-        CRUD::column('employement_date')->type('date');
-        $this->crud->addFilter(
+       //  CRUD::column('employement_date')->type('date');
+      
+       $this->crud->addColumn([
+        'name' => 'educational_level_id',
+        'type' => 'select',
+        'entity' => 'educationLevel',
+        'model' => EducationalLevel::class,
+        'attribute' => 'name'
+       ]);
+
+       // CRUD::column('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Education');
+
+         $this->crud->addFilter(
             [
                 'type'  => 'select2',
                 'name'  => 'employee_category_id',
