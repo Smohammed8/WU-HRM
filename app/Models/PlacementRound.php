@@ -36,7 +36,14 @@ class PlacementRound extends Model
     public function placementChoicesButtonView($crud = false)
     {
         $route =  route('placement-round/{placement_round}/placement-choice.index',['placement_round'=>$this->id]); // custome toute here
-        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-list"></i>Placement Choices </a>';
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Placement choice"><i class="la la-list"></i>Placement Choices </a>';
+    }
+
+
+    public function placementResultButtonView($crud = false)
+    {
+        $route =  route('result'); // custome toute here
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Placement result with analysis"><i class="fa fa-users"></i> Placement Analysis </a>';
     }
 
 }

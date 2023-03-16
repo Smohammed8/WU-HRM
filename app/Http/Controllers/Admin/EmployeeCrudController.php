@@ -184,13 +184,13 @@ class EmployeeCrudController extends CrudController
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
 // column with custom search logic
-$this->crud->addColumn([
-    'name'        => 'first_name',
-    'label'       => 'FirstName',
-    'searchLogic' => function ($query, $column, $searchTerm) {
-        $query->orWhere('first_name', 'like', '%'.$searchTerm.'%');
-    }
-]);
+// $this->crud->addColumn([
+//     'name'        => 'first_name',
+//     'label'       => 'FirstName',
+//     'searchLogic' => function ($query, $column, $searchTerm) {
+//         $query->orWhere('first_name', 'like', '%'.$searchTerm.'%');
+//     }
+// ]);
 
 
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {

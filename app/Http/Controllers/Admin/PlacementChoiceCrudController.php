@@ -6,6 +6,7 @@ use App\Constants;
 use App\Http\Requests\PlacementChoiceRequest;
 use App\Models\PlacementRound;
 use App\Models\Position;
+use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\PlacementChoice;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Redirect;
 use Prologue\Alerts\Facades\Alert;
 use App\Http\Requests\CreateTagRequest as StoreRequest;
 use App\Http\Requests\UpdateTagRequest as UpdateRequest;
+use App\Models\EvalutionCreteria;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class PlacementChoiceCrudController
@@ -43,6 +47,65 @@ class PlacementChoiceCrudController extends CrudController
         $this->crud->setListView('placement_choice.show');
 
     }
+
+   
+     
+    //  $positions = DB::table('positions')->where('unit_id',35)->count();
+    
+
+   public function result(){
+          $units = Unit::where('id','=' ,35)->get();
+         $positions = Position::all();  //35
+
+         //  $positions = Position::where('unit_id','=' ,35)->get();
+
+          $placements = DB::table('placement_choices')->count();
+          $totalPositions = DB::table('positions')->count();
+          
+         // $placement_results = PlacementChoice::all()->paginate(10);
+          $placement_results = PlacementChoice::all();
+        
+            return view('placement_result.index', compact('placement_results','units','positions','placements','totalPositions'));
+
+
+
+
+               
+   }
+
+
+//    public function filter(Request $request){
+  //  if ($request->has('filter')) {
+//     $phone = $request->get('phone');
+//     $woreda_id = $request->get('woreda_id');
+//     $gpa = $request->get('gpa');
+//     if (!empty($first_name)) {
+//         $applicants = $applicants->where('first_name', 'like', '%' . $first_name . '%');
+//     }
+//     if (!empty($father_name)) {
+//         $applicants = $applicants->where('father_name', 'like', '%' . $father_name . '%');
+//     }
+      //}
+
+//    }
+   public function details(Request $request){
+
+
+
+    if ($request->has('filter')) {
+
+      $newposition = $request->get('newposition');
+       $units = Unit::where('id','=' ,35)->get();
+       $positions = Position::all();  //35
+       $placements = DB::table('placement_choices')->count();
+       $totalPositions = DB::table('positions')->count();
+       $placement_results = PlacementChoice::where('new_position','=',$newposition)->get();
+    }
+  
+       return view('placement_result.details', compact('placement_results','units','positions','placements','totalPositions'));
+
+        }
+
     /**
      * Define what happens when the List operation is loaded.
      *

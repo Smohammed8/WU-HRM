@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
 use App\Http\Controllers\Admin\FieldOfStudyCrudController;
 use App\Http\Controllers\Admin\LeaveCrudController;
+use App\Http\Controllers\Admin\PlacementChoiceCrudController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
@@ -61,10 +62,18 @@ Route::post('import', [EmployeeController::class, 'import'])->middleware('auth')
 Route::get('/login', [AuthController::class, 'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
+
+//Route::post('result', [PlacementChoiceController::class, 'result'])->name('result');
+ Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
+ Route::get('/details', [PlacementChoiceCrudController::class, 'details'])->name('details');
+ Route::get('employee/{employee_id}/show', [EmployeeCrudController::class, 'show'])->name('employee');
+
+
+// Route::get('/result', [PlacementChoiceController::class, 'index']);
+ //Route::get('/result',[PlacementChoiceController::class,'result'])->name('result');
 Route::get('/calculate', [EmployeeController::class, 'calculate'])->middleware('auth');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class)->middleware('auth');
 // Route::resource('leave', LeaveCrudController::class);
-
 Route::get( '/hierarchy',
     function () {
         $units = Unit::where('parent_unit_id')->latest()->get();
@@ -72,9 +81,7 @@ Route::get( '/hierarchy',
     }
 )->name('hierarchy')->middleware('auth');
 
-
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show')->middleware('auth');
-
 Route::resource('idcard', IDCardController::class)->middleware('auth');
 Route::get('idcard/{idcard}/show', [IDCardController::class, 'design'])->middleware('auth')->name('idcard.design');
 Route::resource('attribute', IdAttributeController::class)->middleware('auth');
@@ -85,7 +92,6 @@ Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.
 Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id')->middleware('auth');
 Route::resource('signature', IDSignaturesController::class)->middleware('auth');
 Route::get('field_of_study/sync',[ FieldOfStudyCrudController::class,'syncFieldOfStudy'])->name('field_of_study.sync')->middleware('auth');
-
 
 Route::resource('round/{placement_round}/placement-choice', PlacementChoiceController::class);
 Route::post('choice-based-employee', [PlacementChoiceController::class, 'choiceBasedEmployee']);

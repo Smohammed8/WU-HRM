@@ -191,6 +191,13 @@
                                     <label for="">{{ $last_effiency / 3 ?? '-' }}%</label>
                                 </div>
 
+                                {{-- <div class="d-flex justify-content-between">
+                                    <label for=""><b>Last Efficinecy : </b></label>
+                                    <label for="">{{ $crud->entry->evaluations->emoloyee_id }} %</label>
+                                </div> --}}
+
+                            
+
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Job grade: </b></label>
                                     <label for=""> {{ $crud->entry->position->jobTitle->level->name ?? '-' }} </label>

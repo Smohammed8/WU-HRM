@@ -215,6 +215,12 @@
                     class='nav-icon la la-caret-right'></i> Experience criterias</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('placement-round') }}'><i
                     class='nav-icon la la-caret-right'></i> Placement rounds</a></li>
+
+
+                    <li class='nav-item'><a class='nav-link' href="{{route('result') }}"><i
+                        class='nav-icon la la-caret-right'></i> Placement  result </a></li>
+
+                     
     </ul>
 
 </li>

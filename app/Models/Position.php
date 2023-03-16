@@ -68,6 +68,7 @@ class Position extends Model
         return $this->belongsTo(JobTitle::class);
     }
 
+ 
     /**
      * Get all of the minimumRequirements for the Position
      *

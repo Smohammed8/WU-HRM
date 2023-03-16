@@ -37,12 +37,15 @@ class PlacementRoundCrudController extends CrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
+
     protected function setupListOperation()
     {
+        $this->crud->denyAccess('show');
         CRUD::column('round');
         CRUD::column('year');
         CRUD::column('is_open')->label('Open')->type('boolean');
         $this->crud->addButtonFromModelFunction('line', 'placementChoices', 'placementChoicesButtonView', 'beginning');
+        $this->crud->addButtonFromModelFunction('line', 'placementResult', 'placementResultButtonView', 'end');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

@@ -30,9 +30,6 @@ table {
 
         </div>
 
-
-
-
         <div class="modal-body">
 
 
