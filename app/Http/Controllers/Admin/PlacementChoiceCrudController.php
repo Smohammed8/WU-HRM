@@ -17,6 +17,7 @@ use Prologue\Alerts\Facades\Alert;
 use App\Http\Requests\CreateTagRequest as StoreRequest;
 use App\Http\Requests\UpdateTagRequest as UpdateRequest;
 use App\Models\EvalutionCreteria;
+use App\Models\JobTitle;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -88,24 +89,29 @@ class PlacementChoiceCrudController extends CrudController
       //}
 
 //    }
-   public function details(Request $request){
+
+   public function details($new_position_id=null){
 
 
-
-    if ($request->has('filter')) {
-
-      $newposition = $request->get('newposition');
+ 
        $units = Unit::where('id','=' ,35)->get();
        $positions = Position::all();  //35
        $placements = DB::table('placement_choices')->count();
        $totalPositions = DB::table('positions')->count();
-       $placement_results = PlacementChoice::where('new_position','=',$newposition)->get();
-    }
-  
-       return view('placement_result.details', compact('placement_results','units','positions','placements','totalPositions'));
+
+
+        $newPosition_id  = PlacementChoice::select('new_position')->where('new_position', '=', $new_position_id)->get()->first()->new_position;
+        $jobtitle_id  = Position::select('job_title_id')->where('id', '=',$newPosition_id)->get()->first()->job_title_id;
+        $new_position  = JobTitle::select('name')->where('id', '=',$jobtitle_id )->get()->first()->name;
+       
+       // dd( $new_position );
+        $placement_results = PlacementChoice::select('*')->where('new_position', '=',$new_position_id)->get();
+
+      // $placement_results = PlacementChoice::where('new_position','=',$new_position_id)->get();
+
+       return view('placement_result.details', compact('placement_results','units','positions','placements','totalPositions','new_position'));
 
         }
-
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -128,7 +134,6 @@ class PlacementChoiceCrudController extends CrudController
                 $this->crud->addClause('whereIn', 'choice_two_id', json_decode($values));
             }
         );
-
 
 
         $placementRoundId = \Route::current()->parameter('placement_round');

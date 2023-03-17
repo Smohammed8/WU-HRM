@@ -63,11 +63,12 @@ Route::get('/login', [AuthController::class, 'userLoginView'])->name('login')->m
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 
-//Route::post('result', [PlacementChoiceController::class, 'result'])->name('result');
+///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
- Route::get('/details', [PlacementChoiceCrudController::class, 'details'])->name('details');
+// Route::get('/details', [PlacementChoiceCrudController::class, 'details'])->name('details');
  Route::get('employee/{employee_id}/show', [EmployeeCrudController::class, 'show'])->name('employee');
-
+ Route::get('{new_position_id?}/details', [PlacementChoiceCrudController::class, 'details'])->name('PlacementChoice.details');
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Route::get('/result', [PlacementChoiceController::class, 'index']);
  //Route::get('/result',[PlacementChoiceController::class,'result'])->name('result');

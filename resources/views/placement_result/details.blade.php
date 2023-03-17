@@ -22,10 +22,10 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                           <span class="info-box-icon bg-info"> <a href="{{ route('details') }}" title="">  <i class="fa fa-users"></i></a></span>
+                           <span class="info-box-icon bg-info"> <a href="#" title="">  <i class="fa fa-users"></i></a></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text"> <a href ="{{route('details') }}"> No of candidates </a> </span>
+                                <span class="info-box-text"> <a href ="#"> No of candidates </a> </span>
                                 <span class="info-box-number"> {{  '8' }}</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -82,7 +82,8 @@
                
                   <div class="form-group col-10">
                         <h4> 
-                      Candidates for the position of : ____________________ </h4>
+                      Candidates for the position of : <U>{{ $new_position   }} </U>
+                     </h4>
                  </div>
 
                 

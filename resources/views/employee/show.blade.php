@@ -188,7 +188,7 @@
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Last Efficinecy : </b></label>
-                                    <label for="">{{ $last_effiency / 3 ?? '-' }}%</label>
+                                    <label for="">{{ $mark ?? '-' }}%</label>
                                 </div>
 
                                 {{-- <div class="d-flex justify-content-between">

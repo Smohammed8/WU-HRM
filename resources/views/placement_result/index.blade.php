@@ -75,6 +75,35 @@
                 </div>
                 <!-- /.row -->
 
+             
+                @push('css')
+                <style>
+                    .select2,
+                    .select2-container,
+                    .select2-container--default,
+                    .select2-container--below {
+                        width: 100% !important;
+                    }
+                </style>
+            @endpush
+         
+      
+          <script>
+             
+              $( document ).ready(function() {
+                  $('#position').select2({
+                  });
+      
+              });
+              $( document ).ready(function() {
+                  $('#unit').select2({
+                  });
+      
+              });
+      
+          </script>
+
+
                 <!-- =========================================================== -->
                 <div class="row ">
 
@@ -156,16 +185,29 @@
                                 <td> {{ $placement_result->newPosition->jobTitle->name ?? '-' }}  at <u>{{ $placement_result->newPosition->unit->name ?? '-' }} </u> </td>
                             
 
-
+                            
 
                             <td>
+{{-- 
+                                @if(is_null($placement_result->newPosition->jobTitle->id))
 
-                             
+                                <a href="#" title="Make analysis" class="btn btn-sm btn-primary float-right">
+                                    <i class="fa fa-list">  </i> 
+                                </a> 
+
+                                @else  --}}
+                                {{-- $placement_result->newPosition?->jobTitle->id   --}}
+
+
+                                <a href="{{ route('PlacementChoice.details', ['new_position_id'=> $placement_result->newPosition?? null  ]) }}" title="Make analysis" class="btn btn-sm btn-primary float-right">
+                                    <i class="fa fa-list">  </i> 
+                                </a> 
+
+                                {{-- @endif --}}
+                        
                                    
-                                {{-- <a href="{{ route('employee', ['employee_id'=>$placement_result->employee->id]) }}" title="Make analysis" class="btn btn-sm btn-primary float-right">
-                                    <i class="fa fa-user">  </i> Profile
-                                </a> --}}
-
+                              
+                                      {{-- 
                                 <form method="GET" action="{{ route('details',[]) }}">
 
                                         @csrf
@@ -176,9 +218,10 @@
                                    <span class="fa fa-list"></span>
                                   </button>
 
-                                </form>
+                                </form> --}}
                             
-                                       
+                                {{-- {{ route('payrollSheet.payee', ['payroll_sheet_id'=> $payroll_sheet->id]) }} --}}
+
                               
                             </td>
                             
@@ -186,7 +229,7 @@
                     @endforeach
                     @if (count($placement_results) == 0)
                     <tr>
-                        <td colspan="7" class="text-center">No placement found! </td>
+                        <td colspan="7" class="text-center"> No placement found! </td>
                     </tr>
                 @endif
                   
