@@ -29,6 +29,9 @@ class PayrollCrudController extends CrudController
         CRUD::setModel(\App\Models\Payroll::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/payroll');
         CRUD::setEntityNameStrings('payroll', 'payrolls');
+
+        $this->crud->addButtonFromModelFunction('line', 'sheet', 'payrollSheet', 'end');
+    
     }
 
     /**
@@ -39,6 +42,7 @@ class PayrollCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->denyAccess('show');
         CRUD::column('code');
         CRUD::column('year');
         CRUD::column('month');
@@ -59,6 +63,8 @@ class PayrollCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+
+      
         CRUD::setValidation(PayrollRequest::class);
 
         CRUD::field('code')->size(4);

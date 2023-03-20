@@ -43,7 +43,25 @@ class PlacementRound extends Model
     public function placementResultButtonView($crud = false)
     {
         $route =  route('result'); // custome toute here
-        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Placement result with analysis"><i class="fa fa-users"></i> Placement Analysis </a>';
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Placement result with analysis"><i class="la la-th-list"></i> Placement Analysis </a>';
     }
+
+    public function committeeButtonView($crud = false)
+    {
+
+        $route =  backpack_url('committee'); // custome toute here
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="List of committees who approved placement"><i class="fa fa-users"></i> Committees </a>';
+    }
+
+
+    public function complainButtonView($crud = false)
+    {
+        
+
+        $route =  backpack_url('complaint'); // custome toute here
+
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Employee complians after placement made"><i class="la la-user-tie"></i> Complains </a>';
+    }
+
 
 }

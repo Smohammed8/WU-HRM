@@ -39,7 +39,7 @@ class CommitteeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('round_id');
+        CRUD::column('round.year')->label('Placement round');
         CRUD::column('first_name');
         CRUD::column('father_name');
         CRUD::column('gender');
@@ -63,12 +63,13 @@ class CommitteeCrudController extends CrudController
     {
         CRUD::setValidation(CommitteeRequest::class);
 
-        CRUD::field('round_id')->size(4);
-        CRUD::field('first_name')->size(4);
-        CRUD::field('father_name')->size(4);
-        CRUD::field('gender')->type('enum')->size(4);
-        CRUD::field('phone')->size(4);
-        CRUD::field('role')->size(4);
+        CRUD::field('round_id')->label('Placement round')->size(6);
+       // CRUD::field('round_id')->type('hidden')->value('1');
+        CRUD::field('first_name')->size(6);
+        CRUD::field('father_name')->size(6);
+        CRUD::field('gender')->type('enum')->size(6);
+        CRUD::field('phone')->size(6);
+        CRUD::field('role')->size(6);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

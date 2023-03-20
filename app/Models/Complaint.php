@@ -21,6 +21,7 @@ class Complaint extends Model
         'phone',
         'complian_message',
         'isReviewed',
+        'round_id'
     ];
 
     /**
@@ -42,5 +43,10 @@ class Complaint extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class);
+    }
+
+    public function round()
+    {
+        return $this->belongsTo(PlacementRound::class);
     }
 }

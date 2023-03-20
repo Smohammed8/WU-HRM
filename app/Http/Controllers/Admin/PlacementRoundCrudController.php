@@ -47,6 +47,11 @@ class PlacementRoundCrudController extends CrudController
         $this->crud->addButtonFromModelFunction('line', 'placementChoices', 'placementChoicesButtonView', 'beginning');
         $this->crud->addButtonFromModelFunction('line', 'placementResult', 'placementResultButtonView', 'end');
 
+       
+        $this->crud->addButtonFromModelFunction('line', 'committee', 'committeeButtonView', 'end');
+        $this->crud->addButtonFromModelFunction('line', 'complain', 'complainButtonView', 'end');
+
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

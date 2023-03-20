@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\Employee;
 use App\Http\Requests\ComplaintRequest;
+use App\Models\PlacementRound;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -39,7 +40,10 @@ class ComplaintCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('employee_id')->label('Employee Name');
+       // CRUD::column('employee_id')->label('Employee Name');
+
+        CRUD::column('round.year')->label('Placement round')->size(6);
+        CRUD::column('employee_id')->label('Select employee')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
         CRUD::column('unit_id')->label('Working unit');
         CRUD::column('phone');
         CRUD::column('complian_message');
@@ -62,8 +66,10 @@ class ComplaintCrudController extends CrudController
     {
         CRUD::setValidation(ComplaintRequest::class);
 
+        CRUD::field('round_id')->label('Placement round')->size(6);
+       // CRUD::field('round_id')->label('Placement round')->type('select2')->entity('placementRound')->model(PlacementRound::class)->attribute('year')->size(6);
 
-        CRUD::field('employee_id')->label('Employee Name')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
+        CRUD::field('employee_id')->label('Employee Name')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
         CRUD::field('unit_id')->label('Working unit')->size(6);
         CRUD::field('phone')->label('Contact phone')->size(6);
         CRUD::field('complian_message');

@@ -18,6 +18,7 @@ class CreateComplaintsTable extends Migration
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->nullable()->constrained();
+            $table->foreignId('round_id')->nullable()->constrained('placement_rounds');
             $table->foreignId('unit_id')->nullable()->constrained();
             $table->string('phone')->nullable();
             $table->text('complian_message')->nullable();

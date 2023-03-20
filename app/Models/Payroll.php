@@ -37,4 +37,15 @@ class Payroll extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+    public function payrollSheet($crud = false)
+    {
+        
+
+        $route =  backpack_url('payroll-sheet'); // custome toute here
+
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Payroll Sheet"><i class="fa fa-list"></i> Payroll Sheet </a>';
+    }
+
 }
