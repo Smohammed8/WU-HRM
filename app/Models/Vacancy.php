@@ -21,6 +21,7 @@ class Vacancy extends Model
         'registration_start_date',
         'registration_end_date',
         'position_id',
+        'number_of_vacants',
         'description',
     ];
 

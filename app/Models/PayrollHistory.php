@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ChairManType extends Model
+class PayrollHistory extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -16,26 +16,9 @@ class ChairManType extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
+        'sheet_id',
+        'total_paid',
     ];
-
-    public function getNameAttribute()
-    {
-        return $this->attributes['name'];
-
-    }
-
-    public function chairManType()
-    {
-        return $this->belongsTo(Unit::class);
-    }
-    
-    public function getProfile($crud = false){
-        return '<a class ="btn btn-sm btn-link" target="blank" href="http://google.com" </a>';
-
-        # code...
-    }
 
     /**
      * The attributes that should be cast to native types.
@@ -44,5 +27,12 @@ class ChairManType extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'sheet_id' => 'integer',
+        'created_at' => 'date',
     ];
+
+    public function sheet()
+    {
+        return $this->belongsTo(PayrollSheet::class);
+    }
 }

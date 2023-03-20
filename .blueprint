@@ -1,7 +1,16 @@
 created:
-    - database/factories/PositionCodeFactory.php
-    - database/migrations/2023_01_09_124612_create_position_codes_table.php
-    - app/Models/PositionCode.php
+    - database/factories/CommitteeFactory.php
+    - database/factories/PayrollFactory.php
+    - database/factories/PayrollSheetFactory.php
+    - database/factories/PayrollHistoryFactory.php
+    - database/migrations/2023_03_20_083809_create_committees_table.php
+    - database/migrations/2023_03_20_083810_create_payrolls_table.php
+    - database/migrations/2023_03_20_083811_create_payroll_sheets_table.php
+    - database/migrations/2023_03_20_083812_create_payroll_histories_table.php
+    - app/Models/Committee.php
+    - app/Models/Payroll.php
+    - app/Models/PayrollSheet.php
+    - app/Models/PayrollHistory.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -70,3 +79,7 @@ models:
     Candidate: { vacancy_id: 'id foreign', employee_id: 'id foreign nullable', first_name: 'string:255 nullable', father_name: 'string:255 nullable', grand_father_name: 'string:255 nullable', dob: 'date nullable', field_of_study_id: 'id foreign', educational_level_id: 'id foreign', gpa: float, gender: 'enum:Male,Female', disablity_status: 'bool nullable', email: 'string:255 nullable', phone: 'string:255 nullable', year_of_graduation: 'integer nullable', nationality_id: 'id foreign', total_experience: 'integer nullable default:0', job_position_experience: 'integer nullable default:0', mark: float }
     Vacancy: { type: 'enum:Internal,External', registration_start_date: date, registration_end_date: date, position_id: 'id foreign', description: 'text nullable' }
     PositionCode: { employee_id: 'id foreign nullable', position_id: 'id foreign', code: 'string:255' }
+    Committee: { round_id: 'foreign:placement_rounds.id nullable', first_name: 'string nullable', father_name: 'string nullable', gender: 'string nullable', phone: 'string nullable', role: 'string nullable' }
+    Payroll: { code: 'string nullable', year: 'integer nullable', month: 'integer nullable', user_id: 'foreign:users.id nullable', created_at: 'date nullable' }
+    PayrollSheet: { payroll_id: 'foreign:payrolls.id', sheet_code: 'string nullable', year: 'integer nullable', month: 'integer nullable', user_id: 'foreign:users.id', created_at: 'date nullable' }
+    PayrollHistory: { sheet_id: 'foreign:payroll_sheets.id nullable', total_paid: 'decimal(10,2) nullable', created_at: 'date nullable' }

@@ -110,4 +110,18 @@ Route::group([
     Route::post('vacancy/{vacancy}/candidate/{candidate}/addMark', [CandidateCrudController::class,'addMark'])->name('candidate.addMark');
     Route::crud('position/{position}/position-code', 'PositionCodeCrudController');
     Route::get('vacancy/{vacancy}/screen', 'VacancyCrudController@screen')->name('vacancy.screen');
+    Route::crud('candidate', 'CandidateCrudController');
+    Route::crud('committee', 'CommitteeCrudController');
+    Route::crud('expiry-date', 'ExpiryDateCrudController');
+    Route::crud('i-d-card', 'IDCardCrudController');
+    Route::crud('i-d-signatures', 'IDSignaturesCrudController');
+    Route::crud('id-attribute', 'IdAttributeCrudController');
+    Route::crud('job-title', 'JobTitleCrudController');
+    Route::crud('payroll', 'PayrollCrudController');
+    Route::crud('payroll-history', 'PayrollHistoryCrudController');
+    Route::crud('payroll-sheet', 'PayrollSheetCrudController');
+    Route::crud('placement-choice', 'PlacementChoiceCrudController');
+    Route::crud('position-code', 'PositionCodeCrudController');
+    Route::crud('related-work', 'RelatedWorkCrudController');
+    Route::crud('skill', 'SkillCrudController');
 });

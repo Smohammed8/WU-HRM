@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVacanciesTable extends Migration
+class CreatePayrollHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,14 +15,11 @@ class CreateVacanciesTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('vacancies', function (Blueprint $table) {
+        Schema::create('payroll_histories', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ["Internal","External","Internal & Extarenal"]);
-            $table->date('registration_start_date');
-            $table->date('registration_end_date');
-            $table->foreignId('position_id')->constrained();
-            $table->integer('number_of_vacants ')->nullable();
-            $table->text('description')->nullable();
+            $table->foreignId('sheet_id')->nullable()->constrained('payroll_sheets');
+            $table->string('total_paid')->nullable();
+           // $table->date('created_at')->nullable();
             $table->timestamps();
         });
 
@@ -36,6 +33,6 @@ class CreateVacanciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vacancies');
+        Schema::dropIfExists('payroll_histories');
     }
 }

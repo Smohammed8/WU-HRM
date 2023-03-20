@@ -92,6 +92,9 @@ class OrganizationCrudController extends CrudController
          $this->crud->addButtonFromModelFunction('line', 'open_google', 'viewStructure', 'end');
 
 
+         $this->crud->denyAccess(['create', 'show']);
+       //  $this->crud->denyAccess(['create', 'update', 'delete']);
+
         // $this->crud->addButtonFromView('line', 'moderate', 'moderate', 'beginning');
 
         CRUD::column('name');
@@ -127,6 +130,7 @@ class OrganizationCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(OrganizationRequest::class);
+
 
         CRUD::field('name')->size(12);
         // CRUD::field('email')->size(4);

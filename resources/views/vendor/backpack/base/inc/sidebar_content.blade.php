@@ -217,13 +217,47 @@
                     class='nav-icon la la-caret-right'></i> Placement rounds</a></li>
 
 
-                    <li class='nav-item'><a class='nav-link' href="{{route('result') }}"><i
+     <li class='nav-item'><a class='nav-link' href="{{route('result') }}"><i
                         class='nav-icon la la-caret-right'></i> Placement  result </a></li>
+
+                        <li class='nav-item'><a class='nav-link' href="{{ backpack_url('committee') }}"><i
+                            class='nav-icon la la-caret-right'></i> Committees </a></li>           
+
+                    
+
+
 
                      
     </ul>
 
 </li>
+
+{{-- @canany(['payroll.icrud', 'payroll.index', 'payroll_sheet.icrud', 'payroll_sheet.index','payroll_history.icrud', 'payroll_history.index']) --}}
+    <li class="nav-item nav-dropdown">
+        <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i>  Payroll
+            managment
+        </a>
+        <ul class="nav-dropdown-items">
+      
+            {{-- @canany(['payroll.icrud', 'payroll.index']) --}}
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payroll') }}'><i
+                            class='nav-icon la la-caret-right'></i> Payroll</a></li>
+            {{-- @endcanany --}}
+            {{-- @canany(['payroll_sheet.icrud', 'evaluation_level.index']) --}}
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payroll-sheet') }}'><i
+                            class='nav-icon la la-caret-right'></i> Payrol Sheet</a></li>
+            {{-- @endcanany --}}
+            {{-- @canany(['payroll_history.icrud', 'payroll_history.index']) --}}
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payroll-history') }}  '><i
+                            class='nav-icon la la-caret-right'></i>  Payment history</a></li>
+            {{-- @endcanany --}}
+
+   
+     </ul>
+    </li>
+{{-- @endcanany --}}
+
+
 @canany(['vacancy.icrud', 'vacancy.index'])
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-plus"></i> Recruitment
@@ -289,6 +323,7 @@
         </ul>
     </li>
 @endcanany
+
 
 
 <li class="nav-item nav-dropdown">

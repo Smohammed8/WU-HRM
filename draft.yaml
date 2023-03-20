@@ -339,6 +339,34 @@ models:
     #   nine: decimal(10,2)
     #   ceil_salary: decimal(10,2)
 
+      # Committee:
+      #   round_id: foreign:placement_rounds.id nullable
+      #   first_name: string nullable
+      #   father_name: string nullable
+      #   gender: string
+      #   phone:  string nullable
+      #   role: string nullable
+      # Payroll:
+      #   code: string nullable
+      #   year: integer nullable
+      #   month: integer nullable
+      #   user_id: foreign:users.id nullable
+      #   created_at: date nullable
+
+      # PayrollSheet:
+      #   payroll_id: foreign:payrolls.id
+      #   sheet_code: string nullable
+      #   year: integer nullable
+      #   month: integer nullable
+      #   user_id: foreign:users.id
+      #   created_at: date nullable
+      # PayrollHistory:
+      #   sheet_id: foreign:payroll_sheets.id nullable
+      #   total_paid:  decimal(10,2) nullable
+      #   created_at: date nullable
+
+
+
 
 
 

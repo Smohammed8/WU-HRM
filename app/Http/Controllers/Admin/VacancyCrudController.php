@@ -94,7 +94,9 @@ class VacancyCrudController extends CrudController
         CRUD::column('registration_start_date');
         CRUD::column('registration_end_date');
         CRUD::column('position_id')->label('Job Position')->type('select')->entity('position')->model(Position::class)->attribute('position_info')->size(6);
+        CRUD::column('number_of_vacants')->label('No of vaccant');
         CRUD::column('description');
+ 
         $this->crud->addButtonFromModelFunction('line', 'candidates', 'candidatesButtonView', 'beginning');
 
         /**

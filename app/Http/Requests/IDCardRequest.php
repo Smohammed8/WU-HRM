@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChairManTypeRequest extends FormRequest
+class IDCardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,6 +16,7 @@ class ChairManTypeRequest extends FormRequest
         // only allow updates if the user is logged in
         return backpack_auth()->check();
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,9 +25,7 @@ class ChairManTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:chair_man_types,name,' . request()->id,
-          //  'username' => 'required|string|min:3|max:50|alpha_dash|unique:chair_man_types,username,' . request()->id,
-            'description' => 'nullable|min:10|max:255',
+            // 'name' => 'required|min:5|max:255'
         ];
     }
 

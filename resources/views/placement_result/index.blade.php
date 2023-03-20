@@ -188,22 +188,20 @@
                             
 
                             <td>
-{{-- 
-                                @if(is_null($placement_result->newPosition->jobTitle->id))
 
-                                <a href="#" title="Make analysis" class="btn btn-sm btn-primary float-right">
+                                @if(is_null($placement_result->newPosition?->jobTitle->id))
+
+                                <a href="#" title="No placed" class="btn btn-sm btn-primary float-right">
                                     <i class="fa fa-list">  </i> 
                                 </a> 
 
-                                @else  --}}
-                                {{-- $placement_result->newPosition?->jobTitle->id   --}}
-
-
+                                @else  
+                             
                                 <a href="{{ route('PlacementChoice.details', ['new_position_id'=> $placement_result->newPosition?? null  ]) }}" title="Make analysis" class="btn btn-sm btn-primary float-right">
                                     <i class="fa fa-list">  </i> 
                                 </a> 
 
-                                {{-- @endif --}}
+                             @endif 
                         
                                    
                               

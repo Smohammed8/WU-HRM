@@ -91,7 +91,9 @@ class UnitCrudController extends CrudController
     {
 
 
+        
         $this->crud->denyAccess('delete');
+        $this->crud->denyAccess('show');
 
         $this->crud->addButtonFromModelFunction('line', 'view_office', 'viewOffice', 'end');
 
@@ -114,10 +116,13 @@ class UnitCrudController extends CrudController
         // CRUD::column('value_list');
 
 
-        CRUD::column('parentUnit.name')->label('Accountable to');
+       CRUD::column('parentUnit.name')->label('Accountable to');
         CRUD::column('chairManType.name')->label('Office chairman');
 
+       // CRUD::field('chair_man_type_id')->label('Office chairman')->type('select')->entity('employee')->model(Employee::class)->attribute('name');
+    
 
+       
 
 
         //  CRUD::column('parent_unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
@@ -162,6 +167,9 @@ class UnitCrudController extends CrudController
         //  CRUD::field('reports_to_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
         CRUD::field('organization_id')->size(6)->type('select2')->entity('organization')->model(Organization::class)->attribute('name');
         CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(ChairManType::class)->attribute('name');
+
+        CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(Employee::class)->attribute('name');
+      
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
