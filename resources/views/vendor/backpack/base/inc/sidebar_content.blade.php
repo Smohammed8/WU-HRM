@@ -223,9 +223,11 @@
                         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('committee') }}"><i
                             class='nav-icon la la-caret-right'></i> Committees </a></li>           
 
+
+   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('complaint') }}"><i
+                            class='nav-icon la la-caret-right'></i> Placement Complaints </a></li>   
+                            
                     
-
-
 
                      
     </ul>

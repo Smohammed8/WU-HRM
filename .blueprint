@@ -1,16 +1,7 @@
 created:
-    - database/factories/CommitteeFactory.php
-    - database/factories/PayrollFactory.php
-    - database/factories/PayrollSheetFactory.php
-    - database/factories/PayrollHistoryFactory.php
-    - database/migrations/2023_03_20_083809_create_committees_table.php
-    - database/migrations/2023_03_20_083810_create_payrolls_table.php
-    - database/migrations/2023_03_20_083811_create_payroll_sheets_table.php
-    - database/migrations/2023_03_20_083812_create_payroll_histories_table.php
-    - app/Models/Committee.php
-    - app/Models/Payroll.php
-    - app/Models/PayrollSheet.php
-    - app/Models/PayrollHistory.php
+    - database/factories/ComplaintFactory.php
+    - database/migrations/2023_03_20_152219_create_complaints_table.php
+    - app/Models/Complaint.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -83,3 +74,4 @@ models:
     Payroll: { code: 'string nullable', year: 'integer nullable', month: 'integer nullable', user_id: 'foreign:users.id nullable', created_at: 'date nullable' }
     PayrollSheet: { payroll_id: 'foreign:payrolls.id', sheet_code: 'string nullable', year: 'integer nullable', month: 'integer nullable', user_id: 'foreign:users.id', created_at: 'date nullable' }
     PayrollHistory: { sheet_id: 'foreign:payroll_sheets.id nullable', total_paid: 'decimal(10,2) nullable', created_at: 'date nullable' }
+    Complaint: { employee_id: 'foreign:employees.id nullable', unit_id: 'foreign:units.id nullable', phone: 'string nullable', complian_message: 'text  nullable', isReviewed: 'bool nullable' }

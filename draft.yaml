@@ -1,3 +1,4 @@
+
 models:
   # PositionCode:
   #   employee_id: id foreign nullable
@@ -364,6 +365,13 @@ models:
       #   sheet_id: foreign:payroll_sheets.id nullable
       #   total_paid:  decimal(10,2) nullable
       #   created_at: date nullable
+
+    #  Complaint:
+    #      employee_id: foreign:employees.id nullable
+    #      unit_id:  foreign:units.id nullable
+    #      phone: string nullable
+    #      complian_message: text  nullable 
+    #      isReviewed: bool nullable
 
 
 

@@ -124,4 +124,5 @@ Route::group([
     Route::crud('position-code', 'PositionCodeCrudController');
     Route::crud('related-work', 'RelatedWorkCrudController');
     Route::crud('skill', 'SkillCrudController');
+    Route::crud('complaint', 'ComplaintCrudController');
 });
