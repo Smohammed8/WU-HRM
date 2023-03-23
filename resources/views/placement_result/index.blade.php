@@ -39,7 +39,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href =""> Total unplaced Employee  </a></span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-number">-</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -65,7 +65,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="{{ backpack_url('position') }}"> Free Positions  </a></span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-number"> {{ $totalPositions - $placements }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
