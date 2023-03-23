@@ -197,7 +197,8 @@ class Score
             $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
         }
         if($educationComparisonCriteria == null){
-            abort(403, 'Please enter correct educational criteria for education level  '.$employee->educationLevel->name.' on position ' .$position->jobTitle->name );
+            return 0;
+            abort(403, 'Please enter correct educational criteria for education level  '.$employee->educationLevel->name.' on employee ' .$employee->employment_identity );
         }
         return $educationComparisonCriteria->value;
     }

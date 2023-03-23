@@ -46,72 +46,67 @@ class PlacementChoiceCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-round/' . $placementRound . '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
         $this->crud->setListView('placement_choice.show');
-
     }
 
-   
-     
+
+
     //  $positions = DB::table('positions')->where('unit_id',35)->count();
-    
-
-   public function result(){
-          $units = Unit::where('id','=' ,35)->get();
-         $positions = Position::all();  //35
-
-         //  $positions = Position::where('unit_id','=' ,35)->get();
-
-          $placements = DB::table('placement_choices')->count();
-          $totalPositions = DB::table('positions')->count();
-          
-         // $placement_results = PlacementChoice::all()->paginate(10);
-          $placement_results = PlacementChoice::all();
-        
-            return view('placement_result.index', compact('placement_results','units','positions','placements','totalPositions'));
 
 
+    public function result()
+    {
+        $units = Unit::where('id', '=', 35)->get();
+        $positions = Position::all();  //35
+
+        //  $positions = Position::where('unit_id','=' ,35)->get();
+
+        $placements = DB::table('placement_choices')->count();
+        $totalPositions = DB::table('positions')->count();
+
+        // $placement_results = PlacementChoice::all()->paginate(10);
+        $placement_results = PlacementChoice::all();
+
+        return view('placement_result.index', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions'));
+    }
 
 
-               
-   }
+    //    public function filter(Request $request){
+    //  if ($request->has('filter')) {
+    //     $phone = $request->get('phone');
+    //     $woreda_id = $request->get('woreda_id');
+    //     $gpa = $request->get('gpa');
+    //     if (!empty($first_name)) {
+    //         $applicants = $applicants->where('first_name', 'like', '%' . $first_name . '%');
+    //     }
+    //     if (!empty($father_name)) {
+    //         $applicants = $applicants->where('father_name', 'like', '%' . $father_name . '%');
+    //     }
+    //}
+
+    //    }
+
+    public function details($new_position_id = null)
+    {
 
 
-//    public function filter(Request $request){
-  //  if ($request->has('filter')) {
-//     $phone = $request->get('phone');
-//     $woreda_id = $request->get('woreda_id');
-//     $gpa = $request->get('gpa');
-//     if (!empty($first_name)) {
-//         $applicants = $applicants->where('first_name', 'like', '%' . $first_name . '%');
-//     }
-//     if (!empty($father_name)) {
-//         $applicants = $applicants->where('father_name', 'like', '%' . $father_name . '%');
-//     }
-      //}
 
-//    }
-
-   public function details($new_position_id=null){
-
-
- 
-       $units = Unit::where('id','=' ,35)->get();
-       $positions = Position::all();  //35
-       $placements = DB::table('placement_choices')->count();
-       $totalPositions = DB::table('positions')->count();
+        $units = Unit::where('id', '=', 35)->get();
+        $positions = Position::all();  //35
+        $placements = DB::table('placement_choices')->count();
+        $totalPositions = DB::table('positions')->count();
 
 
         $newPosition_id  = PlacementChoice::select('new_position')->where('new_position', '=', $new_position_id)->get()->first()->new_position;
-        $jobtitle_id  = Position::select('job_title_id')->where('id', '=',$newPosition_id)->get()->first()->job_title_id;
-        $new_position  = JobTitle::select('name')->where('id', '=',$jobtitle_id )->get()->first()->name;
-       
-       // dd( $new_position );
-        $placement_results = PlacementChoice::select('*')->where('new_position', '=',$new_position_id)->get();
+        $jobtitle_id  = Position::select('job_title_id')->where('id', '=', $newPosition_id)->get()->first()->job_title_id;
+        $new_position  = JobTitle::select('name')->where('id', '=', $jobtitle_id)->get()->first()->name;
 
-      // $placement_results = PlacementChoice::where('new_position','=',$new_position_id)->get();
+        // dd( $new_position );
+        $placement_results = PlacementChoice::select('*')->where('new_position', '=', $new_position_id)->get();
 
-       return view('placement_result.details', compact('placement_results','units','positions','placements','totalPositions','new_position'));
+        // $placement_results = PlacementChoice::where('new_position','=',$new_position_id)->get();
 
-        }
+        return view('placement_result.details', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions', 'new_position'));
+    }
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -166,11 +161,41 @@ class PlacementChoiceCrudController extends CrudController
         ]);
         // CRUD::column('choiceOne.jobTitle.name')->label('Choice One');
         // CRUD::column('choiceTwo.jobTitle.name')->label('Choice Two');
-        CRUD::column('choice_one_result')->label('Result One');
-        CRUD::column('choice_two_result')->label('Result Two');
-        CRUD::column('choice_one_rank')->label('Rank One');
-
-        CRUD::column('choice_two_rank')->label('Rank Two');
+        $this->crud->addColumn([
+            'name' => 'choice_one_result',
+            'label'    => 'Result One',
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                return $entry->is_placement_choice_switched == true ? $entry->choice_two_result : $entry->choice_one_result;
+            }
+        ]);
+        $this->crud->addColumn([
+            'name' => 'choice_two_result',
+            'label'    => 'Result Two',
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                return $entry->is_placement_choice_switched == true ? $entry->choice_one_result : $entry->choice_two_result;
+            }
+        ]);
+        $this->crud->addColumn([
+            'name' => 'choice_one_rank',
+            'label'    => 'Rank One',
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                return $entry->is_placement_choice_switched == true ? $entry->choice_two_rank : $entry->choice_one_rank;
+            }
+        ]);
+        $this->crud->addColumn([
+            'name' => 'choice_two_rank',
+            'label'    => 'Rank Two',
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                return $entry->is_placement_choice_switched == true ? $entry->choice_one_rank : $entry->choice_two_rank;
+            }
+        ]);
+        // CRUD::column('choice_two_result')->label('Result Two');
+        // CRUD::column('choice_one_rank')->label('Rank One');
+        // CRUD::column('choice_two_rank')->label('Rank Two');
         CRUD::column('new_position')->type('select')->model(Position::class)->entity('newPosition')->attribute('position_info')->label('New Position');
         $this->crud->denyAccess('show');
 

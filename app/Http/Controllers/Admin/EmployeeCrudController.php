@@ -93,10 +93,10 @@ class EmployeeCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
         $this->crud->setShowView('employee.show');
-        // $this->crud->enableAjaxTable();
+        // $this->crud->enableAjaxTable()  ;
         $this->crud->enableDetailsRow();
         $this->setupPermission();
-      //  $this->crud->enableExportButtons();
+        //  $this->crud->enableExportButtons();
     }
     public function setupPermission()
     {
@@ -178,40 +178,40 @@ class EmployeeCrudController extends CrudController
         $this->crud->enableDetailsRow();
         $this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
-     //   $this->crud->disablePersistentTable();
+        $this->crud->disablePersistentTable();
         $this->crud->setOperationSetting('persistentTableDuration', 60); //for 1 hours persistency.
         $this->crud->denyAccess('delete');
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
-// column with custom search logic
-// $this->crud->addColumn([
-//     'name'        => 'first_name',
-//     'label'       => 'FirstName',
-//     'searchLogic' => function ($query, $column, $searchTerm) {
-//         $query->orWhere('first_name', 'like', '%'.$searchTerm.'%');
-//     }
-// ]);
+        // column with custom search logic
+        $this->crud->addColumn([
+            'name'        => 'first_name',
+            'label'       => 'FirstName',
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
+            }
+        ]);
 
 
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-      //  CRUD::column('employment_identity')->label('ID Number');
+        //  CRUD::column('employment_identity')->label('ID Number');
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
         CRUD::column('position.unit.name')->label('Origanizational unit')->type('select')->entity('position.unit')->model(Unit::class);
-       //  CRUD::column('employement_date')->type('date');
-      
-       $this->crud->addColumn([
-        'name' => 'educational_level_id',
-        'type' => 'select',
-        'entity' => 'educationLevel',
-        'model' => EducationalLevel::class,
-        'attribute' => 'name'
-       ]);
+        //  CRUD::column('employement_date')->type('date');
 
-       // CRUD::column('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Education');
+        $this->crud->addColumn([
+            'name' => 'educational_level_id',
+            'type' => 'select',
+            'entity' => 'educationLevel',
+            'model' => EducationalLevel::class,
+            'attribute' => 'name'
+        ]);
 
-         $this->crud->addFilter(
+        // CRUD::column('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Education');
+
+        $this->crud->addFilter(
             [
                 'type'  => 'select2',
                 'name'  => 'employee_category_id',
@@ -285,13 +285,13 @@ class EmployeeCrudController extends CrudController
     }
 
 
-    public function  getEmployeeID(){
-        $uniqueNumber= rand(10000,99999);
+    public function  getEmployeeID()
+    {
+        $uniqueNumber = rand(10000, 99999);
         $currentYear = date('Y');
-        $srudentID = $uniqueNumber.''.$currentYear ;
+        $srudentID = $uniqueNumber . '' . $currentYear;
 
-         return  $srudentID;
-
+        return  $srudentID;
     }
 
     /**
@@ -307,7 +307,7 @@ class EmployeeCrudController extends CrudController
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud->enableTabs();
         //$this->crud->enableVerticalTabs();
-      $this->crud->enableHorizontalTabs();
+        $this->crud->enableHorizontalTabs();
         ////////////////////// Tabs //////////////////////
         $pi       = 'Personal Information';
         $ci       = 'Contact Information';
@@ -457,26 +457,26 @@ class EmployeeCrudController extends CrudController
         $employee_id = $this->crud->entry->id;
         $created_ids = [];
         $currentPosition = $this->crud->getCurrentEntry()->position;
-        $newPosition = Position::where('id',request()->position_id)->first();
+        $newPosition = Position::where('id', request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
         if ($currentPosition->id == $newPosition->id) {
-          if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
+            if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
                 PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
-                
+
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
                     throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-                }else{
+                } else {
                     PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
                 }
             }
-           } else{
+        } else {
 
-     
+
             if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
                 throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
             }
             PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
-          
+
             PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
         }
         $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
@@ -529,8 +529,8 @@ class EmployeeCrudController extends CrudController
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
 
-         $mark  = Evaluation::select('total_mark')->where('employee_id', '=', $employeeId)->get()->first()->total_mark;
-         $this->data['mark'] = $mark;
+        $mark  = Evaluation::select('total_mark')->where('employee_id', '=', $employeeId)->get()->first()->total_mark;
+        $this->data['mark'] = $mark;
 
         $evaluation_levels =  EvaluationLevel::orderBy('id', 'desc')->Paginate(10);
         $this->data['evaluation_levels'] = $evaluation_levels;
@@ -609,7 +609,7 @@ class EmployeeCrudController extends CrudController
 
 
         $level  =    Employee::where('id', $employeeId)->first()?->position->jobTitle->level_id;
-      //  dd($level);
+        //  dd($level);
         $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
         $this->data['startSalary'] = $startSalary;
 
