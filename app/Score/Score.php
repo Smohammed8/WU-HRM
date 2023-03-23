@@ -55,6 +55,7 @@ class Score
         foreach ($palcementChoices as $palcementChoice) {
             Score::calculateChoiceResult($palcementChoice);
         }
+        // dd('asd');
     }
 
     public static function switchUserChoiceBasedOnLevel()
@@ -150,9 +151,12 @@ class Score
         $score = Score::getExpScore($choiceOneJobTitle, $totalyearOne);
         $scoreSecond = Score::getExpScore($choiceTwoJobTitle, $totalyearTwo);
 
-        array_push($arrScores, $score);
-        array_push($arrScores, $scoreSecond);
+        $score = $scoreSecond = $placementChoice->employee->getTotalInternalExperience()->format('%y');
 
+        array_push($arrScores, intval($score));
+        array_push($arrScores, intval($scoreSecond));
+        // dump($placementChoice->employee->name);
+        // dd($arrScores);
         return $arrScores;
     }
 
@@ -185,6 +189,7 @@ class Score
         }
         $jobTitle = $position->jobTitle;
         $positionRequirement = PositionRequirement::where('name', Constants::EDUCATION_CRITERIA)->first();
+
         if ($positionRequirement == null)
             return null;
         $positionValue = PositionValue::where('position_type_id', $jobTitle->positionType->id)->where('position_requirement_id', $positionRequirement->id)->first();
@@ -197,7 +202,9 @@ class Score
             $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
         }
         if($educationComparisonCriteria == null){
-            abort(403, 'Please enter correct educational criteria for education level  '.$employee->educationLevel->name.' on position ' .$position->jobTitle->name );
+            // dd($positionValue);
+            return 0;
+            abort(403, 'Please enter correct educational criteria for education level  '.$employee->educationLevel->name.' on '.$position->name.' employee ' .$employee->name );
         }
         return $educationComparisonCriteria->value;
     }

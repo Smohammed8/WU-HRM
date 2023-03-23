@@ -300,6 +300,12 @@ class Employee extends  Model
     {
         $this->attributes['employement_date'] = Constants::etToGc($employementDate);
     }
+
+    public function getTotalInternalExperience()
+    {
+        $employementDate =$this->attributes['employement_date'];
+        return Carbon::parse($employementDate)->diff(\Carbon\Carbon::now());
+    }
     public function getEmployementDateRange()
     {
         $employementDate =$this->attributes['employement_date'];
@@ -322,7 +328,7 @@ class Employee extends  Model
         return $this->hasMany(ExternalExperience::class);
     }
 
-    
+
 
     protected function firstName(): Attribute
     {
