@@ -46,7 +46,6 @@ class PlacementChoice extends Model
     {
         return $this->belongsTo(PlacementRound::class);
     }
-
     public function employee()
     {
         return $this->belongsTo(Employee::class);

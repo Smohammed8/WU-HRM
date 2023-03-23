@@ -26,7 +26,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="#"> No of candidates </a> </span>
-                                <span class="info-box-number"> {{  '8' }}</span>
+                                <span class="info-box-number"> {{  $placement_results->count() }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -108,74 +108,79 @@
                     <div>
                        
 
-                 
-            
             <hr>
-               <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
-                <thead>
-                    <tr style="background-color: lightblue">
-                        <th>#</th>
-                        <th> Employee</th>
-                        <th>Employee Choices  </th>
-                 
-                        <th> Employee Ranks </th>
-                  
-
-                        <th> Empoyee Results[ % ]</th>
-                    
-                     
-                        <th> Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                  
-                    @foreach ($placement_results as $placement_result) 
-                        <tr>
-
-                            <td> {{ $loop->index + 1 }} </td>
-
-                          
-                                {{-- <input name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" /> --}}
-
-                                <td> {{ $placement_result->employee->name ?? '-' }} </td>
-                                <td> [  {{ $placement_result->choiceOne->name ?? '-'  }} at <u>{{ $placement_result->choiceOne->unit->name  ?? '-'}}</u> , {{ $placement_result->choiceTwo->name ?? '-'  }}  at <u>{{ $placement_result->choiceOne->unit->name ?? '-' }} </u> ]</td> 
-                            
-
-                                <td>[ {{ $placement_result->choice_one_rank ?? '-'  }}, {{ $placement_result->choice_two_rank ?? '-'  }}  ] </td>
-                             
-
-                                <td>[ {{ $placement_result->choice_one_result ?? '-' }}  , {{ $placement_result->choice_two_result ?? '-' }}  ]</td>
-                            
-                            
-                            
-
-
-                            <td  width="20%">
-                              
-                                <a href="{{ route('employee', ['employee_id'=>$placement_result->employee->id]) }}" title="Make analysis" class="btn btn-sm btn-primary float-right">
-                                    <i class="fa fa-user">  </i> Profile
-                                </a>
-
-
-                        
-                                       
-                              
-                            </td>
-                            
-                        </tr>
-                    @endforeach
-                    @if (count($placement_results) == 0)
-                    <tr>
-                        <td colspan="7" class="text-center">No placement found! </td>
-                    </tr>
-                @endif
-                  
-                </tbody>
-
-            </table>
+            
 
         </div><!-- /.card-body -->
+
+        <table class="table table-hover" width="100" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
+            <thead>
+                <tr style="background-color: lightblue">
+                    <th>#</th>
+                    <th> Employee</th>
+                    <th>Employee Choices  </th>
+             
+                    <th> Employee Ranks </th>
+              
+
+                    <th> Empoyee Results[ % ]</th>
+
+                    <th> New position </th>
+                
+                 
+                    <th> Action</th>
+                </tr>
+            </thead>
+            <tbody>
+              
+              
+                @foreach ($placement_results as $placement_result) 
+                    <tr>
+
+                        <td> {{ $loop->index + 1 }} </td>
+
+                      
+                            {{-- <input name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" /> --}}
+
+                            <td> {{ $placement_result->employee->name ?? '-' }} </td>
+                            <td> [  {{ $placement_result->choiceOne->name ?? '-'  }} at <u>{{ $placement_result->choiceOne->unit->name  ?? '-'}}</u> , {{ $placement_result->choiceTwo->name ?? '-'  }}  at <u>{{ $placement_result->choiceOne->unit->name ?? '-' }} </u> ]</td> 
+                        
+
+                            <td>[ {{ $placement_result->choice_one_rank ?? '-'  }}, {{ $placement_result->choice_two_rank ?? '-'  }}  ] </td>
+                         
+
+                            <td>[ {{ $placement_result->choice_one_result ?? '-' }}  , {{ $placement_result->choice_two_result ?? '-' }}  ]</td>
+                        
+                        
+                        
+                            <td> {{ $placement_result->newPosition->jobTitle->name ?? '-' }} </td>
+                        
+                        
+
+
+                        <td  width="20%">
+                          
+                            <a href="{{ route('employee', ['employee_id'=>$placement_result->employee->id]) }}" title="Make analysis" class="btn btn-sm btn-primary float-right">
+                                <i class="fa fa-user">  </i> Profile
+                            </a>
+
+
+                    
+                                   
+                          
+                        </td>
+                        
+                    </tr>
+                @endforeach
+                @if (count($placement_results) == 0)
+                <tr>
+                    <td colspan="7" class="text-center">No placement found! </td>
+                </tr>
+            @endif
+              
+            </tbody>
+
+        </table>
         <div class="m-auto col-6 mt-3">
             {{-- {{ $placement_results->withQueryString()->links() }} --}}
             {{-- {{ $placement_results->links() }} --}}
