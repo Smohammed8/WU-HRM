@@ -39,7 +39,8 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="#"> No of positions </a></span>
-                                <span class="info-box-number">2</span>
+                                <span class="info-box-number"> - </span>
+                                {{-- {{ $nopositions->count() }} --}}
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -52,7 +53,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">  <a href ="#"> Min Educational Req. </a></span>
-                                <span class="info-box-number">{{  'Batchor Degree'}}</span>
+                                <span class="info-box-number">{{ $min_educ  }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -65,7 +66,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="#"> Min Experience Req.  </a></span>
-                                <span class="info-box-number"> {{ '7 years of Experience' }}</span>
+                                <span class="info-box-number"> {{  $min_exp  }} years of Experince  </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>

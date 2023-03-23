@@ -145,97 +145,99 @@
                 <option value="1"> Poor[1] </option>
             </select> --}}
             <hr>
-               <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
-                <thead>
-                    <tr style="background-color: lightblue">
-                        <th>#</th>
-                        <th> Employee</th>
-                        <th>Employee Choices  </th>
-                 
-                        <th> Employee Ranks </th>
-                  
-
-                        <th> Employee Results[ % ]</th>
-                    
-                        <th> New position </th>
-                        <th> Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                  
-                    @foreach ($placement_results as $placement_result) 
-                        <tr>
-
-                            <td> {{ $loop->index + 1 }} </td>
-
-                          
-                                {{-- <input name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" /> --}}
-
-                                <td> {{ $placement_result->employee->name ?? '-' }} </td>
-                                <td> [  {{ $placement_result->choiceOne->name ?? '-'  }} at <u>{{ $placement_result->choiceOne->unit->name  ?? '-'}}</u> , {{ $placement_result->choiceTwo->name ?? '-'  }}  at <u>{{ $placement_result->choiceOne->unit->name ?? '-' }} </u> ]</td> 
-                            
-
-                                <td>[ {{ $placement_result->choice_one_rank ?? '-'  }}, {{ $placement_result->choice_two_rank ?? '-'  }}  ] </td>
-                             
-
-                                <td>[ {{ $placement_result->choice_one_result ?? '-' }}  , {{ $placement_result->choice_two_result ?? '-' }}  ]</td>
-                            
-                            
-                                <td> {{ $placement_result->newPosition->jobTitle->name ?? '-' }}  at <u>{{ $placement_result->newPosition->unit->name ?? '-' }} </u> </td>
-                            
-
-                            
-
-                            <td>
-
-                                @if(is_null($placement_result->newPosition?->jobTitle->id))
-
-                                <a href="#" title="No placed" class="btn btn-sm btn-primary float-right">
-                                    <i class="fa fa-list">  </i> 
-                                </a> 
-
-                                @else  
-                             
-                                <a href="{{ route('PlacementChoice.details', ['new_position_id'=> $placement_result->newPosition?? null  ]) }}" title="Make analysis" class="btn btn-sm btn-primary float-right">
-                                    <i class="fa fa-list">  </i> 
-                                </a> 
-
-                             @endif 
-                        
-                                   
-                              
-                                      {{-- 
-                                <form method="GET" action="{{ route('details',[]) }}">
-
-                                        @csrf
-
-                                    <input type="hidden" value="{{ $placement_result->newPosition->jobTitle->id ?? null }}" name="newposition">
-
-                                    <button title="Make analysis"  name="filter" class="btn btn-sm btn-primary float-right">
-                                   <span class="fa fa-list"></span>
-                                  </button>
-
-                                </form> --}}
-                            
-                                {{-- {{ route('payrollSheet.payee', ['payroll_sheet_id'=> $payroll_sheet->id]) }} --}}
-
-                              
-                            </td>
-                            
-                        </tr>
-                    @endforeach
-                    @if (count($placement_results) == 0)
-                    <tr>
-                        <td colspan="7" class="text-center"> No placement found! </td>
-                    </tr>
-                @endif
-                  
-                </tbody>
-
-            </table>
+           
 
         </div><!-- /.card-body -->
+
+        <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
+            <thead>
+                <tr style="background-color: lightblue">
+                    <th>#</th>
+                    <th> Employee</th>
+                    <th>Employee Choices  </th>
+             
+                    <th> Employee Ranks </th>
+              
+
+                    <th> Employee Results[ % ]</th>
+                
+                    <th> New position </th>
+                    <th> Action</th>
+                </tr>
+            </thead>
+            <tbody>
+              
+              
+                @foreach ($placement_results as $placement_result) 
+                    <tr>
+
+                        <td> {{ $loop->index + 1 }} </td>
+
+                      
+                            {{-- <input name="criteria[]" type="hidden" value="{{ $evalutionCreteria->id }}" /> --}}
+
+                            <td> {{ $placement_result->employee->name ?? '-' }} </td>
+                            <td> [  {{ $placement_result->choiceOne->name ?? '-'  }} at <u>{{ $placement_result->choiceOne->unit->name  ?? '-'}}</u> , {{ $placement_result->choiceTwo->name ?? '-'  }}  at <u>{{ $placement_result->choiceOne->unit->name ?? '-' }} </u> ]</td> 
+                        
+
+                            <td>[ {{ $placement_result->choice_one_rank ?? '-'  }}, {{ $placement_result->choice_two_rank ?? '-'  }}  ] </td>
+                         
+
+                            <td>[ {{ $placement_result->choice_one_result ?? '-' }}  , {{ $placement_result->choice_two_result ?? '-' }}  ]</td>
+                        
+                        
+                            <td> {{ $placement_result->newPosition->jobTitle->name ?? '-' }}  at <u>{{ $placement_result->newPosition->unit->name ?? '-' }} </u> </td>
+                        
+
+                        
+
+                        <td>
+
+                            @if(is_null($placement_result->newPosition?->jobTitle->id))
+
+                            <a href="#" title="No placed" class="btn btn-sm btn-primary float-right">
+                                <i class="fa fa-list">  </i> 
+                            </a> 
+
+                            @else  
+                         
+                            <a href="{{ route('PlacementChoice.details', ['new_position_id'=> $placement_result->newPosition?? null  ]) }}" title="Make analysis" class="btn btn-sm btn-primary float-right">
+                                <i class="fa fa-list">  </i> 
+                            </a> 
+
+                         @endif 
+                    
+                               
+                          
+                                  {{-- 
+                            <form method="GET" action="{{ route('details',[]) }}">
+
+                                    @csrf
+
+                                <input type="hidden" value="{{ $placement_result->newPosition->jobTitle->id ?? null }}" name="newposition">
+
+                                <button title="Make analysis"  name="filter" class="btn btn-sm btn-primary float-right">
+                               <span class="fa fa-list"></span>
+                              </button>
+
+                            </form> --}}
+                        
+                            {{-- {{ route('payrollSheet.payee', ['payroll_sheet_id'=> $payroll_sheet->id]) }} --}}
+
+                          
+                        </td>
+                        
+                    </tr>
+                @endforeach
+                @if (count($placement_results) == 0)
+                <tr>
+                    <td colspan="7" class="text-center"> No placement found! </td>
+                </tr>
+            @endif
+              
+            </tbody>
+
+        </table>
         <div class="m-auto col-6 mt-3">
             {{-- {{ $placement_results->withQueryString()->links() }} --}}
             {{-- {{ $placement_results->links() }} --}}
