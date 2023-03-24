@@ -24,8 +24,12 @@
         
       <div class="card">
 
+       
+
         <div class="card-header">
             <h5 class="mb-2"> Real time stastices </h5>
+            <a href="/employData/employee_detail.xlsx" class="btn btn-sm btn-primary float-right"> <i class="fa fa-download"></i> Download Emplyee Form Excel</a>
+
         </div> <!-- /.card-body -->
         <div class="card-body">
             <div class="container-fluid animated fadeIn">
