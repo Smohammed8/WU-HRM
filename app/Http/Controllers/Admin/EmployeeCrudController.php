@@ -525,7 +525,7 @@ class EmployeeCrudController extends CrudController
 
         $employeeSkills = Skill::where('employee_id', $employeeId)->paginate(10);
         $this->data['employeeSkills'] = $employeeSkills;
-        $evalutionCreterias =  EvalutionCreteria::orderBy('id', 'desc')->Paginate(10);
+        $evalutionCreterias =  EvalutionCreteria::orderBy('id', 'desc')->Paginate(30);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
 

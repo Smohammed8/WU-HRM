@@ -38,8 +38,8 @@ table {
                   <tr style="background-color: lightblue;">
 
                     <th> #</th>
-                    <th> Evalution Criteria</th>
-                    <th> Evalution level </th>
+                    <th>Evalution Criteria</th>
+                    <th>Evalution level </th>
                     <th>Recorded by</th>
                     <th>Obtained Mark</th>
                     <th>Date</th>
@@ -82,24 +82,13 @@ table {
                             </td>
                             <td colspan="1"></td>
                         </tr>
-
-
-
-
-
                 </tbody>
               </table>
-
-
-
             {{-- <ul class="pagination">
                 {{ $employeeEvaluations->links() }}
             </ul> --}}
 
-
         </div>
-
-
       </div>
     </div>
   </div>

@@ -51,8 +51,49 @@ class PlacementChoiceCrudController extends CrudController
 
 
 
-    //  $positions = DB::table('positions')->where('unit_id',35)->count();
+ 
 
+// public function getFilter(Request $request){
+
+    
+//      $position =   $request->get('position');
+
+        
+//         if (!empty($position)) {
+//             $applicants = $position->where('gpa', '=', $gpa);
+
+      
+//             $placement_choice = PlacementChoice::where('choice_one_id','=',$position)->get(); 
+
+
+//             PlacementChoice::where(function ($query) {
+//              $choices =    $query->where('choice_one_id', '=',$position )->orWhere('choice_twi_id', '=',$position);
+//             });
+
+
+//         return view('placement_result.index', compact('choicess', 'units', 'positions', 'placements', 'totalPositions'));
+   
+   
+            
+//         } 
+        
+//         else{ 
+
+//             $units = Unit::where('id', '=', 35)->get();
+//             $positions = Position::all();  //35
+        
+//             //  $positions = Position::where('unit_id','=' ,35)->get();
+        
+//             $placements = DB::table('placement_choices')->count();
+//             $totalPositions = DB::table('positions')->count();
+        
+//             // $placement_results = PlacementChoice::all()->paginate(10);
+//             $placement_results = PlacementChoice::all();
+        
+//             return view('placement_result.index', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions'));
+        
+//         }
+// }
 
     public function result()
     {
@@ -71,26 +112,9 @@ class PlacementChoiceCrudController extends CrudController
     }
 
 
-    //    public function filter(Request $request){
-    //  if ($request->has('filter')) {
-    //     $phone = $request->get('phone');
-    //     $woreda_id = $request->get('woreda_id');
-    //     $gpa = $request->get('gpa');
-    //     if (!empty($first_name)) {
-    //         $applicants = $applicants->where('first_name', 'like', '%' . $first_name . '%');
-    //     }
-    //     if (!empty($father_name)) {
-    //         $applicants = $applicants->where('father_name', 'like', '%' . $father_name . '%');
-    //     }
-    //}
-
-    //    }
 
     public function details($new_position_id = null)
     {
-
-
-
         $units = Unit::where('id', '=', 35)->get();
         $positions = Position::all();  //35
         $placements = DB::table('placement_choices')->count();

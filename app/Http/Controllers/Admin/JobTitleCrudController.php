@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\JobTitleRequest;
 use App\Models\EducationalLevel;
 use App\Models\FieldOfStudy;
+use App\Models\JobTitle;
 use App\Models\JobTitleCategory;
 use App\Models\Level;
 use App\Models\PositionType;
 use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use PhpParser\Node\Stmt\Label;
 
 /**
  * Class JobTitleCrudController
@@ -101,7 +103,7 @@ class JobTitleCrudController extends CrudController
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job level');
         // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
 
-        CRUD::column('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Min.Educational Req.');
+        CRUD::column('educational_level_id')->label('Min Educational level')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Min.Educational Req.');
         CRUD::column('work_experience')->label('Min. Experience');
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
         //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
@@ -209,6 +211,7 @@ class JobTitleCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        
         CRUD::setValidation(JobTitleRequest::class);
         $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
         $breadcrumbs = [
@@ -221,17 +224,21 @@ class JobTitleCrudController extends CrudController
         $this->crud->setHeading('Add Job title in');
         $this->crud->setSubHeading(JobTitleCategory::find($jobTitleCategoryId)->name);
         CRUD::field('name')->label('Job title')->label('የስራመደቡ መጠሪያ')->size(6);
-        CRUD::field('work_experience')->label(' Relevant minimum work experience')->size(3);
-        CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(3);
+          //  CRUD::field('total_minimum_work_experience')->label('Total Relevant minimum work experience')->size(3);
         // CRUD::field('job_code')->label('የመደብ መታወቂያ ቁጥር')->size(6);
         CRUD::field('job_title_category_id')->type('hidden')->value($jobTitleCategoryId);
         // CRUD::field('job_title_category_id')->type('select2')->entity('jobTitleCategory')->model(JobTitleCategory::class)->attribute('name')->size(4);
-        CRUD::field('position_type_id')->label('Position Type')->type('select2')->model(PositionType::class)->size(4)->attribute('title');
-        CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(4);
-        CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(4);
+        CRUD::field('position_type_id')->label('Position Type')->type('select2')->model(PositionType::class)->size(6)->attribute('title');
+        CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(6);
+        CRUD::field('educational_level_id')->label('Min. Educational Level')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
+
+
+        CRUD::field('Pre-request')->label('Pre-requests for experience')->type('select2_multiple')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+        CRUD::field('work_experience')->label('Relevant minimum work experience')->size(6);
+ 
 
         // CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
-        CRUD::field('description');
+       // CRUD::field('description');
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
