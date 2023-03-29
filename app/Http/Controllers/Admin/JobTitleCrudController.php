@@ -7,6 +7,7 @@ use App\Models\EducationalLevel;
 use App\Models\FieldOfStudy;
 use App\Models\JobTitle;
 use App\Models\JobTitleCategory;
+use App\Models\jobTitlePrerequest;
 use App\Models\Level;
 use App\Models\PositionType;
 use App\Models\Unit;
@@ -232,8 +233,8 @@ class JobTitleCrudController extends CrudController
         CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(6);
         CRUD::field('educational_level_id')->label('Min. Educational Level')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
 
+        CRUD::field('job_prerequest_id')->label('Pre-requests for experience')->type('select2_multiple')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
 
-        CRUD::field('Pre-request')->label('Pre-requests for experience')->type('select2_multiple')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
         CRUD::field('work_experience')->label('Relevant minimum work experience')->size(6);
  
 
@@ -252,6 +253,37 @@ class JobTitleCrudController extends CrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
+
+        /**
+     * Store a newly created resource in the database.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        $request = $this->crud->validateRequest();
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+        $this->data['entry'] = $this->crud->entry = $item;
+        if (array_key_exists('job_prerequest_id', $this->crud->getStrippedSaveRequest()))
+            foreach ($this->crud->getStrippedSaveRequest()['job_prerequest_id'] as $jobPrerequestId) {
+                jobTitlePrerequest::create([
+                    'job_prerequest_id'    => $jobPrerequestId,
+                    'job_title_id' => $this->crud->getCurrentEntryId()
+                ]);
+            }
+
+        // show a success message
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
