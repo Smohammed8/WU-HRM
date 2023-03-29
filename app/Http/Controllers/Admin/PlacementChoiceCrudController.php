@@ -51,14 +51,49 @@ class PlacementChoiceCrudController extends CrudController
 
 
 
-    //  $positions = DB::table('positions')->where('unit_id',35)->count();
+ 
 
-<<<<<<< HEAD
-   public function result(){
-          $units = Unit::where('id','=' ,35)->get();
-          $positions = Position::all();  //35
-=======
->>>>>>> c5f52b652a0dea7a6f6b54aae7a05b31b98b9508
+// public function getFilter(Request $request){
+
+    
+//      $position =   $request->get('position');
+
+        
+//         if (!empty($position)) {
+//             $applicants = $position->where('gpa', '=', $gpa);
+
+      
+//             $placement_choice = PlacementChoice::where('choice_one_id','=',$position)->get(); 
+
+
+//             PlacementChoice::where(function ($query) {
+//              $choices =    $query->where('choice_one_id', '=',$position )->orWhere('choice_twi_id', '=',$position);
+//             });
+
+
+//         return view('placement_result.index', compact('choicess', 'units', 'positions', 'placements', 'totalPositions'));
+   
+   
+            
+//         } 
+        
+//         else{ 
+
+//             $units = Unit::where('id', '=', 35)->get();
+//             $positions = Position::all();  //35
+        
+//             //  $positions = Position::where('unit_id','=' ,35)->get();
+        
+//             $placements = DB::table('placement_choices')->count();
+//             $totalPositions = DB::table('positions')->count();
+        
+//             // $placement_results = PlacementChoice::all()->paginate(10);
+//             $placement_results = PlacementChoice::all();
+        
+//             return view('placement_result.index', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions'));
+        
+//         }
+// }
 
     public function result()
     {
@@ -77,26 +112,9 @@ class PlacementChoiceCrudController extends CrudController
     }
 
 
-    //    public function filter(Request $request){
-    //  if ($request->has('filter')) {
-    //     $phone = $request->get('phone');
-    //     $woreda_id = $request->get('woreda_id');
-    //     $gpa = $request->get('gpa');
-    //     if (!empty($first_name)) {
-    //         $applicants = $applicants->where('first_name', 'like', '%' . $first_name . '%');
-    //     }
-    //     if (!empty($father_name)) {
-    //         $applicants = $applicants->where('father_name', 'like', '%' . $father_name . '%');
-    //     }
-    //}
-
-    //    }
 
     public function details($new_position_id = null)
     {
-
-
-
         $units = Unit::where('id', '=', 35)->get();
         $positions = Position::all();  //35
         $placements = DB::table('placement_choices')->count();
@@ -104,34 +122,13 @@ class PlacementChoiceCrudController extends CrudController
 
 
         $newPosition_id  = PlacementChoice::select('new_position')->where('new_position', '=', $new_position_id)->get()->first()->new_position;
-<<<<<<< HEAD
-        $jobtitle_id  = Position::select('job_title_id')->where('id', '=',$newPosition_id)->get()->first()->job_title_id;
-        $new_position  = JobTitle::select('name')->where('id', '=',$jobtitle_id )->get()->first()->name;
-
-        $min_educ  = JobTitle::select('educational_level_id')->where('id', '=',$jobtitle_id )->get()->first()->educationalLevel->name;
-        $min_exp  = JobTitle::select('work_experience')->where('id', '=',$jobtitle_id )->get()->first()->work_experience;
-       
-
-        $position_id  = Position::select('job_title_id')->where('job_title_id', '=',$jobtitle_id )->get()->first()->job_title_id;
-      //  dd($position_id ); 
-
-        $nopositions  = PositionCode::select('*')->where('position_id', '=',$position_id )->get();
-       
-      //  dd(   $nopositions  );
-        $placement_results = PlacementChoice::select('*')->where('new_position', '=',$new_position_id)->get();
-=======
         $jobtitle_id  = Position::select('job_title_id')->where('id', '=', $newPosition_id)->get()->first()->job_title_id;
         $new_position  = JobTitle::select('name')->where('id', '=', $jobtitle_id)->get()->first()->name;
->>>>>>> c5f52b652a0dea7a6f6b54aae7a05b31b98b9508
 
         // dd( $new_position );
         $placement_results = PlacementChoice::select('*')->where('new_position', '=', $new_position_id)->get();
 
-<<<<<<< HEAD
-       return view('placement_result.details', compact('placement_results','nopositions','min_educ','min_exp','units','positions','placements','totalPositions','new_position'));
-=======
         // $placement_results = PlacementChoice::where('new_position','=',$new_position_id)->get();
->>>>>>> c5f52b652a0dea7a6f6b54aae7a05b31b98b9508
 
         return view('placement_result.details', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions', 'new_position'));
     }

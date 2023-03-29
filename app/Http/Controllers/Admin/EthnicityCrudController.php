@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\EthnicityRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * Class EthnicityCrudController
@@ -105,6 +106,8 @@ class EthnicityCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+
+
         CRUD::setValidation(EthnicityRequest::class);
 
         CRUD::field('name');

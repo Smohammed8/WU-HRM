@@ -13,7 +13,7 @@
             <div class="modal-header">
                 <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud?->entry?->name }} &nbsp; &nbsp;
                     &nbsp;
-                    Working Unit: {{ $crud?->entry?->position->unit?->name }} &nbsp; &nbsp;<br> Last Efficiency : 92.5% &nbsp; &nbsp; Job
+                    Working Unit: {{ $crud?->entry?->position->unit?->name }} &nbsp; &nbsp;<br> Last Efficiency :{{ $crud?->entry?->evaluations[0]->total_mark }}  &nbsp; &nbsp; Job
                     Position : {{ $crud?->entry?->position?->name }} </h6>
                 <div class="row">
                     @canany(['employee.efficency.icrud', 'employee.efficency.create'])
@@ -126,6 +126,10 @@
                                 class="la la-plus"> </i>Save </button>
                     </form>
 
+
+                 <ul class="pagination">
+                {{ $employeeEvaluations->links() }}
+            </ul> 
 
                 </div>
             </div>

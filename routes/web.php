@@ -78,6 +78,7 @@ Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class)->
 Route::get( '/hierarchy',
     function () {
         $units = Unit::where('parent_unit_id')->latest()->get();
+        //dd($units );
         return view('unit.tree', ['orgs' => $units]);
     }
 )->name('hierarchy')->middleware('auth');

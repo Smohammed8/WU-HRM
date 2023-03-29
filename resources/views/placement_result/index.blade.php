@@ -103,13 +103,12 @@
       
           </script>
 
-
-                <!-- =========================================================== -->
                 <div class="row ">
-
+                <form action="{{ route('PlacementChoice.details') }}" method="GET">
+                    @csrf
                     <div class="form-group col-5">
                         <select name="unit" id="unit"  required="required" class="form-control select2">
-                            {{-- <option value=""> Select organizational unit  </option> --}}
+                            <option value=""> -  </option> 
                             @foreach ($units as $unit)
                                 <option value="{{ $unit->id }}"> {{ $unit->name }}</option>
                             @endforeach
@@ -117,7 +116,7 @@
                     </div>
 
                     <div class="form-group col-5">
-                        <select name="position" id="postion"  required="required" class="form-control select2">
+                        <select name="position"  required="required" class="form-control select2">
                             <option value="">Select  positions  </option>
                             @foreach ($positions as $position)
                                 <option value="{{ $position->id }}"> {{ $position->jobTitle->name }} at {{ $position->unit->name }}  </option>
@@ -128,6 +127,8 @@
                     <button type="submit" name="save" class="btn btn-sm btn-primary float-right "> <i
                         class="fa fa-search"> </i>Filter</button>
                     </div>
+
+                </form>
 
                     <div class="form-group col-1">
                         <button type="submit" name="save" class="btn btn-sm btn-primary float-right "> <i

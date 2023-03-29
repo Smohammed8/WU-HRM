@@ -6,7 +6,9 @@ use App\Constants;
 use App\Http\Requests\EducationComparisonCriteriaRequest;
 use App\Http\Requests\PositionRequest;
 use App\Models\EducationalLevel;
+use App\Models\EducationComparisonCriteria;
 use App\Models\PositionRequirement;
+use App\Models\PositionType;
 use App\Models\PositionValue;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -35,8 +37,17 @@ class EducationComparisonCriteriaCrudController extends CrudController
         CRUD::setModel(\App\Models\EducationComparisonCriteria::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/education-comparison-criteria');
         CRUD::setEntityNameStrings('education comparison criteria', 'education comparison criterias');
+
+
+
+        
+        
+
     }
 
+
+
+    
     /**
      * Define what happens when the List operation is loaded.
      *
@@ -55,7 +66,10 @@ class EducationComparisonCriteriaCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
+
+
     }
+  
 
     /**
      * Define what happens when the Create operation is loaded.

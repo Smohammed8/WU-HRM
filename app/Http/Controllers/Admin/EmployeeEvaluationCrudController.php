@@ -171,7 +171,7 @@ class EmployeeEvaluationCrudController extends CrudController
 
         $employeeEvaluations = EmployeeEvaluation::paginate(10);
         $this->data['employeeEvaluations'] = $employeeEvaluations;
-        $evalutionCreterias =  EvalutionCreteria::paginate(20);
+        $evalutionCreterias =  EvalutionCreteria::paginate(30);
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
 

@@ -35,8 +35,6 @@ class JobTitleCategory extends Model
         return $this->belongsTo(Unit::class);
     }
 
-
-
     public function jobTitleButtonView($crud = false)
     {
         if (!backpack_user()->canany(['job_title_category.job_title.index', 'job_title_category.job_title.icrud'])) {
