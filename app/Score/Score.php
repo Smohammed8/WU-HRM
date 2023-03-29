@@ -151,7 +151,7 @@ class Score
         $score = Score::getExpScore($choiceOneJobTitle, $totalyearOne);
         $scoreSecond = Score::getExpScore($choiceTwoJobTitle, $totalyearTwo);
 
-        $score = $scoreSecond = $placementChoice->employee->getTotalInternalExperience()->format('%y');
+        // $score = $scoreSecond = $placementChoice->employee->getTotalInternalExperience()->format('%y');
 
         array_push($arrScores, intval($score));
         array_push($arrScores, intval($scoreSecond));
