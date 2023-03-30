@@ -97,6 +97,8 @@ class JobTitleCrudController extends CrudController
     protected function setupListOperation()
     {
 
+        $this->crud->addButtonFromModelFunction('line', 'jobTitlePrerequests', 'prerequestButtonView', 'beginning');
+        $this->crud->denyAccess('show');
         $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
         $this->crud->setHeading(JobTitleCategory::find($jobTitleCategoryId)->name.' Job titles');
         CRUD::column('name')->label('የስራ መደቡ መጠሪያ');
