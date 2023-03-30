@@ -166,13 +166,13 @@ class Score
         $choiceTwoJobTitle = $employeeSecondChoice?->jobTitle;
 
         $employeeInternalExperiences = $placementChoice->employee->internalExperiences;
-        $employeeExternalExperience = $placementChoice->employee->externalExperiences->first();
+        $employeeExternalExperiences = $placementChoice->employee->externalExperiences;
 
         $internalExpChoiceOne = Score::calculateInternalExperience($employeeInternalExperiences, $choiceOneJobTitle);
-        $externalExpChoiceone = Score::calculateExternalExperience($employeeExternalExperience, $choiceOneJobTitle);
+        $externalExpChoiceone = Score::calculateExternalExperience($employeeExternalExperiences, $choiceOneJobTitle);
 
         $internalExpChoiceTwo = Score::calculateInternalExperience($employeeInternalExperiences, $choiceTwoJobTitle);
-        $externalExpChoiceTwo = Score::calculateExternalExperience($employeeExternalExperience, $choiceTwoJobTitle);
+        $externalExpChoiceTwo = Score::calculateExternalExperience($employeeExternalExperiences, $choiceTwoJobTitle);
         $totalyearOne = Score::calculateTotalYear($internalExpChoiceOne, $externalExpChoiceone);
         $totalyearTwo = Score::calculateTotalYear($internalExpChoiceTwo, $externalExpChoiceTwo);
         // if ($placementChoice->employee->id ==10) {
@@ -267,10 +267,10 @@ class Score
         return $internalExp;
     }
 
-    public static function calculateExternalExperience($externalExperience, $jobTitle)
+    public static function calculateExternalExperience($externalExperiences, $jobTitle)
     {
         $externalExp = 0;
-        if ($externalExperience) {
+        foreach ($externalExperiences as $key => $externalExperience) {
             if ($externalExperience->canRelateToJobTitlte($jobTitle)) {
                 $startDate = $externalExperience->start_date;
                 if (!$externalExperience->end_date) {
@@ -278,7 +278,7 @@ class Score
                 } else {
                     $endDate = $externalExperience->end_date;
                 }
-                $externalExp = $endDate->diffInYears($startDate);
+                $externalExp += $endDate->diffInYears($startDate);
             }
         }
         // dd($externalExp);
