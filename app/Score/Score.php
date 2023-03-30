@@ -108,18 +108,30 @@ class Score
         // dd('asas');
     }
 
+
     public static function calculateChoiceResult(PlacementChoice $placementChoice)
     {
         $choiceOne = $placementChoice->choiceOne;
         $choiceTwo = $placementChoice->choiceTwo;
+       
         $choiceOneExpScore = Score::getExperinceScore($placementChoice)[0];
         $choiceTwoExpScore = Score::getExperinceScore($placementChoice)[1];
         // if ($placementChoice->employee->id == 10) {
         //     dd($choiceOneExpScore, $choiceTwoExpScore);
         // }
-        $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
-        $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
-        $efficiencyScore = Score::getEvaluationScore($placementChoice->employee);
+
+         $result1 = Score::eligiblityCheck($choiceOne,$placementChoice->employee);
+         $result2 = Score::eligiblityCheck($choiceTwo,$placementChoice->employee);
+         if($result1 ==false)
+         $choiceOneEduScore = 0;
+         else
+         $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
+         if($result2 ==false)
+         $choiceTwoEduScore = 0;
+         else
+         $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
+         $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
+
         $choiceOneResult = $choiceOneEduScore + $choiceOneExpScore + $efficiencyScore;
         $choiceTwoResult = $choiceTwoEduScore + $choiceTwoExpScore + $efficiencyScore;
         $placementChoice->update([
@@ -127,6 +139,19 @@ class Score
             'choice_two_result' => $choiceTwoResult,
         ]);
     }
+        
+    public static function eligiblityCheck(Position $position,Employee $employee){
+        $feild  = $employee->fieldOfStudy->id;
+        if(!in_array($feild,$position->jobTitle->JobTitleCategory->fieldOfStudies()->pluck('id')->toArray()) ) {
+            // if($employee->id == 10){
+            //     dd($employee->fieldOfStudy,$position->jobTitle->JobTitleCategory->fieldOfStudies);
+            // }
+            return false;
+        }
+        return true;
+    }
+
+
     public static function getExperinceScore($placementChoice)
     {
         $score = 0;
@@ -187,6 +212,11 @@ class Score
             return true;
         return false;
     }
+
+
+
+
+
 
     public static function getEducationScore(Position $position, Employee $employee)
     {

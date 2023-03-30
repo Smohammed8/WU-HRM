@@ -53,4 +53,14 @@ class JobTitleCategory extends Model
         $route =  route('job-title-category/{job_title_category}/related-work.index', ['job_title_category' => $this->id]); // custome toute here
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Print ID"><i class="la la-list"></i>Field of studies</a>';
     }
+
+    /**
+     * Get all of the fieldOfStudies for the JobTitleCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fieldOfStudies()
+    {
+        return $this->hasMany(RelatedWork::class, 'job_title_categorie_id', 'id');
+    }
 }
