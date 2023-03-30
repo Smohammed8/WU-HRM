@@ -219,11 +219,6 @@ class Score
         return false;
     }
 
-
-
-
-
-
     public static function getEducationScore(Position $position, Employee $employee)
     {
         if (!$position->available_for_placement) {
@@ -255,9 +250,6 @@ class Score
     {
         $internalExp = 0;
         foreach ($internalExperiences as $key => $internalExperience) {
-            // if ($internalExperience->employee->id ==10) {
-            //     dump($internalExperiences);
-            // }
             if ($internalExperience->canRelateToJobTitlte($jobTitle)) {
                 $startDate = $internalExperience->start_date;
                 if (!$internalExperience->end_date) {
@@ -267,9 +259,18 @@ class Score
                 }
                 $internalExp += $endDate->diffInYears($startDate);
             }
+            foreach ($jobTitle->jobTitlePrequests as $key => $pre) {
+                if ($pre->jobTitlePrereuest->id == $internalExperience->jobTitle->id) {
+                    $startDate = $internalExperience->start_date;
+                    if (!$internalExperience->end_date) {
+                        $endDate = Carbon::now();
+                    } else {
+                        $endDate = $internalExperience->end_date;
+                    }
+                    $internalExp += $endDate->diffInYears($startDate);
+                }
+            }
         }
-
-        // dump($internalExp);
         return $internalExp;
     }
 
@@ -286,8 +287,18 @@ class Score
                 }
                 $externalExp += $endDate->diffInYears($startDate);
             }
+            foreach ($jobTitle->jobTitlePrequests as $key => $pre) {
+                if ($pre->jobTitlePrereuest->id == $externalExperience->jobTitle->id) {
+                    $startDate = $externalExperience->start_date;
+                    if (!$externalExperience->end_date) {
+                        $endDate = Carbon::now();
+                    } else {
+                        $endDate = $externalExperience->end_date;
+                    }
+                    $externalExp += $endDate->diffInYears($startDate);
+                }
+            }
         }
-        // dd($externalExp);
         return $externalExp;
     }
 
@@ -318,7 +329,7 @@ class Score
                 $minYear = $experienceCriteria->min_year;
                 $maxYear = $experienceCriteria->max_year;
 
-                if ($minYear < $totalyear && $totalyear < $maxYear) {
+                if ($minYear <= $totalyear && $totalyear < $maxYear) {
                     $score = $experienceCriteria->value;
                 }
             }
@@ -339,7 +350,7 @@ class Score
         $employeePosType = $employee->position?->jobTitle?->positionType;
         $requirement = PositionRequirement::where('name', Constants::EFFICIENCY_CRITERIA)->first();
         if (!$requirement) {
-            abort(403, 'no sch requirement');
+            abort(403, 'no such requirement');
         }
         $positionValue = PositionValue::where('position_type_id', $employeePosType->id)->where('position_requirement_id', $requirement->id)->first();
 
