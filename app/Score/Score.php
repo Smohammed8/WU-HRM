@@ -250,9 +250,6 @@ class Score
     {
         $internalExp = 0;
         foreach ($internalExperiences as $key => $internalExperience) {
-            // if ($internalExperience->employee->id ==10) {
-            //     dump($internalExperiences);
-            // }
             if ($internalExperience->canRelateToJobTitlte($jobTitle)) {
                 $startDate = $internalExperience->start_date;
                 if (!$internalExperience->end_date) {
@@ -263,8 +260,6 @@ class Score
                 $internalExp += $endDate->diffInYears($startDate);
             }
         }
-
-        // dump($internalExp);
         return $internalExp;
     }
 
@@ -282,7 +277,6 @@ class Score
                 $externalExp += $endDate->diffInYears($startDate);
             }
         }
-        // dd($externalExp);
         return $externalExp;
     }
 
