@@ -259,6 +259,17 @@ class Score
                 }
                 $internalExp += $endDate->diffInYears($startDate);
             }
+            foreach ($jobTitle->jobTitlePrequests as $key => $pre) {
+                if ($pre->jobTitlePrereuest->id == $internalExperience->jobTitle->id) {
+                    $startDate = $internalExperience->start_date;
+                    if (!$internalExperience->end_date) {
+                        $endDate = Carbon::now();
+                    } else {
+                        $endDate = $internalExperience->end_date;
+                    }
+                    $internalExp += $endDate->diffInYears($startDate);
+                }
+            }
         }
         return $internalExp;
     }
@@ -275,6 +286,17 @@ class Score
                     $endDate = $externalExperience->end_date;
                 }
                 $externalExp += $endDate->diffInYears($startDate);
+            }
+            foreach ($jobTitle->jobTitlePrequests as $key => $pre) {
+                if ($pre->jobTitlePrereuest->id == $externalExperience->jobTitle->id) {
+                    $startDate = $externalExperience->start_date;
+                    if (!$externalExperience->end_date) {
+                        $endDate = Carbon::now();
+                    } else {
+                        $endDate = $externalExperience->end_date;
+                    }
+                    $externalExp += $endDate->diffInYears($startDate);
+                }
             }
         }
         return $externalExp;
@@ -328,7 +350,7 @@ class Score
         $employeePosType = $employee->position?->jobTitle?->positionType;
         $requirement = PositionRequirement::where('name', Constants::EFFICIENCY_CRITERIA)->first();
         if (!$requirement) {
-            abort(403, 'no sch requirement');
+            abort(403, 'no such requirement');
         }
         $positionValue = PositionValue::where('position_type_id', $employeePosType->id)->where('position_requirement_id', $requirement->id)->first();
 

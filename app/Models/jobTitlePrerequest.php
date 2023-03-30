@@ -34,11 +34,11 @@ class jobTitlePrerequest extends Model
 
     public function jobTitle()
     {
-        return $this->belongsTo(JobTitle::class);
+        return $this->belongsTo(JobTitle::class, 'job_title_id', 'id');
     }
     public function jobTitlePrereuest()
     {
-        return $this->belongsTo(JobTitle::class);
+        return $this->belongsTo(JobTitle::class, 'job_prerequest_id', 'id');
     }
     
     // public function prerequest()
