@@ -20,7 +20,6 @@ class CreateJobTitlePrerequestsTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -31,3 +30,5 @@ class CreateJobTitlePrerequestsTable extends Migration
         Schema::dropIfExists('job_title_prerequests');
     }
 }
+
+

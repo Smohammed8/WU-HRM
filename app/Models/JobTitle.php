@@ -95,6 +95,18 @@ class JobTitle extends Model
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View Positions"><i class="la la-flag"></i> Employee </a>';
     }
 
+
+    public function prerequestButtonView($crud = false)
+    {
+
+  if (!backpack_user()->canany(['job_title_category.field_of_study.index', 'job_title_category.field_of_study.icrud'])) {
+            return null;
+        }
+        $route =  route('job-title-category/{job_title_category}/related-work.index', ['job_title_category' => $this->id]); // custome toute here
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title=""><i class="la la-list"></i>Pre-requests</a>';
+    }
+
+
     // public function jobTitileprerequests(): HasMany
     // {
     //     return $this->hasMany(jobTitlePrerequest::class, 'job_title_id', 'id');
@@ -115,6 +127,7 @@ class JobTitle extends Model
     {
         return $this->hasMany(jobTitlePrerequest::class);
     }
+
 
 
 

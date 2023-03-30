@@ -122,15 +122,23 @@ class Score
 
          $result1 = Score::eligiblityCheck($choiceOne,$placementChoice->employee);
          $result2 = Score::eligiblityCheck($choiceTwo,$placementChoice->employee);
-         if($result1 ==false)
+
+         if($result1 ==false){ // not eligible employee
          $choiceOneEduScore = 0;
-         else
+         $efficiencyScore  =0;
+         }
+         else{
          $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
-         if($result2 ==false)
+         $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
+         }
+         if($result2 ==false){
          $choiceTwoEduScore = 0;
-         else
+         $efficiencyScore  =0;
+         }
+         else{
          $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
          $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
+         }
 
         $choiceOneResult = $choiceOneEduScore + $choiceOneExpScore + $efficiencyScore;
         $choiceTwoResult = $choiceTwoEduScore + $choiceTwoExpScore + $efficiencyScore;
@@ -141,8 +149,8 @@ class Score
     }
         
     public static function eligiblityCheck(Position $position,Employee $employee){
-        $feild  = $employee->fieldOfStudy->id;
-        if(!in_array($feild,$position->jobTitle->JobTitleCategory->fieldOfStudies()->pluck('id')->toArray()) ) {
+        $employee_feild  = $employee->fieldOfStudy->id;
+        if(!in_array($employee_feild,$position->jobTitle->JobTitleCategory->fieldOfStudies()->pluck('id')->toArray()) ) {
             // if($employee->id == 10){
             //     dd($employee->fieldOfStudy,$position->jobTitle->JobTitleCategory->fieldOfStudies);
             // }
@@ -150,8 +158,6 @@ class Score
         }
         return true;
     }
-
-
     public static function getExperinceScore($placementChoice)
     {
         $score = 0;

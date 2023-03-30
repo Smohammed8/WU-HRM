@@ -15,7 +15,7 @@ class VacancyUpdate extends Migration
     {
         //
         Schema::table('vacancies', function (Blueprint $table) {
-            $table->integer('number_of_vacants');
+           // $table->integer('number_of_vacants');
         });
     }
 
