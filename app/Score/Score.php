@@ -329,7 +329,7 @@ class Score
                 $minYear = $experienceCriteria->min_year;
                 $maxYear = $experienceCriteria->max_year;
 
-                if ($minYear < $totalyear && $totalyear < $maxYear) {
+                if ($minYear <= $totalyear && $totalyear < $maxYear) {
                     $score = $experienceCriteria->value;
                 }
             }
