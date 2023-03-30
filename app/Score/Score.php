@@ -213,11 +213,6 @@ class Score
         return false;
     }
 
-
-
-
-
-
     public static function getEducationScore(Position $position, Employee $employee)
     {
         if (!$position->available_for_placement) {

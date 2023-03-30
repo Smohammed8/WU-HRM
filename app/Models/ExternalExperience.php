@@ -37,6 +37,15 @@ class ExternalExperience extends Model
         'end_date' => 'date',
     ];
 
+    public function canRelateToJobTitlte(JobTitle $jobTitle)
+    {
+
+        if($this->jobTitle->jobTitleCategory->id == $jobTitle->jobTitleCategory->id){
+            return true;
+        }
+        return false;
+    }
+    
     public function employee()
     {
         return $this->belongsTo(Employee::class);
