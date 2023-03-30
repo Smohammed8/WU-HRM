@@ -207,7 +207,7 @@ class Score
         } else {
             $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
         }
-        if($educationComparisonCriteria == null){
+      if($educationComparisonCriteria == null){
             // dd($positionValue);
             return 0;
             abort(403, 'Please enter correct educational criteria for education level  '.$employee->educationLevel->name.' on '.$position->name.' employee ' .$employee->name );
