@@ -5,6 +5,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IDCardController;
 use App\Http\Controllers\IDController;
 use App\Http\Controllers\PlacementController;
+use App\Http\Controllers\JobTitlePrerequestController;
+use App\Http\Controllers\jobTitlePrerequestsCrudController;
+
 use App\Http\Controllers\RoundController;
 use Illuminate\Support\Facades\Route;
 // --------------------------
@@ -87,6 +90,12 @@ Route::group([
     Route::crud('level', 'LevelCrudController');
     Route::crud('minimum-requirement', 'MinimumRequirementCrudController');
     Route::crud('job-title-category/{job_title_category}/related-work', 'RelatedWorkCrudController');
+
+    Route::crud('job-title/{job_title}/job-title-prerequest', 'jobTitlePrerequestsCrudController');
+
+   // Route::crud('job-title/{job_title}/job_title_prerequest',[jobTitlePrerequestsCrudController::class,'index'])->name('job_title_prerequest.index');
+  
+
     Route::crud('salary-scale', 'SalaryScaleCrudController');
     Route::crud('template', 'TemplateCrudController');
     Route::crud('template-type', 'TemplateTypeCrudController');
