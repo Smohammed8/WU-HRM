@@ -364,7 +364,7 @@ class Employee extends  Model
      */
     public function internalExperiences(): HasMany
     {
-        return $this->hasMany(InternalExperience::class);
+        return $this->hasMany(InternalExperience::class, 'employee_id', 'id');
     }
 
 

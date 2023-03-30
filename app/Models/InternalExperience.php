@@ -43,6 +43,15 @@ class InternalExperience extends Model
         return $this->belongsTo(Employee::class);
     }
 
+    public function canRelateToJobTitlte(JobTitle $jobTitle)
+    {
+
+        if($this->jobTitle->jobTitleCategory->id == $jobTitle->jobTitleCategory->id){
+            return true;
+        }
+        return false;
+    }
+
     public function unit()
     {
         return $this->belongsTo(Unit::class);

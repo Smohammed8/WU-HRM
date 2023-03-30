@@ -105,9 +105,15 @@ class JobTitle extends Model
     {
         return $this->belongsToMany(\App\Models\jobTitlePrerequest::class)->withPivot('job_title_id', 'job_prerequest_id');
     }
-    public function jobTitileprerequests()
+    
+    /**
+     * Get all of the jobTitlePrequests for the JobTitle
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function jobTitlePrequests()
     {
-        return $this->belongsToMany(\App\Models\jobTitlePrerequest::class)->withPivot('job_prerequest_id ', 'job_title_id');
+        return $this->hasMany(jobTitlePrerequest::class);
     }
 
 
