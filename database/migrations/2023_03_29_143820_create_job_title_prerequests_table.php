@@ -17,7 +17,6 @@ class CreateJobTitlePrerequestsTable extends Migration
             $table->id();
             $table->foreignId('job_title_id')->constrained('job_titles');
             $table->foreignId('job_prerequest_id')->constrained('job_titles');
-         
             $table->timestamps();
         });
     }

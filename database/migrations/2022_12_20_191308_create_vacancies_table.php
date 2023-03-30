@@ -21,7 +21,7 @@ class CreateVacanciesTable extends Migration
             $table->date('registration_start_date');
             $table->date('registration_end_date');
             $table->foreignId('position_id')->constrained();
-            $table->integer('number_of_vacants ')->nullable();
+            $table->integer('number_of_vacants')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

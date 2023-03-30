@@ -105,17 +105,33 @@ class Score
                 }
             }
         }
+        // dd('asas');
     }
+
 
     public static function calculateChoiceResult(PlacementChoice $placementChoice)
     {
         $choiceOne = $placementChoice->choiceOne;
         $choiceTwo = $placementChoice->choiceTwo;
+       
         $choiceOneExpScore = Score::getExperinceScore($placementChoice)[0];
         $choiceTwoExpScore = Score::getExperinceScore($placementChoice)[1];
-        $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
-        $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
-        $efficiencyScore = Score::getEvaluationScore($placementChoice->employee);
+        // if ($placementChoice->employee->id == 10) {
+        //     dd($choiceOneExpScore, $choiceTwoExpScore);
+        // }
+
+         $result1 = Score::eligiblityCheck($choiceOne,$placementChoice->employee);
+         $result2 = Score::eligiblityCheck($choiceTwo,$placementChoice->employee);
+         if($result1 ==false)
+         $choiceOneEduScore = 0;
+         else
+         $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
+         if($result2 ==false)
+         $choiceTwoEduScore = 0;
+         else
+         $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
+         $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
+
         $choiceOneResult = $choiceOneEduScore + $choiceOneExpScore + $efficiencyScore;
         $choiceTwoResult = $choiceTwoEduScore + $choiceTwoExpScore + $efficiencyScore;
         $placementChoice->update([
@@ -123,6 +139,19 @@ class Score
             'choice_two_result' => $choiceTwoResult,
         ]);
     }
+        
+    public static function eligiblityCheck(Position $position,Employee $employee){
+        $feild  = $employee->fieldOfStudy->id;
+        if(!in_array($feild,$position->jobTitle->JobTitleCategory->fieldOfStudies()->pluck('id')->toArray()) ) {
+            // if($employee->id == 10){
+            //     dd($employee->fieldOfStudy,$position->jobTitle->JobTitleCategory->fieldOfStudies);
+            // }
+            return false;
+        }
+        return true;
+    }
+
+
     public static function getExperinceScore($placementChoice)
     {
         $score = 0;
@@ -136,17 +165,19 @@ class Score
         $choiceOneJobTitle = $employeeeFirstChoice?->jobTitle;
         $choiceTwoJobTitle = $employeeSecondChoice?->jobTitle;
 
-        $employeeInternalExperience = $placementChoice->employee->internalExperiences->first();
+        $employeeInternalExperiences = $placementChoice->employee->internalExperiences;
         $employeeExternalExperience = $placementChoice->employee->externalExperiences->first();
 
-        $internalExpChoiceOne = Score::calculateInternalExperience($employeeInternalExperience, $choiceOneJobTitle);
+        $internalExpChoiceOne = Score::calculateInternalExperience($employeeInternalExperiences, $choiceOneJobTitle);
         $externalExpChoiceone = Score::calculateExternalExperience($employeeExternalExperience, $choiceOneJobTitle);
 
-        $internalExpChoiceTwo = Score::calculateInternalExperience($employeeInternalExperience, $choiceTwoJobTitle);
+        $internalExpChoiceTwo = Score::calculateInternalExperience($employeeInternalExperiences, $choiceTwoJobTitle);
         $externalExpChoiceTwo = Score::calculateExternalExperience($employeeExternalExperience, $choiceTwoJobTitle);
-
         $totalyearOne = Score::calculateTotalYear($internalExpChoiceOne, $externalExpChoiceone);
         $totalyearTwo = Score::calculateTotalYear($internalExpChoiceTwo, $externalExpChoiceTwo);
+        // if ($placementChoice->employee->id ==10) {
+        //     dump($totalyearOne);
+        // }
 
         $score = Score::getExpScore($choiceOneJobTitle, $totalyearOne);
         $scoreSecond = Score::getExpScore($choiceTwoJobTitle, $totalyearTwo);
@@ -182,6 +213,11 @@ class Score
         return false;
     }
 
+
+
+
+
+
     public static function getEducationScore(Position $position, Employee $employee)
     {
         if (!$position->available_for_placement) {
@@ -201,7 +237,7 @@ class Score
         } else {
             $educationComparisonCriteria = $educationComparisonCriteriaQuery->first();
         }
-        if($educationComparisonCriteria == null){
+      if($educationComparisonCriteria == null){
             // dd($positionValue);
             return 0;
             abort(403, 'Please enter correct educational criteria for education level  '.$employee->educationLevel->name.' on '.$position->name.' employee ' .$employee->name );
@@ -209,20 +245,25 @@ class Score
         return $educationComparisonCriteria->value;
     }
 
-    public static function calculateInternalExperience($internalExperience, $jobTitle)
+    public static function calculateInternalExperience($internalExperiences, $jobTitle)
     {
         $internalExp = 0;
-        if ($internalExperience) {
-            if ($internalExperience->jobTitle == $jobTitle) {
+        foreach ($internalExperiences as $key => $internalExperience) {
+            // if ($internalExperience->employee->id ==10) {
+            //     dump($internalExperiences);
+            // }
+            if ($internalExperience->canRelateToJobTitlte($jobTitle)) {
                 $startDate = $internalExperience->start_date;
                 if (!$internalExperience->end_date) {
                     $endDate = Carbon::now();
                 } else {
                     $endDate = $internalExperience->end_date;
                 }
-                $internalExp = $endDate->diffInYears($startDate);
+                $internalExp += $endDate->diffInYears($startDate);
             }
         }
+
+        // dump($internalExp);
         return $internalExp;
     }
 
@@ -230,7 +271,7 @@ class Score
     {
         $externalExp = 0;
         if ($externalExperience) {
-            if ($externalExperience->job_title == $jobTitle->name) {
+            if ($externalExperience->canRelateToJobTitlte($jobTitle)) {
                 $startDate = $externalExperience->start_date;
                 if (!$externalExperience->end_date) {
                     $endDate = Carbon::now();
@@ -240,6 +281,7 @@ class Score
                 $externalExp = $endDate->diffInYears($startDate);
             }
         }
+        // dd($externalExp);
         return $externalExp;
     }
 

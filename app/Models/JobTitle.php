@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use LdapRecord\Models\Relations\HasMany;
+use Kingmaker\Illuminate\Eloquent\Relations\HasBelongsToManySelfRelation;
+
 
 class JobTitle extends Model
 {
@@ -26,7 +29,8 @@ class JobTitle extends Model
         // 'unit_id',
         'job_code',
         'position_type_id',
-        'work_experience'
+        'work_experience',
+     
     ];
 
     /**
@@ -90,4 +94,50 @@ class JobTitle extends Model
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View Positions"><i class="la la-flag"></i> Employee </a>';
     }
+
+    // public function jobTitileprerequests(): HasMany
+    // {
+    //     return $this->hasMany(jobTitlePrerequest::class, 'job_title_id', 'id');
+    // }
+
+
+    public function jobTitile()
+    {
+        return $this->belongsToMany(\App\Models\jobTitlePrerequest::class)->withPivot('job_title_id', 'job_prerequest_id');
+    }
+    
+    /**
+     * Get all of the jobTitlePrequests for the JobTitle
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function jobTitlePrequests()
+    {
+        return $this->hasMany(jobTitlePrerequest::class);
+    }
+
+
+
+
+    
+
+//     // inside the Company model
+// public function people()
+// {
+//     return $this->belongsToMany(\App\Models\Person::class)
+//                 ->withPivot('job_title', 'job_description');
+// }
+// // inside the Person model
+// public function companies()
+// {
+//     return $this->belongsToMany(\App\Models\Company::class)
+//                 ->withPivot('job_title', 'job_description');
+// }
+
+
+
+ 
+
+
+
 }

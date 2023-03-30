@@ -15,6 +15,7 @@ class jobTitlePrerequest extends Model
      * @var array
      */
     protected $fillable = [
+        
         'job_title_id',
         'job_prerequest_id',
     ];
@@ -28,4 +29,22 @@ class jobTitlePrerequest extends Model
         'job_title_id' => 'integer',
         'job_prerequest_id' => 'integer',
     ];
+
+
+
+    public function jobTitle()
+    {
+        return $this->belongsTo(JobTitle::class);
+    }
+    public function jobTitlePrereuest()
+    {
+        return $this->belongsTo(JobTitle::class);
+    }
+    
+    // public function prerequest()
+    // {
+    //     return $this->belongsTo(JobTitle::class);
+    // }
+
+    
 }

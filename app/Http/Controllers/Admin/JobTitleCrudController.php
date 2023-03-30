@@ -7,6 +7,7 @@ use App\Models\EducationalLevel;
 use App\Models\FieldOfStudy;
 use App\Models\JobTitle;
 use App\Models\JobTitleCategory;
+use App\Models\jobTitlePrerequest;
 use App\Models\Level;
 use App\Models\PositionType;
 use App\Models\Unit;
@@ -232,9 +233,9 @@ class JobTitleCrudController extends CrudController
         CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(6);
         CRUD::field('educational_level_id')->label('Min. Educational Level')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
 
-
-        CRUD::field('Pre-request')->label('Pre-requests for experience')->type('select2_multiple')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+        
         CRUD::field('work_experience')->label('Relevant minimum work experience')->size(6);
+        CRUD::field('job_prerequest_id')->label('Pre-requests for experience')->type('select2_multiple')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
  
 
         // CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
@@ -252,8 +253,77 @@ class JobTitleCrudController extends CrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
+
+        /**
+     * Store a newly created resource in the database.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        $request = $this->crud->validateRequest();
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+        $this->data['entry'] = $this->crud->entry = $item;
+        if (array_key_exists('job_prerequest_id', $this->crud->getStrippedSaveRequest()))
+            foreach ($this->crud->getStrippedSaveRequest()['job_prerequest_id'] as $jobPrerequestId) {
+                jobTitlePrerequest::create([
+                    'job_prerequest_id'    => $jobPrerequestId,
+                    'job_title_id' => $item->id
+                ]);
+            }
+        // show a success message
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+/**
+     * Update the specified resource in the database.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+        // update the row in the db
+        $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
+                            $this->crud->getStrippedSaveRequest());
+        $this->data['entry'] = $this->crud->entry = $item;
+        $deleteItems = $this->crud->getCurrentEntry()->jobTitlePrequests()->pluck('id')->toArray();
+        foreach ($this->crud->getStrippedSaveRequest()['job_prerequest_id'] as $jobPrerequestId) {
+            if(jobTitlePrerequest::where('job_title_id',$item->id)->where('job_prerequest_id',$jobPrerequestId)->count()==0)
+                jobTitlePrerequest::create([
+                    'job_prerequest_id'    => $jobPrerequestId,
+                    'job_title_id' => $item->id
+                ]);
+            else{
+                if (($key = array_search($jobPrerequestId, $deleteItems)) !== false) {
+                    unset($deleteItems[$key]);
+                }
+            }
+        }
+        foreach($deleteItems as $deleteItem){
+            jobTitlePrerequest::where('id',$deleteItem)->delete();
+        }
+        // show a success message
+        \Alert::success(trans('backpack::crud.update_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return $this->crud->performSaveAction($item->getKey());
     }
 }
