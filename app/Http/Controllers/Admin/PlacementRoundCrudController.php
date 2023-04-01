@@ -46,8 +46,6 @@ class PlacementRoundCrudController extends CrudController
         CRUD::column('is_open')->label('Open')->type('boolean');
         $this->crud->addButtonFromModelFunction('line', 'placementChoices', 'placementChoicesButtonView', 'beginning');
         $this->crud->addButtonFromModelFunction('line', 'placementResult', 'placementResultButtonView', 'end');
-
-       
         $this->crud->addButtonFromModelFunction('line', 'committee', 'committeeButtonView', 'end');
         $this->crud->addButtonFromModelFunction('line', 'complain', 'complainButtonView', 'end');
 

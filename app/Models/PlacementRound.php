@@ -35,7 +35,7 @@ class PlacementRound extends Model
 
     public function placementChoicesButtonView($crud = false)
     {
-        $route =  route('placement-round/{placement_round}/placement-choice.index',['placement_round'=>$this->id]); // custome toute here
+        $route =  route('placement_choice.list_all',['placement_round'=>$this->id]); // custome toute here
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Placement choice"><i class="la la-list"></i>Placement Choices </a>';
     }
 
@@ -56,7 +56,7 @@ class PlacementRound extends Model
 
     public function complainButtonView($crud = false)
     {
-        
+
 
         $route =  backpack_url('complaint'); // custome toute here
 
