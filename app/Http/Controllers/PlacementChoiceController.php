@@ -134,19 +134,41 @@ class PlacementChoiceController extends Controller
         $items = $items instanceof Collection ? $items : Collection::make($items);
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, ['path' => request()->url(), 'query' => request()->query()]);
     }
-    public function listAll(PlacementRound $placementRound)
+    public function listAll(PlacementRound $placementRound, Request $request)
     {
-        $unit = Unit::where('parent_unit_id', Organization::first()->id)->first();
-            $this->attachUnitToArray($unit);
+        $first_unit = Organization::first()->id;
+        $onlypos = false;
+        $val = 'parent_unit_id';
+        if ($request->get('filter')) {
+            $allChecked = $request->get('all_checked');
+            if ($request->get('unit') > 0) {
+                $first_unit = $request->get('unit');
+                if ($allChecked) {
+                    $onlypos = true;
+                    $val= 'id';
+                }
+            }
+        }
+        $unit = Unit::where($val, $first_unit)->first();
+        if (!$unit) {
+            $unit = Unit::find($first_unit);
+        }
+        $this->attachUnitToArray($unit, $onlypos);
         $route = route('placement_choice.list_all',['placement_round'=>$placementRound->id]);
+        
+        $allUnits = Unit::all();
         $units = $this->paginate($this->unitsArray);
-        return view('placement_choice.index', compact('units', 'placementRound'));
+        return view('placement_choice.index', compact('units', 'placementRound', 'allUnits'));
     }
-    function attachUnitToArray($unit)
+    function attachUnitToArray($unit, $onlypos)
     {
-        array_push($this->unitsArray, $unit);
-        foreach ($unit->childs as $child) {
-            $this->attachUnitToArray($child);
+        if ($onlypos) {
+            array_push($this->unitsArray, $unit);
+        }else{
+            array_push($this->unitsArray, $unit);
+            foreach ($unit->childs as $child) {
+                $this->attachUnitToArray($child, false);
+            }
         }
     }
 }
