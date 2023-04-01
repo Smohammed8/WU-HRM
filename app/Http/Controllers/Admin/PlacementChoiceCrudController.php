@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\DB;
  */
 class PlacementChoiceCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -43,6 +43,7 @@ class PlacementChoiceCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\PlacementChoice::class);
+        $this->crud->setShowView('placement_show.show');
         $placementRound = \Route::current()->parameter('placement_round');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-round/' . $placementRound . '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
@@ -51,19 +52,19 @@ class PlacementChoiceCrudController extends CrudController
 
 
 
- 
+
 
 // public function getFilter(Request $request){
 
-    
+
 //      $position =   $request->get('position');
 
-        
+
 //         if (!empty($position)) {
 //             $applicants = $position->where('gpa', '=', $gpa);
 
-      
-//             $placement_choice = PlacementChoice::where('choice_one_id','=',$position)->get(); 
+
+//             $placement_choice = PlacementChoice::where('choice_one_id','=',$position)->get();
 
 
 //             PlacementChoice::where(function ($query) {
@@ -72,26 +73,26 @@ class PlacementChoiceCrudController extends CrudController
 
 
 //         return view('placement_result.index', compact('choicess', 'units', 'positions', 'placements', 'totalPositions'));
-   
-   
-            
-//         } 
-        
-//         else{ 
+
+
+
+//         }
+
+//         else{
 
 //             $units = Unit::where('id', '=', 35)->get();
 //             $positions = Position::all();  //35
-        
+
 //             //  $positions = Position::where('unit_id','=' ,35)->get();
-        
+
 //             $placements = DB::table('placement_choices')->count();
 //             $totalPositions = DB::table('positions')->count();
-        
+
 //             // $placement_results = PlacementChoice::all()->paginate(10);
 //             $placement_results = PlacementChoice::all();
-        
+
 //             return view('placement_result.index', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions'));
-        
+
 //         }
 // }
 
@@ -143,11 +144,11 @@ class PlacementChoiceCrudController extends CrudController
         $this->crud->addFilter(
             [
                 'name'  => 'choice_two_id',
-                'type'  => 'select2_multiple',
-                'label' => 'Who are apply for this postion?'
+                'type'  => 'select2',
+                'label' => 'Filter by Position'
             ],
             function () {
-                return \App\Models\Position::all()->pluck('name', 'id')->toArray();
+                return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
             },
             function ($values) {
 

@@ -97,7 +97,7 @@ class Unit extends Model
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View Positions"><i class="la la-flag"></i> Positions </a>';
     }
-    
+
 
 
 
@@ -110,6 +110,22 @@ class Unit extends Model
         $route =  route('employee.index', ['unit_id' => $this->attributes['id']]); // custome toute here
 
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View employee"><i class="la la-users"></i> Employee </a>';
+    }
+
+    /**
+     * Get all of the positions for the Unit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function positions()
+    {
+        return $this->hasMany(Position::class, 'unit_id', 'id');
+    }
+
+    public function getPositionedChoice()
+    {
+        $positionIds = $this->positions()->pluck('id')->toArray();
+        return PlacementChoice::whereIn('choice_one_id',$positionIds)->orWhereIn('choice_one_id',$positionIds)->get();
     }
 
 
