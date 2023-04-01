@@ -89,14 +89,14 @@ class OrganizationCrudController extends CrudController
     {
 
        //  $this->crud->denyAccess('delete');
-         $this->crud->addButtonFromModelFunction('line', 'unit', 'viewStructure', 'end');
-        //  $this->crud->addButtonFromModelFunction('line', 'units', 'treeView', 'end');
-
+     
+          $this->crud->addButtonFromModelFunction('line', 'unit', 'viewStructure', 'end');
+          $this->crud->addButtonFromModelFunction('line', 'view', 'getDoc', 'end');
 
          $this->crud->denyAccess(['create', 'show']);
        //  $this->crud->denyAccess(['create', 'update', 'delete']);
 
-        // $this->crud->addButtonFromView('line', 'moderate', 'moderate', 'beginning');
+        // $this->crud->addButtonFromView('line', 'moderate', 'viewLegistilation', 'beginning');
 
         CRUD::column('name');
         CRUD::column('email');

@@ -5,6 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Storage;
+use File;
+use Response;
+use DB;
+
+
 class Organization extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -80,4 +88,11 @@ class Organization extends Model
         $route = route('hierarchy');
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View organization structure"><i class="la la-sitemap"></i> Tree</a>';
     }
+
+ public function getDoc($crud = false)
+ {
+    $route  = route('structure-pdf');
+        return '<a class="btn btn-sm btn-link"  href="'.$route.'" data-toggle="tooltip" title="Download"><i class="la la-download"></i> PDF </a>';
+ }
+
 }
