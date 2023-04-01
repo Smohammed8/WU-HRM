@@ -23,6 +23,7 @@ class CreateUnitsTable extends Migration
             $table->string('extension_line', 255)->nullable();
             $table->string('location', 255)->nullable();
             $table->string('seal')->nullable();
+            $table->string('level')->nullable();
             $table->string('teter')->nullable();
             $table->text('vision')->nullable();
             $table->text('mission')->nullable();

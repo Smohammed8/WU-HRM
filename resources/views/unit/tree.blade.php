@@ -4,7 +4,6 @@
 
 <link rel="stylesheet" type="text/css" href="{{ asset('tree.css') }}" /> 
 
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet"> <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 <link href="{{ asset('treeview.css') }}" rel="stylesheet">
@@ -107,6 +106,6 @@
 
 <script src="{{ asset('treeview.js') }}"></script>
 
-{{-- @section('after_scripts')
+@section('after_scripts')
     <script src="{{ asset('tree.js') }}" type="text/javascript"></script>
-@endsection --}}
+@endsection

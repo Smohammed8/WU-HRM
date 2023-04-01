@@ -100,6 +100,7 @@ class UnitCrudController extends CrudController
         $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
 
         CRUD::column('name')->label('Organizational unit');
+        CRUD::column('level');
         // CRUD::column('acronym');
         // CRUD::column('email');
         // CRUD::column('telephone');
@@ -154,6 +155,7 @@ class UnitCrudController extends CrudController
         // CRUD::field('extension_line')->size(6);
         // CRUD::field('location')->size(6);
         // CRUD::field('seal')->size(6);
+         CRUD::field('level')->size(6);
         // CRUD::field('teter')->size(6);
         // CRUD::field('vision')->size(6);
         // CRUD::field('mission')->size(6);
@@ -165,7 +167,7 @@ class UnitCrudController extends CrudController
         // CRUD::field('parent_unit_id')->size(6);
         CRUD::field('parent_unit_id')->label('Accountable to')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
         //  CRUD::field('reports_to_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
-        CRUD::field('organization_id')->size(6)->type('select2')->entity('organization')->model(Organization::class)->attribute('name');
+       // CRUD::field('organization_id')->size(6)->type('select2')->entity('organization')->model(Organization::class)->attribute('name');
         CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(ChairManType::class)->attribute('name');
 
         CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(Employee::class)->attribute('name');
