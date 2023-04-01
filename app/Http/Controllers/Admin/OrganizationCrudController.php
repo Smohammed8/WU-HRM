@@ -89,7 +89,8 @@ class OrganizationCrudController extends CrudController
     {
 
        //  $this->crud->denyAccess('delete');
-         $this->crud->addButtonFromModelFunction('line', 'open_google', 'viewStructure', 'end');
+         $this->crud->addButtonFromModelFunction('line', 'unit', 'viewStructure', 'end');
+         $this->crud->addButtonFromModelFunction('line', 'units', 'treeView', 'end');
 
 
          $this->crud->denyAccess(['create', 'show']);

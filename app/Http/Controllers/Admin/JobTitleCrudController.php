@@ -235,10 +235,10 @@ class JobTitleCrudController extends CrudController
         CRUD::field('level_id')->label('Job grade')->type('select2')->entity('level')->model(Level::class)->attribute('name')->size(6);
         CRUD::field('educational_level_id')->label('Min. Educational Level')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
 
-        
-        CRUD::field('work_experience')->label('Relevant minimum work experience')->size(6);
         CRUD::field('job_prerequest_id')->label('Pre-requests for experience')->type('select2_multiple')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
  
+        CRUD::field('work_experience')->label(' Min. Relevant experience')->size(6);
+        
 
         // CRUD::field('unit_id')->label('የስራ መደቡ የሚገኝበት የሥራክፍል')->type('select2')->entity('unit')->model(Unit::class)->attribute('name')->size(6);
        // CRUD::field('description');

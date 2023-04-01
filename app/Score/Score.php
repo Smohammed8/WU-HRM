@@ -119,7 +119,7 @@ class Score
         // if ($placementChoice->employee->id == 10) {
         //     dd($choiceOneExpScore, $choiceTwoExpScore);
         // }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////
          $result1 = Score::eligiblityCheck($choiceOne,$placementChoice->employee);
          $result2 = Score::eligiblityCheck($choiceTwo,$placementChoice->employee);
 
@@ -139,7 +139,7 @@ class Score
          $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
          $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
          }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////
         $choiceOneResult = $choiceOneEduScore + $choiceOneExpScore + $efficiencyScore;
         $choiceTwoResult = $choiceTwoEduScore + $choiceTwoExpScore + $efficiencyScore;
         $placementChoice->update([
@@ -170,7 +170,6 @@ class Score
 
         $choiceOneJobTitle = $employeeeFirstChoice?->jobTitle;
         $choiceTwoJobTitle = $employeeSecondChoice?->jobTitle;
-
         $employeeInternalExperiences = $placementChoice->employee->internalExperiences;
         $employeeExternalExperiences = $placementChoice->employee->externalExperiences;
 

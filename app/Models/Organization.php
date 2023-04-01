@@ -69,4 +69,15 @@ class Organization extends Model
         $route = route('hierarchy');
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View organization structure"><i class="la la-sitemap"></i> Structure</a>';
     }
+
+
+    public function treeView($crud = false)
+    {
+
+        if (!backpack_user()->can('organization.structure.view')) {
+            return null;
+        }
+        $route = route('hierarchy');
+        return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="View organization structure"><i class="la la-sitemap"></i> Tree</a>';
+    }
 }

@@ -77,11 +77,13 @@ Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class)->
 // Route::resource('leave', LeaveCrudController::class);
 Route::get( '/hierarchy',
     function () {
-        $units = Unit::where('parent_unit_id')->latest()->get();
-        //dd($units );
-        return view('unit.tree', ['orgs' => $units]);
+        $org = Unit::where('parent_unit_id')->latest()->get();
+        return view('unit.tree', ['orgs' => $org]);
     }
 )->name('hierarchy')->middleware('auth');
+
+
+
 
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show')->middleware('auth');
 Route::resource('idcard', IDCardController::class)->middleware('auth');
