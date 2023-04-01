@@ -35,6 +35,7 @@ class Unit extends Model
         'reports_to_id',
         'organization_id',
         'chair_man_type_id',
+        'level'
     ];
 
     /**
@@ -49,7 +50,7 @@ class Unit extends Model
         'parent_unit_id' => 'integer',
         'reports_to_id' => 'integer',
         'organization_id' => 'integer',
-        'organization_id' => 'integer',
+       // 'organization_id' => 'integer',
     ];
 
     public function seal()

@@ -6,10 +6,11 @@
 		@if(count($child->childs) == 0 )
 
 	
-		<i class="fa fa-plus"> </i>  
+	
+		<i class="fa fa-minus"> </i> 
 
 		@else
-		<i class="fa fa-minus"> </i>  
+		<i class="fa fa-plus"> </i>  
 		@endif
 		{{ $child->name}}
 	
