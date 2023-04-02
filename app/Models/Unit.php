@@ -128,7 +128,11 @@ class Unit extends Model
         return PlacementChoice::whereIn('choice_one_id',$positionIds)->orWhereIn('choice_one_id',$positionIds)->get();
     }
 
-
+    public function getPositionedResult()
+    {
+        $positionIds = $this->positions()->pluck('id')->toArray();
+        return PlacementChoice::whereIn('new_position',$positionIds)->get();
+    }
 
 
 

@@ -42,6 +42,14 @@ class PlacementController extends Controller
         $placementRound->update([
             'status' => $placementRound->status -1,
         ]);
+
+        foreach ($placementRound->placementChoices as $key => $placementChoice) {
+            $placementChoice->update([
+                'choice_one_rank'=>null,
+                'choice_two_rank'=>null,
+                'new_position'=>null
+            ]);
+        }
         return redirect()->back();
     }
 

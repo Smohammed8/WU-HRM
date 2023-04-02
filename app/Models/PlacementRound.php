@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PlacementRound extends Model
 {
@@ -63,11 +64,18 @@ class PlacementRound extends Model
         return '<a class="btn btn-sm btn-link"  href="' . $route . '" data-toggle="tooltip" title="Employee complians after placement made"><i class="la la-user-tie"></i> Complains </a>';
     }
 
- public function getLeg($crud = false)
- {
+    /**
+     * Get all of the placementChoices for the PlacementRound
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function placementChoices(): HasMany
+    {
+        return $this->hasMany(PlacementChoice::class, 'placement_round_id', 'id');
+    }
+    public function getLeg($crud = false)
+    {
     $route  = route('legistlation');
         return '<a class="btn btn-sm btn-link"  href="'.$route.'" data-toggle="tooltip" title="Download"><i class="la la-download"></i> Legislation PDF </a>';
- }
-
-
+    }
 }
