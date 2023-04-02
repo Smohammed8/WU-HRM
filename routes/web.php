@@ -101,3 +101,7 @@ Route::get('field_of_study/sync',[ FieldOfStudyCrudController::class,'syncFieldO
 Route::post('choice-based-employee', [PlacementChoiceController::class, 'choiceBasedEmployee']);
 Route::post('remove-choosed-position', [PlacementChoiceController::class, 'removeChoosedPosition']);
 Route::get('placement-round/{placement_round}/placement-choice',[PlacementChoiceController::class,'listAll'])->name('placement_choice.list_all');
+
+Route::get('choice-download-pdf', [PlacementChoiceController::class, 'pdfDownload'])->name('pdf.download')->middleware('auth');
+
+Route::get('/choice-download-excel', [ImportExportController::class, 'exportResourceVolunteer'])->name('resource.volunteers.export');

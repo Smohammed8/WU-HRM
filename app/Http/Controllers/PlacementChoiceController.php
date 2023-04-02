@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants;
+use App\Exports\ExportChoice;
 use App\Models\EducationalLevel;
 use App\Models\Employee;
 use App\Models\Organization;
@@ -13,6 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PlacementChoiceController extends Controller
 {
@@ -138,18 +143,17 @@ class PlacementChoiceController extends Controller
     {
         $first_unit = Organization::first()->id;
         $onlypos = false;
-        $val = 'parent_unit_id';
+        // $val = 'parent_unit_id';
         if ($request->get('filter')) {
             $allChecked = $request->get('all_checked');
             if ($request->get('unit') > 0) {
                 $first_unit = $request->get('unit');
                 if ($allChecked) {
                     $onlypos = true;
-                    $val= 'id';
                 }
             }
         }
-        $unit = Unit::where($val, $first_unit)->first();
+        $unit = Unit::where('id', $first_unit)->first();
         if (!$unit) {
             $unit = Unit::find($first_unit);
         }
@@ -158,6 +162,29 @@ class PlacementChoiceController extends Controller
         
         $allUnits = Unit::all();
         $units = $this->paginate($this->unitsArray);
+        if ($request->get('choice_pdf')) {
+            $type = 'choice';
+            $pdf = $this->pdfDownload($this->unitsArray, $type);
+            return $pdf->stream();
+        }
+        if ($request->get('result_pdf')) {
+            $type = 'result';
+            $pdf = $this->pdfDownload($this->unitsArray, $type);
+            return $pdf->stream();
+        }
+
+        if ($request->get('choice_excel')) {
+            $type = 'choice';
+            $arr_data = $this->exportChoice($this->unitsArray, $type);
+            return Excel::download(new ExportChoice($arr_data, ['Full name', 'Unit', 'Current position','First Choice','Second Choice']), 'ju_placement_choice.xlsx');
+        }
+
+        if ($request->get('result_excel')) {
+            $type = 'result';
+            $arr_data = $this->exportChoice($this->unitsArray, $type);
+            return Excel::download(new ExportChoice($arr_data, ['Full name', 'Unit', 'Current position','First Choice','Second Choice']), 'ju_placement_choice.xlsx');
+        }
+
         return view('placement_choice.index', compact('units', 'placementRound', 'allUnits'));
     }
     function attachUnitToArray($unit, $onlypos)
@@ -171,4 +198,22 @@ class PlacementChoiceController extends Controller
             }
         }
     }
+
+    public function pdfDownload($units, $type)
+    {
+        $pdf = Pdf::loadView('placement_choice.pdf', compact('units', 'type'))->setPaper('a4', 'landscape');
+        return $pdf;
+    }
+
+    public function exportChoice($units, $type)
+    {
+        // $unit_ids = collect($units)->pluck('id');
+        $aa = [];
+        foreach ($units as $key => $unit) {
+            foreach ($type == 'choice' ? $unit->getPositionedChoice() : $unit->getPositionedResult() as $key => $placement) {
+                array_push($aa, [$placement->employee?->getNameAttribute(), $unit->name, $placement->employee?->position?->name, $placement->choiceOne?->name, $placement->choiceTwo?->name]);
+            }
+        }
+        return $aa;
+    }   
 }
