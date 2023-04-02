@@ -48,6 +48,7 @@ class PlacementRoundCrudController extends CrudController
         $this->crud->addButtonFromModelFunction('line', 'placementResult', 'placementResultButtonView', 'end');
         $this->crud->addButtonFromModelFunction('line', 'committee', 'committeeButtonView', 'end');
         $this->crud->addButtonFromModelFunction('line', 'complain', 'complainButtonView', 'end');
+        $this->crud->addButtonFromModelFunction('line', 'leg', 'getLeg', 'end');
 
 
         /**

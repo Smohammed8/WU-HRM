@@ -83,7 +83,17 @@ Route::get( '/hierarchy',
 )->name('hierarchy')->middleware('auth');
 
 
+Route::get('pdf', function(){
 
+    return response()->file(public_path('/doc/JU_Approved_Structure_Description_August30-2022.pdf'));
+
+})->name('structure-pdf')->middleware('auth');
+
+Route::get('legistlation', function(){
+
+    return response()->file(public_path('/doc/ሰራተኛ_ድልድል_2014.pdf'));
+
+})->name('legistlation')->middleware('auth');
 
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show')->middleware('auth');
 Route::resource('idcard', IDCardController::class)->middleware('auth');

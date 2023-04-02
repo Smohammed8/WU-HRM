@@ -73,6 +73,22 @@
                 Print ID
             </a>
         @endcan
+
+
+        {{-- @can('employee.id.print') --}}
+        <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
+            <i class="la la-book"></i>
+            Hire Letter
+        </a>
+    {{-- @endcan --}}
+
+
+          {{-- @can('employee.id.print') --}}
+          <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
+            <i class="la la-calendar"></i>
+            Exp. Letter
+        </a>
+    {{-- @endcan --}}
         {{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i
             class="la la-print"></i></a> --}}
 

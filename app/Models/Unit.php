@@ -134,6 +134,8 @@ class Unit extends Model
         return PlacementChoice::whereIn('new_position',$positionIds)->get();
     }
 
+
+
     public function childs()
     {
 

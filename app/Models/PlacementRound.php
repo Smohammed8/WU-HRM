@@ -73,5 +73,9 @@ class PlacementRound extends Model
     {
         return $this->hasMany(PlacementChoice::class, 'placement_round_id', 'id');
     }
-
+    public function getLeg($crud = false)
+    {
+    $route  = route('legistlation');
+        return '<a class="btn btn-sm btn-link"  href="'.$route.'" data-toggle="tooltip" title="Download"><i class="la la-download"></i> Legislation PDF </a>';
+    }
 }
