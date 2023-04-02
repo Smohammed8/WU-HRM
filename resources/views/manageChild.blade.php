@@ -3,6 +3,15 @@
 @foreach($childs  as $child)
 
 	<li>
+
+	
+		@if($child->subordinate == true)
+
+		&nbsp;	&nbsp;	
+		@else
+
+		@endif
+
 		@if(count($child->childs) == 0 )
 
 	
@@ -12,12 +21,23 @@
 		@else
 		<i class="fa fa-plus"> </i>  
 		@endif
-		{{ $child->name}}
+		{{ $child->name}}  <br> 
 	
-	@if(count($child->childs))
+	
+	   @if(count($child->childs))
 
         @include('manageChild',['childs' => $child->childs])
-		  
+
+
+		@foreach($child->positions as $position)
+
+		@if(count($child->positions ))
+		<i class="la la-caret-right"> </i> 
+		{{$position->name}} <br> 
+
+
+		@endif 
+		@endforeach
 
         @endif
 

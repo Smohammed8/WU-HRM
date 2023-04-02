@@ -24,6 +24,7 @@ class CreateUnitsTable extends Migration
             $table->string('location', 255)->nullable();
             $table->string('seal')->nullable();
             $table->string('level')->nullable();
+            $table->boolean('subordinate')->default(0);
             $table->string('teter')->nullable();
             $table->text('vision')->nullable();
             $table->text('mission')->nullable();

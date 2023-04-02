@@ -172,6 +172,8 @@ class UnitCrudController extends CrudController
 
         CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(Employee::class)->attribute('name');
       
+        CRUD::field('subordinate')->label('Is it subordinate?')->size(4);
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
