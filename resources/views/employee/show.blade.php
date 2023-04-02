@@ -74,17 +74,22 @@
             </a>
         @endcan
 
+        
+
 
         {{-- @can('employee.id.print') --}}
-        <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
+        <a  href="{{ route('hire.letter', ['employee_id'=> $crud->entry->id]) }}" class="btn  btn-sm btn-outline-primary float-right mr-1">
             <i class="la la-book"></i>
             Hire Letter
         </a>
+
+  
+
     {{-- @endcan --}}
 
 
           {{-- @can('employee.id.print') --}}
-          <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
+          <a href="#" class="btn  btn-sm btn-outline-primary float-right mr-1">
             <i class="la la-calendar"></i>
             Exp. Letter
         </a>
@@ -426,8 +431,7 @@
 
                         <li role="presentation" class="nav-item">
                             <a href="#" aria-controls="" role="tab" tab_name="" data-toggle="tab"
-                                class="nav-link "> <i class="la
-                        la la-university"
+                                class="nav-link "> <i class="la la la-university"
                                     style="font-size: 20px"> </i> {{ 'Memebership' }}</a>
                         </li>
                     </ul>

@@ -31,6 +31,10 @@ use App\Models\FormStyle;
 use App\Models\InternalExperience;
 use App\Models\JobGrade;
 use App\Models\JobTitle;
+use App\Models\Template;
+//use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use App\Models\Leave;
 use App\Models\Level;
 use App\Models\License;
@@ -43,6 +47,7 @@ use App\Models\PositionCode;
 use App\Models\Promotion;
 use App\Models\SalaryIncreament;
 use App\Models\Skill;
+use App\Models\TemplateType;
 use App\Models\TrainingAndStudy;
 use App\Models\TypeOfMisconduct;
 use App\Models\Unit;
@@ -60,6 +65,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use DateTime;
 
 /**
  * Class EmployeeCrudController
@@ -364,6 +370,13 @@ class EmployeeCrudController extends CrudController
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
     }
+
+// $present = new DateTime('now');
+// $future = new DateTime('last day of January 2024');
+// $interval = $present->diff($future);
+
+
+
     public function store()
     {
         $this->crud->hasAccessOrFail('create');
@@ -383,10 +396,44 @@ class EmployeeCrudController extends CrudController
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();
-
         return $this->crud->performSaveAction($item->getKey());
     }
+     public function createPDF(Employee $employee_id) {
+         $body1  = Template::select('body')->where('template_type_id', '=',2)->get()->first()->body;
 
+         $level_id  =    Employee::where('id',$employee_id->id)->first()->position->jobTitle->level_id;
+    
+         $body2  = str_replace("\xc2\xa0",' ', $body1); 
+         $position =   $employee_id->position->name;
+         $unit =   $employee_id->position->unit->name;
+         $edate =   $employee_id->employement_date->format('l, d F, Y');
+         $etype =   $employee_id->employment_type;
+         $vdate =   date('d F, Y');
+         $exdate =   date('d F, Y');
+         $intDate =   date('d F, Y');  
+         $tmark =   '62.5';
+
+         $levelname =   $employee_id->position->jobTitle->level->name;
+         $startSalary  =    JobGrade::where('level_id',  $level_id )->first()->start_salary;
+         $code =   PositionCode::where('id', $employee_id->position->id)->first()->code;
+
+        $old = ["%unit%", "%posotion%","%employementType%","%vacancyDate%","%examDate%","%interviewDate%","%totalmark%","%employementType%","%jobLevel%","%jobCode%","%position%","%salary%","%hireDate%"];
+        $new   = [$unit,$position,$etype,$vdate,$exdate,$intDate,$tmark,$etype,$levelname ,$code,$position, $startSalary, $edate];
+
+
+         $body  =   str_replace($old ,$new ,$body2);
+         $employee = Employee::where('id', $employee_id->id)->get()->first();
+        //  dd(   $employee );
+        // dd($employee->first_name);
+    if ($employee) {
+       
+        $pdf = PDF::loadView('employee.hire_pdf', compact( 'body','employee'))->setPaper('A4', 'portrait');
+        return $pdf->download('hire'.$employee_id->firt_name.' '.$employee_id->father_name.'pdf');
+      }
+      else {
+            return redirect()->route('employee.index')->with('message', 'Sorry unable to print');
+      }
+    }
     /**
      * Define what happens when the Update operation is loaded.
      *

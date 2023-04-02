@@ -27,8 +27,8 @@
        
 
         <div class="card-header">
-            <h5 class="mb-2"> Real time stastices </h5>
-            <a href="/employDatagit/employee_detail.xlsx" class="btn btn-sm btn-primary float-right"> <i class="fa fa-download"></i> Download Emplyee Form Excel</a>
+            <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
+            <a href="/employDatagit/employee_detail.xlsx" class="btn btn-sm btn-primary float-right"> <i class="fa fa-download"></i> Emplyee Form Excel</a>
 
         </div> <!-- /.card-body -->
         <div class="card-body">
@@ -51,10 +51,10 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success"><i class="fa fa-user-minus"></i></span>
+                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Reay for retirments</span>
+                                <span class="info-box-text">Ready for retirments</span>
                                 <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -64,10 +64,10 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="fa fa-user-plus"></i></span>
+                            <span class="info-box-icon bg-warning"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-plus"></i> </a></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text"> On Leave</span>
+                                <span class="info-box-text"> Active Leaves</span>
                                 <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -77,7 +77,7 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="fa fa-user-minus"></i></span>
+                            <span class="info-box-icon bg-danger"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Resignations</span>
@@ -97,7 +97,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box"> <!--    <div class="info-box shadow"> -->
-                            <span class="info-box-icon bg-info"><i class="fa fa-sitemap"></i></span>
+                            <span class="info-box-icon bg-info"> <a href="{{ route('unit.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a> </span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Organizational units</span>
@@ -110,10 +110,10 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success"><i class="fa fa-user-plus"></i></span>
+                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Trail periods </span>
+                                <span class="info-box-text">Under Probation Period  </span>
                                 <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -124,10 +124,10 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="fa fa-flag"></i></span>
+                            <span class="info-box-icon bg-warning"><a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-list"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Free Job positions </span>
+                                <span class="info-box-text">Vacant positions </span>
                                 <span class="info-box-number"> {{ $positions }}</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -137,7 +137,7 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
+                            <span class="info-box-icon bg-danger"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-star"></i> </a></span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">New promotions</span>
