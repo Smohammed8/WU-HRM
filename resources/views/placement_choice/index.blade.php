@@ -204,6 +204,11 @@
                                     <th>Employee Full name</th>
                                     <th>Employee first choice</th>
                                     <th>Employee second choice</th>
+                                    <th>Choice one result</th>
+                                    <th>Choice two result</th>
+                                    <th>Choice one rank</th>
+                                    <th>Choice two rank</th>
+                                    <th>new position</th>
                                     {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
@@ -213,6 +218,11 @@
                                     <td>{{ $placementChoice->employee?->getNameAttribute() }}</td>
                                     <td>{{ $placementChoice->choiceOne?->name }}</td>
                                     <td>{{ $placementChoice->choiceTwo?->name }}</td>
+                                    <td>{{ $placementChoice->choice_one_result }}</td>
+                                    <td>{{ $placementChoice->choice_two_result }}</td>
+                                    <td>{{ $placementChoice->choice_one_rank }}</td>
+                                    <td>{{ $placementChoice->choice_two_rank }}</td>
+                                    <td>{{ $placementChoice->newPosition?->name }}</td>
                                     {{-- <td>
                                     </td> --}}
                                 </tbody>

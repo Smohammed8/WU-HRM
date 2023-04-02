@@ -89,7 +89,7 @@
             <table class="styled-table">
                 <tbody>
                     <tr>
-                        <td colspan="5" style="text-align: center">
+                        <td colspan="{{ $type == 'choice' ? '5' : '8' }}" style="text-align: center">
                             {{ $keyUnit + 1 }}. <b style="font-family: 'Noto Serif Ethiopic'">Unit: {{ $unit->name }}</b>
                         </td>
                     </tr>
@@ -100,6 +100,13 @@
                             <th>Current Position</th>
                             <th>Choice one</th>
                             <th>Choice two</th>
+                            @if ($type == 'result')
+                                <th>Choice one result</th>
+                                <th>Choice two result</th>
+                                <th>Choice one rank</th>
+                                <th>Choice two rank</th>
+                                <th>new position</th>
+                            @endif
                         </tr>
                     </thead>
                     @forelse ( $type == 'choice' ? $unit->getPositionedChoice() : $unit->getPositionedResult() as $key => $placementChoice )
@@ -109,6 +116,13 @@
                             <td><b style="font-family: 'Noto Serif Ethiopic'">{{ $placementChoice->employee?->position?->name }}</b></td>
                             <td><b style="font-family: 'Noto Serif Ethiopic'">{{ $placementChoice->choiceOne?->name }}</b></td>
                             <td><b style="font-family: 'Noto Serif Ethiopic'">{{ $placementChoice->choiceTwo?->name }}</b></td>
+                            @if ($type == 'result')
+                                <td><b>{{ $placementChoice->choice_one_result }}</b></td>
+                                <td><b>{{ $placementChoice->choice_two_result }}</b></td>
+                                <td><b>{{ $placementChoice->choice_one_rank }}</b></td>
+                                <td><b>{{ $placementChoice->choice_two_rank }}</b></td>
+                                <td><b style="font-family: 'Noto Serif Ethiopic'">{{ $placementChoice->newPosition->name }}</b></td>
+                            @endif
                         </tr>
                     @empty
                         <tr>

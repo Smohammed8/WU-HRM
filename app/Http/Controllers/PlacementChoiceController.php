@@ -141,6 +141,7 @@ class PlacementChoiceController extends Controller
     }
     public function listAll(PlacementRound $placementRound, Request $request)
     {
+        set_time_limit(2000);
         $first_unit = Organization::first()->id;
         $onlypos = false;
         // $val = 'parent_unit_id';
