@@ -89,7 +89,7 @@
             <table class="styled-table">
                 <tbody>
                     <tr>
-                        <td colspan="{{ $type == 'choice' ? '5' : '8' }}" style="text-align: center">
+                        <td colspan="{{ $type == 'choice' ? '5' : '10' }}" style="text-align: center">
                             {{ $keyUnit + 1 }}. <b style="font-family: 'Noto Serif Ethiopic'">Unit: {{ $unit->name }}</b>
                         </td>
                     </tr>
