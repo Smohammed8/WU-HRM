@@ -54,7 +54,7 @@
                             <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Ready for retirments</span>
+                                <span class="info-box-text">Active Retirments</span>
                                 <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
