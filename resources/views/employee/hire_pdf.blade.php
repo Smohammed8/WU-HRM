@@ -45,8 +45,7 @@
 
         <h6 style="font-size: 12px; font-family: 'Noto Serif Ethiopic'"> 
         <ul>
-           
-           <strong> ግልባጭ// </strong> 
+           <strong><u> ግልባጭ//  </u> </strong> 
             <li>ለፕሬዝዳንት ጽ/ቤት </li> 
             <li>ለአስተዳደርና የተማሪዎች አገ/ም/ፕሬዚዳንት </li> 
             <li> ለሰው ሀብት አስተዳደርና ልማት ዳይሬክቶሬት </li> 
@@ -55,22 +54,19 @@
             <li> ለስትራተጂክ ማኔጅመንት ሲኒየር ዳይሬክተር ጽ/ቤት </li> 
             <li> ለአይሲቲ ልማት ዳይሬክቶሬት </li> 
             <li> ለሰው ሀብት ዳታ ኢንኮደር </li> 
-            <li> ጅማ ዩኒቨርሲቲ </li> 
-       
+            <u> ጅማ ዩኒቨርሲቲ  </u> 
         </ul>
-    </h6> 
-
-    <h6 style="font-size: 12px; font-family: 'Noto Serif Ethiopic'"> 
+  
           <ul>
-        
          <li>የመንግስት ሠራተኞች ማህበራዊ ዋስትና ኤጀንሲ </li>   
          ለደቡብ ምዕራብ ሪጅን ጽ/ቤት<br>
          ከ1 ገጽ የህይወት ታሪክ ፎርም ጋር<br>
          h1 ገጽ ቅጽ ጡረታ ጋር<br>
-         ጅማ
+        <u>ጅማ </u> 
         </u>
-         </strong>
+         
         </h6>
+        <hr>
 
         {{-- ETB  {{  number_format($sum,2)  }} --}}
     </div>
