@@ -420,7 +420,7 @@ class EmployeeCrudController extends CrudController
 
         $levelname =   $employee_id->position->jobTitle->level->name;
 
-        $code =   PositionCode::where('id', $employee_id->position->id)->first()->code;
+        $code =   PositionCode::where('id', $employee_id->position->id)->first()?->code;
 
         $old   = ["%unit%", "%posotion%", "%employementType%", "%vacancyDate%", "%examDate%", "%interviewDate%", "%totalmark%", "%employementType%", "%jobLevel%", "%jobCode%", "%position%", "%salary%", "%hireDate%", "%salary_text%"];
         $new   = [$unit, $position, $etype, $vdate, $exdate, $intDate, $tmark, $etype, $levelname, $code, $position, $startSalary, $edate, $digit->format($startSalary)];
