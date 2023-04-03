@@ -262,7 +262,7 @@
                                 </div>
 
 
-                        
+                            
                             </div>
                             {{-- {{  $date_of_retire2  }} --}}
 
