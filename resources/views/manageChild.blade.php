@@ -31,10 +31,16 @@
 
 		@foreach($child->positions as $position)
 
-		@if(count($child->positions ))
+		@if(count($child->positions )) &nbsp;&nbsp;&nbsp;&nbsp;		
 		<i class="la la-caret-right"> </i> 
-		{{$position->name}} <br> 
+		{{$position->name}}-
 
+		@foreach($position->positionCodes as $positionCode)
+		
+		{{$positionCode->code }} 
+		
+		<br> 
+		@endforeach
 
 		@endif 
 		@endforeach

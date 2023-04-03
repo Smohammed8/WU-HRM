@@ -3,10 +3,9 @@
 
 @section('content')
     @cannot('dashboard.content')
-        <h3 class="text-center">Welcome to {{ env('APP_NAME') }}</h3>
+        <h3 class="text-center"> Welcome to {{ env('APP_NAME') }}</h3>
     @endcan
     @can('dashboard.content')
-
     <br>    
      <div class="card card-primary card-outline"> 
         
