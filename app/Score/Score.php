@@ -113,7 +113,7 @@ class Score
     {
         $choiceOne = $placementChoice->choiceOne;
         $choiceTwo = $placementChoice->choiceTwo;
-       
+
         $choiceOneExpScore = Score::getExperinceScore($placementChoice)[0];
         $choiceTwoExpScore = Score::getExperinceScore($placementChoice)[1];
         // if ($placementChoice->employee->id == 10) {
@@ -147,7 +147,7 @@ class Score
             'choice_two_result' => $choiceTwoResult,
         ]);
     }
-        
+
     public static function eligiblityCheck(Position $position,Employee $employee){
         $employee_feild  = $employee->fieldOfStudy->id;
         if(!in_array($employee_feild,$position->jobTitle->JobTitleCategory->fieldOfStudies()->pluck('id')->toArray()) ) {

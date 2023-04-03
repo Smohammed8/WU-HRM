@@ -46,7 +46,7 @@
                         </span>
                     </a>
                 @endif
-    
+
                 @if ($placementRound->status == \App\Constants::PLACEMENT_ROUND_STATUS_PLACED)
                     <a href="{{ route('placement.approve', ['placement_round' => $placementRound->id]) }}"
                         class="btn btn-outline-primary" data-style="zoom-in">
@@ -55,7 +55,7 @@
                         </span>
                     </a>
                 @endif
-    
+
                 @if ($placementRound->status == \App\Constants::PLACEMENT_ROUND_STATUS_APPROVED)
                     <a href="{{ route('placement.close', ['placement_round' => $placementRound->id]) }}"
                         class="btn btn-outline-primary" data-style="zoom-in">
@@ -120,7 +120,7 @@
                                         EXCEL
                                     </span>
                                 </a>
-                                <a href="#" onclick="choicePDF()" 
+                                <a href="#" onclick="choicePDF()"
                                     class="dropdown-item" data-style="zoom-in">
                                     <span class="ladda-label">
                                         PDF
@@ -154,7 +154,7 @@
                 </div>
             </div>
             {{-- <div class="d-print-none with-border display-inline float-end mb-3">
-                
+
             </div> --}}
         </div>
     </div>
@@ -202,18 +202,18 @@
                                     <th>#</th>
                                     {{-- <th>Placement Round</th> --}}
                                     <th>Employee Full name</th>
-                                    <th>Employee first choice</th>
-                                    <th>Employee second choice</th>
-                                    <th>Choice one result</th>
-                                    <th>Choice two result</th>
-                                    <th>Choice one rank</th>
-                                    <th>Choice two rank</th>
-                                    <th>new position</th>
+                                    <th>Employee First Choice</th>
+                                    <th>Employee Second Choice</th>
+                                    <th>Choice One Result</th>
+                                    <th>Choice Two Result</th>
+                                    <th>Choice One Rank</th>
+                                    <th>Choice Two Rank</th>
+                                    <th>New Position</th>
                                     {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
                             @foreach ($unit->getPositionedChoice() as $key => $placementChoice)
-                                <tbody>
+                                <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $placementChoice->employee?->getNameAttribute() }}</td>
                                     <td>{{ $placementChoice->choiceOne?->name }}</td>
@@ -225,7 +225,7 @@
                                     <td>{{ $placementChoice->newPosition?->name }}</td>
                                     {{-- <td>
                                     </td> --}}
-                                </tbody>
+                                </tr>
                             @endforeach
                         </table>
                     </div>
@@ -246,7 +246,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $('.select2').select2();
-        
+
         function choicePDF(){
             $('#choice_form').submit();
         }
@@ -254,7 +254,7 @@
         function resultPDF(){
             $('#result_form').submit()
         }
-        
+
         function choiceExcel(){
             $('#choice_form_excel').submit()
         }
