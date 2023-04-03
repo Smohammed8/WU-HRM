@@ -1,18 +1,56 @@
 @extends('backpack::layouts.plain')
+@push('after_styles')
+    <style>
+        footer {
+            display: none !important;
+        }
+    </style>
+@endpush
 @section('after_scripts')
     <script type="text/javascript">
-        function chkcontrol(j) {
-            var total = 0;
-            for (var i = 0; i < document.choice_form.choice.length; i++) {
-                if (document.choice_form.choice[i].checked) {
-                    total = total + 1;
-                }
-                if (total > 2) {
-                    alert("Please Select only two position")
-                    document.choice_form.choice[j].checked = false;
-                    return false;
-                }
+        $(function() {
+            const checkboxes = document.getElementsByName("choice_one_id");
+            // Loop through all checkboxes
+            for (let i = 0; i < checkboxes.length; i++) {
+                // Add a click event listener to each checkbox
+                checkboxes[i].addEventListener("click", function() {
+                    // If the current checkbox is checked, uncheck all other checkboxes
+                    if (this.checked) {
+                        for (let j = 0; j < checkboxes.length; j++) {
+                            if (i !== j) {
+                                checkboxes[j].checked = false;
+                            }
+                        }
+                    }
+                });
             }
+            const checkboxes1 = document.getElementsByName("choice_two_id");
+            // Loop through all checkboxes
+            for (let i = 0; i < checkboxes1.length; i++) {
+                checkboxes1[i].addEventListener("click", function() {
+                    if (this.checked) {
+                        for (let j = 0; j < checkboxes1.length; j++) {
+                            if (i !== j) {
+                                checkboxes1[j].checked = false;
+                            }
+                        }
+                    }
+                });
+            }
+        })
+
+        function chkcontrol(j) {
+            // var total = 0;
+            // for (var i = 0; i < document.choice_form.choice.length; i++) {
+            //     if (document.choice_form.choice[i].checked) {
+            //         total = total + 1;
+            //     }
+            //     if (total > 2) {
+            //         alert("Please Select only two position")
+            //         document.choice_form.choice[j].checked = false;
+            //         return false;
+            //     }
+            // }
         }
     </script>
 @endsection
@@ -102,7 +140,7 @@
                 <div class="card-body">
                     <h4> Select 2 position of your choice </h4>
                     <div>
-                        <form name="choice_form" action="{{ route('placement-choice.store', ['id' => 1]) }}" method="POST"
+                        <form name="choice_form" action="{{ route('employee.placement_choice.store', ['placement_round'=>$placementRound->id]) }}" method="POST"
                             class="row">
                             @csrf
                             <input type="hidden" name="placement_round_id" value="{{ $placementRound->id }}">
@@ -129,8 +167,7 @@
                                                         <td>{{ $position->jobTitle->name }}</td>
                                                         <td>{{ $position->total_employees }}</td>
                                                         <td>
-                                                            <label class="form-check-label"
-                                                                for="">
+                                                            <label class="form-check-label" for="">
                                                                 {{ $position->jobTitle->work_experience }} Years
                                                             </label>
                                                         </td>
@@ -139,6 +176,7 @@
                                                                 <div class="form-check">
                                                                     <input type="checkbox" name="choice_one_id"
                                                                         onclick="chkcontrol({{ $position_key }})"
+                                                                        {{ $placementChoice?->choice_one_id == $position->id ?'checked':'' }}
                                                                         class="form-check-input"
                                                                         id="choice_{{ $position->id }}"
                                                                         value="{{ $position->id }}">
@@ -148,7 +186,7 @@
                                                         <td>
                                                             <div class="d-flex">
                                                                 <div class="form-check">
-                                                                    <input type="checkbox" name="choice_two_id"
+                                                                    <input type="checkbox" name="choice_two_id" {{ $placementChoice?->choice_two_id == $position->id ?'checked':'' }}
                                                                         onclick="chkcontrol({{ $position_key }})"
                                                                         class="form-check-input"
                                                                         id="choice_{{ $position->id }}"
