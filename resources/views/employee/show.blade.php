@@ -257,12 +257,12 @@
 
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b> Under Probation peried: </b></label>
+                                    <label for=""><b> Under Probation Period: </b></label>
                                     <label for="">  {{     $status       }} </label>
                                 </div>
 
 
-                            
+                        
                             </div>
                             {{-- {{  $date_of_retire2  }} --}}
 
