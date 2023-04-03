@@ -427,7 +427,7 @@ class EmployeeCrudController extends CrudController
 
 
         $body  =   str_replace($old, $new, $body2);
-        $employee = Employee::where('id', $employee_id->id)->get()->first();
+        $employee = Employee::where('id', $employee_id->id)->get()?->first();
         if ($employee) {
 
             $pdf = PDF::loadView('employee.hire_pdf', compact('body', 'employee'))->setPaper('A4', 'portrait');

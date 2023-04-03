@@ -22,20 +22,6 @@ body{
 </head>
 
 <body>
-    {{-- <div style="text-align: center;">
-        <img src="{{ public_path('img/logo.jpg') }}" alt="" style="width: 100px; height: 100px;">
-    </div>
-    <h1 style="margin-top:10px; color:#01afee;text-align:center; font-size:20px;">
-        <span style="text-align:center;">
-            <p style="font-size: 19px;"> <b>  Jimma University </b> </p>
-           
-
-        </span>
-
-      
-        
-    </h1> --}}
-    {{-- <hr> --}}
     <div class ="container">
 
             <h6 style=" text-align:  right; font-size: 12px; font-family: 'Noto Serif Ethiopic'"> ቁጥር _____________________ </h6> 
@@ -55,14 +41,10 @@ body{
         <span class="text-justify font-weight-normal">
             <h6 style="text-align: center; font-size: 12px;  font-family: 'Noto Serif Ethiopic'"> <strong> ጉዳዩ፡-  </strong><u>ለ6 ወር የሙከራ ጊዜ መቀጠርዎን ስለማሳወቅ፡  </u>  </h6> 
   
-            
             <h6 style="font-size: 12px; font-family: 'Noto Serif Ethiopic'">  {!! nl2br(e( strip_tags($body))) !!}  </h6>
         
-      
                 <h6 style="text-align:  right; font-size: 12px; font-family: 'Noto Serif Ethiopic'"> ከሰላምታ ጋር</h6> 
-      
-             
-          
+    
         </span>
 
         <h6 style="font-size: 12px; font-family: 'Noto Serif Ethiopic'"> 
