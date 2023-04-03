@@ -7,6 +7,7 @@ use App\Constants;
 use App\Imports\EmployeesImport;
 use App\Imports\NationalitiesImport;
 use App\Imports\RegionsImport;
+use App\Models\EducationalLevel;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
@@ -15,6 +16,7 @@ use App\Models\PlacementRound;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use NumberFormatter;
 
 class EmployeeController extends Controller
 {
@@ -40,8 +42,19 @@ class EmployeeController extends Controller
         }
         $employee = $employee->first();
         $employee->totalExperiences();
-        $positions = Position::all();
+        // $positions = Position::all();
         $placementRound = PlacementRound::where('is_open', true)->first();
+        $edu_level = [];
+        $positions = [];
+        $employeeEducationLevel = $employee->educationLevel;
+        foreach (EducationalLevel::where('weight', '<=', $employeeEducationLevel->weight)->get() as $key => $value) {
+            array_push($edu_level, $value->id);
+        }
+        foreach (Position::all() as $key => $position) {
+            if (in_array($position->jobTitle->educationalLevel->id, $edu_level)) {
+                array_push($positions, $position);
+            }
+        }
         return view('home', compact('user', 'employee', 'positions', 'placementRound'));
     }
     public function importPage()

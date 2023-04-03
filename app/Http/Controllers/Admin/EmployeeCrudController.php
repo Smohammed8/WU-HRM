@@ -66,6 +66,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use DateTime;
+use NumberFormatter;
 
 /**
  * Class EmployeeCrudController
@@ -325,7 +326,6 @@ class EmployeeCrudController extends CrudController
 
         ////////////////////////////////////////////////
         CRUD::field('photo')->label('Employee photo(4x4)')->size(8)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
-
         CRUD::field('first_name')->size(6)->tab($pi);
         CRUD::field('father_name')->size(6)->tab($pi);
         CRUD::field('grand_father_name')->size(6)->tab($pi);
@@ -357,6 +357,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('ethnicity_id')->size(6)->tab($bio);
         CRUD::field('email')->type('email')->size(6)->tab($ci);
         CRUD::field('phone_number')->size(6)->tab($ci);
+        CRUD::field('uas_user_id')->tab($ci)->size(3);
 
         // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
         CRUD::field('employement_date')->size(6)->tab($job);
@@ -402,19 +403,22 @@ class EmployeeCrudController extends CrudController
          $body1  = Template::select('body')->where('template_type_id', '=',2)->get()->first()->body;
 
          $level_id  =    Employee::where('id',$employee_id->id)->first()->position->jobTitle->level_id;
-    
-         $body2  = str_replace("\xc2\xa0",' ', $body1); 
+
+         $body2  = str_replace("\xc2\xa0",' ', $body1);
          $position =   $employee_id->position->name;
          $unit =   $employee_id->position->unit->name;
          $edate =   $employee_id->employement_date->format('l, d F, Y');
          $etype =   $employee_id->employment_type;
          $vdate =   date('d F, Y');
          $exdate =   date('d F, Y');
-         $intDate =   date('d F, Y');  
+         $intDate =   date('d F, Y');
          $tmark =   '62.5';
 
+         $digit = new NumberFormatter("am", NumberFormatter::SPELLOUT);
+         $startSalary = $digit->format(JobGrade::where('level_id',  $level_id )->first()?->start_salary);
+
          $levelname =   $employee_id->position->jobTitle->level->name;
-         $startSalary  =    JobGrade::where('level_id',  $level_id )->first()->start_salary;
+
          $code =   PositionCode::where('id', $employee_id->position->id)->first()->code;
 
         $old   = ["%unit%", "%posotion%","%employementType%","%vacancyDate%","%examDate%","%interviewDate%","%totalmark%","%employementType%","%jobLevel%","%jobCode%","%position%","%salary%","%hireDate%"];
@@ -424,7 +428,7 @@ class EmployeeCrudController extends CrudController
          $body  =   str_replace($old ,$new ,$body2);
          $employee = Employee::where('id', $employee_id->id)->get()->first();
     if ($employee) {
-       
+
         $pdf = PDF::loadView('employee.hire_pdf', compact( 'body','employee'))->setPaper('A4', 'portrait');
         return $pdf->download('hire'.$employee_id->firt_name.' '.$employee_id->father_name.'pdf');
       }
@@ -469,7 +473,7 @@ class EmployeeCrudController extends CrudController
         //     CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
         //     CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
         //     CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
-        //     CRUD::field('uas_user_id')->tab($edu)->size(3);
+            // CRUD::field('uas_user_id')->tab($edu)->size(3);
         //     CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         //     CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         //     CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
@@ -546,7 +550,7 @@ class EmployeeCrudController extends CrudController
         return $response;
     }
 
-      
+
 
     protected function setupShowOperation()
     {
@@ -605,7 +609,7 @@ class EmployeeCrudController extends CrudController
         $this->data['demotions'] = $demotions;
 
 
-   
+
 
         $dob  = Employee::select('date_of_birth')->where('id', '=', $employeeId)->get()->first()->date_of_birth;
         $dob_ex = explode("-",$dob);
@@ -615,13 +619,13 @@ class EmployeeCrudController extends CrudController
         $date_of_retire = $end."-".$dob_ex[1]."-".$dob_ex[2];
         if($year_of_retire > 0){
             $d = new DateTime($date_of_retire);
-            $date_of_retire2 = $d->format('F d, Y H:i:s'); 
+            $date_of_retire2 = $d->format('F d, Y H:i:s');
            $this->data['date_of_retire2'] = $date_of_retire2;
-       
-        } 
+
+        }
 
         $edate   = Employee::select('employement_date')->where('id', '=', $employeeId)->get()->first()->employement_date;
-     
+
         $end = date('Y-m-d', strtotime($edate. ' + 6 months'));
 
         if ($end >= new DateTime('now')){
