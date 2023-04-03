@@ -82,7 +82,7 @@ Route::get( '/hierarchy',
     }
 )->name('hierarchy')->middleware('auth');
 
-
+Route::post('employee/placement_round/{placement_round}/choice/store',[EmployeeController::class,'choiceStore'])->name('employee.placement_choice.store');
 Route::get('pdf', function(){
 
     return response()->file(public_path('/doc/JU_Approved_Structure_Description_August30-2022.pdf'));

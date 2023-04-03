@@ -55,7 +55,29 @@ class EmployeeController extends Controller
                 array_push($positions, $position);
             }
         }
-        return view('home', compact('user', 'employee', 'positions', 'placementRound'));
+        $placementChoice = PlacementChoice::where('employee_id',$employee->id)->where('placement_round_id',$placementRound->id)->first();
+        return view('home', compact('user', 'employee', 'positions', 'placementRound','placementChoice'));
+    }
+
+    public function choiceStore(Request $request, PlacementRound $placementRound)
+    {
+        $data = $request->validate([
+            'choice_one_id' => 'required',
+            'choice_two_id' => 'required',
+        ]);
+        $user = Auth::user();
+        $employee = Employee::where('uas_user_id', $user->username)->first();
+        $placementChoice = PlacementChoice::firstOrCreate(['placement_round_id'=>$placementRound->id,'employee_id'=>$employee->id],[
+            'placement_round_id',$placementRound->id,
+            'employee_id',$employee->id,
+            'choice_one_id' => $data['choice_one_id'],
+            'choice_two_id' => $data['choice_two_id'],
+        ]);
+        $placementChoice->update([
+            'choice_one_id' => $data['choice_one_id'],
+            'choice_two_id' => $data['choice_two_id'],
+        ]);
+        return redirect()->back()->with(['message','Employee choice saved successfully']);
     }
     public function importPage()
     {
