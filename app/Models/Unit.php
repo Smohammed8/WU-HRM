@@ -35,7 +35,8 @@ class Unit extends Model
         'reports_to_id',
         'organization_id',
         'chair_man_type_id',
-        'level'
+        'level',
+        'subordinate'
     ];
 
     /**

@@ -417,14 +417,12 @@ class EmployeeCrudController extends CrudController
          $startSalary  =    JobGrade::where('level_id',  $level_id )->first()->start_salary;
          $code =   PositionCode::where('id', $employee_id->position->id)->first()->code;
 
-        $old = ["%unit%", "%posotion%","%employementType%","%vacancyDate%","%examDate%","%interviewDate%","%totalmark%","%employementType%","%jobLevel%","%jobCode%","%position%","%salary%","%hireDate%"];
+        $old   = ["%unit%", "%posotion%","%employementType%","%vacancyDate%","%examDate%","%interviewDate%","%totalmark%","%employementType%","%jobLevel%","%jobCode%","%position%","%salary%","%hireDate%"];
         $new   = [$unit,$position,$etype,$vdate,$exdate,$intDate,$tmark,$etype,$levelname ,$code,$position, $startSalary, $edate];
 
 
          $body  =   str_replace($old ,$new ,$body2);
          $employee = Employee::where('id', $employee_id->id)->get()->first();
-        //  dd(   $employee );
-        // dd($employee->first_name);
     if ($employee) {
        
         $pdf = PDF::loadView('employee.hire_pdf', compact( 'body','employee'))->setPaper('A4', 'portrait');
@@ -548,6 +546,8 @@ class EmployeeCrudController extends CrudController
         return $response;
     }
 
+      
+
     protected function setupShowOperation()
     {
         $employeeId = $this->crud->getCurrentEntryId();
@@ -605,7 +605,33 @@ class EmployeeCrudController extends CrudController
         $this->data['demotions'] = $demotions;
 
 
+   
 
+        $dob  = Employee::select('date_of_birth')->where('id', '=', $employeeId)->get()->first()->date_of_birth;
+        $dob_ex = explode("-",$dob);
+        $age_diff = date_diff(date_create($dob), date_create('today'))->y;
+        $year_of_retire = 68 - $age_diff;
+        $end = date('Y', strtotime('+'.$year_of_retire.'years'));
+        $date_of_retire = $end."-".$dob_ex[1]."-".$dob_ex[2];
+        if($year_of_retire > 0){
+            $d = new DateTime($date_of_retire);
+            $date_of_retire2 = $d->format('F d, Y H:i:s'); 
+           $this->data['date_of_retire2'] = $date_of_retire2;
+       
+        } 
+
+        $edate   = Employee::select('employement_date')->where('id', '=', $employeeId)->get()->first()->employement_date;
+     
+        $end = date('Y-m-d', strtotime($edate. ' + 6 months'));
+
+        if ($end >= new DateTime('now')){
+
+            $this->data['status'] = 'Yes';
+        }
+        else{
+            $this->data['status'] = 'No';
+
+        }
 
 
         $type_of_misconducts =    TypeOfMisconduct::orderBy('id', 'desc')->Paginate(10);

@@ -92,6 +92,8 @@ class PensionCrudController extends CrudController
         CRUD::column('gender');
         CRUD::column('year')->label('Retirement year');
         CRUD::column('extend_year');
+        CRUD::column('notify')->label('Notify before(in Days)');
+       
         CRUD::column('employee_category_id')->type('select')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6);
 
         /**
@@ -113,11 +115,10 @@ class PensionCrudController extends CrudController
 
         CRUD::field('name')->size(6);
         CRUD::field('gender')->type('enum')->size(6);
-
         CRUD::field('year')->type('number')->size(6);
         CRUD::field('extend_year')->type('number')->size(6);
         CRUD::field('employee_category_id')->type('select2')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6);
-
+        CRUD::field('notify')->label('Notify me before(in days)')->type('number')->size(6);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

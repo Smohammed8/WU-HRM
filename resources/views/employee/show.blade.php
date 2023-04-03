@@ -250,11 +250,44 @@
                                     </label>
                                 </div>
 
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b> Date of retirment: </b></label>
+                                    <label for="">  <span style="color:red;"> <span id="counter" class="text-center"></span>  </label>
+                                </div>
 
 
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b> Under Probation peried: </b></label>
+                                    <label for="">  {{     $status       }} </label>
+                                </div>
 
 
+                            
                             </div>
+                            {{-- {{  $date_of_retire2  }} --}}
+
+                            <script>
+                                var countDownTimer = new Date("<?php echo "$date_of_retire2"; ?>").getTime();
+                                // Update the count down every 1 second
+                                var interval = setInterval(function() {
+                                    var current = new Date().getTime();
+                                    // Find the difference between current and the count down date
+                                    var diff = countDownTimer - current;
+                                    // Countdown Time calculation for days, hours, minutes and seconds
+                                    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                                    var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                        
+                                    document.getElementById("counter").innerHTML = days + "days : " + hours + "h  " +
+                                    minutes + "m  " + seconds + "s ";
+                                    // Display Expired, if the count down is over
+                                    if (diff < 0) {
+                                        clearInterval(interval);
+                                        document.getElementById("counter").innerHTML = "Employee Retired";
+                                    }
+                                }, 1000);
+                            </script>
 
 
                             <div class="col-md-6" style="border-left:1px solid black;">
@@ -271,15 +304,13 @@
                                     <label for=""><b>Email : </b></label>
                                     <label for="">{{ $crud->entry->email ?? '-' }}</label>
                                 </div>
+                           
+
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Age : </b></label>
-                                    <label for=""
-                                        title="{{ \Carbon\Carbon::parse($crud->entry->date_of_birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
-                                        {{ $crud->entry->age() }} years old </label>
-
-
-
+                                    <label for=""><b> Date of employement: </b></label>
+                                    <label for=""> {{ $crud->entry->employement_date->format('d/m/Y') }} E.C </label>
                                 </div>
+
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Marital status : </b></label>
                                     <label for="">{{ $crud->entry?->maritalStatus?->name }}</label>
@@ -341,7 +372,15 @@
                                     <label for=""> {{ $crud->entry->pention_number?? '-' }} </label>
                                 </div>
 
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b>Age : </b></label>
+                                    <label for=""
+                                        title="{{ \Carbon\Carbon::parse($crud->entry->date_of_birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
+                                        {{ $crud->entry->age() }} years old </label>
 
+
+
+                                </div>
 
 
                             </div>

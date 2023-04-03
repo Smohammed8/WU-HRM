@@ -21,6 +21,7 @@ class Pension extends Model
         'year',
         'extend_year',
         'employee_category_id',
+        'notify'
     ];
 
     /**

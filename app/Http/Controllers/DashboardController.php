@@ -24,6 +24,19 @@ class DashboardController extends Controller
      */
     public function index()
     {
+
+   
+
+      
+//         $cdate = new DateTime('now');
+
+
+// $retir = Employee::where('date_of_birth', '<=', $correctedComparisons)->get();
+// $retirment  = $$retir->count();
+
+
+
+        
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
         $employeeTypes = EmployeeCategory::all();
@@ -31,6 +44,14 @@ class DashboardController extends Controller
         $females = Employee::where('gender', 'Female')->count();
         $units = Unit::count();
         $positions = Position::count();
-        return view('dashboard', compact('positions','users','units', 'employees', 'employeeTypes', 'males', 'females'));
+
+
+        return view('dashboard', compact('positions',
+                                           'users',
+                                           'units', 
+                                           'employees', 
+                                           'employeeTypes', 
+                                           'males', 
+                                           'females'));
     }
 }

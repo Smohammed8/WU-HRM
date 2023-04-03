@@ -25,7 +25,7 @@
                            <span class="info-box-icon bg-info"> <a href="{{ route('employee.index', []) }}" title="">  <i class="fa fa-users"></i></a></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text"> <a href ="{{route('result') }}"> Total placed Employee  </a> </span>
+                                <span class="info-box-text"> <a href ="{{route('result') }}"> Total placement  </a> </span>
                                 <span class="info-box-number"> {{ $placements }}</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -64,7 +64,7 @@
                             <span class="info-box-icon bg-danger"><i class="fa fa-list"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text"> <a href ="{{ backpack_url('position') }}"> Free Positions  </a></span>
+                                <span class="info-box-text"> <a href ="{{ backpack_url('position') }}">Avaliable Positions  </a></span>
                                 <span class="info-box-number"> {{ $totalPositions - $placements }} </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -103,53 +103,54 @@
       
           </script>
 
-                <div class="row ">
-                <form action="{{ route('PlacementChoice.details') }}" method="GET">
-                    @csrf
-                    <div class="form-group col-5">
-                        <select name="unit" id="unit"  required="required" class="form-control select2">
-                            <option value=""> -  </option> 
-                            @foreach ($units as $unit)
-                                <option value="{{ $unit->id }}"> {{ $unit->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
-                    <div class="form-group col-5">
-                        <select name="position"  required="required" class="form-control select2">
-                            <option value="">Select  positions  </option>
-                            @foreach ($positions as $position)
-                                <option value="{{ $position->id }}"> {{ $position->jobTitle->name }} at {{ $position->unit->name }}  </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-1">
-                    <button type="submit" name="save" class="btn btn-sm btn-primary float-right "> <i
-                        class="fa fa-search"> </i>Filter</button>
-                    </div>
+<div class="row">
+    <div class="col-xs-6">
+        <form action="{{ route('PlacementChoice.details') }}" method="GET">
+            @csrf
+            <div class="form-group">
+                <select name="unit" id="unit"  required="required" class="form-control select2">
+                    <option value=""> -  </option> 
+                    @foreach ($units as $unit)
+                        <option value="{{ $unit->id }}"> {{ $unit->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
 
-                </form>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <select name="position"  required="required" class="form-control select2">
+                    <option value="">Select  positions  </option>
+                    @foreach ($positions as $position)
+                        <option value="{{ $position->id }}"> {{ $position->jobTitle->name }} at {{ $position->unit->name }}  </option>
+                    @endforeach
+                </select>
+            </div>
 
-                    <div class="form-group col-1">
-                        <button type="submit" name="save" class="btn btn-sm btn-primary float-right "> <i
-                            class="fa fa-download"> </i> Export </button>
-                        </div>
+    </div>
+ &nbsp; &nbsp; &nbsp;
+    <div class="col-xs-1">
+        <div class="form-group">
+            <button type="submit" name="save" class="btn btn-sm btn-primary btn-float-right mr-1"> <i
+                class="fa fa-search"> </i>Filter</button>
+            </div>
+    </div>
 
-                    <div>
+    
+    <div class="col-xs-1">
+    <div class="form-group">
+        <button style="float: right;" type="submit" name="save" class="btn btn-sm btn-primary btn-float-right mr-1"> <i
+            class="fa fa-download"> </i> Export </button>
+        </div>
+    </div>
+    <div>
 
-                 
-               {{-- <select name="level" class="form-control select2" style="width:100%;" required>
-                <option value="">  Organizational unit </option>
-                <option value="4"> Excellent[4] </option>
-                <option value="3"> Very Good[3] </option>
-                <option value="2"> Good[2] </option>
-                <option value="1"> Poor[1] </option>
-            </select> --}}
-            <hr>
-           
+  </div>
 
-        </div><!-- /.card-body -->
 
+    
+        <hr>
         <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
             <thead>
                 <tr style="background-color: lightblue">
