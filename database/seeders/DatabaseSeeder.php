@@ -16,6 +16,8 @@ use App\Models\Organization;
 use App\Models\PositionRequirement;
 use App\Models\Region;
 use App\Models\Religion;
+use App\Models\Template;
+use App\Models\TemplateType;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -35,6 +37,20 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             // TestDataSeeder::class,
         ]);
+        if (TemplateType::where('name', Constants::PROBATION_HIRE_LETTER)->count() == 0)
+            TemplateType::create([
+                'name' => Constants::PROBATION_HIRE_LETTER
+            ]);
+        $templateType = TemplateType::where('name', Constants::PROBATION_HIRE_LETTER)->first();
+        if (Template::where('template_type_id', $templateType->id)->count() == 0)
+            Template::create([
+                'template_type_id' => $templateType->id,
+                'body' => 'የጅማ ዩኒቨርሲቲ %unit% %posotion% የሥራ መደብ %employementType% ለመቅጠር በቀን %vacancyDate% ዓ/ም ባወጣው ማስታወቂያ መሠረት ተመዝግበው %examDate% ዓ.ም. በተሠጠው የጹሑፍ ፈተና እና በ %interviewDate% ዓ.ም. የተግባር ፈተና ወስደው እርስዎ ከተወዳዳሪዎች መካከል %totalmark% % ውጤት በማምጣት በ %employementType% እንዲቀጠሩ ተወስኗል፡፡
+
+            በዚሁ መሰረት በደረጃ %jobLevel% በመደብ መታወቂያ ቁጥር %jobCode% በ %unit% በ%position% የሥራ መደብ ለስድስት ወር የሙከራ ጊዜ የተቀጠሩ መሆኑን እያስታወቅን በዚህ ጊዜ ውስጥ የተጣለብዎትን የስራ ኃላፊነት በትጋትና በታማኝነት እንዲወጡ እያሳሰብን ለሥራ መደቡ የተፈቀደው የወር ደመወዝ ብር %salary% /%salary_text% ብር/ እየተከፈልዎት እንዲሠሩ ተፈቅዷል::
+
+            የክፍያና ሂሳብ አስተዳደር ዳይሬክቶሬትም ከ %hireDate% ዓ.ም. ጀምሮ ደመወዝዎን ከገንዘብና የኢኮኖሚ ልማት ትብብር ሚኒስቴር እየጠየቀ በማምጣት እንዲከፍልዎ በዚህ ደብዳቤ ግልባጭ እናሳስባለን፡፡'
+            ]);
         // PositionRequirement::findOrCreate(Constants::EDUCATION_CRITERIA);
         // PositionRequirement::findOrCreate(Constants::EXPERIENCE_CRITERIA);
         Role::findOrCreate('super-admin');

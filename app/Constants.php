@@ -69,7 +69,7 @@ class Constants
     const USER_TYPE_ADMIN = 'admin';
     const PERMISSION_DASHBOARD = 'DASHBOARD';
 
-
+    const PROBATION_HIRE_LETTER = 'Probation Hire Letter';
 
     public static function gcToEt($date)
     {
@@ -83,4 +83,6 @@ class Constants
         $day = $date->format('d');
         return DateTimeFactory::of($year, $month, $day)->toGregorian();
     }
+
+
 }
