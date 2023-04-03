@@ -23,11 +23,9 @@
 		@endif
 		{{ $child->name}}  <br> 
 	
-	
 	   @if(count($child->childs))
 
         @include('manageChild',['childs' => $child->childs])
-
 
 		@foreach($child->positions as $position)
 
@@ -37,8 +35,11 @@
 
 		@foreach($position->positionCodes as $positionCode)
 		
-		{{$positionCode->code }} 
+		{{$positionCode->code }}-[ {{ ucfirst($positionCode->employee->name?? '-') }} ]
+
+
 		
+
 		<br> 
 		@endforeach
 
