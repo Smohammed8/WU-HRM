@@ -20,12 +20,14 @@
         <div class="card-header" >
 
 
-            <div class="panel-heading"><i class="fa fa-sitemap"> </i> <b>Jimma University Structure </b> </div>
+            <div class="panel-heading"><i class="fa fa-university"> </i>  <b>  New Jimma University Structure  </b>          <span class="float-right"><i class="fa fa-download"> </i> <b> <a  href="{{ route('structure-pdf') }}"> Download Structure(PDF)  </a> </b> </span> </div>
+
+   
 
         </div>
         <div class="card-body" >
 
-            <div class="container" style="font-size:16px;">
+            <div class="container" style="font-size:16px;margin-left:0px;">
 
                 <div class="panel panel-info">
 
@@ -33,8 +35,10 @@
 
                           <div class="row">
 
-                              <div class="col-md-12">
+                              <div class="col-md-9">
 
+                             
+                                
 
                                     <ul id="tree1" class="tree">
 
@@ -43,8 +47,18 @@
 
                                         <li  class="closed">
 
-                                          <i class="fa fa-flag"> </i>
-                                            {{ $unit->name }}
+                                             @if ($unit->parent_unit_id == null)
+                                          <div class="card border-primary mb-3 " style="max-width: 20rem; border-radius:1%; border-top-color: #0067b8; border-top-width:1px;   border-bottom-color: #0067b8; border-bottom-width:1px; border-right-color: #0067b8; border-right-width:1px; border-left-color: #0067b8; border-left-width:3px;">
+                                          <div class="card-header">  <i class="fa fa-sitemap"> </i><strong title="Click box to view full stracture"> {{ $unit->name }}   </strong>  </div>
+            
+            
+                                              
+                                              </div>
+
+
+                                              @else
+                                              {{ $unit->name }}
+                                              @endif 
 
                                             @if(count($unit->childs))
 
@@ -59,6 +73,21 @@
                                 </ul>
 
                               </div>
+
+
+                              <div class="col-md-3">
+
+                               <div class="card" style="margin-right:0px; border-radius:0%; border-left-color: #0067b8; border-left-width:2px;">
+
+                               
+
+                                <img src=" {{ asset('top.png') }}"  style="float:right; " alt="Image" width="550" height="600"/>
+
+                              <small style="text-align:center;">  Figure 1.1 Top Jimma University structure </small>
+                               </div>
+                           
+
+                          </div>
 
 
              {{-- <div class="col-md-6">

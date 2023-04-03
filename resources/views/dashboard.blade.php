@@ -16,25 +16,19 @@
     background-color: #0067b8 !important;
 
 }
-
 </style>
 <br><br>
 
      <!-- <div class="card card-primary card-outline"> -->
         
       <div class="card">
-
-       
-
         <div class="card-header">
             <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
-            <a href="/employDatagit/employee_detail.xlsx" class="btn btn-sm btn-primary float-right"> <i class="fa fa-download"></i> Emplyee Form Excel</a>
+            <a href="{{ route('employee-form') }}" class="btn btn-sm btn-primary float-right"> <i class="fa fa-download"></i> Emplyee Form Excel</a>
 
         </div> <!-- /.card-body -->
         <div class="card-body">
             <div class="container-fluid animated fadeIn">
-
-
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
@@ -54,7 +48,7 @@
                             <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Active Retirments</span>
+                                <span class="info-box-text">Retirements </span>
                                 <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -113,7 +107,7 @@
                             <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Under Probation Period  </span>
+                                <span class="info-box-text">In probation Period  </span>
                                 <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -151,10 +145,6 @@
                 </div>
         </div><!-- /.card-body -->
       </div>
-<!-- /.container-fluid -->
-
-  <!-- /.content -->
-
 
 
     </div>

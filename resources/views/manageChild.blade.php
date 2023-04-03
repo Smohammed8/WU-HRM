@@ -29,7 +29,7 @@
 
 		@foreach($child->positions as $position)
 
-		@if(count($child->positions )) &nbsp;&nbsp;&nbsp;&nbsp;		
+		@if(count($child->positions )) &nbsp;&nbsp;&nbsp;	
 		<i class="la la-caret-right"> </i> 
 		{{$position->name}}-
 

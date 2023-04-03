@@ -147,7 +147,6 @@ class Score
             'choice_two_result' => $choiceTwoResult,
         ]);
     }
-        
     public static function eligiblityCheck(Position $position,Employee $employee){
         $employee_feild  = $employee->fieldOfStudy->id;
         if(!in_array($employee_feild,$position->jobTitle->JobTitleCategory->fieldOfStudies()->pluck('id')->toArray()) ) {
