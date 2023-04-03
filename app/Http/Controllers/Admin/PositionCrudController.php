@@ -131,7 +131,7 @@ class PositionCrudController extends CrudController
         CRUD::field('job_code_starting_number')->size(3);
         CRUD::field('total_employees')->label('No of vacant posts')->size(3);
         CRUD::field('position_available_for_placement')->label('No of available for placement')->size(3);
-        CRUD::field('available_for_placement')->value(true)->size(3);
+        CRUD::field('available_for_placement')->label('Available for placement')->value(true)->size(3);
 
         // CRUD::field('status')->type('select_from_array')->options(Constants::POSITION_STATUS)->size(6);
 

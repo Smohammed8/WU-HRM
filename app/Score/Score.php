@@ -125,20 +125,20 @@ class Score
 
          if($result1 ==false){ // not eligible employee
          $choiceOneEduScore = 0;
-         $efficiencyScore  =0;
          }
          else{
          $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
-         $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
+     
          }
          if($result2 ==false){
          $choiceTwoEduScore = 0;
-         $efficiencyScore  =0;
+         
          }
          else{
          $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
-         $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
+      
          }
+         $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
 //////////////////////////////////////////////////////////////////////////////////////////////////
         $choiceOneResult = $choiceOneEduScore + $choiceOneExpScore + $efficiencyScore;
         $choiceTwoResult = $choiceTwoEduScore + $choiceTwoExpScore + $efficiencyScore;

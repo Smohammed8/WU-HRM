@@ -407,24 +407,19 @@ class EmployeeCrudController extends CrudController
 
         $body2  = str_replace("\xc2\xa0", ' ', $body1);
         $position =   $employee_id->position->name;
-        $unit =   $employee_id->position->unit->name;
-        $edate =   $employee_id->employement_date->format('l, d F, Y');
-        $etype =   $employee_id->employment_type;
-        $vdate =   date('d F, Y');
+        $unit =     $employee_id->position->unit->name;
+        $edate =    $employee_id->employement_date->format('l, d F, Y');
+        $etype =    $employee_id->employment_type;
+        $vdate =    date('d F, Y');
         $exdate =   date('d F, Y');
         $intDate =   date('d F, Y');
-        $tmark =   '62.5';
-
+        $tmark =    '62.5';
         $digit = new NumberFormatter("am", NumberFormatter::SPELLOUT);
         $startSalary = JobGrade::where('level_id',  $level_id)->first()?->start_salary;
-
         $levelname =   $employee_id->position->jobTitle->level->name;
-
         $code =   PositionCode::where('id', $employee_id->position->id)->first()?->code;
-
         $old   = ["%unit%", "%posotion%", "%employementType%", "%vacancyDate%", "%examDate%", "%interviewDate%", "%totalmark%", "%employementType%", "%jobLevel%", "%jobCode%", "%position%", "%salary%", "%hireDate%", "%salary_text%"];
         $new   = [$unit, $position, $etype, $vdate, $exdate, $intDate, $tmark, $etype, $levelname, $code, $position, $startSalary, $edate, $digit->format($startSalary)];
-
 
         $body  =   str_replace($old, $new, $body2);
         $employee = Employee::where('id', $employee_id->id)->get()?->first();
