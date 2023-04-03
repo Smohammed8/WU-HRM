@@ -576,7 +576,7 @@ class EmployeeCrudController extends CrudController
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
 
-        $mark  = Evaluation::select('total_mark')->where('employee_id', '=', $employeeId)->get()->first()->total_mark;
+        $mark  = Evaluation::select('total_mark')->where('employee_id', '=', $employeeId)->get()->first()?->total_mark;
         $this->data['mark'] = $mark;
 
         $evaluation_levels =  EvaluationLevel::orderBy('id', 'desc')->Paginate(10);
