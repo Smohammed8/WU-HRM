@@ -2,7 +2,7 @@
 
 @can('dashboard.content')
     <li class="nav-item">
-        <a class="nav-link" id="x" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
+        <a class="nav-link" id="dash" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
             Dashboard 
         </a>
     </li>
@@ -13,12 +13,10 @@
             Home </a></li>
 @endcan
 <style>
-#x {
+#dash {
 
 background-color: white !important;
 color:black;
-
- background-color: yellow;
 
 }
 </style>
@@ -72,7 +70,7 @@ color:black;
 @endcanany
 @can('employee.index')
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class='nav-icon la la-user-tie'></i>
-            Employees</a></li>
+            Employee Managment </a></li>
 @endcan
 @canany(['organization.index', 'organization.icrud', 'unit.index', 'unit.icrud'])
     <li class="nav-item nav-dropdown">

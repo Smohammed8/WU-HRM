@@ -51,6 +51,12 @@
         color:white;
 
     }
+    .nav-link.active {
+
+       background-color: #a9a9a9 !important;
+
+
+    }
 
 </style>
 @push('before_scripts')
