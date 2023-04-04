@@ -169,7 +169,7 @@ s    <table class="table table-hover" cellpadding="0" cellspacing="0" style="fon
                     <th> Employee</th>
                     <th>Employee Choices  </th>
              
-                    <th> Employee Ranks </th>
+                    <th>  Ranks </th>
               
 
                     <th> Employee Results[ % ]</th>

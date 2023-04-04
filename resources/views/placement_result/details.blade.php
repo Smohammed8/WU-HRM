@@ -35,7 +35,7 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success"><i class="fa fa-user-minus"></i></span>
+                            <span class="info-box-icon bg-success"><i class="fa fa-list"></i></span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="#"> No of positions </a></span>
@@ -49,7 +49,7 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="fa fa-flag"></i></span>
+                            <span class="info-box-icon bg-warning"><i class="fa fa-graduation-cap"></i></span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">  <a href ="#"> Min Educational Req. </a></span>
@@ -62,7 +62,7 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="fa fa-list"></i></span>
+                            <span class="info-box-icon bg-danger"><i class="fa fa-user-tie"></i></span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="#"> Min Experience Req.  </a></span>
