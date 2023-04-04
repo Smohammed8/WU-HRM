@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Prologue\Alerts\Facades\Alert;
 use App\Http\Requests\CreateTagRequest as StoreRequest;
 use App\Http\Requests\UpdateTagRequest as UpdateRequest;
+use App\Models\EducationalLevel;
 use App\Models\EvalutionCreteria;
 use App\Models\JobTitle;
 use App\Models\PositionCode;
@@ -126,12 +127,20 @@ class PlacementChoiceCrudController extends CrudController
         $jobtitle_id  = Position::select('job_title_id')->where('id', '=', $newPosition_id)->get()->first()->job_title_id;
         $new_position  = JobTitle::select('name')->where('id', '=', $jobtitle_id)->get()->first()->name;
 
-        // dd( $new_position );
+        $educ_id  = JobTitle::select('educational_level_id')->where('id', '=', $jobtitle_id)->get()->first()->educational_level_id;
+        $min_educ = EducationalLevel::select('name')->where('id', '=',$educ_id )->get()->first()->name; 
+
+        $min_exp  = JobTitle::select('work_experience')->where('id', '=', $jobtitle_id)->get()->first()->work_experience;
         $placement_results = PlacementChoice::select('*')->where('new_position', '=', $new_position_id)->get();
+
+
+        $no_vacants  = Position::select('position_available_for_placement')->where('id', '=', $new_position_id)->get()->first()->position_available_for_placement;
 
         // $placement_results = PlacementChoice::where('new_position','=',$new_position_id)->get();
 
-        return view('placement_result.details', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions', 'new_position'));
+        
+
+        return view('placement_result.details', compact('placement_results', 'no_vacants', 'min_exp', 'min_educ', 'units', 'positions', 'placements', 'totalPositions', 'new_position'));
     }
     /**
      * Define what happens when the List operation is loaded.

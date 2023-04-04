@@ -39,7 +39,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="#"> No of positions </a></span>
-                                <span class="info-box-number"> - </span>
+                                <span class="info-box-number"> {{ $no_vacants  }} </span>
                                 {{-- {{ $nopositions->count() }} --}}
                             </div>
                             <!-- /.info-box-content -->
@@ -114,22 +114,22 @@
 
         </div><!-- /.card-body -->
 
-        <table class="table table-hover" width="100" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
+        <table class="table table-hover" width="100"  style="font-size: 14px;"> 
             <thead>
                 <tr style="background-color: lightblue">
                     <th>#</th>
                     <th> Employee</th>
                     <th>Employee Choices  </th>
              
-                    <th> Employee Ranks </th>
+                    <th>  Ranks </th>
               
 
-                    <th> Empoyee Results[ % ]</th>
+                    <th> Results[ % ]</th>
 
                     <th> New position </th>
                 
                  
-                    <th> Action</th>
+                    <th style="text-align:right;"> Action</th>
                 </tr>
             </thead>
             <tbody>

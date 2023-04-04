@@ -94,7 +94,7 @@ class PositionCrudController extends CrudController
     {
         CRUD::column('unit.name')->label('Organizational unit');
         CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        CRUD::column('total_employees')->type('model_function')->function_name('totalPositions');
+        CRUD::column('total_employees')->label('No of vacants')->type('model_function')->function_name('totalPositions');
         CRUD::column('available_for_placement')->type('boolean');
         CRUD::column('status')->type('select_from_array')->options(Constants::POSITION_STATUS);
 
@@ -129,7 +129,7 @@ class PositionCrudController extends CrudController
 
         CRUD::field('job_code_prefix')->size(3);
         CRUD::field('job_code_starting_number')->size(3);
-        CRUD::field('total_employees')->label('No of vacant posts')->size(3);
+        CRUD::field('total_employees')->label('No of vacants')->size(3);
         CRUD::field('position_available_for_placement')->label('No of available for placement')->size(3);
         CRUD::field('available_for_placement')->label('Available for placement')->value(true)->size(3);
 
