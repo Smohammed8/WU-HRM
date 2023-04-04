@@ -316,13 +316,13 @@ class EmployeeCrudController extends CrudController
         //$this->crud->enableVerticalTabs();
         $this->crud->enableHorizontalTabs();
         ////////////////////// Tabs //////////////////////
-        $pi       = 'Personal Information';
-        $ci       = 'Contact Information';
-        $bio      = 'Bio Information';
-        $address  = 'Address Information';
-        $job      = 'Job Information';
-        $edu      = 'Employee Credentials';
-        $other    = 'Other Information';
+        $pi       = '[1] Personal Information';
+        $ci       = '[4] Contact Information';
+        $bio      = '[3] Bio Information';
+        $address  = '[4] Address Information';
+        $job      = '[2] Job Information';
+        $edu      = '[6] Employee Credentials';
+        $other    = '[7] Other Information';
 
         ////////////////////////////////////////////////
         CRUD::field('photo')->label('Employee photo(4x4)')->size(8)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
