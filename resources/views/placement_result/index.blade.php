@@ -1,6 +1,18 @@
 @extends(backpack_view('blank'))
 
 
+<style>
+
+
+
+    body{
+font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+font-size: 1rem;
+font-weight: 400;
+line-height: 1.5;
+
+    }
+</style>
 @section('content')
     @cannot('dashboard.content')
         <h3 class="text-center"> Welcome to {{ env('APP_NAME') }}</h3>
@@ -120,7 +132,7 @@
         <div class="col-xs-6">
             <div class="form-group">
                 <select name="position"  required="required" class="form-control select2">
-                    <option value="">Select  positions  </option>
+                    <option value="">Select  position </option>
                     @foreach ($positions as $position)
                         <option value="{{ $position->id }}"> {{ $position->jobTitle->name }} at {{ $position->unit->name }}  </option>
                     @endforeach
@@ -150,7 +162,7 @@
 
     
         <hr>
-php        <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
+s    <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 14px;"> 
             <thead>
                 <tr style="background-color: lightblue">
                     <th>#</th>

@@ -83,9 +83,9 @@
 
                                 <img src=" {{ asset('top.png') }}"  style="float:right; " alt="Image" width="550" height="600"/>
 
-                              <small style="text-align:center;">  Figure 1.1 Top Jimma University structure </small>
-                               </div>
-                           
+                        
+                            </div>
+                            <small style="text-align:right;">Figure 1.1 Top Jimma University structure    </small>
 
                           </div>
 
