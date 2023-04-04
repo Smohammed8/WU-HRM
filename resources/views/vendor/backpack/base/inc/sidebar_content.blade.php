@@ -1,13 +1,30 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
+
+@can('dashboard.content')
+    <li class="nav-item">
+        <a class="nav-link" id="x" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
+            Dashboard 
+        </a>
+    </li>
+@endcan
+
 @can('employee.home')
     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-home nav-icon"></i>
             Home </a></li>
 @endcan
-@can('dashboard.content')
-    <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
-            {{ trans('backpack::base.dashboard') }}</a>
-    </li>
-@endcan
+<style>
+#x {
+
+background-color: white !important;
+color:black;
+
+ background-color: yellow;
+
+}
+</style>
+
+
+
 @canany(['user.icrud', 'user.index', 'role.icrud', 'role.index', 'permission.icrud', 'permission.index'])
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i>User Managment</a>
@@ -88,11 +105,11 @@
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-wrench"></i>General setting</a>
         <ul class="nav-dropdown-items">
-            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i
-                        class='nav-icon la la-caret-right'></i> Unit Head</a></li>
+            {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('chair-man-type') }}'><i
+                        class='nav-icon la la-caret-right'></i> Chairman type</a></li> --}}
 
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'>
-                    <i class='nav-icon la la-caret-right'></i> Pension</a></li>
+                    <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
 
 
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('educational-level') }}'><i
@@ -232,7 +249,7 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('experience-comparison-criteria') }}'><i
                     class='nav-icon la la-caret-right'></i> Experience criteria</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('placement-round') }}'><i
-                    class='nav-icon la la-caret-right'></i> Placement round</a></li>
+                    class='nav-icon la la-caret-right'></i> Placement Round</a></li>
 
 {{-- 
                     <li class='nav-item'><a class='nav-link' href="{{route('result') }}"><i
@@ -330,7 +347,7 @@
 
             @canany(['evaluation_periods.icrud', 'evaluation_periods.index'])
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation-period') }}'><i
-                            class='nav-icon la la-caret-right'></i> Evaluation period</a></li>
+                            class='nav-icon la la-caret-right'></i>Set  evaluation period</a></li>
             @endcanany
             @canany(['efficency_form_style.icrud', 'efficency_form_style.index'])
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('form-style') }}'> <i
