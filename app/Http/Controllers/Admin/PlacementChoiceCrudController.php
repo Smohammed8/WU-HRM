@@ -20,8 +20,8 @@ use App\Models\EducationalLevel;
 use App\Models\EvalutionCreteria;
 use App\Models\JobTitle;
 use App\Models\PositionCode;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 /**
  * Class PlacementChoiceCrudController
@@ -51,52 +51,6 @@ class PlacementChoiceCrudController extends CrudController
         $this->crud->setListView('placement_choice.show');
     }
 
-
-
-
-
-// public function getFilter(Request $request){
-
-
-//      $position =   $request->get('position');
-
-
-//         if (!empty($position)) {
-//             $applicants = $position->where('gpa', '=', $gpa);
-
-
-//             $placement_choice = PlacementChoice::where('choice_one_id','=',$position)->get();
-
-
-//             PlacementChoice::where(function ($query) {
-//              $choices =    $query->where('choice_one_id', '=',$position )->orWhere('choice_twi_id', '=',$position);
-//             });
-
-
-//         return view('placement_result.index', compact('choicess', 'units', 'positions', 'placements', 'totalPositions'));
-
-
-
-//         }
-
-//         else{
-
-//             $units = Unit::where('id', '=', 35)->get();
-//             $positions = Position::all();  //35
-
-//             //  $positions = Position::where('unit_id','=' ,35)->get();
-
-//             $placements = DB::table('placement_choices')->count();
-//             $totalPositions = DB::table('positions')->count();
-
-//             // $placement_results = PlacementChoice::all()->paginate(10);
-//             $placement_results = PlacementChoice::all();
-
-//             return view('placement_result.index', compact('placement_results', 'units', 'positions', 'placements', 'totalPositions'));
-
-//         }
-// }
-
     public function result()
     {
         $units = Unit::where('id', '=', 35)->get();
@@ -115,14 +69,23 @@ class PlacementChoiceCrudController extends CrudController
 
 
 
-    public function details($new_position_id = null)
+    public function details($new_position_id = null,Request $request )
     {
+
+        if ($request->get('filter')) {
+         $position_id = $request->get('position');
+          //  dd($position_id);
+
+         $placement_results = PlacementChoice::where('new_position',  $position_id)->paginate(10);
+        }
+        else{
+         $placement_results = PlacementChoice::select('*')->where('new_position', '=', $new_position_id)->get();
+
+        }
         $units = Unit::where('id', '=', 35)->get();
         $positions = Position::all();  //35
         $placements = DB::table('placement_choices')->count();
         $totalPositions = DB::table('positions')->count();
-
-
         $newPosition_id  = PlacementChoice::select('new_position')->where('new_position', '=', $new_position_id)->get()->first()->new_position;
         $jobtitle_id  = Position::select('job_title_id')->where('id', '=', $newPosition_id)->get()->first()->job_title_id;
         $new_position  = JobTitle::select('name')->where('id', '=', $jobtitle_id)->get()->first()->name;
@@ -132,7 +95,6 @@ class PlacementChoiceCrudController extends CrudController
 
         $min_exp  = JobTitle::select('work_experience')->where('id', '=', $jobtitle_id)->get()->first()->work_experience;
         $placement_results = PlacementChoice::select('*')->where('new_position', '=', $new_position_id)->get();
-
 
         $no_vacants  = Position::select('position_available_for_placement')->where('id', '=', $new_position_id)->get()->first()->position_available_for_placement;
 
@@ -166,6 +128,7 @@ class PlacementChoiceCrudController extends CrudController
         );
 
 
+        
         $placementRoundId = \Route::current()->parameter('placement_round');
         $placementRound = PlacementRound::find($placementRoundId);
         if ($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_CLOSED) {

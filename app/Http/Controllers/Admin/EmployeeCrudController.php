@@ -42,6 +42,7 @@ use App\Models\LicenseType;
 use App\Models\MaritalStatus;
 use App\Models\Misconduct;
 use App\Models\Nationality;
+use App\Models\Pension;
 use App\Models\Position;
 use App\Models\PositionCode;
 use App\Models\Promotion;
@@ -67,6 +68,8 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use DateTime;
 use NumberFormatter;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * Class EmployeeCrudController
@@ -207,7 +210,6 @@ class EmployeeCrudController extends CrudController
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
         CRUD::column('position.unit.name')->label('Origanizational unit')->type('select')->entity('position.unit')->model(Unit::class);
         //  CRUD::column('employement_date')->type('date');
-
         $this->crud->addColumn([
             'name' => 'educational_level_id',
             'type' => 'select',
@@ -290,8 +292,6 @@ class EmployeeCrudController extends CrudController
             }
         );
     }
-
-
     public function  getEmployeeID()
     {
         $uniqueNumber = rand(10000, 99999);
@@ -413,7 +413,7 @@ class EmployeeCrudController extends CrudController
         $vdate =    date('d F, Y');
         $exdate =   date('d F, Y');
         $intDate =   date('d F, Y');
-        $tmark =    '62.5';
+        $tmark =    '81.5';
         $digit = new NumberFormatter("am", NumberFormatter::SPELLOUT);
         $startSalary = JobGrade::where('level_id',  $level_id)->first()?->start_salary;
         $levelname =   $employee_id->position->jobTitle->level->name;
@@ -431,6 +431,67 @@ class EmployeeCrudController extends CrudController
             return redirect()->route('employee.index')->with('message', 'Sorry unable to print');
         }
     }
+
+///////////////////////////////////////////////////////////////////////
+    public function checkProbation()
+    {
+    
+         $males = DB::table('employees')->where('gender','Male')->count();
+         $females = DB::table('employees')->where('gender','Female')->count();
+
+         $permanets = DB::table('employees')->where('employment_type_id',1)->count();
+         $contracts = DB::table('employees')->where('employment_type_id',2)->count();
+
+          $employees = Employee::where('employment_type_id', 3)->orderBy('id', 'desc')->Paginate(10);
+
+
+        return view('employee.probation', compact('employees','females','males','permanets','contracts'));
+
+
+    }
+
+
+//      public function ageToDay(){
+
+
+     
+//         $bday = new DateTime('11.4. 1987');
+//       // Your date of birth 
+//         $today = new Datetime(date('m.d.y')); 
+//         $diff = $today->diff($bday);
+//         printf(' Your age : %d years, %d month, %d days', 
+//         $diff->y, $diff->m, $diff->d);
+      
+// }
+
+    public function checkRetirment()
+    {
+
+         $now =  Carbon::now();
+         $notify = Pension::where('id',  1)->first()->notify;
+         $males = DB::table('employees')->where('gender','Male')->count();
+         $females = DB::table('employees')->where('gender','Female')->count();
+         $permanets = DB::table('employees')->where('employment_type_id',1)->count();
+         $contracts = DB::table('employees')->where('employment_type_id',2)->count();
+         $emps = Employee::all();
+
+         foreach ($emps   as $employee ) {
+
+             $diff_ind_days =  $now->diff($employee->date_of_birth);
+
+            if ($diff_ind_days->d <= $notify ){
+
+            $employees = Employee::where('id', $employee->id)->orderBy('id', 'desc')->Paginate(10);
+          //  dd($employees);
+
+        }
+    }
+   
+        return view('employee.retirment', compact('employees','females','males','permanets','contracts'));
+    
+}
+
+   /////////////////////////////////////////////////////////////////////////////// 
     /**
      * Define what happens when the Update operation is loaded.
      *

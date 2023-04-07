@@ -116,7 +116,7 @@
 
         <table class="table table-hover" width="100"  style="font-size: 14px;"> 
             <thead>
-                <tr style="background-color: lightblue">
+                <tr>
                     <th>#</th>
                     <th> Employee</th>
                     <th>Employee Choices  </th>

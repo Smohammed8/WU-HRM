@@ -44,14 +44,13 @@ class DashboardController extends Controller
         $females = Employee::where('gender', 'Female')->count();
         $units = Unit::count();
         $positions = Position::count();
+        $probation = Employee::where('employment_type_id', 3)->count();
 
-
-        return view('dashboard', compact('positions',
-                                           'users',
+        return view('dashboard', compact('positions','users',
                                            'units', 
                                            'employees', 
                                            'employeeTypes', 
                                            'males', 
-                                           'females'));
+                                           'females','probation'));
     }
 }

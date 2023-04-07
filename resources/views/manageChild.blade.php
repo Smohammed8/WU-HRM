@@ -14,8 +14,6 @@
 
 		@if(count($child->childs) == 0 )
 
-	
-	
 		<i class="fa fa-minus"> </i> 
 
 		@else

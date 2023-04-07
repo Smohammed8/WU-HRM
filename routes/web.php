@@ -104,8 +104,10 @@ Route::get('legistlation', function(){
 
 })->name('legistlation')->middleware('auth');
 
-Route::get('{employee_id}/employee/pdf', [EmployeeCrudController::class, 'createPDF'])->name('hire.letter');
+Route::get('checkProbation', [EmployeeCrudController::class, 'checkProbation'])->name('employee.probation');
+Route::get('checkRetirment', [EmployeeCrudController::class, 'checkRetirment'])->name('employee.checkRetirment');
 
+Route::get('{employee_id}/employee/pdf', [EmployeeCrudController::class, 'createPDF'])->name('hire.letter');
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show')->middleware('auth');
 Route::resource('idcard', IDCardController::class)->middleware('auth');
 Route::get('idcard/{idcard}/show', [IDCardController::class, 'design'])->middleware('auth')->name('idcard.design');

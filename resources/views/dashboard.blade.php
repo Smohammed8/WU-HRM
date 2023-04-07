@@ -45,7 +45,7 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
+                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.checkRetirment', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Retirements </span>
@@ -104,11 +104,11 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
+                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.probation', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">In probation Period  </span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-number">{{  $probation  }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -120,8 +120,7 @@
                         <div class="info-box">
                             <span class="info-box-icon bg-warning"><a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-list"></i> </a> </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Vacant positions </span>
+                            <div class="info-box-content">                                <span class="info-box-text">Vacant positions </span>
                                 <span class="info-box-number"> {{ $positions }}</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -241,7 +240,7 @@
     )
 
     ?>
- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+ <script src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
 
 
         <script>

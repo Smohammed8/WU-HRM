@@ -2,7 +2,7 @@
 
 @can('dashboard.content')
     <li class="nav-item">
-        <a class="nav-link" id="dash" href="{{ route('dashboard') }}"><i  style="color:black;" class="la la-dashboard nav-icon"></i>
+        <a class="nav-link"  id="dash" href="{{ route('dashboard') }}"><i  style="color:black;" class="la la-dashboard nav-icon"></i>
             Dashboard 
         </a>
     </li>
