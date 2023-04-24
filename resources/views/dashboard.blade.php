@@ -24,7 +24,15 @@
       <div class="card">
         <div class="card-header">
             <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
-            <a href="{{ route('employee-form') }}" class="btn btn-sm btn-primary float-right"> <i class="fa fa-download"></i> Emplyee Form Excel</a>
+            <a href="{{ route('employee-form') }}" class="btn btn-sm btn-primary float-right mr-1"> <i class="fa fa-download"></i> Export</a>
+            {{-- <a href="{{ route('import-employee') }}" class="btn btn-sm btn-primary float-right mr-1"> Import</a> --}}
+
+
+
+            <button type="button" class="btn btn-sm btn-primary float-right mr-1" data-toggle="modal" data-target="#exampleModal">
+                <i class="fa fa-upload"></i>  Import
+            </button>
+
 
         </div> <!-- /.card-body -->
         <div class="card-body">
@@ -227,6 +235,41 @@
         </div>
 
     @endcan
+
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Batch importing Employee data </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('import-employee') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="email1"> CSV File</label>
+                <input type="file" class="form-control" id="file" name="file" aria-describedby="file" placeholder="Upload file">
+                <small id="file" class="form-text text-muted">Your information is safe with us.</small>
+              </div>
+            
+        </div>
+        <div class="modal-footer">
+          {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+          <button type="submit" class="btn btn-primary">Import</button>
+        </div>
+
+    </form>
+      </div>
+    </div>
+  </div>
+
+
 
     <?php
 

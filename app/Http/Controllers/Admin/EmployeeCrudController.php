@@ -69,6 +69,9 @@ use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use DateTime;
 use NumberFormatter;
 use Illuminate\Support\Facades\DB;
+use \Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EmployeesImport;
+use App\Exports\EmployeesExport;
 
 
 /**
@@ -491,6 +494,21 @@ class EmployeeCrudController extends CrudController
     
 }
 
+public function importEmployee(Request $request){
+
+
+    $file = $request->input('file');
+    // dd($request);
+   
+    Excel::import(new EmployeesImport, $request->file('file')->store('files'));
+    return redirect()->back();
+
+   // return back()->with('success', 'Your CSV file has been uploaded');
+
+}
+// public function exportUsers(Request $request){
+//     return Excel::download(new EmployeesExport, 'employees.xlsx');
+// }
    /////////////////////////////////////////////////////////////////////////////// 
     /**
      * Define what happens when the Update operation is loaded.
