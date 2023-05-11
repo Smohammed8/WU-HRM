@@ -478,8 +478,7 @@ class EmployeeCrudController extends CrudController
          $contracts = DB::table('employees')->where('employment_type_id',2)->count();
          $emps = Employee::all();
 
-         foreach ($emps   as $employee ) {
-
+         foreach ($emps  as $employee ) {
              $diff_ind_days =  $now->diff($employee->date_of_birth);
 
             if ($diff_ind_days->d <= $notify ){
@@ -756,7 +755,7 @@ public function importEmployee(Request $request){
 
 
 
-        $level  =    Employee::where('id', $employeeId)->first()?->position->jobTitle->level_id;
+        $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
         //  dd($level);
         $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
         $this->data['startSalary'] = $startSalary;

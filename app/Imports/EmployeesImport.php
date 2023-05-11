@@ -26,11 +26,9 @@ class EmployeesImport implements ToModel
      
     public function model(array $row)
     {
+       // dd($row);
         set_time_limit(2000);
         if (EmployeesImport::$x > 0) {
-
-          //  dd( $row[0]);
-           // $staffId         = $row[0];
             $firstName       = $row[0];
             $fatherName      = $row[1];
             $gFatherName     = $row[2];
@@ -49,38 +47,41 @@ class EmployeesImport implements ToModel
             $maritalStatus   = $row[15];
             $ethinicity      = $row[16];
             $phone           = $row[17];
-            $email           = $row[18];
-    
+        // $email            = $row[18];
             $employeeInfo = [
             //    'staff_national_id' => $staffId,
               //  'email' => $email,
-                 'first_name' => $firstName,
-                 'father_name' => $fatherName,
-                 'grand_father_name' => $gFatherName,
-                 'first_name_am'  => $fnameAm,
+                 'first_name' =>$firstName,
+                 'father_name' =>$fatherName,
+                 'grand_father_name' =>$gFatherName,
+
+                 'first_name_am'  =>$fnameAm,
                  'father_name_am'  =>$mnmeAm,
                  'grand_father_name_am'  =>$lnameAm,
+
                  'employee_title_id'  =>$title,
-                 'gender'             => $gender == 'M' ? 'Male' : 'Female',
+                 'gender'             =>$gender == 'M' ? 'Male' : 'Female',
                  'religion_id'        =>$religion,
+
                  'educational_level_id'  =>$education,
                  'employment_type_id'  =>$hireType ,
-                 'employement_date'  =>$hireDate,
-                 'field_of_study_id'  =>$field ,
+                 'employement_date' => date('Y-m-d', strtotime($hireDate)+365 * 8),
+
+                 'field_of_study_id'  =>null,
                  'birth_city'  =>$birthPlace ,
-                 'date_of_birth'  =>$birthDate ,
+                 'date_of_birth'  =>date('Y-m-d', strtotime($birthDate)+365 * 8),
+
                  'marital_status_id'  =>$maritalStatus ,
                  'ethnicity_id'  =>$ethinicity ,
                  'employee_category_id'  =>1,
+
                  'phone_number' => substr($phone, 0, 1)=='9'?'0'.$phone:$phone,
-                 'email'  =>$email ,
+                 'email'  =>null,
                  'nationality' =>1
-             
                // 'college' => $this->college,
-            ];
-            
+            ];       
             if ($firstName != null && $fatherName != null && $gFatherName != null) {
-                return new Employee( $employeeInfo );
+                return new Employee($employeeInfo);
             }
         } 
         else {
