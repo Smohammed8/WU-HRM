@@ -37,7 +37,7 @@
                     <form action="{{ route('employeeEvaluation.create', []) }}" method="GET">
                         @csrf
 
-                        <span class="float-right"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fiscal quarter:&nbsp;&nbsp;&nbsp;
+                        <span class="float-right"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluation period:&nbsp;&nbsp;&nbsp;
                             <select name="quarter" id="quarter"style="width:100%;" class="form-control select2"
                                 required="required">
                                 <option value="">Select fiscal quater.. </option>

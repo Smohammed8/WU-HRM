@@ -1,6 +1,18 @@
 @extends(backpack_view('blank'))
 
 
+<style>
+
+
+
+    body{
+font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+font-size: 1rem;
+font-weight: 400;
+line-height: 1.5;
+
+    }
+</style>
 @section('content')
     @cannot('dashboard.content')
         <h3 class="text-center"> Welcome to {{ env('APP_NAME') }}</h3>
@@ -106,10 +118,10 @@
 <div class="row">
     <div class="col-xs-6">
         <form action="{{ route('PlacementChoice.details') }}" method="GET">
-            @csrf
+            {{-- @csrf --}}
             <div class="form-group">
                 <select name="unit" id="unit"  required="required" class="form-control select2">
-                    <option value=""> -  </option> 
+                    {{-- <option value=""> -  </option>  --}}
                     @foreach ($units as $unit)
                         <option value="{{ $unit->id }}"> {{ $unit->name }}</option>
                     @endforeach
@@ -120,7 +132,7 @@
         <div class="col-xs-6">
             <div class="form-group">
                 <select name="position"  required="required" class="form-control select2">
-                    <option value="">Select  positions  </option>
+                    <option value="">Select  position </option>
                     @foreach ($positions as $position)
                         <option value="{{ $position->id }}"> {{ $position->jobTitle->name }} at {{ $position->unit->name }}  </option>
                     @endforeach
@@ -131,11 +143,11 @@
  &nbsp; &nbsp; &nbsp;
     <div class="col-xs-1">
         <div class="form-group">
-            <button type="submit" name="save" class="btn btn-sm btn-primary btn-float-right mr-1"> <i
+            <button type="submit" name="filter" value="filter" class="btn btn-sm btn-primary btn-float-right mr-1"> <i
                 class="fa fa-search"> </i>Filter</button>
             </div>
     </div>
-
+</form>
     
     <div class="col-xs-1">
     <div class="form-group">
@@ -150,17 +162,17 @@
 
     
         <hr>
-php        <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 12px;"> 
+    <table class="table table-hover" cellpadding="0" cellspacing="0" style="font-size: 14px;"> 
             <thead>
-                <tr style="background-color: lightblue">
+                <tr>
                     <th>#</th>
                     <th> Employee</th>
-                    <th>Employee Choices  </th>
+                    <th>Employee Choice  </th>
              
-                    <th> Employee Ranks </th>
+                    <th>  Ranks </th>
               
 
-                    <th> Employee Results[ % ]</th>
+                    <th> Employee Result</th>
                 
                     <th> New position </th>
                     <th> Action</th>
@@ -184,7 +196,7 @@ php        <table class="table table-hover" cellpadding="0" cellspacing="0" styl
                             <td>[ {{ $placement_result->choice_one_rank ?? '-'  }}, {{ $placement_result->choice_two_rank ?? '-'  }}  ] </td>
                          
 
-                            <td>[ {{ $placement_result->choice_one_result ?? '-' }}  , {{ $placement_result->choice_two_result ?? '-' }}  ]</td>
+                            <td width="10%"> [ {{ $placement_result->choice_one_result ?? '-' }}%  , {{ $placement_result->choice_two_result ?? '-' }}%  ]</td>
                         
                         
                             <td> {{ $placement_result->newPosition->jobTitle->name ?? '-' }}  at <u>{{ $placement_result->newPosition->unit->name ?? '-' }} </u> </td>

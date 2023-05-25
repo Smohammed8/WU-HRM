@@ -83,11 +83,20 @@ Route::get( '/hierarchy',
 )->name('hierarchy')->middleware('auth');
 
 Route::post('employee/placement_round/{placement_round}/choice/store',[EmployeeController::class,'choiceStore'])->name('employee.placement_choice.store');
+
+
+Route::get('employee-form', function(){
+
+    return response()->file(public_path('/employData/employee_detail.xlsx'));
+
+})->name('employee-form')->middleware('auth');
+
 Route::get('pdf', function(){
 
     return response()->file(public_path('/doc/JU_Approved_Structure_Description_August30-2022.pdf'));
 
 })->name('structure-pdf')->middleware('auth');
+
 
 Route::get('legistlation', function(){
 
@@ -95,8 +104,12 @@ Route::get('legistlation', function(){
 
 })->name('legistlation')->middleware('auth');
 
-Route::get('{employee_id}/employee/pdf', [EmployeeCrudController::class, 'createPDF'])->name('hire.letter');
+Route::get('checkProbation', [EmployeeCrudController::class, 'checkProbation'])->name('employee.probation');
+Route::get('checkRetirment', [EmployeeCrudController::class, 'checkRetirment'])->name('employee.checkRetirment');
 
+Route::post('/file-import',[EmployeeCrudController::class,'importEmployee'])->name('import-employee');
+
+Route::get('{employee_id}/employee/pdf', [EmployeeCrudController::class, 'createPDF'])->name('hire.letter');
 Route::get('{evaluation_id}/evaluation_show', [EmployeeEvaluationCrudController::class, 'evaluation_show'])->name('evaluation.evaluation_show')->middleware('auth');
 Route::resource('idcard', IDCardController::class)->middleware('auth');
 Route::get('idcard/{idcard}/show', [IDCardController::class, 'design'])->middleware('auth')->name('idcard.design');

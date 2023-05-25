@@ -14,8 +14,6 @@
 
 		@if(count($child->childs) == 0 )
 
-	
-	
 		<i class="fa fa-minus"> </i> 
 
 		@else
@@ -29,7 +27,7 @@
 
 		@foreach($child->positions as $position)
 
-		@if(count($child->positions )) &nbsp;&nbsp;&nbsp;&nbsp;		
+		@if(count($child->positions )) &nbsp;&nbsp;&nbsp;	
 		<i class="la la-caret-right"> </i> 
 		{{$position->name}}-
 

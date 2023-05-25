@@ -128,15 +128,15 @@ class Score
          }
          else{
          $choiceOneEduScore = Score::getEducationScore($choiceOne, $placementChoice->employee);
-     
+
          }
          if($result2 ==false){
          $choiceTwoEduScore = 0;
-         
+
          }
          else{
          $choiceTwoEduScore = Score::getEducationScore($choiceTwo, $placementChoice->employee);
-      
+
          }
          $efficiencyScore   = Score::getEvaluationScore($placementChoice->employee);
 //////////////////////////////////////////////////////////////////////////////////////////////////

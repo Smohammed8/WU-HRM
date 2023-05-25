@@ -16,25 +16,27 @@
     background-color: #0067b8 !important;
 
 }
-
 </style>
 <br><br>
 
      <!-- <div class="card card-primary card-outline"> -->
         
       <div class="card">
-
-       
-
         <div class="card-header">
             <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
-            <a href="/employDatagit/employee_detail.xlsx" class="btn btn-sm btn-primary float-right"> <i class="fa fa-download"></i> Emplyee Form Excel</a>
+            <a href="{{ route('employee-form') }}" class="btn btn-sm btn-primary float-right mr-1"> <i class="fa fa-download"></i> Export</a>
+            {{-- <a href="{{ route('import-employee') }}" class="btn btn-sm btn-primary float-right mr-1"> Import</a> --}}
+
+
+
+            <button type="button" class="btn btn-sm btn-primary float-right mr-1" data-toggle="modal" data-target="#exampleModal">
+                <i class="fa fa-upload"></i>  Import
+            </button>
+
 
         </div> <!-- /.card-body -->
         <div class="card-body">
             <div class="container-fluid animated fadeIn">
-
-
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
@@ -51,10 +53,10 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
+                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.checkRetirment', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Active Retirments</span>
+                                <span class="info-box-text">Retirements </span>
                                 <span class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -110,11 +112,11 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
+                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.probation', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Under Probation Period  </span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-text">In probation Period  </span>
+                                <span class="info-box-number">{{  $probation  }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -126,8 +128,7 @@
                         <div class="info-box">
                             <span class="info-box-icon bg-warning"><a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-list"></i> </a> </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Vacant positions </span>
+                            <div class="info-box-content">                                <span class="info-box-text">Vacant positions </span>
                                 <span class="info-box-number"> {{ $positions }}</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -151,10 +152,6 @@
                 </div>
         </div><!-- /.card-body -->
       </div>
-<!-- /.container-fluid -->
-
-  <!-- /.content -->
-
 
 
     </div>
@@ -239,6 +236,41 @@
 
     @endcan
 
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Batch importing Employee data </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('import-employee') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="email1"> CSV File</label>
+                <input type="file" class="form-control" id="file" name="file" aria-describedby="file" placeholder="Upload file">
+                <small id="file" class="form-text text-muted">Your information is safe with us.</small>
+              </div>
+            
+        </div>
+        <div class="modal-footer">
+          {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+          <button type="submit" class="btn btn-primary">Import</button>
+        </div>
+
+    </form>
+      </div>
+    </div>
+  </div>
+
+
+
     <?php
 
     $dataPoints = array(
@@ -251,7 +283,7 @@
     )
 
     ?>
- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+ <script src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
 
 
         <script>
