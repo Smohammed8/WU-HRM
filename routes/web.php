@@ -91,6 +91,13 @@ Route::get('employee-form', function(){
 
 })->name('employee-form')->middleware('auth');
 
+Route::get('user-manual', function(){
+
+    return response()->file(public_path('/doc/HRM_Usermanaul.pdf'));
+
+})->name('user-manual')->middleware('auth');
+
+
 Route::get('pdf', function(){
 
     return response()->file(public_path('/doc/JU_Approved_Structure_Description_August30-2022.pdf'));

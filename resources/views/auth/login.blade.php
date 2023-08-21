@@ -29,6 +29,8 @@
                     </small>
                 </div>
 
+                    {{-- Username: admin   and Password: 1213/06 --}}
+
                 <div class="card-body">
                     {{-- <p class="login-box-msg" style=" text-align:center;color:#0067b8;"> <i class="la la-hand-point-right">
                         </i>
