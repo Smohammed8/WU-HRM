@@ -90,7 +90,8 @@ class Employee extends  Model
         'grand_father_name_am',
         'father_name_am',
         'first_name_am',
-        'employee_title_id'
+        'employee_title_id',
+        'hr_branch_id'
 
     ];
 

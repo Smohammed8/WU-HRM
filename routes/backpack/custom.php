@@ -134,4 +134,6 @@ Route::group([
     Route::crud('related-work', 'RelatedWorkCrudController');
     Route::crud('skill', 'SkillCrudController');
     Route::crud('complaint', 'ComplaintCrudController');
+    Route::crud('hr-branch', 'HrBranchCrudController');
+    Route::crud('job-title-prerequest', 'JobTitlePrerequestCrudController');
 });

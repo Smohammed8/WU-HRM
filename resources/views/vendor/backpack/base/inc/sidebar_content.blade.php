@@ -1,3 +1,4 @@
+
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
 @can('dashboard.content')
@@ -125,7 +126,7 @@ color:black;
                         class='nav-icon la la-caret-right'></i> Field of study</a></li>
 
    
-
+             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('hr-branch') }}'><i class='nav-icon la la-caret-right'></i> Hr branches</a></li>
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
                         class='nav-icon la la-caret-right'></i> Language</a></li>
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('marital-status') }}'><i

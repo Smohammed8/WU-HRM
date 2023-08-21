@@ -1,7 +1,7 @@
 created:
-    - database/factories/ComplaintFactory.php
-    - database/migrations/2023_03_20_152219_create_complaints_table.php
-    - app/Models/Complaint.php
+    - database/factories/HrBranchFactory.php
+    - database/migrations/2023_08_21_214936_create_hr_branches_table.php
+    - app/Models/HrBranch.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -75,3 +75,4 @@ models:
     PayrollSheet: { payroll_id: 'foreign:payrolls.id', sheet_code: 'string nullable', year: 'integer nullable', month: 'integer nullable', user_id: 'foreign:users.id', created_at: 'date nullable' }
     PayrollHistory: { sheet_id: 'foreign:payroll_sheets.id nullable', total_paid: 'decimal(10,2) nullable', created_at: 'date nullable' }
     Complaint: { employee_id: 'foreign:employees.id nullable', unit_id: 'foreign:units.id nullable', phone: 'string nullable', complian_message: 'text  nullable', isReviewed: 'bool nullable' }
+    HrBranch: { name: 'string nullable', user_id: 'foreign:users.id nullable' }

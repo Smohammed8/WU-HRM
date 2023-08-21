@@ -191,351 +191,70 @@
                 </div>
             </div>
 
+            <p>
+              
+                <button class="btn btn-primary nav-dropdown float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                 <i class="fa fa-list"> </i> Hr Offices
+                </button>
+              </p><br>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <div class="row">
+                        @foreach($offices  as $hr)
+                        <div class="col-md-3">   
+                            <div class="card card-defualt">  
+                                <!-- card card-info -->
+                                <span class="border border-secondary">
+                                <div class="card-header">
+                                  <h4 class="card-title"><i class="fa fa-flag"></i>   <a href=""> 
+                                    {{ $hr->name }}
+                                     {{-- Main HR Office  --}}
+                                     </a> 
+                                    </h4>
+                    
+                               
+                                </div>  
+                                <div class="col-md-12 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-default"> 
+                                            <a href="{{ route('position.index', []) }}" title="Click to view details"> 
+                                                 <i class="fa fa-sitemap"></i>
+                                                 </a>
+                                          </span>
+                    
+                                          <div class="info-box-content">
+                                          
+                                            <span class="info-box-text">Total Employees</span>
+                                            <span class="info-box-number">1,000</span>
+                                        
+                                         </div>
+                                    </div>
+                             
+                                </div>
+                               </span>
+                              </div>
+                              <!-- /.card -->
+                            </div>
+                     
+                            @endforeach
+                         </div>   
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+            <style>
+              
+            .info-box:hover {
+                background-color: #0067b8;
+                color:white;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            }
+            </style>
             <hr>
-<div class="row">
-
-    <div class="col-md-3">
-               
-        <div class="card card-defualt">  <!-- card card-info -->
-            <span class="border border-primary">
-            <div class="card-header">
-              <h4 class="card-title"><i class="fa fa-flag"></i>  Main HR Office</h4>
-
-              <div class="card-tools">
-
-              </div>
-            </div>  
-            <div class="col-md-12 col-sm-6 col-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">Total Employees</span>
-                        <span class="info-box-number">1,000</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-        </span>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-
-            <div class="col-md-3">
-               
-                <div class="card card-defualt">  <!-- card card-info -->
-                    <span class="border border-danger">
-                    <div class="card-header">
-                      <h4 class="card-title"><i class="fa fa-flag"></i>  Jimma Medical Center</h4>
-
-                      <div class="card-tools">
-
-                      </div>
-                    </div>  
-                    <div class="col-md-12 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Employees</span>
-                                <span class="info-box-number">1,000</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                </span>
-                    <!-- /.card-body -->
-                  </div>
-                  <!-- /.card -->
-                </div>
-                <div class="col-md-3">
-               
-                    <div class="card card-defualt">  <!-- card card-info -->
-                        <span class="border border-primary">
-                        <div class="card-header">
-                          <h4 class="card-title"><i class="fa fa-flag"></i> Health Institue</h4>
-    
-                          <div class="card-tools">
-    
-                          </div>
-                        </div>  
-                        <div class="col-md-12 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-    
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Employees</span>
-                                    <span class="info-box-number">1,000</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                    </span>
-                        <!-- /.card-body -->
-                      </div>
-                      <!-- /.card -->
-                    </div>
-
-                    <div class="col-md-3">
-               
-                        <div class="card card-defualt">  <!-- card card-info -->
-                            <span class="border border-primary">
-                            <div class="card-header">
-                              <h4 class="card-title"><i class="fa fa-flag"></i> JiT HR Office</h4>
-        
-                              <div class="card-tools">
-        
-                              </div>
-                            </div>  
-                            <div class="col-md-12 col-sm-6 col-12">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-        
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Total Employees</span>
-                                        <span class="info-box-number">1,000</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                        </span>
-                            <!-- /.card-body -->
-                          </div>
-                          <!-- /.card -->
-                        </div>
-
-            </div>
-<!---------------------------------------------------->
-<hr>
-<div class="row">
-
-    <div class="col-md-3">
-               
-        <div class="card card-defualt">  <!-- card card-info -->
-            <span class="border border-primary">
-            <div class="card-header">
-              <h4 class="card-title"><i class="fa fa-flag"></i> College of CAVM HR Office</h4>
-
-              <div class="card-tools">
-
-              </div>
-            </div>  
-            <div class="col-md-12 col-sm-6 col-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">Total Employees</span>
-                        <span class="info-box-number">1,000</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-        </span>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-
-            <div class="col-md-3">
-               
-                <div class="card card-defualt">  <!-- card card-info -->
-                    <span class="border border-primary">
-                    <div class="card-header">
-                      <h4 class="card-title"><i class="fa fa-flag"></i> College of NS HR Office</h4>
-
-                      <div class="card-tools">
-
-                      </div>
-                    </div>  
-                    <div class="col-md-12 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Employees</span>
-                                <span class="info-box-number">1,000</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                </span>
-                    <!-- /.card-body -->
-                  </div>
-                  <!-- /.card -->
-                </div>
-                <div class="col-md-3">
-               
-                    <div class="card card-defualt">  <!-- card card-info -->
-                        <span class="border border-primary">
-                        <div class="card-header">
-                          <h4 class="card-title"><i class="fa fa-flag"></i> College of SS HR Office</h4>
-    
-                          <div class="card-tools">
-    
-                          </div>
-                        </div>  
-                        <div class="col-md-12 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-    
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Employees</span>
-                                    <span class="info-box-number">1,000</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                    </span>
-                        <!-- /.card-body -->
-                      </div>
-                      <!-- /.card -->
-                    </div>
-                    <div class="col-md-3">
-               
-                        <div class="card card-defualt">  <!-- card card-info -->
-                            <span class="border border-primary">
-                            <div class="card-header">
-                              <h4 class="card-title"><i class="fa fa-flag"></i> College of BECO HR Office</h4>
-        
-                              <div class="card-tools">
-        
-                              </div>
-                            </div>  
-                            <div class="col-md-12 col-sm-6 col-12">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-        
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Total Employees</span>
-                                        <span class="info-box-number">1,000</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                        </span>
-                            <!-- /.card-body -->
-                          </div>
-                          <!-- /.card -->
-                        </div>
-
-            </div>
-<!-- -------------------------------------------------------- -->
-
-<hr>
-<div class="row">
-
-    <div class="col-md-3">
-               
-        <div class="card card-defualt">  <!-- card card-info -->
-            <span class="border border-primary">
-            <div class="card-header">
-              <h4 class="card-title"><i class="fa fa-flag"></i> Law & Gov'c HR Office</h4>
-
-              <div class="card-tools">
-
-              </div>
-            </div>  
-            <div class="col-md-12 col-sm-6 col-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">Total Employees</span>
-                        <span class="info-box-number">1,000</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-        </span>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-
-            <div class="col-md-3">
-               
-                <div class="card card-defualt">  <!-- card card-info -->
-                    <span class="border border-primary">
-                    <div class="card-header">
-                      <h4 class="card-title"><i class="fa fa-flag"></i> Education & Behaiveral HR Office</h4>
-
-                      <div class="card-tools">
-
-                      </div>
-                    </div>  
-                    <div class="col-md-12 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Employees</span>
-                                <span class="info-box-number">1,000</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                </span>
-                    <!-- /.card-body -->
-                  </div>
-                  <!-- /.card -->
-                </div>
-                <div class="col-md-3">
-               
-                    <div class="card card-defualt">  <!-- card card-info -->
-                        <span class="border border-primary">
-                        <div class="card-header">
-                          <h4 class="card-title"><i class="fa fa-flag"></i> Sport Science HR Office</h4>
-    
-                          <div class="card-tools">
-    
-                          </div>
-                        </div>  
-                        <div class="col-md-12 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-default"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a></span>
-    
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Employees</span>
-                                    <span class="info-box-number">1,000</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                    </span>
-                        <!-- /.card-body -->
-                      </div>
-                      <!-- /.card -->
-                    </div>
-
-           
-          
-            </div>
 
 
-
-
-
-
-
-
-            <!-- /////////////////////////////////////////////////////////// -->
-            </div>
-        </div>
-
-    @endcan
+@endcan
 
 
 
