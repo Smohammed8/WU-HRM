@@ -59,8 +59,10 @@ class HrBranchCrudController extends CrudController
     {
         CRUD::setValidation(HrBranchRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('user_id');
+    
+        CRUD::field('name')->size(6);
+        CRUD::field('user_id')->label('HR Director')->size(6);
+        
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
