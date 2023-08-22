@@ -24,7 +24,7 @@ line-height: 1.5;
       {{-- <div class="card"> --}}
 
         <div class="card-header">
-            <h5 class="mb-2"> List employee under : Main HR Office</h5>
+            <h5 class="mb-2"> List of an employees under :<u><b> {{ $name }} </b></u> </h5>
         </div> <!-- /.card-body -->
         <div class="card-body">
             <div class="container-fluid animated fadeIn">
@@ -37,7 +37,7 @@ line-height: 1.5;
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="{{route('result') }}"> Male  </a> </span>
-                                <span class="info-box-number"> {{ '0' }}</span>
+                                <span class="info-box-number"> {{ $males }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -50,7 +50,7 @@ line-height: 1.5;
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href =""> Female </a></span>
-                                <span class="info-box-number">-</span>
+                                <span class="info-box-number">{{ $females }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -165,9 +165,10 @@ line-height: 1.5;
             </tbody>
 
         </table>
-        <div class="m-auto col-6 mt-3">
-            {{-- {{ $placement_results->withQueryString()->links() }} --}}
-            {{-- {{ $placement_results->links() }} --}}
+        <div class="m-auto float-right">
+            {{ $employees->links() }}
+         
+
         </div>
       </div>
 <!-- /.container-fluid -->
