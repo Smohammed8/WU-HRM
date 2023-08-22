@@ -211,25 +211,22 @@
                                      {{-- Main HR Office  --}}
                                      </a> 
                                     </h4>
-                    
-                               
                                 </div>  
                                 <div class="col-md-12 col-sm-6 col-12">
                                     <div class="info-box">
                                         <span class="info-box-icon bg-default"> 
-                                            <a href="{{ route('position.index', []) }}" title="Click to view details"> 
+                                            <a href="{{ route('getEmployee', ['hr_branch_id'=>$hr->id]) }}
+
+                                            " title="Click to view details"> 
                                                  <i class="fa fa-sitemap"></i>
-                                                 </a>
+                                            </a>
                                           </span>
-                    
                                           <div class="info-box-content">
-                                          
                                             <span class="info-box-text">Total Employees</span>
-                                            <span class="info-box-number">1,000</span>
+                                            <span class="info-box-number">{{  $hr->employees->count() }} </span>
                                         
                                          </div>
                                     </div>
-                             
                                 </div>
                                </span>
                               </div>
@@ -252,13 +249,7 @@
             }
             </style>
             <hr>
-
-
 @endcan
-
-
-
-  
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

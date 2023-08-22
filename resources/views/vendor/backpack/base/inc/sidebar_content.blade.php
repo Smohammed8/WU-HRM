@@ -226,14 +226,16 @@ color:black;
 
             @canany(['evaluation.index', 'evaluation.icrud'])
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluation') }}'><i
-                            class='nav-icon la la-caret-right'></i> Evaluation</a></li>
+                            class='nav-icon la la-caret-right'></i> Evaluation </a></li>
             @endcanany
         </ul>
     </li>
 @endcanany
 
+@canany(['placement.icrud'])
 <li class="nav-item nav-dropdown">
-    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-th-list"></i>Employee Placement </a>
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon la la-th-list"></i> Employee Placement </a>
 
 
     <ul class="nav-dropdown-items">
@@ -268,31 +270,33 @@ color:black;
     </ul>
 
 </li>
+@endcanany
 
-{{-- @canany(['payroll.icrud', 'payroll.index', 'payroll_sheet.icrud', 'payroll_sheet.index','payroll_history.icrud', 'payroll_history.index']) --}}
+
+@canany(['payroll.icrud', 'payroll.index', 'payroll_sheet.icrud', 'payroll_sheet.index','payroll_history.icrud', 'payroll_history.index'])
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i>  Payroll
             managment
         </a>
         <ul class="nav-dropdown-items">
       
-            {{-- @canany(['payroll.icrud', 'payroll.index']) --}}
+            @canany(['payroll.icrud', 'payroll.index'])
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payroll') }}'><i
                             class='nav-icon la la-caret-right'></i> Payroll</a></li>
-            {{-- @endcanany --}}
-            {{-- @canany(['payroll_sheet.icrud', 'evaluation_level.index']) --}}
+            @endcanany
+            @canany(['payroll_sheet.icrud', 'payroll_sheet.index'])
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payroll-sheet') }}'><i
                             class='nav-icon la la-caret-right'></i> Payrol Sheet</a></li>
-            {{-- @endcanany --}}
-            {{-- @canany(['payroll_history.icrud', 'payroll_history.index']) --}}
+            @endcanany
+            @canany(['payroll_history.icrud', 'payroll_history.index'])
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payroll-history') }}  '><i
                             class='nav-icon la la-caret-right'></i>  Payment history</a></li>
-            {{-- @endcanany --}}
+            @endcanany
 
    
      </ul>
     </li>
-{{-- @endcanany --}}
+@endcanany
 
 
 @canany(['vacancy.icrud', 'vacancy.index'])

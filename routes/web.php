@@ -65,6 +65,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->mid
 
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
+ Route::get('{hr_branch_id}/getEmployee', [EmployeeCrudController::class, 'getEmployee'])->name('getEmployee');
 // Route::get('/details', [PlacementChoiceCrudController::class, 'details'])->name('details');
  Route::get('employee/{employee_id}/show', [EmployeeCrudController::class, 'show'])->name('employee');
  Route::get('{new_position_id?}/details', [PlacementChoiceCrudController::class, 'details'])->name('PlacementChoice.details');

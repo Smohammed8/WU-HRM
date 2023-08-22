@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Constants;
 use App\Http\Requests\PositionRequest;
+use App\Models\HrBranch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -280,6 +281,11 @@ class Employee extends  Model
     {
         return $this->belongsTo(FieldOfStudy::class);
     }
+    public function hrBranch()
+    {
+        return $this->belongsTo(HrBranch::class);
+    }
+
 
     public function employmentCategory()
     {

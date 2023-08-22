@@ -261,6 +261,11 @@
                                     <label for="">  {{     $status       }} </label>
                                 </div>
 
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b> HR Office: </b></label>
+                                    <label for="">  {{  $crud->entry->hrBranch->name ?? '-'      }} </label>
+                                </div>
+
 
                             
                             </div>

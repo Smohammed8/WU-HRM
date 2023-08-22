@@ -27,10 +27,6 @@ class EducationalLevel extends Model
         return $this->attributes['name'];
 
     }
-
-
-
-
     /**
      * The attributes that should be cast to native types.
      *
