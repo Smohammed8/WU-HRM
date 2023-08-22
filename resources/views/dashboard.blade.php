@@ -24,14 +24,15 @@
       <div class="card">
         <div class="card-header">
             <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
-            <a href="{{ route('employee-form') }}" class="btn btn-sm btn-primary float-right mr-1"> <i class="fa fa-download"></i> Export</a>
+
+         
+            <a href="{{ route('employee-form') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-download"></i> Export</a>
             {{-- <a href="{{ route('import-employee') }}" class="btn btn-sm btn-primary float-right mr-1"> Import</a> --}}
 
-
-
-            <button type="button" class="btn btn-sm btn-primary float-right mr-1" data-toggle="modal" data-target="#exampleModal">
+            <button type="button" class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-upload"></i>  Import
             </button>
+            <a href="{{ route('user-manual') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-book"></i> Download User Manual</a>
 
 
         </div> <!-- /.card-body -->
@@ -79,11 +80,11 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
+                            <span class="info-box-icon bg-danger"> <a href="" title="Click to view details"> <i class="fa fa-female"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Resignations</span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-text"> Total Female</span>
+                                <span class="info-box-number">{{ $females }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -138,11 +139,11 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"> <a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-star"></i> </a></span>
+                            <span class="info-box-icon bg-danger"> <a href="" title="Click to view details">  <i class="fa fa-male"></i> </a></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">New promotions</span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-text">Total Male</span>
+                                <span class="info-box-number">{{ $males }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -153,92 +154,64 @@
         </div><!-- /.card-body -->
       </div>
 
+      <div class="card card-body">
+        <div class="row">
+            @foreach($offices  as $hr)
+            <div class="col-md-3">   
+                <div class="card card-defualt">  
+                    <!-- card card-info -->
+                    <span class="border border-secondary">
+                    <div class="card-header">
+                      <h4 class="card-title"><i class="fa fa-flag"></i>   <a href=""> 
+                        {{ $hr->name }}
+                         {{-- Main HR Office  --}}
+                         </a> 
+                        </h4>
+                    </div>  
+                    <div class="col-md-12 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-default"> 
+                                <a href="{{ route('getEmployee', ['hr_branch_id'=>$hr->id]) }}
 
+                                " title="Click to view details"> 
+                                     <i class="fa fa-sitemap"></i>
+                                </a>
+                              </span>
+                              <div class="info-box-content">
+                                <span class="info-box-text">Total Employees</span>
+                                <span class="info-box-number">{{  $hr->employees->count() }} </span>
+                            
+                             </div>
+                        </div>
+                    </div>
+                   </span>
+                  </div>
+                  <!-- /.card -->
+                </div>
+         
+                @endforeach
+             </div>   
+          </div>
+        </div>
+    </div>
     </div>
     <hr>
+  
 
 
             <style>
                 .card-header {
                     font-weight: bold;
                 }
+              
+            .info-box:hover {
+                background-color: #0067b8;
+                color:white;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            }
             </style>
-
-
-            <div class="row" name="widget_707545443" section="after_content">
- 
-                <div class="col-sm-6">
-                 
-                    <div class="card">
-                        <div class="card-header"> <i class="la la-list"> </i> Employees Statistics</div>
-                        <div class="card-body">
-                            @foreach ($employeeTypes as $employeeType)
-                                {{ $employeeType->name . ' : ' . $employeeType->employees()->count() }}&nbsp;
-                            @endforeach
-                        </div>
-                    </div>
-               
-                </div>
-
-
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-header"> <i class="la la-list"> </i> Gender Based Statistics</div>
-                        <div class="card-body"> Male Staff : {{ $males }} &nbsp; Female Staff: {{ $females }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <hr>
-            <div class="row">
-            <div class="col-md-6">
-            <div class="card card">  <!-- card card-info -->
-                <div class="card-header">
-                  <h4 class="card-title"><i class="fa fa-users"></i> Employee Classification by Pie Chart</h4>
-
-                  <div class="card-tools">
-
-                  </div>
-                </div>
-                <div class="card-body">
-
-                    <div id="piechart" style="height: 370px; width: 100%;"></div>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-            </div>
-
-             <div class="col-md-6">
-                <div class="card card">  <!-- card card-info -->
-                    <div class="card-header">
-                      <h4 class="card-title"><i class="fa fa-users"></i> Employement line graph </h4>
-
-                      <div class="card-tools">
-
-                      </div>
-                    </div>
-                    <div class="card-body">
-
-                     <div id="#" style="height: 370px; width: 100%;"></div>
-                    </div>
-                    <!-- /.card-body -->
-                  </div>
-                  <!-- /.card -->
-                </div>
-
-            </div>
-
-
-            </div>
-        </div>
-
-    @endcan
-
-
-
-  
+@endcan
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

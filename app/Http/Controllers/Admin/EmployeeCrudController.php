@@ -72,7 +72,7 @@ use Illuminate\Support\Facades\DB;
 use \Maatwebsite\Excel\Facades\Excel;
 use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
-
+use App\Models\HrBranch;
 
 /**
  * Class EmployeeCrudController
@@ -102,7 +102,7 @@ class EmployeeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Employee::class);
+        CRUD::setModel(Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
         $this->crud->setShowView('employee.show');
@@ -212,16 +212,26 @@ class EmployeeCrudController extends CrudController
         //  CRUD::column('employment_identity')->label('ID Number');
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
         CRUD::column('position.unit.name')->label('Origanizational unit')->type('select')->entity('position.unit')->model(Unit::class);
-        //  CRUD::column('employement_date')->type('date');
-        $this->crud->addColumn([
-            'name' => 'educational_level_id',
-            'type' => 'select',
-            'entity' => 'educationLevel',
-            'model' => EducationalLevel::class,
-            'attribute' => 'name'
-        ]);
+     
+        CRUD::column('hr_branch_id')->type('select')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
+     
+        //     $this->crud->addColumn([
+        //     'name' => 'hr_branch_id',
+        //     'type' => 'select',
+        //     'entity' => 'hrBranch',
+        //     'model' => HrBranch::class,
+        //     'attribute' => 'name'
+        // ]);
 
-        // CRUD::column('educational_level_id')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Education');
+
+        // $this->crud->addColumn([
+        //     'name' => 'educational_level_id',
+        //     'type' => 'select',
+        //     'entity' => 'educationLevel',
+        //     'model' => EducationalLevel::class,
+        //     'attribute' => 'name'
+        // ]);
+
 
         $this->crud->addFilter(
             [
@@ -230,7 +240,7 @@ class EmployeeCrudController extends CrudController
                 'label' => 'By employee category '
             ],
             function () {
-                return \App\Models\EmployeeCategory::all()->pluck('name', 'id')->toArray();
+                return EmployeeCategory::all()->pluck('name', 'id')->toArray();
             },
             function ($value) { // if the filter is active, apply these constraints
                 // $dates = json_decode($value);
@@ -246,7 +256,7 @@ class EmployeeCrudController extends CrudController
                 'label' => 'Job title '
             ],
             function () {
-                return \App\Models\JobTitle::all()->pluck('name', 'id')->toArray();
+                return JobTitle::all()->pluck('name', 'id')->toArray();
             },
             function ($value) { // if the filter is active, apply these constraints
                 $jobTitle = JobTitle::find($value);
@@ -254,31 +264,47 @@ class EmployeeCrudController extends CrudController
                 $this->crud->addClause('whereIn', 'position_id', $positions);
             }
         );
+        // $this->crud->addFilter([
+        //     'name' => 'unit_id',
+        //     'type' => 'select2',
+        //     'label' => 'Filter by office'
+        // ], function () {
+        //     return Unit::all()->pluck('name', 'id')->toArray();
+        // }, function ($value) {
+        //     $positions = Position::where('unit_id', $value)->pluck('id')->toArray();
+        //     $this->crud->addClause('whereIn', 'position_id', ($positions));
+        // });
+
+
         $this->crud->addFilter([
-            'name' => 'unit_id',
-            'type' => 'select2',
-            'label' => 'Filter by office'
+            'name'  => 'hr_branch_id',
+            'type'  => 'select2',
+            'label' => 'Filter by Hr Office'
         ], function () {
-            return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
-        }, function ($value) {
-            $positions = Position::where('unit_id', $value)->pluck('id')->toArray();
-            $this->crud->addClause('whereIn', 'position_id', ($positions));
+            return HrBranch::all()->pluck('name', 'id')->toArray();
+
+        }, function ($values) {
+            $this->crud->addClause('whereIn', 'hr_branch_id', json_decode($values));
         });
+
+
+
         $this->crud->addFilter([
             'name'  => 'employment_type_id',
             'type'  => 'select2_multiple',
             'label' => 'Filter by type'
         ], function () {
-            return \App\Models\EmploymentType::all()->pluck('name', 'id')->toArray();
+            return EmploymentType::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'employment_type_id', json_decode($values));
         });
+
         $this->crud->addFilter([
             'name'  => 'position_id',
             'type'  => 'select2_multiple',
             'label' => 'By job position'
         ], function () {
-            return \App\Models\Position::all()->pluck('name', 'id')->toArray();
+            return Position::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'position_id', json_decode($values));
         });
@@ -295,6 +321,23 @@ class EmployeeCrudController extends CrudController
             }
         );
     }
+
+
+    public function getEmployee($hr_branch_id)
+    {
+        $employees = Employee::where('hr_branch_id', '=', $hr_branch_id)->paginate(15);
+      
+      //  $name = DB::table('hr_branches')->where('id', $hr_branch_id)->pluck('name');
+        $name = DB::table('hr_branches')->where('id', $hr_branch_id)->select('name')->first()->name;
+
+        $males    = Employee::where('gender','=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
+        $females  = Employee::where('gender','=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
+
+        $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
+
+        return view('employee.employee_list', compact(['employees','total','females','males'],'name'));
+    }
+
     public function  getEmployeeID()
     {
         $uniqueNumber = rand(10000, 99999);
@@ -366,6 +409,8 @@ class EmployeeCrudController extends CrudController
         CRUD::field('employement_date')->size(6)->tab($job);
         CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
+        // CRUD::field('rfid')->size(4)->type('number')->tab($other);
+        CRUD::field('hr_branch_id')->type('select2')->label('HR Office')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(6)->tab($job);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
@@ -478,8 +523,7 @@ class EmployeeCrudController extends CrudController
          $contracts = DB::table('employees')->where('employment_type_id',2)->count();
          $emps = Employee::all();
 
-         foreach ($emps   as $employee ) {
-
+         foreach ($emps  as $employee ) {
              $diff_ind_days =  $now->diff($employee->date_of_birth);
 
             if ($diff_ind_days->d <= $notify ){
@@ -520,22 +564,16 @@ public function importEmployee(Request $request){
     {
         $this->setupCreateOperation();
         // unique:employees,phone_number,
-
-
-
         //     $this->crud->enableTabs();
         //     // $this->crud->enableVerticalTabs();
         //     $this->crud->enableHorizontalTabs();
-
         //     $pi      = 'Personal Information';
         //     $ci      = 'Contact Information';
         //     $bio     = 'Bio Information';
         //     $address = 'Address Information';
         //     $job     = 'Job Information';
         //     $edu     = 'Employee Credentials';
-
         //     CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
-
         //     CRUD::field('first_name')->size(6)->tab($pi);
         //     CRUD::field('father_name')->size(6)->tab($pi);
         //     CRUD::field('grand_father_name')->size(6)->tab($pi);
@@ -756,7 +794,7 @@ public function importEmployee(Request $request){
 
 
 
-        $level  =    Employee::where('id', $employeeId)->first()?->position->jobTitle->level_id;
+        $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
         //  dd($level);
         $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
         $this->data['startSalary'] = $startSalary;

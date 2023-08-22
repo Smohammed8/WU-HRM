@@ -375,6 +375,18 @@ models:
 
 
 
+    #php artisan blueprint:build
+    #php artisan backpack:build
+
+
+      HrBranch:
+           name: string nullable
+           user_id:  foreign:users.id nullable
+          
+
+
+
+
 
 
 

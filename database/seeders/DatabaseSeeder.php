@@ -58,9 +58,9 @@ class DatabaseSeeder extends Seeder
         if ($user == null)
             $user = User::create([
                 'name' => 'Super Admin',
-                'username' => 'super',
+                'username' => 'admin',
                 'email' => 'super@hrm.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('1213/06'),
             ]);
         $user->assignRole(Constants::USER_TYPE_SUPER_ADMIN);
         if (Organization::count() == 0)

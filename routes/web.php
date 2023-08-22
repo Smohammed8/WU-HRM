@@ -65,6 +65,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->mid
 
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
+ Route::get('{hr_branch_id}/getEmployee', [EmployeeCrudController::class, 'getEmployee'])->name('getEmployee');
 // Route::get('/details', [PlacementChoiceCrudController::class, 'details'])->name('details');
  Route::get('employee/{employee_id}/show', [EmployeeCrudController::class, 'show'])->name('employee');
  Route::get('{new_position_id?}/details', [PlacementChoiceCrudController::class, 'details'])->name('PlacementChoice.details');
@@ -90,6 +91,13 @@ Route::get('employee-form', function(){
     return response()->file(public_path('/employData/employee_detail.xlsx'));
 
 })->name('employee-form')->middleware('auth');
+
+Route::get('user-manual', function(){
+
+    return response()->file(public_path('/doc/HRM_Usermanaul.pdf'));
+
+})->name('user-manual')->middleware('auth');
+
 
 Route::get('pdf', function(){
 
