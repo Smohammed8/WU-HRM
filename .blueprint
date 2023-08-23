@@ -1,7 +1,10 @@
 created:
-    - database/factories/HrBranchFactory.php
-    - database/migrations/2023_08_21_214936_create_hr_branches_table.php
-    - app/Models/HrBranch.php
+    - database/factories/CheckPointFactory.php
+    - database/factories/ClearanceFactory.php
+    - database/migrations/2023_08_23_214418_create_check_points_table.php
+    - database/migrations/2023_08_23_214419_create_clearances_table.php
+    - app/Models/CheckPoint.php
+    - app/Models/Clearance.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -76,3 +79,5 @@ models:
     PayrollHistory: { sheet_id: 'foreign:payroll_sheets.id nullable', total_paid: 'decimal(10,2) nullable', created_at: 'date nullable' }
     Complaint: { employee_id: 'foreign:employees.id nullable', unit_id: 'foreign:units.id nullable', phone: 'string nullable', complian_message: 'text  nullable', isReviewed: 'bool nullable' }
     HrBranch: { name: 'string nullable', user_id: 'foreign:users.id nullable' }
+    CheckPoint: { unit_id: 'foreign:units.id nullable', order: integer }
+    Clearance: { employee_id: 'foreign:employees.id nullable', check_point_id: 'foreign:check_points.id nullable', isApproved: 'bool nullable default 0', approved_by: 'foreign:users.id nullable' }

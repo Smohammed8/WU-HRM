@@ -366,26 +366,28 @@ models:
       #   total_paid:  decimal(10,2) nullable
       #   created_at: date nullable
 
-    #  Complaint:
-    #      employee_id: foreign:employees.id nullable
-    #      unit_id:  foreign:units.id nullable
-    #      phone: string nullable
-    #      complian_message: text  nullable 
-    #      isReviewed: bool nullable
+      #  Complaint:
+      #      employee_id: foreign:employees.id nullable
+      #      unit_id:  foreign:units.id nullable
+      #      phone: string nullable
+      #      complian_message: text  nullable 
+      #      isReviewed: bool nullable
 
-
-
+      # HrBranch:
+      #      name: string nullable
+      #      user_id:  foreign:users.id nullable
+          
+        #  CheckPoint:
+        #     unit_id: foreign:units.id nullable
+        #     order: integer
+        #  Clearance:
+        #     employee_id: foreign:employees.id nullable
+        #     check_point_id: foreign:check_points.id nullable
+        #     isApproved: bool nullable default 0
+        #     approved_by: foreign:users.id nullable
+            
     #php artisan blueprint:build
     #php artisan backpack:build
-
-
-      HrBranch:
-           name: string nullable
-           user_id:  foreign:users.id nullable
-          
-
-
-
 
 
 

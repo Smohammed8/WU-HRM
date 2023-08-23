@@ -156,6 +156,7 @@
 
       <div class="card card-body">
         <div class="row">
+            @canany(['HR-all.manage'])
             @foreach($offices  as $hr)
             <div class="col-md-3">   
                 <div class="card card-defualt">  
@@ -188,8 +189,8 @@
                   </div>
                   <!-- /.card -->
                 </div>
-         
                 @endforeach
+                @endcanany
              </div>   
           </div>
         </div>
