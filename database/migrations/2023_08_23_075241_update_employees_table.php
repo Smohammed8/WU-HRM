@@ -13,11 +13,11 @@ class UpdateEmployeesTable extends Migration
      */
     public function up()
     {
-        // Schema::table('employees', function (Blueprint $table) {
+        Schema::table('employees', function (Blueprint $table) {
         
-        //     $table->foreignId('hr_branch_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('hr_branch_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
     
-        // });
+        });
     }
 
     /**
