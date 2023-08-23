@@ -85,7 +85,7 @@ class AuthController extends Controller
                 $search = ldap_search($ldapconn, 'dc=ju,dc=edu,dc=et', "uid=$uid");
                 $info = ldap_get_entries($ldapconn, $search);
 
-                 dd($info);
+               
                 // if ($info[0]['employeetype']['count'] > 0 && $info[0]['employeetype'][0] == 'Student')
                 //     return new UnauthorizedException(403);
 
