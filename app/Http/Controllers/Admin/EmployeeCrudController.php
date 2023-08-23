@@ -275,7 +275,6 @@ class EmployeeCrudController extends CrudController
         //     $this->crud->addClause('whereIn', 'position_id', ($positions));
         // });
 
-
         $this->crud->addFilter([
             'name'  => 'hr_branch_id',
             'type'  => 'select2',
@@ -325,15 +324,15 @@ class EmployeeCrudController extends CrudController
 
     public function getEmployee($hr_branch_id)
     {
-        $employees = Employee::where('hr_branch_id', '=', $hr_branch_id)->paginate(15);
-      
+         $employees = Employee::where('hr_branch_id', '=', $hr_branch_id)->paginate(15);
       //  $name = DB::table('hr_branches')->where('id', $hr_branch_id)->pluck('name');
-        $name = DB::table('hr_branches')->where('id', $hr_branch_id)->select('name')->first()->name;
+         $name = DB::table('hr_branches')->where('id', $hr_branch_id)->select('name')->first()->name;
 
-        $males    = Employee::where('gender','=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
-        $females  = Employee::where('gender','=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
+         $males    = Employee::where('gender','=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
+         $females  = Employee::where('gender','=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
 
-        $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
+         $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
+      
 
         return view('employee.employee_list', compact(['employees','total','females','males'],'name'));
     }
