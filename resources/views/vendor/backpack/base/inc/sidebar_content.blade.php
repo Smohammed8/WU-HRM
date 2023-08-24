@@ -1,17 +1,25 @@
 
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
+
+
+    <li class="nav-item"><a class="nav-link" href="#"><i class="la la-home nav-icon"></i>
+            Home </a>
+    </li>
+
+
 @can('dashboard.content')
     <li class="nav-item">
-        <a class="nav-link"  id="dash" href="{{ route('dashboard') }}"><i  style="color:black;" class="la la-dashboard nav-icon"></i>
+        <a class="nav-link"  id="dash" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
             Dashboard 
         </a>
     </li>
 @endcan
 
 @can('employee.home')
-    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-home nav-icon"></i>
-            Home </a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-user-tie nav-icon"></i>
+            My Profile </a>
+    </li>
 @endcan
 <style>
 #dash {

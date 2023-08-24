@@ -28,7 +28,7 @@ class EmployeeTitleRequest extends FormRequest
             // 'name' => 'required|min:5|max:255'
 
             'title'=> 'required',
-            'accronomy' =>'required|regex:/^[a-zA-Z]+$/u|min:2|max:10',
+            'accronomy' =>'nullable|regex:/^[a-zA-Z]+$/u|min:2|max:10',
         ];
     }
 
