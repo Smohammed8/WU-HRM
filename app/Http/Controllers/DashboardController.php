@@ -32,7 +32,6 @@ class DashboardController extends Controller
         $offices = HrBranch::all();
         $positions = Position::count();
         $probation = Employee::where('employment_type_id', 3)->count();
-        dd($offices[2]->employees->count());
         return view('dashboard', compact('positions','users', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','probation'));
 
        
