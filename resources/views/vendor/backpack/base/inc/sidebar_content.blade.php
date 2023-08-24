@@ -1,17 +1,25 @@
 
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
+
+
+    <li class="nav-item"><a class="nav-link" href="#"><i class="la la-home nav-icon"></i>
+            Home </a>
+    </li>
+
+
 @can('dashboard.content')
     <li class="nav-item">
-        <a class="nav-link"  id="dash" href="{{ route('dashboard') }}"><i  style="color:black;" class="la la-dashboard nav-icon"></i>
+        <a class="nav-link"  id="dash" href="{{ route('dashboard') }}"><i class="la la-dashboard nav-icon"></i>
             Dashboard 
         </a>
     </li>
 @endcan
 
 @can('employee.home')
-    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-home nav-icon"></i>
-            Home </a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-user-tie nav-icon"></i>
+            My Profile </a>
+    </li>
 @endcan
 <style>
 #dash {
@@ -100,6 +108,19 @@ color:black;
         </ul>
     </li>
 @endcanany
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-minus"></i> Clearance </a>
+    <ul class="nav-dropdown-items">
+       <li class='nav-item'><a class='nav-link' href='{{ backpack_url('check-point') }}'><i class='nav-icon la la-caret-right'></i> Check points</a></li>
+       <li class='nav-item'><a class='nav-link' href='{{ backpack_url('clearance') }}'><i class='nav-icon la la-caret-right'></i> </i> Clearances</a></li>
+       <li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Employee Approvals </a></li>
+       <li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Order Policy</a></li>
+
+    </ul>
+</li>
+
+
 @canany(['setting.index', 'setting.icrud'])
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-wrench"></i>General setting</a>
@@ -232,7 +253,7 @@ color:black;
     </li>
 @endcanany
 
-@canany(['placement.icrud'])
+@canany(['placement.manage'])
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#">
         <i class="nav-icon la la-th-list"></i> Employee Placement </a>
@@ -364,6 +385,7 @@ color:black;
         </ul>
     </li>
 @endcanany
+
 
 
 

@@ -18,7 +18,14 @@ class PermissionSeeder extends Seeder
     {
         Role::findOrCreate(Constants::USER_TYPE_EMPLOYEE);
         Role::findOrCreate(Constants::USER_TYPE_ADMIN);
+        Role::findOrCreate(Constants:: USER_TYPE_TEAM_LEADER );
+        Role::findOrCreate(Constants::USER_TYPE_COORDINATOR);
+        Role::findOrCreate(Constants::USER_TYPE_DIRECTOR );
+        Role::findOrCreate(Constants::USER_TYPE_ENCODER);
+        Role::findOrCreate(Constants::USER_TYPE_HR_OFFICER);
+        Role::findOrCreate(Constants::USER_TYPE_TOP_MANAGMENT);
         Role::findOrCreate(Constants::USER_TYPE_SUPER_ADMIN);
+
         // Permission for users
         Permission::findOrCreate('employee.home');
         // Permission for dashboard
@@ -285,6 +292,21 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('signature.edit');
         Permission::findOrCreate('signature.delete');
 
-
+        // Hr Branch
+        Permission::findOrCreate('HR-all.manage');
+        Permission::findOrCreate('HR-jit.manage');
+        Permission::findOrCreate('HR-jmc.manage');
+        Permission::findOrCreate('HR-health-institue.manage');
+        Permission::findOrCreate('HR-education-and-behavoral.manage');
+        Permission::findOrCreate('HR-main.manage');
+        Permission::findOrCreate('HR-agri.manage');
+        Permission::findOrCreate('HR-social-and-science.manage');
+        Permission::findOrCreate('HR-natural-and-science.manage');
+        Permission::findOrCreate('HR-law-and-goverenace.manage');
+        Permission::findOrCreate('HR-busiess-and-economics.manage');
+        Permission::findOrCreate('HR-sport-and-science.manage');
+        Permission::findOrCreate('HR-agaro.manage');
+        // Employee placement
+        Permission::findOrCreate('placement.manage');
     }
 }

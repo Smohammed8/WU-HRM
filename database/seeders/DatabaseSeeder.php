@@ -56,13 +56,16 @@ class DatabaseSeeder extends Seeder
         Role::findOrCreate('super-admin');
         $user = User::where('username', 'super')->first();
         if ($user == null)
+        // if (User::count() == 0){
             $user = User::create([
                 'name' => 'Super Admin',
-                'username' => 'admin',
+                'username' => 'super',
                 'email' => 'super@hrm.com',
                 'password' => Hash::make('1213/06'),
             ]);
+        
         $user->assignRole(Constants::USER_TYPE_SUPER_ADMIN);
+        
         if (Organization::count() == 0)
             Organization::create([
                 'name' => 'Jimma university',

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeTitleRequest extends FormRequest
+class CheckPointRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,6 @@ class EmployeeTitleRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-
-            'title'=> 'required',
-            'accronomy' =>'nullable|regex:/^[a-zA-Z]+$/u|min:2|max:10',
         ];
     }
 

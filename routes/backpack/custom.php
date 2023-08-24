@@ -136,4 +136,6 @@ Route::group([
     Route::crud('complaint', 'ComplaintCrudController');
     Route::crud('hr-branch', 'HrBranchCrudController');
     Route::crud('job-title-prerequest', 'JobTitlePrerequestCrudController');
+    Route::crud('check-point', 'CheckPointCrudController');
+    Route::crud('clearance', 'ClearanceCrudController');
 });

@@ -64,9 +64,17 @@ class Constants
     const EDUCATION_CRITERIA = 'Education Criteria';
     const EXPERIENCE_CRITERIA = 'Experience Criteria';
     const EFFICIENCY_CRITERIA = 'Efficiency Criteria';
+
     const USER_TYPE_EMPLOYEE = 'employee';
-    const USER_TYPE_SUPER_ADMIN = 'super_admin';
-    const USER_TYPE_ADMIN = 'admin';
+    const USER_TYPE_SUPER_ADMIN = 'super-admin';
+     const USER_TYPE_ADMIN = 'system-admin';
+     const USER_TYPE_HR_OFFICER = 'HR-Officer';
+     const USER_TYPE_ENCODER = 'Data-Encoder';
+     const USER_TYPE_DIRECTOR = 'HR-Director';
+     const USER_TYPE_COORDINATOR = 'HR-Coordinator';
+     const USER_TYPE_TEAM_LEADER = 'Team-Leader';
+     const USER_TYPE_TOP_MANAGMENT = 'Top-Managment';
+
     const PERMISSION_DASHBOARD = 'DASHBOARD';
 
     const PROBATION_HIRE_LETTER = 'Probation Hire Letter';
