@@ -1051,8 +1051,7 @@
                                     <a href="{{ route('{employee}/external-experience.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee External
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Experience' }}</span></a>
+                                            {{ 'Employee External Experience' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -1074,7 +1073,7 @@
                                         <tr>
                                             {{-- <td>{{ $externalExperience-> }}</td> --}}
                                             <td>{{ $externalExperience->company_name }}</td>
-                                            <td>{{ $externalExperience->jobTitle->name }}</td>
+                                            <td>{{ $externalExperience->job_title_id }} </td>
                                             <td>{{ $externalExperience->start_date->format('Y/m/d') }}</td>
                                             <td>{{ $externalExperience->end_date->format('Y/m/d') }}</td>
                                             <td>

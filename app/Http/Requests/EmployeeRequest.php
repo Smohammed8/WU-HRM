@@ -52,7 +52,7 @@ class EmployeeRequest extends FormRequest
             'nationality_id' =>'required',
             'employment_type_id' =>'required',
             'employee_category_id'=>'required',
-            'pention_number'  => 'nullable|numeric|unique:employees,pention_number,'.request()->id,
+            'pention_number'  => 'nullable|unique:employees,pention_number,'.request()->id,
             'employment_status_id' =>'nullable',
             'static_salary'=>'nullable',
             'uas_user_id' =>'nullable',
