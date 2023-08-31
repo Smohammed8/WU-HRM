@@ -92,7 +92,7 @@ class UnitCrudController extends CrudController
 
 
         
-        $this->crud->denyAccess('delete');
+       // $this->crud->denyAccess('delete');
         $this->crud->denyAccess('show');
 
         $this->crud->addButtonFromModelFunction('line', 'view_office', 'viewOffice', 'end');

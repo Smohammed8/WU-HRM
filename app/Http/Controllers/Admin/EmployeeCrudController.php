@@ -402,7 +402,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('ethnicity_id')->size(6)->tab($bio);
         CRUD::field('email')->type('email')->size(6)->tab($ci);
         CRUD::field('phone_number')->size(6)->tab($ci);
-        CRUD::field('uas_user_id')->tab($ci)->size(3);
+        //CRUD::field('uas_user_id')->tab($ci)->size(3);
 
         // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
         CRUD::field('employement_date')->size(6)->tab($job);
@@ -680,8 +680,10 @@ public function importEmployee(Request $request){
         $this->data['employeeFamilies'] = $employeeFamilies;
         $internalExperiences = InternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['internalExperiences'] = $internalExperiences;
+
         $externalExperiences = ExternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['externalExperiences'] = $externalExperiences;
+        
         $trainingAndStudies = TrainingAndStudy::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
 

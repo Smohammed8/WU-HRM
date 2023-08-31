@@ -83,7 +83,7 @@ class Employee extends  Model
         'pention_number',
         'employment_status_id',
         'static_salary',
-        'uas_user_id',
+        //'uas_user_id',
         'staff_national_id',
         'educational_level_id',
         'field_of_study_id',

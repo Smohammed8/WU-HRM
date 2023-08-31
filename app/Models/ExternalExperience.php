@@ -32,7 +32,7 @@ class ExternalExperience extends Model
     protected $casts = [
         'id' => 'integer',
         'employee_id' => 'integer',
-        'job_title_id' => 'integer',
+        //'job_title_id' => 'integer',
         'start_date' => 'date',
         'end_date' => 'date',
     ];
@@ -51,9 +51,9 @@ class ExternalExperience extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function jobTitle()
-    {
-        return $this->belongsTo(JobTitle::class);
-    }
+    // public function jobTitle()
+    // {
+    //     return $this->belongsTo(JobTitle::class);
+    // }
 
 }
