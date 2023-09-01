@@ -13,10 +13,10 @@ class UpdateEmployeeHrBranch extends Migration
      */
     public function up()
     {
-        Schema::table('employees', function (Blueprint $table) {
-            $table->foreignId('hr_branch_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade')->nullable();
+        // Schema::table('employees', function (Blueprint $table) {
+        //     $table->foreignId('hr_branch_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade')->nullable();
     
-        });
+        // });
     }
 
     /**
