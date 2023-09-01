@@ -256,16 +256,16 @@ line-height: 1.5;
                         @foreach ($educations as $education) 
                         <tr>
 
-                   <td> {{ $loop->index + 1 }} </td>
-                   <td> {{ $education->name ?? '-' }} </td>
-                   <td> {{ $education->employees->count() ?? '0' }}</td> 
-                   <td> {{ $education->employees->count() ?? '0' }}</td> 
-                   <td> {{ $education->employees->count() ?? '0' }}</td> 
-                   
-           
-               
-           </tr>
-       @endforeach
+                         <td> {{ $loop->index + 1 }} </td>
+                         <td> {{ $education->name ?? '-' }} </td>
+                         <td> {{ $education->male_count }}</td> 
+                         <td> {{ $education->female_count }}  </td> 
+                         <td> {{ $education->male_count + $education->female_count }}</td> 
+                         
+                 
+                     
+                 </tr>
+             @endforeach
                    
                       
                       </tbody>
