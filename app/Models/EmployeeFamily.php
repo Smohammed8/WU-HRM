@@ -39,7 +39,7 @@ class EmployeeFamily extends Model
 
     public function getNameAttribute()
     {
-        return $this->attributes['first_name'].''.$this->attributes['father_name'].''.$this->attributes['grand_father_name'];
+        return $this->attributes['first_name']. '  ' .$this->attributes['father_name']. '  '.$this->attributes['grand_father_name'];
     }
 
     public function employee()
