@@ -45,6 +45,7 @@ use App\Models\Nationality;
 use App\Models\Pension;
 use App\Models\Position;
 use App\Models\PositionCode;
+use App\Models\EducationLevel;
 use App\Models\Promotion;
 use App\Models\SalaryIncreament;
 use App\Models\Skill;
@@ -328,13 +329,61 @@ class EmployeeCrudController extends CrudController
       //  $name = DB::table('hr_branches')->where('id', $hr_branch_id)->pluck('name');
          $name = DB::table('hr_branches')->where('id', $hr_branch_id)->select('name')->first()->name;
 
-         $males    = Employee::where('gender','=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
+
+            $employements = EmploymentType::withCount([
+            'employees as type_male_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
+             },
+            'employees as type_female_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
+
+           ])->get();
+
+
+            $educations = EducationalLevel::withCount([
+         
+            'employees as male_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id', $hr_branch_id);
+            },
+            'employees as female_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
+
+        
+       
+
+            'employees as female_left_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Female')
+                      ->where(function ($query) {
+                          $query->where('employment_type_id', 11)
+                                ->orWhere('employment_type_id', 7)
+                                ->orWhere('employment_type_id', 6); // Add more conditions as needed
+                      })
+                      ->where('hr_branch_id', $hr_branch_id);
+            },
+
+
+            'employees as male_left_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Male')
+                      ->where(function ($query) {
+                          $query->where('employment_type_id', 11)
+                                ->orWhere('employment_type_id', 7)
+                                ->orWhere('employment_type_id', 6); // Add more conditions as needed
+                      })
+                      ->where('hr_branch_id', $hr_branch_id);
+            },
+
+
+
+            ])->get();
+
+
+             
+
+
+        
+          $males    = Employee::where('gender','=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
          $females  = Employee::where('gender','=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
 
          $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
       
 
-        return view('employee.employee_list', compact(['employees','total','females','males'],'name'));
+        return view('employee.employee_list', compact(['employees','educations','employements','total','females','males'],'name'));
     }
 
     public function  getEmployeeID()
@@ -404,7 +453,12 @@ class EmployeeCrudController extends CrudController
         CRUD::field('phone_number')->size(6)->tab($ci);
         //CRUD::field('uas_user_id')->tab($ci)->size(3);
 
-        // CRUD::field('unit_id')->label('Organizational unit')->size(6)->tab($address);
+         CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
+
+         CRUD::field('employment_status_id')->type('select2')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(6)->tab($job);
+
+
+
         CRUD::field('employement_date')->size(6)->tab($job);
         CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);

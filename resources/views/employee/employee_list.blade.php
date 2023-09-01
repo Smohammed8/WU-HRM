@@ -19,6 +19,263 @@ line-height: 1.5;
     @endcan
     @can('dashboard.content')
     <br>    
+
+    <p>
+      
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2"> System Analytics for {{ $name }}   </button>
+      </p>
+      <div class="row">
+        <div class="col">
+          <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr> 
+                          Number of Administrative Staff on Duty by Educational Level 
+                        </tr>
+                        <hr>
+                    </thead>
+                    <thead>
+                      
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Education Level</th>
+                        <th scope="col">Male</th>
+                        <th scope="col">Feamle</th>
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach ($educations as $education) 
+                               <tr>
+    
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $education->name ?? '-' }} </td>
+                                <td> {{ $education->male_count }}</td> 
+                                <td> {{ $education->female_count }}  </td> 
+                                <td> {{ $education->male_count + $education->female_count }}</td> 
+                                
+                        
+                            
+                        </tr>
+                    @endforeach
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="collapse multi-collapse" id="multiCollapseExample2">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr> 
+                         Number of Administrative Staff on Leave by Educational Level(Retired,Resigned & Left due to death)
+                        <hr>
+                    </thead>
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Education Level</th>
+                        <th scope="col">Male</th>
+                        <th scope="col">Feamle</th>
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($educations as $education) 
+                        <tr>
+
+                    <td> {{ $loop->index + 1 }} </td>
+                    <td> {{ $education->name ?? '-' }} </td>
+                    <td> {{ $education->male_left_count }}</td> 
+                    <td> {{ $education->female_left_count }}  </td> 
+                    <td> {{ $education->male_left_count + $education->female_left_count }}</td> 
+                   
+
+               
+           </tr>
+       @endforeach
+                
+                    
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr> 
+                          Number of Administrative Staff on Leave by Target Educational Level 
+                        </tr>
+                        <hr>
+                    </thead>
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Advanced Diploma </th>
+                        <th scope="col">Male</th>
+                        <th scope="col">Feamle</th>
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($educations as $education) 
+                        <tr>
+
+                    <td> {{ $loop->index + 1 }} </td>
+                    <td> {{ $education->name ?? '-' }} </td>
+                    <td> {{ $education->male_left_count }}</td> 
+                    <td> {{ $education->female_left_count }}  </td> 
+                    <td> {{ $education->male_left_count + $education->female_left_count }}</td> 
+                   
+
+               
+           </tr>
+       @endforeach
+                 
+                    
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="collapse multi-collapse" id="multiCollapseExample2">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr> 
+                           Number of Administrative Staff by Type of Employment
+                        </tr>
+                        <hr>
+                    </thead>
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Employement type</th>
+                        <th scope="col">Male</th>
+                        <th scope="col">Feamle</th>
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($employements as $employement) 
+                        <tr>
+
+                   <td> {{ $loop->index + 1 }} </td>
+                   <td> {{ $employement->name ?? '-' }} </td>
+                   <td> {{ $employement->type_male_count }}</td> 
+                   <td> {{ $employement->type_female_count }}</td> 
+                   <td> {{  $employement->type_male_count  + $employement->type_female_count  }}</td> 
+                   
+           
+               
+           </tr>
+       @endforeach
+                 
+                    
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="collapse multi-collapse" id="multiCollapseExample2">
+              <div class="card card-body">
+                  <table class="table table-sm">
+                      <thead>
+                          <tr> 
+                           Number of Administrative staff certified with 
+                          </tr>
+                          <hr>
+                      </thead>
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Training type</th>
+                          <th scope="col">Male</th>
+                          <th scope="col">Feamle</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                     @foreach ($educations as $education) 
+                               <tr>
+    
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $education->name ?? '-' }} </td>
+                                <td> {{ $education->male_count }}</td> 
+                                <td> {{ $education->female_count }}  </td> 
+                                <td> {{ $education->male_count + $education->female_count }}</td> 
+                                
+                        
+                            
+                        </tr>
+                    @endforeach
+                   
+                      
+                      </tbody>
+                    </table>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col">
+            <div class="collapse multi-collapse" id="multiCollapseExample2">
+              <div class="card card-body">
+                  <table class="table table-sm">
+                      <thead>
+                          <tr> 
+                         Number of Administrative staff left last year (ሐምሌ 2014 - ሰኔ 2015) by department, Educational level and Academic Rank 
+                          </tr>
+                          <hr>
+                      </thead>
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Current Educational Status</th>
+                          <th scope="col">Male</th>
+                          <th scope="col">Feamle</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($educations as $education) 
+                        <tr>
+
+                   <td> {{ $loop->index + 1 }} </td>
+                   <td> {{ $education->name ?? '-' }} </td>
+                   <td> {{ $education->employees->count() ?? '0' }}</td> 
+                   <td> {{ $education->employees->count() ?? '0' }}</td> 
+                   <td> {{ $education->employees->count() ?? '0' }}</td> 
+                   
+           
+               
+           </tr>
+       @endforeach
+                   
+                      
+                      </tbody>
+                    </table>
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+
      <div class="card card-primary card-outline"> 
         
       {{-- <div class="card"> --}}

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class EducationalLevel extends Model
 {
@@ -27,6 +28,13 @@ class EducationalLevel extends Model
         return $this->attributes['name'];
 
     }
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+  
+
     /**
      * The attributes that should be cast to native types.
      *

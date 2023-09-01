@@ -29,7 +29,7 @@ class ExternalExperienceRequest extends FormRequest
 
             'employee_id' =>'required',
             'job_title_id'=> 'required',
-            'company_name' =>'required|regex:/^[a-z A-Z]+$/u|min:3|max:30',
+            'company_name' =>'required|min:3|max:30',
             'start_date'=> 'required|date',
             'end_date'=>'required|date',
             'comment' => 'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',
