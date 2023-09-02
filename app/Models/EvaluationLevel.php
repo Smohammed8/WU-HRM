@@ -29,4 +29,11 @@ class EvaluationLevel extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
 }

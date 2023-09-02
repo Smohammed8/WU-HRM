@@ -377,6 +377,8 @@
                                     <label for=""> {{ $crud->entry->pention_number?? '-' }} </label>
                                 </div>
 
+                             
+
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Age : </b></label>
                                     <label for=""
@@ -385,6 +387,10 @@
 
 
 
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b> Current status : </b></label>
+                                    <label for=""> {{ $crud->entry->employmentStatus->name ?? '-' }} </label>
                                 </div>
 
 

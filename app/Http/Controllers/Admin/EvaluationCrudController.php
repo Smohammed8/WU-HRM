@@ -91,7 +91,7 @@ class EvaluationCrudController extends CrudController
 
         CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
 
-        //CRUD::column('quarter_id');
+        CRUD::column('quarter_id');
          CRUD::column('total_mark');
       //  CRUD::column('created_by_id');
         
@@ -120,8 +120,8 @@ class EvaluationCrudController extends CrudController
         CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
 
 
-        CRUD::field('quarter_id')->type('hidden')->value(1);
-        CRUD::field('total_mark')->label('Total mark(100%)')->size(6);
+        CRUD::field('quarter_id')->size(4)->value(1);
+        CRUD::field('total_mark')->label('Total mark(100%)')->size(4);
         CRUD::field('created_by_id')->type('hidden')->value(backpack_user()->id);
 
         /**

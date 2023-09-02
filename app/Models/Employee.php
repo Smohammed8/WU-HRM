@@ -14,6 +14,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Exception;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -448,6 +449,8 @@ class Employee extends  Model
     {
         return $this->hasMany(PlacementChoice::class);
     }
+
+   
 
     /**
      * Get all of the evaluations for the Employee

@@ -20,6 +20,10 @@ class EmploymentType extends Model
         'description',
     ];
 
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
     /**
      * The attributes that should be cast to native types.
      *
