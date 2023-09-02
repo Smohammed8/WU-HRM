@@ -101,6 +101,7 @@ class UnitCrudController extends CrudController
 
         CRUD::column('name')->label('Organizational unit');
         CRUD::column('level');
+        CRUD::column('name')->label('Organizational unit');
         // CRUD::column('acronym');
         // CRUD::column('email');
         // CRUD::column('telephone');

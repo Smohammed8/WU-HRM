@@ -13,7 +13,7 @@ class UpdateUnit extends Migration
      */
     public function up()
     {
-        Schema::table('units', function (Blueprint $table) {
+           Schema::table('units', function (Blueprint $table) {
             $table->boolean('subordinate')->default(0);
             $table->string('level')->nullable();
         });
