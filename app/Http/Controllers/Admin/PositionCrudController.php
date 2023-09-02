@@ -125,7 +125,7 @@ class PositionCrudController extends CrudController
         CRUD::setValidation(PositionRequest::class);
 
         CRUD::field('unit_id')->label('Organizational unit')->size(6);
-        CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
 
         CRUD::field('job_code_prefix')->size(3);
         CRUD::field('job_code_starting_number')->size(3);
