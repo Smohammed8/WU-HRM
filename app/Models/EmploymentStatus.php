@@ -23,8 +23,14 @@ class EmploymentStatus extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class);
+        
     }
     
+//     public function employees()
+// {
+//     return $this->hasMany('App\Models\Employee');
+// }
+
     /**
      * The attributes that should be cast to native types.
      *

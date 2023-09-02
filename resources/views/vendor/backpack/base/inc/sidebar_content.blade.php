@@ -205,7 +205,7 @@ color:black;
                         <i class='nav-icon la la-caret-right'></i> Job grade</a></li>
             @endcanany
 
-            @canany(['employment-status.icrud', 'employment-status.index'])
+            @canany(['employment_statuse.icrud', 'employment_statuse.index'])
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-status') }}'>
             <i class='nav-icon la la-caret-right'></i> Employement Status</a></li>
             @endcanany
