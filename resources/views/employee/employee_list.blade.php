@@ -38,7 +38,7 @@ line-height: 1.5;
                 <table class="table table-sm">
                     <thead>
                         <tr> 
-                          Number of Administrative Staff on Duty by Educational Level 
+                          Number of Administrative Staff on Duty by Educational Level at {{ $name }} 
                         </tr>
                         <hr>
                     </thead>
@@ -95,7 +95,7 @@ line-height: 1.5;
                 <table class="table table-sm">
                     <thead>
                         <tr> 
-                         Number of Administrative Staff on Leave by Educational Level(Retired,Resigned & Left due to death)
+                         Number of Administrative Staff on Leave by Educational Level(Retired,Resigned & Left due to death) at {{ $name }} 
                         <hr>
                     </thead>
                     <thead>
@@ -149,7 +149,7 @@ line-height: 1.5;
                 <table class="table table-sm">
                     <thead>
                         <tr> 
-                          Number of Administrative Staff on Leave by Target Educational Level 
+                          Number of Administrative Staff on Leave by Target Educational Level at {{ $name }} 
                         </tr>
                         <hr>
                     </thead>
@@ -198,7 +198,7 @@ line-height: 1.5;
                 <table class="table table-sm">
                     <thead>
                         <tr> 
-                           Number of Administrative Staff by Type of Employment
+                           Number of Administrative Staff by Type of Employment at {{ $name }} 
                         </tr>
                         <hr>
                     </thead>
@@ -250,28 +250,28 @@ line-height: 1.5;
                   <table class="table table-sm">
                       <thead>
                           <tr> 
-                           Number of Administrative staff certified with 
+                           Number of Employee by Current Employement Status  at {{ $name }} 
                           </tr>
                           <hr>
                       </thead>
                       <thead>
                         <tr>
                           <th scope="col">#</th>
-                          <th scope="col">Training type</th>
+                          <th scope="col"> Employment status</th>
                           <th scope="col">Male</th>
                           <th scope="col">Feamle</th>
                           <th scope="col">Total</th>
                         </tr>
                       </thead>
                       <tbody>
-                     @foreach ($educations as $education) 
+                     @foreach ($employmentStatuses as $employmentStatus) 
                                <tr>
     
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $education->name ?? '-' }} </td>
-                                <td> {{ $education->male_count }}</td> 
-                                <td> {{ $education->female_count }}  </td> 
-                                <td> {{ $education->male_count + $education->female_count }}</td> 
+                                <td> {{ $employmentStatus->name ?? '-' }} </td>
+                                <td> {{ $employmentStatus->male_status_count }}</td> 
+                                <td> {{ $employmentStatus->female_status_count }}  </td> 
+                                <td> {{ $employmentStatus->male_status_count + $employmentStatus->female_status_count }}</td> 
                                 
                         
                             
@@ -301,7 +301,7 @@ line-height: 1.5;
                   <table class="table table-sm">
                       <thead>
                           <tr> 
-                         Number of Administrative staff left last year (ሐምሌ 2014 - ሰኔ 2015) by department, Educational level and Academic Rank 
+                         Number of Administrative staff left last year (ሐምሌ 2014 - ሰኔ 2015) by department, Educational level and Academic Rank  at {{ $name }} 
                           </tr>
                           <hr>
                       </thead>
@@ -357,7 +357,7 @@ line-height: 1.5;
 
             <thead>
               <tr> 
-          Number of employee by Employee Category
+          Number of employee by Employee Category at {{ $name }} 
               </tr>
               <hr>
           </thead>
@@ -407,7 +407,7 @@ line-height: 1.5;
             <table class="table table-sm">
                 <thead>
                     <tr> 
-                Number of employee by Branch Offices
+                Number of employee by Branch Offices at University Level
                     </tr>
                     <hr>
                 </thead>
