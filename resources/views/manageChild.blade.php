@@ -36,7 +36,6 @@
 		{{$positionCode->code }}-[ {{ ucfirst($positionCode->employee->name?? '-') }} ]
 
 
-		
 
 		<br> 
 		@endforeach

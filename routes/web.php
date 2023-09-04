@@ -62,6 +62,11 @@ Route::post('import', [EmployeeController::class, 'import'])->middleware('auth')
 Route::get('/login', [AuthController::class, 'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
+Route::get('/export-employees', [EmployeeCrudController::class, 'exportEmployees'])->name('export-employees');
+
+Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('export-form');
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');

@@ -22,11 +22,17 @@ line-height: 1.5;
 
     <p>
       
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2"> System Analytics for {{ $name }}   </button>
+        <button class="btn  btn-sm btn-outline-primary mr-1" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2"> <i class="fa fa-list"></i>  Analytics on Administrative Staff for {{ $name }}   </button>
+  
+        <button class="btn btn-sm btn-outline-primary mr-1" type="button" data-toggle="collapse" data-target=".multi-collapse2" aria-expanded="false" aria-controls="multiCollapseExample4 multiCollapseExample3"><i class="fa fa-list"></i> Analytics on Academic Staff for {{ $name }}   </button>
+
+        <button class="btn btn-sm btn-outline-primary mr-1" type="button" data-toggle="collapse" data-target=".multi-collapse3" aria-expanded="false" aria-controls="multiCollapseExample5 multiCollapseExample6"><i class="fa fa-download-alt"></i> Export Employee from {{ $name }}   </button>
+
       </p>
       <div class="row">
         <div class="col">
-          <div class="collapse multi-collapse" id="multiCollapseExample1">
+        
+            <div class="collapse multi-collapse" id="multiCollapseExample2">
             <div class="card card-body">
               <?php
 
@@ -144,7 +150,7 @@ line-height: 1.5;
 
       <div class="row">
         <div class="col">
-          <div class="collapse multi-collapse" id="multiCollapseExample1">
+          <div class="collapse multi-collapse" id="multiCollapseExample2">
             <div class="card card-body">
                 <table class="table table-sm">
                     <thead>
@@ -458,9 +464,77 @@ line-height: 1.5;
     </div>
   </div>    
 
+  <!-- ///////////////////////////////////////////////// -->
+<div class="row">
+  <div class="col">
+      <div class="collapse multi-collapse2" id="multiCollapseExample3">
+        <div class="card card-body">
+          <?php
+          $female_category_count = 0;
+          $male_category_count = 0;?>
+          <!-- add table here -->
+           -
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="collapse multi-collapse2" id="multiCollapseExample3">
+        <div class="card card-body">
+          <?php  $male_hr_count = 0; ?>
+          <?php  $female_hr_count = 0; ?>
+          <!-- add table here -->
+           -
+        </div>
+      </div>
+    </div>
+  </div> 
+
+<!-- /////////////////////////////////////////////// -->
+<div class="row">
+  <div class="col">
+      <div class="collapse multi-collapse3" id="multiCollapseExample6">
+        <div class="card card-body">
+      
+            <form class="form-inline" action="{{ route('export-employees') }}" method="GET">
+            <div class="form-group mb-2">
+              <label for="staticEmail2" class="sr-only">Export Employee with CSV</label>
+              Export Employee with CSV
+            </div>
+                <div class="form-group mx-sm-3 mb-2">
+      
+              <select class="form-control select2" name="category" aria-label="Default select example">
+                <option selected>-----College/Institue-----</option>
+
+                @foreach ($branches as $branch) 
+                <option value=" {{ $branch->id }} "> {{ $branch->name }} </option>
+   
+                @endforeach
+              </select>
+         
+
+              <select class="form-control select2 mr-1" name="category" aria-label="Default select example">
+              <option selected> -----Employee Category----</option>
+
+              @foreach ($categories as $category)
+              <option value=" {{ $category->id }} "> {{ $category->name }} </option>
+              @endforeach
+            </select>
+        
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Export</button>
+            {{-- <a class="btn btn-primary mb-2" href="{{ route('export-employees') }}" class="btn btn-success">Export Employees</a> --}}
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div> 
+
 <!-- /////////////////////////////////////////////// -->
 
-      </div>
+</div>
+
+
 
      <div class="card card-primary card-outline"> 
         

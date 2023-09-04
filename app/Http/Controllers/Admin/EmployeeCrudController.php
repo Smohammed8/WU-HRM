@@ -53,10 +53,12 @@ use App\Models\Skill;
 use App\Models\TemplateType;
 use App\Models\TrainingAndStudy;
 use App\Models\TypeOfMisconduct;
+use Illuminate\Http\Request;
+
 use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -72,8 +74,8 @@ use DateTime;
 use NumberFormatter;
 use Illuminate\Support\Facades\DB;
 use \Maatwebsite\Excel\Facades\Excel;
-use App\Imports\EmployeesImport;
-use App\Exports\EmployeesExport;
+use App\Exports\EmployeeExport;
+
 use App\Models\HrBranch;
 
 /**
@@ -323,6 +325,31 @@ class EmployeeCrudController extends CrudController
         );
     }
 
+
+
+    public function exportEmployees(Request $request)
+    {
+        $category = $request->input('category');
+        $office = $request->input('office');
+    
+        $query = Employee::query();
+        if ($category) {
+            $query->where('employee_category_id', $category);
+        }
+        if ($office) {
+            $query->where('hr_branch_id', $office);
+        }
+    
+        $employees = $query->get();
+    
+        return Excel::download(new \EmployeeExport($employees), 'employees.xlsx');
+    }
+  
+
+public function showExportForm()
+{
+    return view('export');
+}
 
     public function getEmployee($hr_branch_id)
     {

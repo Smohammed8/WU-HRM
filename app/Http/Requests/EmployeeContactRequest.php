@@ -29,7 +29,7 @@ class EmployeeContactRequest extends FormRequest
 
             'employee_id' => 'required',
             'contact_type' => 'required',
-            'contact_name' => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50',
+            'contact_name' => 'required|min:5|max:50',
             'contact'=>'required|numeric|digits:10',
         ];
     }
