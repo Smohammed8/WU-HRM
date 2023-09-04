@@ -252,6 +252,17 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('vacancy.edit');
         Permission::findOrCreate('vacancy.delete');
         // Permission for vacancy candidates
+
+
+        //   employment_statuses
+        Permission::findOrCreate('employment_statuse.icrud');
+        Permission::findOrCreate('employment_statuse.index');
+        Permission::findOrCreate('employment_statuse.create');
+        Permission::findOrCreate('employment_statuse.show');
+        Permission::findOrCreate('employment_statuse.edit');
+        Permission::findOrCreate('employment_statuse.delete');
+            
+        /////////////// Vacancy permssion //////////
         Permission::findOrCreate('vacancy.candidate.icrud');
         Permission::findOrCreate('vacancy.candidate.index');
         Permission::findOrCreate('vacancy.candidate.create');

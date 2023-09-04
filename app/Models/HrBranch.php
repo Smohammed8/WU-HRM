@@ -42,7 +42,11 @@ class HrBranch extends Model
 
     }
 
-
+    public function viewEmployees(): HasMany
+    {
+        return $this->hasMany(Employee::class);
+    }
+    
     public function employees(): HasMany
     {
         return $this->hasMany(Employee::class, 'hr_branch_id', 'id');

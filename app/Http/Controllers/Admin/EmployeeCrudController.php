@@ -40,6 +40,7 @@ use App\Models\Level;
 use App\Models\License;
 use App\Models\LicenseType;
 use App\Models\MaritalStatus;
+use App\Models\EmployementStatus;
 use App\Models\Misconduct;
 use App\Models\Nationality;
 use App\Models\Pension;
@@ -330,6 +331,37 @@ class EmployeeCrudController extends CrudController
          $name = DB::table('hr_branches')->where('id', $hr_branch_id)->select('name')->first()->name;
 
 
+
+            $categories = EmployeeCategory::withCount([
+            'employees as male_category_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
+             },
+            'employees as female_category_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
+
+           ])->get();
+
+
+           $employmentStatuses = EmploymentStatus::withCount([
+            'employees as male_status_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
+             },
+            'employees as female_status_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
+
+           ])->get();
+
+
+
+
+           $branches = HrBranch::withCount([
+            'employees as male_hr_count' => function ($query) {
+                $query->where('gender', 'Male');
+            },
+            'employees as female_hr_count' => function ($query) {
+                $query->where('gender', 'Female');
+            },
+        ])->get();
+        
+
+
+
             $employements = EmploymentType::withCount([
             'employees as type_male_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
              },
@@ -371,19 +403,14 @@ class EmployeeCrudController extends CrudController
 
 
             ])->get();
-
-
-             
-
-
-        
           $males    = Employee::where('gender','=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
-         $females  = Employee::where('gender','=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
+          $females  = Employee::where('gender','=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
 
          $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
       
 
-        return view('employee.employee_list', compact(['employees','educations','employements','total','females','males'],'name'));
+        return view('employee.employee_list', compact(['employees','educations',
+        'employmentStatuses','categories','employements','branches','total','females','males'],'name'));
     }
 
     public function  getEmployeeID()

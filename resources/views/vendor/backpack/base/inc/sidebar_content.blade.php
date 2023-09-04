@@ -131,7 +131,8 @@ color:black;
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'>
                     <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
 
-
+     
+   
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('educational-level') }}'><i
                         class='nav-icon la la-caret-right'></i> Educational level</a></li>
 
@@ -203,6 +204,13 @@ color:black;
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-grade') }}'>
                         <i class='nav-icon la la-caret-right'></i> Job grade</a></li>
             @endcanany
+
+            @canany(['employment_statuse.icrud', 'employment_statuse.index'])
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-status') }}'>
+            <i class='nav-icon la la-caret-right'></i> Employement Status</a></li>
+            @endcanany
+                
+
             @canany(['salary_scale.icrud', 'salary_scale.index'])
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-scale') }}'>
                         <i class='nav-icon la la-caret-right'></i> Salary scale</a></li>

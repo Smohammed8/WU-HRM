@@ -42,6 +42,13 @@ class EmploymentStatusCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('description');
 
+        // CRUD::addColumn([
+        //     'name' => 'employee_count',
+        //     'label' => 'No of Employee',
+        //     'type' => 'calculated',
+        //     'value' => 'count($this->employees)',
+        // ]);
+        
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
