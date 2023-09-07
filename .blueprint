@@ -1,10 +1,16 @@
 created:
-    - database/factories/CheckPointFactory.php
-    - database/factories/ClearanceFactory.php
-    - database/migrations/2023_08_23_214418_create_check_points_table.php
-    - database/migrations/2023_08_23_214419_create_clearances_table.php
-    - app/Models/CheckPoint.php
-    - app/Models/Clearance.php
+    - database/factories/CertificationTypeFactory.php
+    - database/factories/CollegePositionCodeFactory.php
+    - database/factories/EmployeeEducationFactory.php
+    - database/factories/EmployeeLetterFactory.php
+    - database/migrations/2023_09_07_182049_create_certification_types_table.php
+    - database/migrations/2023_09_07_182050_create_college_position_codes_table.php
+    - database/migrations/2023_09_07_182051_create_employee_education_table.php
+    - database/migrations/2023_09_07_182052_create_employee_letters_table.php
+    - app/Models/CertificationType.php
+    - app/Models/CollegePositionCode.php
+    - app/Models/EmployeeEducation.php
+    - app/Models/EmployeeLetter.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -81,3 +87,7 @@ models:
     HrBranch: { name: 'string nullable', user_id: 'foreign:users.id nullable' }
     CheckPoint: { unit_id: 'foreign:units.id nullable', order: integer }
     Clearance: { employee_id: 'foreign:employees.id nullable', check_point_id: 'foreign:check_points.id nullable', isApproved: 'bool nullable default 0', approved_by: 'foreign:users.id nullable' }
+    CertificationType: { name: 'string nullable', description: 'text nullable' }
+    CollegePositionCode: { college: 'foreign:hr_branches.id nullable', prefix: 'string nullable', start: 'integer nullable', description: 'text nullable' }
+    EmployeeEducation: { employee_id: 'id foreign', institution: 'string nullable', field_of_study_id: 'id foreign:field_of_studies.id', educational_level_id: 'id foreign', training_start_date: date, training_end_date: date, upload: 'string:255' }
+    EmployeeLetter: { employee_id: 'id foreign', title: 'string nullable', body: 'text nullable', written_date: date, upload: 'string:255' }

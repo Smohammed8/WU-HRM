@@ -425,42 +425,10 @@
                                 <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contacts' }}</a>
                         </li>
 
-
-
-                        <li role="presentation" class="nav-item">
-                            <a href="#tab_employee_skill" aria-controls="tab_employee_skill" role="tab"
-                                tab_name="tab_employee_skill" data-toggle="tab" class="nav-link"> <i class="la la-empire"
-                                    style="font-size: 20px;"> </i>&nbsp; {{ 'Skill' }}</a>
-                        </li>
-
-
-                        <li role="presentation" class="nav-item">
-                            <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab"
-                                tab_name="employee_address" data-toggle="tab" class="nav-link "> <i class="la la-envelope-o"
-                                    style="font-size: 20px"> </i>&nbsp; {{ ' Address' }}</a>
-                        </li>
-                        <li role="presentation" class="nav-item">
-                            <a href="#tab_employee_licence" aria-controls="tab_employee_licence" role="tab"
-                                tab_name="employee_licence" data-toggle="tab" class="nav-link "> <i class="la la-gavel"
-                                    style="font-size: 20px"> </i> {{ 'Licenses' }}</a>
-                        </li>
-                        <li role="presentation" class="nav-item">
-                            <a href="#tab_employee_certificate" aria-controls="tab_employee_certificate" role="tab"
-                                tab_name="employee_certificate" data-toggle="tab" class="nav-link "> <i class="la la-book"
-                                    style="font-size: 20px"> </i>{{ 'Certification' }}</a>
-                        </li>
-
-                        <li role="presentation" class="nav-item">
-                        </li>
-                        <li role="presentation" class="nav-item">
-                            <a href="#tab_employee_language" aria-controls="tab_employee_language" role="tab"
-                                tab_name="employee_language" data-toggle="tab" class="nav-link "> <i class="la la-globe"
-                                    style="font-size: 20px"> </i> {{ 'Language' }}</a>
-                        </li>
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_family" aria-controls="tab_employee_family" role="tab"
                                 tab_name="employee_family" data-toggle="tab" class="nav-link "> <i class="la la-users"
-                                    style="font-size: 20px"> </i> {{ 'Families' }}</a>
+                                    style="font-size: 20px"> </i> {{ 'Employee Families' }}</a>
                         </li>
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience"
@@ -472,6 +440,12 @@
                                 role="tab" tab_name="employee_external_experience" data-toggle="tab" class="nav-link ">
                                 <i class="la la-flag" style="font-size: 20px"> </i> {{ 'External Experience' }}</a>
                         </li>
+
+                        <li role="presentation" class="nav-item">
+                            <a href="#tab_employee_language" aria-controls="tab_employee_language" role="tab"
+                                tab_name="employee_language" data-toggle="tab" class="nav-link "> <i class="la la-globe"
+                                    style="font-size: 20px"> </i> {{ 'Language Ability' }}</a>
+                        </li>
                         <li role="presentation" class="nav-item">
                             <a href="#tab_training_and_experience" aria-controls="tab_training_and_experience" role="tab"
                                 tab_name="training_and_experience" data-toggle="tab" class="nav-link "> <i
@@ -480,10 +454,41 @@
                         </li>
 
                         <li role="presentation" class="nav-item">
-                            <a href="#" aria-controls="" role="tab" tab_name="" data-toggle="tab"
-                                class="nav-link "> <i class="la la la-university"
-                                    style="font-size: 20px"> </i> {{ 'Memebership' }}</a>
+                            <a href="#tab_employee_skill" aria-controls="tab_employee_skill" role="tab"
+                                tab_name="tab_employee_skill" data-toggle="tab" class="nav-link"> <i class="la la-empire"
+                                    style="font-size: 20px;"> </i>&nbsp; {{ 'Special Skill' }}</a>
                         </li>
+
+
+                  
+                        <li role="presentation" class="nav-item">
+                            <a href="#tab_employee_licence" aria-controls="tab_employee_licence" role="tab"
+                                tab_name="employee_licence" data-toggle="tab" class="nav-link "> <i class="la la-gavel"
+                                    style="font-size: 20px"> </i> {{ 'Employee Licenses' }}</a>
+                        </li>
+
+                        <li role="presentation" class="nav-item">
+                            <a href="#tab_employee_certificate" aria-controls="tab_employee_certificate" role="tab"
+                                tab_name="employee_certificate" data-toggle="tab" class="nav-link "> <i class="la la-book"
+                                    style="font-size: 20px"> </i>{{ 'Employee Certification' }}</a>
+                        </li>
+
+                        <li role="presentation" class="nav-item">
+                        </li>
+                
+
+                 
+
+                        <li role="presentation" class="nav-item">
+                            <a href="#" aria-controls="" role="tab" tab_name="" data-toggle="tab"
+                                class="nav-link "> <i class="la la-balance-scale"
+                                    style="font-size: 20px"> </i> {{ 'Employee Effiecy' }}</a>
+                        </li>
+                        {{-- <li role="presentation" class="nav-item">
+                            <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab"
+                                tab_name="employee_address" data-toggle="tab" class="nav-link "> <i class="la la-user-minus"
+                                    style="font-size: 20px"> </i>&nbsp; {{ ' Employee Leave' }}</a>
+                        </li> --}}
                     </ul>
                 </div>
 
