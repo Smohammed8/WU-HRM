@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\EmployeeEducationRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use App\Models\Employee;
+use App\Models\FieldOfStudy;
+use App\Models\EducationalLevel;
+use App\Models\EmployeeEducation;
 /**
  * Class EmployeeEducationCrudController
  * @package App\Http\Controllers\Admin
@@ -28,8 +31,30 @@ class EmployeeEducationCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\EmployeeEducation::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee-education');
+        $employeeId = \Route::current()->parameter('employee');
+      //  CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/employee-education');
         CRUD::setEntityNameStrings('employee education', 'employee educations');
+      //  $this->setupBreadcrumb($employeeId);
     }
+
+    // public function setupBreadcrumb($employeeId)
+    // {
+    //     $breadcrumbs = [
+    //         'Admin' => route('dashboard'),
+    //         'Employees' => route('employee.index'),
+    //         'Employee Education' => route('employee.show',['id'=>$employeeId]).'#employee_education',
+    //     ];
+    //     if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+    //         $breadcrumbs['Preview'] = false;
+    //     }
+    //     if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+    //         $breadcrumbs['Update'] = false;
+    //     }
+    //     if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+    //         $breadcrumbs['Add'] = false;
+    //     }
+    //     $this->data['breadcrumbs'] = $breadcrumbs;
+    // }
 
     /**
      * Define what happens when the List operation is loaded.
@@ -62,16 +87,17 @@ class EmployeeEducationCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+       // $employeeId = \Route::current()->parameter('employee');
+
         CRUD::setValidation(EmployeeEducationRequest::class);
-
-        CRUD::field('employee_id');
-        CRUD::field('institution');
-        CRUD::field('field_of_study_id');
-        CRUD::field('educational_level_id');
-        CRUD::field('training_start_date');
-        CRUD::field('training_end_date');
-        CRUD::field('upload');
-
+        CRUD::field('employee_id') ->size(6);
+        //CRUD::field('employee_id')->type('hidden')->value($employeeId);
+        CRUD::field('institution')->size(6);
+        CRUD::field('field_of_study_id')->label('Field of Study')->type('select2')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6);
+        CRUD::field('educational_level_id')->label('Education Level')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
+        CRUD::field('training_start_date')->size(6);
+        CRUD::field('training_end_date')->size(6);
+        CRUD::field('license_file')->type('upload')->upload(true)->size(6);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

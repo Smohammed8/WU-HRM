@@ -67,7 +67,6 @@ Route::get('/export-employees', [EmployeeCrudController::class, 'exportEmployees
 Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('export-form');
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
  Route::get('{hr_branch_id}/getEmployee', [EmployeeCrudController::class, 'getEmployee'])->name('getEmployee');

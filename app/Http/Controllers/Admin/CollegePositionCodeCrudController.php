@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CollegePositionCodeRequest;
+use App\Models\CollegePositionCode;
+use App\Models\HrBranch;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -39,7 +41,9 @@ class CollegePositionCodeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('college');
+         CRUD::column('college_id')->label('College/Institue');
+        // CRUD::column('college_id')->label('College/Institue')->type('select')->entity('collegePositionCode')->model(CollegePositionCode::class);
+
         CRUD::column('prefix');
         CRUD::column('start');
         CRUD::column('description');
@@ -61,9 +65,9 @@ class CollegePositionCodeCrudController extends CrudController
     {
         CRUD::setValidation(CollegePositionCodeRequest::class);
 
-        CRUD::field('college');
-        CRUD::field('prefix');
-        CRUD::field('start');
+        CRUD::field('college')->label('College/Institute')->size(6);
+        CRUD::field('prefix')->label('Code Prefix')->size(6);
+        CRUD::field('start')->label('Start Number')->size(6);
         CRUD::field('description');
 
         /**

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class HrBranch extends Model
 {
@@ -45,6 +46,10 @@ class HrBranch extends Model
     public function viewEmployees(): HasMany
     {
         return $this->hasMany(Employee::class);
+    }
+    public function postionCode(): HasOne
+    {
+        return $this->hasOne(CollegePositionCode::class);
     }
     
     public function employees(): HasMany

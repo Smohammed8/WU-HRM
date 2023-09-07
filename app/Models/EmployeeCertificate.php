@@ -41,9 +41,13 @@ class EmployeeCertificate extends Model
     {
         return $this->belongsTo(Employee::class);
     }
-
-    public function skillType()
+    public function certification()
     {
-        return $this->belongsTo(SkillType::class);
+        return $this->belongsTo(CertificationType::class);
     }
+
+    // public function skillType()
+    // {
+    //     return $this->belongsTo(SkillType::class);
+    // }
 }

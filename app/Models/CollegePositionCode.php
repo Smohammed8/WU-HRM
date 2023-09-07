@@ -16,7 +16,7 @@ class CollegePositionCode extends Model
      * @var array
      */
     protected $fillable = [
-        'college',
+        'college_id',
         'prefix',
         'start',
         'description',
@@ -29,7 +29,7 @@ class CollegePositionCode extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'college' => 'integer',
+        'college_id' => 'integer',
     ];
 
     public function college()

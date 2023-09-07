@@ -508,7 +508,10 @@ public function showExportForm()
         //CRUD::field('uas_user_id')->tab($ci)->size(3);
 
          CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
+         CRUD::field('horizontal_level')->type('enum')->label('Horizontal Level')->size(6)->tab($job);
 
+
+         
          CRUD::field('employment_status_id')->type('select2')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(6)->tab($job);
 
 
@@ -769,8 +772,6 @@ public function importEmployee(Request $request){
         return $response;
     }
 
-
-
     protected function setupShowOperation()
     {
         $employeeId = $this->crud->getCurrentEntryId();
@@ -902,12 +903,50 @@ public function importEmployee(Request $request){
 
 
 
+// $columnName = DB::table('JobGrade')
+//     ->where('your_column', $valueToSearch)->select(DB::raw('your_column AS column_name'))->value('column_name');
+
+// if ($columnName) {
+  
+//     echo "Column name: " . $columnName;
+// } else {
+    
+//     echo "Value not found in any column.";
+// }
+
 
         $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
         //  dd($level);
-        $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
-        $this->data['startSalary'] = $startSalary;
 
+          $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
+          $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
+        //  dd(  $level_id );
+        $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
+      
+        if($step =='Start')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'start_salary');
+        elseif($step ==1) 
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'one');
+        elseif($step ==2)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'two');
+        elseif($step ==3)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'three');
+        elseif($step ==4)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'four');
+        elseif($step ==5)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'five');
+        elseif($step ==6)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'six');
+        elseif($step ==7)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'seven');
+        elseif($step ==8)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'eight');
+        elseif($step ==9)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'nine'); 
+        else
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'ceil_salary');
+
+        
         /////////// Laraevl count ////////////////////////
         //   $employee = Employee::where('id', '<=', 100)->get();
         //   $totalEmployee = $employee->count();

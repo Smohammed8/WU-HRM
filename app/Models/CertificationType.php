@@ -25,6 +25,11 @@ class CertificationType extends Model
      *
      * @var array
      */
+    // public function employees()
+    // {
+    //     return $this->hasMany(Employee::class);
+    // }
+
     protected $casts = [
         'id' => 'integer',
     ];

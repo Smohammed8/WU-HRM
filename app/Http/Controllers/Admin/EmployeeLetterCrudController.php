@@ -62,11 +62,12 @@ class EmployeeLetterCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeLetterRequest::class);
 
-        CRUD::field('employee_id');
-        CRUD::field('title');
+        CRUD::field('employee_id')->size(6);
+        CRUD::field('title')->size(6);
+        CRUD::field('written_date')->size(6);
+        CRUD::field('upload')->type('upload')->upload(true)->label('Upload scan')->size(6);
         CRUD::field('body');
-        CRUD::field('written_date');
-        CRUD::field('upload');
+    
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

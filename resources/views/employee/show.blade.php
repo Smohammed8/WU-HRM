@@ -22,6 +22,10 @@
 
 @section('header')
     <section class="container-fluid d-print-none">
+        <a href="{{ route('employee.edit', ['id'=>$crud->entry?->id]) }}"
+        class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-edit"></i> Edit
+    </a>
+
         @canany(['employee.efficency.icrud', 'employee.efficency.index'])
             @if ($ep != null)
                 @if ($ep == 'On')
@@ -35,7 +39,8 @@
                 <button type="button" data-toggle="modal" data-target="#" target="_top"
                     class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-balance-scale"></i><del>
                         Efficiency
-                    </del> </button>
+                    </del> 
+                </button>
             @endif
         @endcanany
 
@@ -224,11 +229,28 @@
                                     <label for=""> {{ $crud->entry->position->jobTitle->level->name ?? '-' }} </label>
                                 </div>
 
+                                        
+                                     
+                            
+
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Horizonat Level: </b></label>
-                                    <label for="">Start salary </label>
-                                    {{-- {{  '1'}}<sup>st</sup>   --}}
+                            <label for="">
+                                
+                                @if($crud->entry->horizontal_level  ==1)  
+                                {{  $crud->entry->horizontal_level }} <sup>st</sup>
+                                @elseif($crud->entry->horizontal_level  ==2)
+                                {{  $crud->entry->horizontal_level }} <sup>nd</sup>
+                                @elseif($crud->entry->horizontal_level  ==3)
+                                {{  $crud->entry->horizontal_level }} <sup>rd</sup>
+                                @elseif($crud->entry->horizontal_level  >= 4 and $crud->entry->horizontal_level <= 9 )
+                                {{  $crud->entry->horizontal_level }} <sup>th</sup>
+                                @else
+                                {{  $crud->entry->horizontal_level }} 
+                                @endif
+                               </label>
+                                 
                                 </div>
 
 
