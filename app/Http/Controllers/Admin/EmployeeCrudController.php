@@ -915,7 +915,7 @@ public function importEmployee(Request $request){
 // }
 
 
-        $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
+    $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
         //  dd($level);
 
           $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;

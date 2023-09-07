@@ -441,17 +441,14 @@
                         </i> &nbsp; {{ 'Employee Education' }}</a>
                 </li> --}}
 
+           
+
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_contact" aria-controls="" role="tab" tab_name="tab_employee_contact"
                                 data-toggle="tab" class="nav-link active">
                                 <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contacts' }}</a>
                         </li>
 
-                        <li role="presentation" class="nav-item">
-                            <a href="#tab_employee_family" aria-controls="tab_employee_family" role="tab"
-                                tab_name="employee_family" data-toggle="tab" class="nav-link "> <i class="la la-users"
-                                    style="font-size: 20px"> </i> {{ 'Employee Families' }}</a>
-                        </li>
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience"
                                 role="tab" tab_name="employee_internal_experience" data-toggle="tab" class="nav-link ">
@@ -462,6 +459,13 @@
                                 role="tab" tab_name="employee_external_experience" data-toggle="tab" class="nav-link ">
                                 <i class="la la-flag" style="font-size: 20px"> </i> {{ 'External Experience' }}</a>
                         </li>
+                        
+                        <li role="presentation" class="nav-item">
+                            <a href="#tab_employee_family" aria-controls="tab_employee_family" role="tab"
+                                tab_name="employee_family" data-toggle="tab" class="nav-link "> <i class="la la-users"
+                                    style="font-size: 20px"> </i> {{ 'Employee Families' }}</a>
+                        </li>
+                  
 
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_language" aria-controls="tab_employee_language" role="tab"
@@ -506,6 +510,19 @@
                                 class="nav-link "> <i class="la la-balance-scale"
                                     style="font-size: 20px"> </i> {{ 'Employee Effiecy' }}</a>
                         </li>
+
+                        <li role="presentation" class="nav-item">
+                            <a href="#tab_employee_education" aria-controls="" role="tab" tab_name="" data-toggle="tab"
+                                class="nav-link "> <i class="la la-graduation-cap"
+                                    style="font-size: 20px"> </i> {{ 'Employee Education' }}</a>
+                        </li>
+
+                        <li role="presentation" class="nav-item">
+                            <a href="#" aria-controls="" role="tab" tab_name="" data-toggle="tab"
+                                class="nav-link "> <i class="la la-book"
+                                    style="font-size: 20px"> </i> {{ 'Written Letters' }}</a>
+                        </li>
+
                         {{-- <li role="presentation" class="nav-item">
                             <a href="#tab_employee_address" aria-controls="tab_employee_address" role="tab"
                                 tab_name="employee_address" data-toggle="tab" class="nav-link "> <i class="la la-user-minus"
