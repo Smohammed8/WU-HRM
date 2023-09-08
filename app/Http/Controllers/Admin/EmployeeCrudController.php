@@ -943,6 +943,8 @@ public function importEmployee(Request $request){
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'eight');
         elseif($step ==9)
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'nine'); 
+        elseif($step ==null)
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'start_salary'); 
         else
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'ceil_salary');
 
