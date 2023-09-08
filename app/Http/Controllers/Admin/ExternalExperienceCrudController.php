@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ExternalExperienceRequest;
 use App\Models\JobTitle;
+use App\Models\EmploymentType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -97,6 +98,7 @@ class ExternalExperienceCrudController extends CrudController
 
         CRUD::field('job_title_id')->size(6);
         CRUD::field('company_name')->size(6);
+        CRUD::field('employment_type_id')->type('select2')->entity('  employmentType')->model(EmploymentType::class)->attribute('name')->size(6);
         CRUD::field('start_date')->size(6);
         CRUD::field('end_date')->size(6);
         CRUD::field('comment');

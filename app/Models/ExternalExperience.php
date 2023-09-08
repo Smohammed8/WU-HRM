@@ -22,6 +22,7 @@ class ExternalExperience extends Model
         'start_date',
         'end_date',
         'comment',
+        'employment_type_id'
     ];
 
     /**
@@ -51,6 +52,10 @@ class ExternalExperience extends Model
         return $this->belongsTo(Employee::class);
     }
 
+    public function employmentType()
+    {
+        return $this->belongsTo(EmploymentType::class);
+    }
     // public function jobTitle()
     // {
     //     return $this->belongsTo(JobTitle::class);

@@ -75,7 +75,7 @@ use NumberFormatter;
 use Illuminate\Support\Facades\DB;
 use \Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EmployeeExport;
-
+use App\Models\EmployeeEducation;
 use App\Models\HrBranch;
 
 /**
@@ -781,14 +781,24 @@ public function importEmployee(Request $request){
         $this->data['employeeAddresses'] = $employeeAddresses;
         $employeeCertificates = EmployeeCertificate::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeCertificates'] = $employeeCertificates;
+
         $employeeContacts = EmployeeContact::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;
+
         $employeeLanguages = EmployeeLanguage::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeLanguages'] = $employeeLanguages;
         $employeeFamilies = EmployeeFamily::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeFamilies'] = $employeeFamilies;
         $internalExperiences = InternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['internalExperiences'] = $internalExperiences;
+
+        $employeeEducations = EmployeeEducation::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $this->data['employeeEducations'] = $employeeEducations;
+
+
+        $evaluations = Evaluation::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $this->data['evaluations'] = $evaluations;
+
 
         $externalExperiences = ExternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['externalExperiences'] = $externalExperiences;

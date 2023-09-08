@@ -24,6 +24,15 @@ class EmploymentType extends Model
     {
         return $this->hasMany(Employee::class);
     }
+    public function internalExperience()
+    {
+        return $this->hasMany(InternalExperience::class);
+    }
+    public function externalExperience()
+    {
+        return $this->hasMany(ExternalExperience::class);
+    }
+
     /**
      * The attributes that should be cast to native types.
      *

@@ -25,7 +25,12 @@ class EmployeeEducationRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+             'institution' => 'required|min:5|max:255',
+             'field_of_study_id' => 'required',
+             'educational_level_id' => 'required',
+             'training_start_date' => 'required',
+             'training_end_date' => 'required',
+             'upload' => 'required'
         ];
     }
 

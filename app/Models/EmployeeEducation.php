@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\TextUI\XmlConfiguration\Constant;
+use App\Constants;
 
 class EmployeeEducation extends Model
 {
@@ -37,8 +39,27 @@ class EmployeeEducation extends Model
         'educational_level_id' => 'integer',
         'training_start_date' => 'date',
         'training_end_date' => 'date',
+        'upload' => 'integer',
     ];
 
+
+
+
+    public function setUploadAttribute($value)
+    {
+        $disk = "public";
+        $destination_path = Constants::EMPLOYEE_EDUCATIOM_UPLOAD_PATH;
+        $attribute_name = "upload";
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+
+    public function getUploadAttribute($value)
+    {
+        return asset('storage/'.($this->attributes['upload']??''));
+    }
+
+    
     public function employee()
     {
         return $this->belongsTo(Employee::class);

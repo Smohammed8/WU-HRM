@@ -10,7 +10,8 @@ class Constants
     const EMPLOYEE_PHOTO_UPLOAD_PATH = '/employee/photo/';
     const EMPLOYEE_DRIVER_LICESNCE_UPLOAD_PATH = '/employee/driver_license/';
     const EMPLOYEE_LICESNSES_UPLOAD_PATH = 'uploads/employee/licenses';
-
+    const EMPLOYEE_EDUCATIOM_UPLOAD_PATH = 'uploads/employee/education';
+    const EMPLOYEE_LETTER_UPLOAD_PATH = 'uploads/employee/letter';
     const JOB_LEVELS = [
         'I' => 1,
         'II' => 2,

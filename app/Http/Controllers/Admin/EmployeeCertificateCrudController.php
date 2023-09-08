@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EmployeeCertificateRequest;
+use App\Models\CertificationType;
 use App\Models\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -89,11 +90,11 @@ class EmployeeCertificateCrudController extends CrudController
 
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
-        CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name')->size(6);
-        CRUD::field('name')->size(6);
-        CRUD::field('address')->size(6);
-        CRUD::field('certificate_date')->size(6);
-        // CRUD::field('duration');
+        CRUD::field('certification_type_id')->type('select2')->entity('certificationType')->model(CertificationType::class)->attribute('name')->size(6);
+        CRUD::field('name')->label('Certification name')->size(6);
+        CRUD::field('address')->label('Place of given')->size(6);
+        CRUD::field('certificate_date')->label('Date of given')->size(6);
+        CRUD::field('duration')->label('Duration in days')->size(6);
         CRUD::field('comment');
 
         /**

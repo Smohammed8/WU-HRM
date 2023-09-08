@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Constants;
 class EmployeeLetter extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -32,7 +32,24 @@ class EmployeeLetter extends Model
         'id' => 'integer',
         'employee_id' => 'integer',
         'written_date' => 'date',
+        'upload' => 'integer',
     ];
+
+
+
+    public function setUploadAttribute($value)
+    {
+        $disk = "public";
+        $destination_path = Constants::EMPLOYEE_LETTER_UPLOAD_PATH;
+        $attribute_name = "upload";
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+
+    public function getUploadAttribute($value)
+    {
+        return asset('storage/'.($this->attributes['upload']??''));
+    }
 
     public function employee()
     {

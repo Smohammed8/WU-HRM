@@ -28,10 +28,34 @@ class EvaluationCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Evaluation::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/evaluation');
+        $employeeId = \Route::current()->parameter('employee');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/evaluation');
         CRUD::setEntityNameStrings('evaluation', 'evaluations');
+        $this->setupBreadcrumb($employeeId);
         $this->setupPermission();
     }
+
+
+    public function setupBreadcrumb($employeeId)
+    {
+        $breadcrumbs = [
+            'Admin' => route('dashboard'),
+            'Employees' => route('employee.index'),
+            'Employee Education' => route('employee.show',
+            ['id'=>$employeeId]).'#employee_evaluation',
+        ];
+        if(in_array('show',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Preview'] = false;
+        }
+        if(in_array('edit',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Update'] = false;
+        }
+        if(in_array('create',explode('/',$this->crud->getRequest()->getRequestUri()))){
+            $breadcrumbs['Add'] = false;
+        }
+        $this->data['breadcrumbs'] = $breadcrumbs;
+    }
+    
 
     public function setupPermission()
     {
@@ -91,7 +115,7 @@ class EvaluationCrudController extends CrudController
 
         CRUD::column('employee_id')->type('select')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
 
-        CRUD::column('quarter_id');
+        CRUD::column('quarter_id')->label('Term of Evalution');
          CRUD::column('total_mark');
       //  CRUD::column('created_by_id');
         
@@ -114,13 +138,13 @@ class EvaluationCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EvaluationRequest::class);
-
-     //   CRUD::field('employee_id');
-
-        CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
+     $employeeId = \Route::current()->parameter('employee');
+     CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
 
-        CRUD::field('quarter_id')->size(4)->value(1);
+        // CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
+
+        CRUD::field('quarter_id')->label('Term of evaluation')->size(4)->value(1);
         CRUD::field('total_mark')->label('Total mark(100%)')->size(4);
         CRUD::field('created_by_id')->type('hidden')->value(backpack_user()->id);
 

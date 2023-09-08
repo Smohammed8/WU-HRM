@@ -28,8 +28,8 @@ class EmployeeCertificateRequest extends FormRequest
             // 'name' => 'required|min:5|max:255'
 
             'employee_id'  => 'required',
-            'skill_type_id' => 'required',
-            'name' => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50',
+            'certification_type_id' => 'required',
+            'name' => 'required|regex:/^[a-z A-Z]+$/u|min:2|max:50',
             'address'  => 'required',
             'certificate_date'  => 'required',
             'duration' => 'required',

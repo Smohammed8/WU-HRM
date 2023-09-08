@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IDCardController;
 use App\Http\Controllers\IDController;
 use App\Http\Controllers\PlacementController;
+use App\Http\Controllers\EmployeeEducationCrudController;
 use App\Http\Controllers\JobTitlePrerequestController;
 use App\Http\Controllers\jobTitlePrerequestsCrudController;
 
@@ -34,6 +35,10 @@ Route::group([
     Route::crud('{employee}/employee-contact', 'EmployeeContactCrudController');
     Route::crud('{employee}/employee-family', 'EmployeeFamilyCrudController');
     Route::crud('{employee}/employee-language', 'EmployeeLanguageCrudController');
+    Route::crud('{employee}/employee-education', 'EmployeeEducationCrudController');
+
+    Route::crud('{employee}/evaluation', 'EvaluationCrudController');
+
     Route::crud('{employee}/skill', 'SkillCrudController');
     Route::crud('employee-title', 'EmployeeTitleCrudController');
     Route::crud('employment-status', 'EmploymentStatusCrudController');

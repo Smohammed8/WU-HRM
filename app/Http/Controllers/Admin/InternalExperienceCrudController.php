@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\InternalExperienceRequest;
 use App\Models\JobTitle;
+use App\Models\EmploymentType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -87,8 +88,12 @@ class InternalExperienceCrudController extends CrudController
         $employeeId = \Route::current()->parameter('employee');
         CRUD::setValidation(InternalExperienceRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
-        CRUD::field('unit_id')->size(6);
+        CRUD::field('unit_id')->label('Working unit')->size(6);
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+
+        CRUD::field('employment_type_id')->type('select2')->entity('  employmentType')->model(EmploymentType::class)->attribute('name')->size(6);
+      
+
         // CRUD::field('position')->size(6);
         CRUD::field('start_date')->size(6);
         CRUD::field('end_date')->size(6);

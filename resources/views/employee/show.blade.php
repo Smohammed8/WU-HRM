@@ -450,6 +450,12 @@
                         </li>
 
                         <li role="presentation" class="nav-item">
+                            <a href="#tab_employee_education" aria-controls="tab_employee_education" role="tab" tab_name="employee_education" data-toggle="tab"
+                                class="nav-link "> <i class="la la-graduation-cap"
+                                    style="font-size: 20px"> </i> {{ 'Employee Education' }}</a>
+                        </li>
+
+                        <li role="presentation" class="nav-item">
                             <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience"
                                 role="tab" tab_name="employee_internal_experience" data-toggle="tab" class="nav-link ">
                                 <i class="la la-map" style="font-size: 20px"> </i> {{ 'Internal Experience' }}</a>
@@ -460,6 +466,13 @@
                                 <i class="la la-flag" style="font-size: 20px"> </i> {{ 'External Experience' }}</a>
                         </li>
                         
+<!-- ////////////////////////// -->
+            <li role="presentation" class="nav-item">
+                <a href="#tab_employee_evaluation" aria-controls="tab_employee_evaluation" role="tab" tab_name="employee_evaluation" data-toggle="tab"
+                    class="nav-link "> <i class="la la-balance-scale"
+                        style="font-size: 20px"> </i> {{ 'Employee Efficiency' }}</a>
+            </li>
+
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_family" aria-controls="tab_employee_family" role="tab"
                                 tab_name="employee_family" data-toggle="tab" class="nav-link "> <i class="la la-users"
@@ -505,20 +518,11 @@
 
                  
 
-                        <li role="presentation" class="nav-item">
-                            <a href="#" aria-controls="" role="tab" tab_name="" data-toggle="tab"
-                                class="nav-link "> <i class="la la-balance-scale"
-                                    style="font-size: 20px"> </i> {{ 'Employee Effiecy' }}</a>
-                        </li>
+
+                   
 
                         <li role="presentation" class="nav-item">
-                            <a href="#tab_employee_education" aria-controls="" role="tab" tab_name="" data-toggle="tab"
-                                class="nav-link "> <i class="la la-graduation-cap"
-                                    style="font-size: 20px"> </i> {{ 'Employee Education' }}</a>
-                        </li>
-
-                        <li role="presentation" class="nav-item">
-                            <a href="#" aria-controls="" role="tab" tab_name="" data-toggle="tab"
+                            <a href="#tab_employee_letter" aria-controls="tab_employee_letter" role="tab" tab_name="employee_letter" data-toggle="tab"
                                 class="nav-link "> <i class="la la-book"
                                     style="font-size: 20px"> </i> {{ 'Written Letters' }}</a>
                         </li>
@@ -533,59 +537,128 @@
 
 
 
-                <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
+    <div class="tab-content box m-0 col-md-9 p-0 v-pills-tabContent">
+
+       <!-- ///////////////////////////////////////////////////////-->
 
 
-                    {{-- <div role="tabpanel" class="tab-pane active" id="tab_employee_education">
-                <h3>Employee Education</h3>
+       <div role="tabpanel" class="tab-pane" id="tab_employee_evaluation">
+        <h4>Employee Efficiancy </h4>
+        <div class="no-padding no-border">
+    <div class="">
+        <a href="{{ route('{employee}/evaluation.create',['employee'=>$crud->entry?->id]) }}"
+                    class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee evaluation'}}</span></a>
+            </div>
+            <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
+                cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Term of evalution </th>
+                        <th>Total Point</th>
+                        <th>User</th>
+                        <th>Date of created </th>   
+                      
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($evaluations as $evaluation)
+                    <tr>
+                     
+                        <td>{{ $evaluation->quarter->name ?? '-' }}</td>
+                        <td>{{ $evaluation->total_mark ?? '-'  }}</td>
+                        <td>{{ $evaluation->createdBy->name ?? '-' }}</td>
+                        <td>{{ $evaluation->created_at->format('d-m-Y')   }} E.C </td>
+
+
+
+                        <td>
+                <a href="{{ route('{employee}/evaluation.edit', ['employee'=>$crud->entry?->id,'id'=>$evaluation->id]) }}"
+                                class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                            <a href="javascript:void(0)" onclick="deleteEntry(this)"
+                                data-route="{{ route('{employee}/evaluation.destroy', ['employee'=>$crud->entry?->id,'id'=>$evaluation->id]) }}"
+                                class="btn btn-sm btn-link" data-button-type="delete"><i
+                                    class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @if (count($evaluations?? []) == 0)
+                    <tr>
+                        <td colspan="3" class="text-center">No Employee Efficiency</td>
+                    </tr>
+                    @endif
+                </tbody>
+            </table>
+            <div>
+                {{ $evaluations->links() }}
+            </div>
+        </div>
+    </div>
+
+
+<!--- //////////////////////////////////////////////////////////////// -->
+
+
+        <!-- //////////////////////////////////////////////////// -->
+        <div role="tabpanel" class="tab-pane" id="tab_employee_education">
+                <h4>Employee Education</h4>
                 <div class="no-padding no-border">
-                    <div class="">
-                        <a href="{{ route('{employee}/skill.create',['employee'=>$crud->entry?->id]) }}"
-                            class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
-                                    class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee
-                                Skill'}}</span></a>
+            <div class="">
+                <a href="{{ route('{employee}/employee-education.create',['employee'=>$crud->entry?->id]) }}"
+                            class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Education'}}</span></a>
                     </div>
                     <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
                         cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Skill Type</th>
-                                <th>Name</th>
-                                <th>Level</th>
+                                <th>Education Level</th>
+                                <th>Institution</th>
+                                <th>Field of Study</th>
+                                <th>Duration</th>   
+                                <th>Upoads</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($employeeSkills as $employeeSkill)
+                            @foreach ($employeeEducations as $employeeEducation)
                             <tr>
-                                <td>{{ $employeeSkill?->skillType?->name }}</td>
-                                <td>{{ $employeeSkill?->name }}</td>
-                                <td>{{ $employeeSkill->level }}</td>
+                             
+                                <td>{{ $employeeEducation->educationalLevel->name ?? '-' }}</td>
+                                <td>{{ $employeeEducation?->institution ?? '-'  }}</td>
+                                <td>{{ $employeeEducation->fieldOfStudy->name ?? '-' }}</td>
+                                <td>{{ $employeeEducation->training_start_date->format('s-m-Y')   }} E.C - 
+                                    {{ $employeeEducation->training_end_date->format('d-m-Y')   }} E.C</td>
+                        
+                               <td><a href="{{  $employeeEducation->upload ?? '-' }}" target="_blank">Download
+                                Document</a>
+                        </td>
+
+
                                 <td>
-                                    <a href="{{ route('{employee}/skill.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeSkill->id]) }}"
+                        <a href="{{ route('{employee}/employee-education.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeEducation->id]) }}"
                                         class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
                                     <a href="javascript:void(0)" onclick="deleteEntry(this)"
-                                        data-route="{{ route('{employee}/skill.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeSkill->id]) }}"
+                                        data-route="{{ route('{employee}/employee-education.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeEducation->id]) }}"
                                         class="btn btn-sm btn-link" data-button-type="delete"><i
                                             class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                 </td>
                             </tr>
                             @endforeach
-                            @if (count($employeeSkills) == 0)
+                            @if (count($employeeEducations?? []) == 0)
                             <tr>
-                                <td colspan="3" class="text-center">No Employee Address</td>
+                                <td colspan="3" class="text-center">No Employee education</td>
                             </tr>
                             @endif
                         </tbody>
                     </table>
                     <div>
-                        {{ $employeeSkills->links() }}
+                        {{ $employeeEducations->links() }}
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
 
-
+<!--- //////////////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane active" id="tab_employee_contact">
                         <h3>Emergency Contacts </h3>
                         <div class="no-padding no-border">
@@ -643,7 +716,7 @@
                         </div>
                     </div>
 
-
+                   <!-- /////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_skill">
                         <h3>Employee Skill</h3>
                         <div class="no-padding no-border">
@@ -652,8 +725,7 @@
                                     <a href="{{ route('{employee}/skill.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Skill' }}</span></a>
+                                            {{ 'Employee Skill' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -699,6 +771,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /////////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_address">
                         <h5>Employee Address</h5>
                         <div class="no-padding no-border">
@@ -707,8 +780,7 @@
                                     <a href="{{ route('{employee}/employee-address.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Address' }}</span></a>
+                                            {{ 'Employee Address' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -752,6 +824,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--- /////////////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_licence">
                         <h5>Employee Licence</h5>
                         <div class=" no-padding no-border">
@@ -760,8 +833,7 @@
                                     <a href="{{ route('{employee}/license.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Licence' }}</span></a>
+                                            {{ 'Employee Licence' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -808,7 +880,7 @@
                             </div>
                         </div>
                     </div>
-
+<!-- //////////////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_certificate">
                         <h5>Employee Certificate</h5>
                         <div class=" no-padding no-border">
@@ -817,8 +889,7 @@
                                     <a href="{{ route('{employee}/employee-certificate.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Certificate' }}</span></a>
+                                            {{ 'Employee Certificate' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -826,16 +897,24 @@
                                 cellspacing="0">
                                 <thead>
                                     <tr>
+                                       
+                                        <th>Type</th>
                                         <th>Name</th>
-                                        <th>Skill Type</th>
+                                        <th> Location </th>
+                                        <th> Date of given </th>
+                                        <th> Duration(in days) </th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($employeeCertificates as $employeeCertificate)
                                         <tr>
+                                            <td>{{ $employeeCertificate->certificationType->name ?? '-' }}</td>
                                             <td>{{ $employeeCertificate?->name }}</td>
-                                            <td>{{ $employeeCertificate->skillType?->name }}</td>
+                                            <td>{{ $employeeCertificate->address  }}</td>
+                                            <td>{{ $employeeCertificate->certificate_date  }}</td>
+                                            <td>{{ $employeeCertificate->duration  }}</td>
+                                         
                                             <td>
 
                                                 @canany(['employee.setting.icrud', 'employee.setting.edit'])
@@ -863,6 +942,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /////////////////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_contact">
                         <h5>Employee Contact</h5>
                         <div class=" no-padding no-border">
@@ -871,8 +951,7 @@
                                     <a href="{{ route('{employee}/employee-contact.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Contact' }}</span></a>
+                                            {{ 'Employee Contact' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -918,6 +997,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- //////////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_language">
                         <h5>Employee Languages</h5>
                         <div class=" no-padding no-border">
@@ -926,8 +1006,7 @@
                                     <a href="{{ route('{employee}/employee-language.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Langauge' }}</span></a>
+                                            {{ 'Employee Langauge' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -976,6 +1055,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /////////////////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_family">
                         <h5>Employee Families</h5>
                         <div class=" no-padding no-border">
@@ -984,8 +1064,7 @@
                                     <a href="{{ route('{employee}/employee-family.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Family' }}</span></a>
+                                            {{ 'Employee Family' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -1033,6 +1112,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- ///////////////////////////////////////////////////////// -->
                     <div role="tabpanel" class="tab-pane" id="tab_employee_internal_experience">
                         <h5>Employee Internal Experience</h5>
                         <div class=" no-padding no-border">
@@ -1041,8 +1121,7 @@
                                     <a href="{{ route('{employee}/internal-experience.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Employee Internal
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Experience' }}</span></a>
+                                            {{ 'Employee Internal Experience' }}</span></a>
                                 @endcanany
                             </div>
                             <table id="crudTable"
@@ -1052,19 +1131,22 @@
                                     <tr>
                                         <th>Unit</th>
                                         <th>Job Title</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        <th> Employmet type </th>
+                                        <th>Service year </th>
+                                   
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+                           
                                 <tbody>
                                     @foreach ($internalExperiences as $internalExperience)
                                         <tr>
                                             <td>{{ $internalExperience->unit?->name }}</td>
                                             <td>{{ $internalExperience->jobTitle?->name }}</td>
-                                            <td>{{ $internalExperience->start_date->format('Y/m/d') }}</td>
-                                            <td>{{ $internalExperience->end_date?->format('Y/m/d') ?? 'Currently working' }}
-                                            </td>
+                                             <td>{{ $internalExperience->employmentType->name?? '-' }}</td>
+                                            <td> From {{ $internalExperience->start_date->format('d-m-Y') }} - {{ $internalExperience->end_date?->format('d-m-Y') ?? 'Now' }} E.C</td>
+                                            <td>
+                                         
                                             <td>
 
                                                 @canany(['employee.setting.icrud', 'employee.setting.edit'])
@@ -1112,9 +1194,9 @@
                                         <th>Company Name</th>
                                         {{-- <th>Unit</th> --}}
                                         <th>Job Title</th>
-                                        {{-- <th>Position</th> --}}
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        <th>Employeemet type </th> 
+                                        <th>Service Year</th>
+                                     
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -1124,8 +1206,9 @@
                                             {{-- <td>{{ $externalExperience-> }}</td> --}}
                                             <td>{{ $externalExperience->company_name }}</td>
                                             <td>{{ $externalExperience->job_title_id }} </td>
-                                            <td>{{ $externalExperience->start_date->format('Y/m/d') }}</td>
-                                            <td>{{ $externalExperience->end_date->format('Y/m/d') }}</td>
+                                            <td>{{ $externalExperience->employmentType->name?? '-' }}</td>
+                                            <td>From {{ $externalExperience->start_date->format('d-m-Y') }} - {{ $externalExperience->end_date->format('d-m-Y') }} E.C</td>
+                                         
                                             <td>
 
                                                 @canany(['employee.setting.icrud', 'employee.setting.edit'])
@@ -1162,12 +1245,10 @@
                                     <a href="{{ route('{employee}/training-and-study.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
-                                            {{ 'Training and
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Studies' }}</span></a>
+                                            {{ 'Training and  Studies' }}</span></a>
                                 @endcanany
                             </div>
-                            <table id="crudTable"
-                                class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
+                            <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
                                 cellspacing="0">
                                 <thead>
                                     <tr>
@@ -1218,6 +1299,10 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
                 </div>
             </div>
         </div>

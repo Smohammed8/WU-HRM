@@ -42,7 +42,7 @@ class EmployeeRequest extends FormRequest
             'phone_number' => 'nullable|numeric|digits:10',
             'alternate_email' => 'nullable|email|unique:employees,alternate_email,'.request()->id,
             'rfid' => 'nullable|numeric|unique:employees,rfid,'.request()->id,
-            'employment_identity' => 'nullable|numeric|unique:employees,employment_identity,'.request()->id,
+            'employment_identity' => 'nullable|numeric|unique:employees,   employment_identity,'.request()->id,
             'marital_status_id' =>'required',
             'ethnicity_id' =>'nullable',
             'religion_id' =>'nullable',
@@ -53,13 +53,18 @@ class EmployeeRequest extends FormRequest
             'employment_type_id' =>'required',
             'employee_category_id'=>'required',
             'pention_number'  => 'nullable|unique:employees,pention_number,'.request()->id,
-            'employment_status_id' =>'nullable',
             'static_salary'=>'nullable',
             'uas_user_id' =>'nullable',
             'position_id'=> 'nullable',
             'educational_level_id' => 'required',
             'field_of_study_id' => 'required',
+            'horizontal_level' => 'required',
+            'hr_branch_id' => 'required',
+            'employment_status_id' => 'required',
+            'employee_title_id' => 'required',
+           
         ];
+        
     }
 
     /**

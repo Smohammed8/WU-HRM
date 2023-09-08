@@ -17,12 +17,12 @@ class EmployeeCertificate extends Model
      */
     protected $fillable = [
         'employee_id',
-        'skill_type_id',
         'name',
         'address',
         'certificate_date',
         'duration',
         'comment',
+        'certification_type_id'
     ];
 
     /**
@@ -33,21 +33,18 @@ class EmployeeCertificate extends Model
     protected $casts = [
         'id' => 'integer',
         'employee_id' => 'integer',
-        'skill_type_id' => 'integer',
         'certificate_date' => 'date',
+        'certification_type_id' =>'integer'
     ];
 
     public function employee()
     {
         return $this->belongsTo(Employee::class);
     }
-    public function certification()
+    public function certificationType()
     {
         return $this->belongsTo(CertificationType::class);
     }
 
-    // public function skillType()
-    // {
-    //     return $this->belongsTo(SkillType::class);
-    // }
+
 }

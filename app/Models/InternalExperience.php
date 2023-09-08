@@ -22,6 +22,7 @@ class InternalExperience extends Model
         'position',
         'start_date',
         'end_date',
+        'employment_type_id'
     ];
 
     /**
@@ -57,6 +58,11 @@ class InternalExperience extends Model
         return $this->belongsTo(Unit::class);
     }
 
+    public function employmentType()
+    {
+        return $this->belongsTo(EmploymentType::class);
+    }
+    
     public function jobTitle()
     {
         return $this->belongsTo(JobTitle::class);
