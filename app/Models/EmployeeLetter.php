@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeCertificate extends Model
+class EmployeeLetter extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -17,12 +17,10 @@ class EmployeeCertificate extends Model
      */
     protected $fillable = [
         'employee_id',
-        'skill_type_id',
-        'name',
-        'address',
-        'certificate_date',
-        'duration',
-        'comment',
+        'title',
+        'body',
+        'written_date',
+        'upload',
     ];
 
     /**
@@ -33,21 +31,11 @@ class EmployeeCertificate extends Model
     protected $casts = [
         'id' => 'integer',
         'employee_id' => 'integer',
-        'skill_type_id' => 'integer',
-        'certificate_date' => 'date',
+        'written_date' => 'date',
     ];
 
     public function employee()
     {
         return $this->belongsTo(Employee::class);
     }
-    public function certification()
-    {
-        return $this->belongsTo(CertificationType::class);
-    }
-
-    // public function skillType()
-    // {
-    //     return $this->belongsTo(SkillType::class);
-    // }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeCertificate extends Model
+class EmployeeEducation extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
@@ -17,12 +17,12 @@ class EmployeeCertificate extends Model
      */
     protected $fillable = [
         'employee_id',
-        'skill_type_id',
-        'name',
-        'address',
-        'certificate_date',
-        'duration',
-        'comment',
+        'institution',
+        'field_of_study_id',
+        'educational_level_id',
+        'training_start_date',
+        'training_end_date',
+        'upload',
     ];
 
     /**
@@ -33,21 +33,24 @@ class EmployeeCertificate extends Model
     protected $casts = [
         'id' => 'integer',
         'employee_id' => 'integer',
-        'skill_type_id' => 'integer',
-        'certificate_date' => 'date',
+        'field_of_study_id' => 'integer',
+        'educational_level_id' => 'integer',
+        'training_start_date' => 'date',
+        'training_end_date' => 'date',
     ];
 
     public function employee()
     {
         return $this->belongsTo(Employee::class);
     }
-    public function certification()
+
+    public function fieldOfStudy()
     {
-        return $this->belongsTo(CertificationType::class);
+        return $this->belongsTo(FieldOfStudy::class);
     }
 
-    // public function skillType()
-    // {
-    //     return $this->belongsTo(SkillType::class);
-    // }
+    public function educationalLevel()
+    {
+        return $this->belongsTo(EducationalLevel::class);
+    }
 }

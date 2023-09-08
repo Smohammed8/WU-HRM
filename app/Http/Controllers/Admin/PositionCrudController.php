@@ -179,7 +179,7 @@ class PositionCrudController extends CrudController
     {
         // $this->setupCreateOperation();
         CRUD::field('unit_id')->label('Organizational unit')->size(6);
-        CRUD::field('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
+        CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
         CRUD::field('position_available_for_placement')->label('No of available for placement')->size(3);
         CRUD::field('available_for_placement')->value(true)->size(3);
         CRUD::field('job_code_prefix')->value(null)->size(3)->type('hidden');

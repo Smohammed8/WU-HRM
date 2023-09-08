@@ -386,6 +386,29 @@ models:
         #     isApproved: bool nullable default 0
         #     approved_by: foreign:users.id nullable
             
+        # CertificationType:
+        #     name: string nullable
+        #     description: text nullable
+        # CollegePositionCode:
+        #     college: foreign:hr_branches.id nullable
+        #     prefix: string nullable
+        #     start: integer nullable
+        #     description: text nullable
+        # EmployeeEducation:
+        #     employee_id: id foreign
+        #     institution: string nullable
+        #     field_of_study_id: id foreign:field_of_studies.id
+        #     educational_level_id: id foreign
+        #     training_start_date: date
+        #     training_end_date: date
+        #     upload: string:255
+        # EmployeeLetter:
+        #     employee_id: id foreign
+        #     title: string nullable
+        #     body: text nullable
+        #     written_date: date
+        #     upload: string:255
+           
     #php artisan blueprint:build
     #php artisan backpack:build
 

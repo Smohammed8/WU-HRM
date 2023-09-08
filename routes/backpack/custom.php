@@ -138,4 +138,8 @@ Route::group([
     Route::crud('job-title-prerequest', 'JobTitlePrerequestCrudController');
     Route::crud('check-point', 'CheckPointCrudController');
     Route::crud('clearance', 'ClearanceCrudController');
+    Route::crud('certification-type', 'CertificationTypeCrudController');
+    Route::crud('college-position-code', 'CollegePositionCodeCrudController');
+    Route::crud('employee-education', 'EmployeeEducationCrudController');
+    Route::crud('employee-letter', 'EmployeeLetterCrudController');
 });

@@ -93,7 +93,8 @@ class Employee extends  Model
         'father_name_am',
         'first_name_am',
         'employee_title_id',
-        'hr_branch_id'
+        'hr_branch_id',
+        'horizontal_level'
 
     ];
 
@@ -450,7 +451,19 @@ class Employee extends  Model
         return $this->hasMany(PlacementChoice::class);
     }
 
-   
+    public function letters(): HasMany
+    {
+        return $this->hasMany(EmployeeLetter::class);
+    }
+    public function educations(): HasMany
+    {
+        return $this->hasMany(EmployeeEducation::class);
+    }
+    public function certifications():HasMany
+    {
+        return $this->hasMany(EmployeeCertificate::class);
+    }
+
 
     /**
      * Get all of the evaluations for the Employee
