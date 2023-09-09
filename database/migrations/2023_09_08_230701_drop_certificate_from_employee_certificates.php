@@ -13,14 +13,14 @@ class DropCertificateFromEmployeeCertificates extends Migration
      */
     public function up()
     {
-        Schema::table('employee_certificates', function (Blueprint $table) {
-            // Drop the foreign key constraint
-            $table->dropForeign('employee_certificates_employee_certificate_id_foreign');
+        // Schema::table('employee_certificates', function (Blueprint $table) {
+        //     // Drop the foreign key constraint
+        //     $table->dropForeign('employee_certificates_employee_certificate_id_foreign');
             
-            // Drop the column
-            $table->dropColumn('employee_certificate_id');
+        //     // Drop the column
+        //     $table->dropColumn('employee_certificate_id');
 
-        });
+        // });
     }
 
     /**
@@ -30,12 +30,12 @@ class DropCertificateFromEmployeeCertificates extends Migration
      */
     public function down()
     {
-        Schema::table('employee_certificates', function (Blueprint $table) {
-            // Add the column back
-            $table->unsignedBigInteger('employee_certificate_id');
+        // Schema::table('employee_certificates', function (Blueprint $table) {
+        //     // Add the column back
+        //     $table->unsignedBigInteger('employee_certificate_id');
             
-            // Add the foreign key constraint back
-            $table->foreign('employee_certificate_id')->references('id')->on('employee_certificates');
-        });
+        //     // Add the foreign key constraint back
+        //     $table->foreign('employee_certificate_id')->references('id')->on('employee_certificates');
+        // });
     }
 }
