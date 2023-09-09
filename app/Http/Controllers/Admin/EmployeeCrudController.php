@@ -477,24 +477,19 @@ public function showExportForm()
         CRUD::field('first_name')->size(6)->tab($pi);
         CRUD::field('father_name')->size(6)->tab($pi);
         CRUD::field('grand_father_name')->size(6)->tab($pi);
-
         CRUD::field('first_name_am')->label('የመጀመሪያ ስም')->size(6)->tab($pi);
         CRUD::field('father_name_am')->label('የአባት ስም')->size(6)->tab($pi);
         CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
-
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('religion_id')->size(6)->tab($pi);
-
         CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('title')->size(6)->tab($pi);
-
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
         // CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
         // CRUD::field('job_title_id')->label('Job Position')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
 
-        CRUD::field('employment_identity')->type('hidden')->value($this->getEmployeeID());
-
+        CRUD::field('employmeent_identity')->type('hidden')->value($this->getEmployeeID());
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
@@ -502,20 +497,13 @@ public function showExportForm()
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
-        CRUD::field('ethnicity_id')->size(6)->tab($bio);
-        CRUD::field('email')->type('email')->size(6)->tab($ci);
-        CRUD::field('phone_number')->size(6)->tab($ci);
+         CRUD::field('ethnicity_id')->size(6)->tab($bio);
+         CRUD::field('email')->type('email')->size(6)->tab($ci);
+         CRUD::field('phone_number')->size(6)->tab($ci);
         //CRUD::field('uas_user_id')->tab($ci)->size(3);
-
          CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
          CRUD::field('horizontal_level')->type('enum')->label('Horizontal Level')->size(6)->tab($job);
-
-
-         
          CRUD::field('employment_status_id')->type('select2')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(6)->tab($job);
-
-
-
         CRUD::field('employement_date')->size(6)->tab($job);
         CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
@@ -822,13 +810,13 @@ public function importEmployee(Request $request){
         $leaves =  Leave::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(1);
         $this->data['leaves'] = $leaves;
 
+     
+
         $type_of_leaves =    TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_leaves'] = $type_of_leaves;
         $this->data['employee.leave'] = $type_of_leaves;
 
         $misconducts =    Misconduct::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
-
-
         $this->data['misconducts'] = $misconducts;
 
         $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);

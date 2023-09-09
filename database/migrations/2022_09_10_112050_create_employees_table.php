@@ -28,9 +28,7 @@ class CreateEmployeesTable extends Migration
             $table->string('photo')->nullable();
             $table->string('birth_city', 255)->nullable();
             $table->string('driving_licence')->nullable();
-
             $table->enum('blood_group', ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"])->nullable();
-            
             $table->enum('eye_color', ["Amber","Blue","Brown","Gray","Green","Hazel","Red"])->nullable();
             $table->string('phone_number', 100)->nullable();
             $table->string('email', 255)->nullable();

@@ -340,11 +340,11 @@
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Marital status : </b></label>
-                                    <label for="">{{ $crud->entry?->maritalStatus?->name }}</label>
+                                    <label for="">{{ $crud->entry?->maritalStatus->name ?? '-' }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Employee ID Number : </b></label>
-                                    <label for="">{{ $crud->entry?->employment_identity }}</label>
+                                    <label for="">{{ $crud->entry->employmeent_identity ?? '-' }}</label>
                                 </div>
 
                                 <style>

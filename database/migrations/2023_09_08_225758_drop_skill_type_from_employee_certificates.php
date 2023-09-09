@@ -15,7 +15,7 @@ class DropSkillTypeFromEmployeeCertificates extends Migration
     {
         
 
-        Schema::table('employee_certificates', function (Blueprint $table) {
+         Schema::table('employee_certificates', function (Blueprint $table) {
             // Drop the foreign key constraint
             $table->dropForeign('employee_certificates_skill_type_id_foreign');
             
