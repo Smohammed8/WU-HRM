@@ -7,10 +7,33 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use \Venturecraft\Revisionable\RevisionableTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
+use Spatie\Permission\Traits\HasRoles;
+
 class Position extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+ 
+    use  RevisionableTrait;
+    use CrudTrait;
     use HasFactory;
+
+
+    public function identifiableName()
+    {
+        return $this->name;
+    }
+
+
+
+    use RevisionableTrait;
+    protected $revisionEnabled = true; //If needed, you can disable the revisioning by setting $revisionEnabled to false in your Model.
+    // protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
+    // protected $historyLimit = 500;   //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
+    // protected $revisionForceDeleteEnabled = false; //If you want to store the Force Delete as a revision you can override this behavior by setting revisionForceDeleteEnabled to true
+
     protected $appends = ['position_info','name','position_info_for_placement'];
 
     /**
@@ -46,6 +69,11 @@ class Position extends Model
     public function getPositionInfoAttribute()
     {
         return $this->jobTitle->name.' at '.$this->unit->name;
+    }
+
+    public function positionRange()
+    {
+        return '[ '.$this->positionCodes->first()->code.' - '.$this->positionCodes->last()->code.' ]';
     }
 
     public function getPositionInfoForPlacementAttribute()

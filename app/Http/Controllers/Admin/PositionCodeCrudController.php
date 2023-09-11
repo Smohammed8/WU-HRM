@@ -21,6 +21,11 @@ class PositionCodeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
+    use \Backpack\ReviseOperation\ReviseOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as traitUpdate;
+    } //IMPORTANT HERE
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -28,10 +33,15 @@ class PositionCodeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\PositionCode::class);
+        CRUD::setModel(PositionCode::class);
         $position_id= \Route::current()->parameter('position_id');
         CRUD::setRoute(config('backpack.base.route_prefix').'/position/'.$position_id. '/position-code');
         CRUD::setEntityNameStrings('position code', 'position codes');
+
+        CRUD::disablePersistentTable();
+        CRUD::enableExportButtons();
+    
+
     }
 
     /**

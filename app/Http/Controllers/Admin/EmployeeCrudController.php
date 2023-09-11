@@ -96,7 +96,7 @@ class EmployeeCrudController extends CrudController
         update as traitUpdate;
     } //IMPORTANT HERE
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+    use FetchOperation;
 
 
     /**
@@ -109,11 +109,18 @@ class EmployeeCrudController extends CrudController
         CRUD::setModel(Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
+
+        CRUD::disablePersistentTable();
+        CRUD::enableExportButtons();
+        //CRUD::setDefaultPageLength(10); // No of paginatings
+
         $this->crud->setShowView('employee.show');
         // $this->crud->enableAjaxTable()  ;
         $this->crud->enableDetailsRow();
         $this->setupPermission();
         //  $this->crud->enableExportButtons();
+
+       
     }
     public function setupPermission()
     {
@@ -201,41 +208,49 @@ class EmployeeCrudController extends CrudController
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
         // column with custom search logic
+        // $this->crud->addColumn([
+        //     'name'        => 'first_name',
+        //     'label'       => 'FirstName',
+        //     'searchLogic' => function ($query, $column, $searchTerm) {
+        //         $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
+        //     }
+        // ]);
+        
         $this->crud->addColumn([
-            'name'        => 'first_name',
+            'name'        => 'name',
             'label'       => 'FirstName',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('father_name', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('grand_father_name', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('phone_number', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('email', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('pention_number', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('position_id', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('date_of_birth', 'like', '%' . $searchTerm . '%');
+               
+             
             }
         ]);
 
+        
 
         CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-        //  CRUD::column('employment_identity')->label('ID Number');
+      
         CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
-        CRUD::column('position.unit.name')->label('Origanizational unit')->type('select')->entity('position.unit')->model(Unit::class);
-     
+        CRUD::column('position.unit.name')->label('Working unit')->type('select')->entity('position.unit')->model(Unit::class);
+        // $emp=new Employee();
+        //    dd($emp->age());
         CRUD::column('hr_branch_id')->type('select')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
-     
-        //     $this->crud->addColumn([
-        //     'name' => 'hr_branch_id',
-        //     'type' => 'select',
-        //     'entity' => 'hrBranch',
-        //     'model' => HrBranch::class,
-        //     'attribute' => 'name'
-        // ]);
+        CRUD::column('phone_number')->label('Phone');
+        CRUD::column('date_of_birth')->type('closure')->function(function($entry){
+            return $entry->age()?? '-';})->label('Age');
+        CRUD::column('position_id')->label('Job code')->type('select')->entity('PositionCode')->model(PositionCode::class)->attribute('code')->size(4);
 
-
-        // $this->crud->addColumn([
-        //     'name' => 'educational_level_id',
-        //     'type' => 'select',
-        //     'entity' => 'educationLevel',
-        //     'model' => EducationalLevel::class,
-        //     'attribute' => 'name'
-        // ]);
-
+        
+       // 'value'    => '<span class="text-danger">Something</span>',
 
         $this->crud->addFilter(
             [
@@ -559,7 +574,7 @@ public function showExportForm()
         $vdate =    date('d F, Y');
         $exdate =   date('d F, Y');
         $intDate =   date('d F, Y');
-        $tmark =    '81.5';
+        $tmark =    '0';
         $digit = new NumberFormatter("am", NumberFormatter::SPELLOUT);
         $startSalary = JobGrade::where('level_id',  $level_id)->first()?->start_salary;
         $levelname =   $employee_id->position->jobTitle->level->name;

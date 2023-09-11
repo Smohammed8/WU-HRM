@@ -23,7 +23,10 @@ class PositionCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-
+    use \Backpack\ReviseOperation\ReviseOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as traitUpdate;
+    } //IMPORTANT HERE
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -34,6 +37,8 @@ class PositionCrudController extends CrudController
         CRUD::setModel(\App\Models\Position::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/position');
         CRUD::setEntityNameStrings('position', 'positions');
+        CRUD::disablePersistentTable();
+        CRUD::enableExportButtons();
         $this->crud->setShowView('position.show');
         $this->setupPermission();
     }
@@ -94,8 +99,10 @@ class PositionCrudController extends CrudController
     {
         CRUD::column('unit.name')->label('Organizational unit');
         CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        CRUD::column('total_employees')->label('No of vacants')->type('model_function')->function_name('totalPositions');
-        CRUD::column('available_for_placement')->type('boolean');
+        CRUD::column('total_employees')->label('No of positions')->type('model_function')->function_name('totalPositions');
+        CRUD::column('range')->label('Job Code Range')->type('model_function')->function_name('positionRange');
+
+        CRUD::column('available_for_placement')->label('Open for candidates')->type('boolean');
         CRUD::column('status')->type('select_from_array')->options(Constants::POSITION_STATUS);
 
         $this->crud->addFilter([
@@ -127,10 +134,10 @@ class PositionCrudController extends CrudController
         CRUD::field('unit_id')->label('Organizational unit')->size(6);
         CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6);
 
-        CRUD::field('job_code_prefix')->size(3);
+        CRUD::field('job_code_prefix')->size(3)->help('Help text');
         CRUD::field('job_code_starting_number')->size(3);
-        CRUD::field('total_employees')->label('No of vacants')->size(3);
-        CRUD::field('position_available_for_placement')->label('No of available for placement')->size(3);
+        CRUD::field('total_employees')->label('Total number of permitted positions')->size(3);
+        CRUD::field('position_available_for_placement')->label('No of open positions for candidates')->size(3);
         CRUD::field('available_for_placement')->label('Available for placement')->value(true)->size(3);
 
         // CRUD::field('status')->type('select_from_array')->options(Constants::POSITION_STATUS)->size(6);

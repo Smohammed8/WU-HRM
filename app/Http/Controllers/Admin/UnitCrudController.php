@@ -23,6 +23,10 @@ class UnitCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\ReviseOperation\ReviseOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as traitUpdate;
+    } //IMPORTANT HERE
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -30,9 +34,13 @@ class UnitCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Unit::class);
+        CRUD::setModel(Unit::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/unit');
         CRUD::setEntityNameStrings('unit', 'units');
+
+        CRUD::disablePersistentTable();
+        CRUD::enableExportButtons();
+        
         $this->setupPermission();
         $this->crud->enableExportButtons();
     }

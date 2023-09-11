@@ -99,7 +99,9 @@ class EmployeeEducationCrudController extends CrudController
         CRUD::field('educational_level_id')->label('Education Level')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
         CRUD::field('training_start_date')->size(6);
         CRUD::field('training_end_date')->size(6);
-        CRUD::field('upload')->type('upload')->upload(true)->size(6);
+        CRUD::field('upload')->type('upload')->upload(true)->size(6)->withFiles();
+        //CRUD::field('avatar')->type('upload')->withFiles();
+        //CRUD::field('avatar')->type('upload')->withFiles(['disk' => 'public', 'path' => 'uploads']);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -113,6 +115,15 @@ class EmployeeEducationCrudController extends CrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
+
+     protected function setupDeleteOperation()
+{
+      CRUD::field('upload')->type('upload')->withFiles();
+
+    // Alternatively, if you are not doing much more than defining fields in your create operation:
+    // $this->setupCreateOperation();
+}
+
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

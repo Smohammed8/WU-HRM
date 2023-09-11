@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles;
-
 use function PHPSTORM_META\map;
 
 class Employee extends  Model
@@ -31,12 +30,8 @@ class Employee extends  Model
     use  \Venturecraft\Revisionable\RevisionableTrait;
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
-
     use CrudTrait;
     use HasRoles;
-
-
-
     public function identifiableName()
     {
         return $this->name;
@@ -266,6 +261,7 @@ class Employee extends  Model
     public function age()
     {
         return Carbon::parse($this->attributes['date_of_birth'])->age;
+        
     }
 
 

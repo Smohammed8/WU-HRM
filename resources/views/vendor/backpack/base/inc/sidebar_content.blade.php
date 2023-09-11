@@ -132,7 +132,7 @@ color:black;
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-letter') }}'><i class='nav-icon la la-caret-right'></i> Employee Letter </a></li>
 
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-education') }}'><i class='nav-icon la la-caret-right'></i> Employee Education</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-education') }}'><i class='nav-icon la la-caret-right'></i> Employee Education</a></li> --}}
 
 
 
