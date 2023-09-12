@@ -48,6 +48,7 @@ class Position extends Model
         'available_for_placement',
         'position_type_id',
         'status',
+        'range',
         'position_available_for_placement',
     ];
 
@@ -73,7 +74,10 @@ class Position extends Model
 
     public function positionRange()
     {
-        return '[ '.$this->positionCodes->first()->code.' - '.$this->positionCodes->last()->code.' ]';
+      
+
+        return '[ '.$this->positionCodes->first()?->code.' - '.$this->positionCodes->last()?->code.' ]';
+      
     }
 
     public function getPositionInfoForPlacementAttribute()

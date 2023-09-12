@@ -3,6 +3,7 @@
 		<div class="col-md-12">
 			{{ trans('backpack::crud.details_row') }}
 		</div>
+		
 	</div>
 </div>
 <div class="clearfix"></div>

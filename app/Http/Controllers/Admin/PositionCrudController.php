@@ -27,6 +27,7 @@ class PositionCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -101,7 +102,6 @@ class PositionCrudController extends CrudController
         CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
         CRUD::column('total_employees')->label('No of positions')->type('model_function')->function_name('totalPositions');
         CRUD::column('range')->label('Job Code Range')->type('model_function')->function_name('positionRange');
-
         CRUD::column('available_for_placement')->label('Open for candidates')->type('boolean');
         CRUD::column('status')->type('select_from_array')->options(Constants::POSITION_STATUS);
 

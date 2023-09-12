@@ -118,7 +118,7 @@ class EmployeeCrudController extends CrudController
         // $this->crud->enableAjaxTable()  ;
         $this->crud->enableDetailsRow();
         $this->setupPermission();
-        //  $this->crud->enableExportButtons();
+
 
        
     }
@@ -200,10 +200,10 @@ class EmployeeCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->enableDetailsRow();
-        $this->crud->allowAccess('details_row');
+        //$this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
         $this->crud->disablePersistentTable();
-        $this->crud->setOperationSetting('persistentTableDuration', 60); //for 1 hours persistency.
+       // $this->crud->setOperationSetting('persistentTableDuration', 60); //for 1 hours persistency.
         $this->crud->denyAccess('delete');
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
@@ -215,7 +215,8 @@ class EmployeeCrudController extends CrudController
         //         $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
         //     }
         // ]);
-        
+        CRUD::column('photo')->type('image')->label('Photo');
+       
         $this->crud->addColumn([
             'name'        => 'name',
             'label'       => 'FirstName',
@@ -234,22 +235,28 @@ class EmployeeCrudController extends CrudController
         ]);
 
         
-
-        CRUD::column('name')->label('Full Name')->type('closure')->function(function ($entry) {
+      
+        CRUD::column('name')->label('የሰራተኛዉ ሙሉ ስም')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
       
-        CRUD::column('position.name')->label('Job Title')->type('select')->entity('position')->model(Position::class);
-        CRUD::column('position.unit.name')->label('Working unit')->type('select')->entity('position.unit')->model(Unit::class);
-        // $emp=new Employee();
-        //    dd($emp->age());
-        CRUD::column('hr_branch_id')->type('select')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
-        CRUD::column('phone_number')->label('Phone');
-        CRUD::column('date_of_birth')->type('closure')->function(function($entry){
-            return $entry->age()?? '-';})->label('Age');
-        CRUD::column('position_id')->label('Job code')->type('select')->entity('PositionCode')->model(PositionCode::class)->attribute('code')->size(4);
-
         
+
+        CRUD::column('phone_number')->label('ስልክ ቁጥር');
+
+        CRUD::column('position.name')->label('የስራ መደብ')->type('select')->entity('position')->model(Position::class);
+        CRUD::column('position.unit.name')->label('የስራ ክፍል')->type('select')->entity('position.unit')->model(Unit::class);
+        CRUD::column('hr_branch_id')->type('select')->label('ኮሌጅ/ኢንስቲዩት')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
+        CRUD::column('phone_number')->label('ስልክ ቁጥር');
+        CRUD::column('phone_number')->label('ስልክ ቁጥር');
+        CRUD::column('employee_category_id')->type('select')->label('የሰራተኛው አይነት')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(4);
+
+
+        CRUD::column('date_of_birth')->type('closure')->function(function($entry){
+            return $entry->age()?? '-';})->label('ዕድሜ');
+            
+        CRUD::column('position_id')->label('የስራ መደቡ መለያ')->type('select')->entity('PositionCode')->model(PositionCode::class)->attribute('code')->size(4);
+
        // 'value'    => '<span class="text-danger">Something</span>',
 
         $this->crud->addFilter(
