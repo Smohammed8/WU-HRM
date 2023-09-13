@@ -63,7 +63,8 @@ class Unit extends Model
         'organization_id',
         'chair_man_type_id',
         'level',
-        'subordinate'
+        'subordinate',
+        'hr_branch_id'
     ];
 
     /**
@@ -162,6 +163,11 @@ class Unit extends Model
         return PlacementChoice::whereIn('new_position',$positionIds)->get();
     }
 
+    public function hrBranch()
+    {
+       
+        return $this->belongsTo(HrBranch::class);
+    }
 
 
     public function childs()

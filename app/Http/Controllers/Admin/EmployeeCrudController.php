@@ -91,13 +91,19 @@ class EmployeeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
+    
 
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use FetchOperation;
-
+   // use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -241,19 +247,58 @@ class EmployeeCrudController extends CrudController
         });
       
         
-
-        CRUD::column('phone_number')->label('ስልክ ቁጥር');
-
         CRUD::column('position.name')->label('የስራ መደብ')->type('select')->entity('position')->model(Position::class);
         CRUD::column('position.unit.name')->label('የስራ ክፍል')->type('select')->entity('position.unit')->model(Unit::class);
         CRUD::column('hr_branch_id')->type('select')->label('ኮሌጅ/ኢንስቲዩት')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
         CRUD::column('phone_number')->label('ስልክ ቁጥር');
-        CRUD::column('phone_number')->label('ስልክ ቁጥር');
+
+
         CRUD::column('employee_category_id')->type('select')->label('የሰራተኛው አይነት')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(4);
+        // ->wrapper([
+        //     'element' => 'span',
+        //     'class' => function ($crud, $column, $entry) {
+        //         switch ($entry->employee_category_id) {
+        //             case '1':
+        //                 return 'badge badge-pill badge-info';
+        //             case '2':
+        //                 return 'badge badge-pill badge-success';
+        //             case '3':
+        //                 return ' badge badge-pill badge-warning';
+                
+        //             default:
+        //                 return 'badge badge-pill badge-defualt';
+                      
+        //         }
+        //     }
+        // ]);
+
 
 
         CRUD::column('date_of_birth')->type('closure')->function(function($entry){
-            return $entry->age()?? '-';})->label('ዕድሜ');
+            return $entry->age()?? '-';})->label('ዕድሜ')->wrapper([
+                'element' => 'span',
+                'class' => function ($crud, $column, $entry) {
+                    switch ($entry->age()) {
+                        case '61':
+                            return 'badge badge-pill badge-success border';
+                        case '60':
+                            return 'badge badge-pill badge-danger border';
+                        case '59':
+                            return ' badge badge-pill badge-warning border';
+                        case '58':
+                            return ' badge badge-pill badge-warning border';
+    
+                        default:
+                            return 'badge badge-pill badge-defualt border';
+                          
+                    }
+                }
+            ]);
+
+
+       
+
+
             
         CRUD::column('position_id')->label('የስራ መደቡ መለያ')->type('select')->entity('PositionCode')->model(PositionCode::class)->attribute('code')->size(4);
 
@@ -496,9 +541,9 @@ public function showExportForm()
 
         ////////////////////////////////////////////////
         CRUD::field('photo')->label('Employee photo(4x4)')->size(8)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
-        CRUD::field('first_name')->size(6)->tab($pi);
-        CRUD::field('father_name')->size(6)->tab($pi);
-        CRUD::field('grand_father_name')->size(6)->tab($pi);
+        CRUD::field('first_name')->size(6)->tab($pi)->ajax(true);
+        CRUD::field('father_name')->size(6)->tab($pi)->ajax(true);
+        CRUD::field('grand_father_name')->size(6)->tab($pi)->ajax(true);
         CRUD::field('first_name_am')->label('የመጀመሪያ ስም')->size(6)->tab($pi);
         CRUD::field('father_name_am')->label('የአባት ስም')->size(6)->tab($pi);
         CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
@@ -537,7 +582,7 @@ public function showExportForm()
         CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
-
+    
     }
 
     // $present = new DateTime('now');
@@ -680,7 +725,16 @@ public function importEmployee(Request $request){
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
-    protected function setupUpdateOperation()
+    protected function setupReorderOperation()
+    {
+        // define which model attribute will be shown on draggable elements
+        CRUD::set('reorder.label', 'name');
+        // define how deep the admin is allowed to nest the items
+        // for infinite levels, set it to 0
+        CRUD::set('reorder.max_level', 2);
+    }
+
+     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
         // unique:employees,phone_number,

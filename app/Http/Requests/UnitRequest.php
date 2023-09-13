@@ -27,6 +27,8 @@ class UnitRequest extends FormRequest
         return [
           //  'name'=>'required|regex:/^[a-z A-Z]+$/u|max:30',
             'name'=>'required',
+            'hr_branch_id'=>'required',
+            'parent_unit_id'=>'required',
 
             //  'acronym' =>'required|regex:/^[a-z A-Z]+$/u|min:2|max:10',
             // 'email'=>'required|email',

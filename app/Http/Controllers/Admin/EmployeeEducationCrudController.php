@@ -99,7 +99,7 @@ class EmployeeEducationCrudController extends CrudController
         CRUD::field('educational_level_id')->label('Education Level')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6);
         CRUD::field('training_start_date')->size(6);
         CRUD::field('training_end_date')->size(6);
-        CRUD::field('upload')->type('upload')->upload(true)->size(6)->withFiles();
+        CRUD::field('upload')->type('upload')->upload(true)->size(6);
         //CRUD::field('avatar')->type('upload')->withFiles();
         //CRUD::field('avatar')->type('upload')->withFiles(['disk' => 'public', 'path' => 'uploads']);
         /**

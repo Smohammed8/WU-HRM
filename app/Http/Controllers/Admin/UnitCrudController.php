@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\UnitRequest;
 use App\Models\ChairManType;
 use App\Models\Employee;
+use App\Models\HrBranch;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Unit;
@@ -24,6 +25,7 @@ class UnitCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\ReviseOperation\ReviseOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
@@ -98,47 +100,19 @@ class UnitCrudController extends CrudController
     protected function setupListOperation()
     {
 
-
-        
        // $this->crud->denyAccess('delete');
         $this->crud->denyAccess('show');
 
         $this->crud->addButtonFromModelFunction('line', 'view_office', 'viewOffice', 'end');
-
         $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
 
         CRUD::column('name')->label('Organizational unit');
-        CRUD::column('level');
+      //  CRUD::column('level');
         CRUD::column('name')->label('Organizational unit');
-        // CRUD::column('acronym');
-        // CRUD::column('email');
-        // CRUD::column('telephone');
-        // CRUD::column('extension_line');
-        // CRUD::column('location');
-        // CRUD::column('seal');
-        // CRUD::column('teter');
-        // CRUD::column('vision');
-        // CRUD::column('mission');
-        // CRUD::column('objective');
-        // CRUD::column('building_number');
-        // CRUD::column('office_number');
-        // CRUD::column('motto');
-        // CRUD::column('value_list');
+        CRUD::column('parentUnit.name')->label('Accountable to');
+        CRUD::column('chairManType.name')->label('Officee Leader');
 
-
-       CRUD::column('parentUnit.name')->label('Accountable to');
-        CRUD::column('chairManType.name')->label('Office chairman');
-
-       // CRUD::field('chair_man_type_id')->label('Office chairman')->type('select')->entity('employee')->model(Employee::class)->attribute('name');
-    
-
-       
-
-
-        //  CRUD::column('parent_unit_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
-        // CRUD::column('reports_to_id')->type('select')->entity('unit')->model(Unit::class)->attribute('name');
-        //   CRUD::column('organization_id')->type('select')->entity('organization')->model(Organization::class)->attribute('name');
-        // CRUD::column('chair_man_type')->type('select')->entity('employee')->model(Employee::class)->attribute('name');
+        CRUD::column('hr_branch_id')->type('select')->label('HR Branch')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -155,32 +129,19 @@ class UnitCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(UnitRequest::class);
-
-        CRUD::field('name')->label('Orignization unit')->size(6);
-        // CRUD::field('acronym')->size(6);
-        // CRUD::field('email')->size(6);
-        // CRUD::field('telephone')->size(6);
-        // CRUD::field('extension_line')->size(6);
-        // CRUD::field('location')->size(6);
-        // CRUD::field('seal')->size(6);
-         CRUD::field('level')->size(6);
-        // CRUD::field('teter')->size(6);
-        // CRUD::field('vision')->size(6);
-        // CRUD::field('mission')->size(6);
-        // CRUD::field('objective')->size(6);
-        // CRUD::field('building_number')->size(6);
-        // CRUD::field('office_number')->size(6);
-        // CRUD::field('motto')->size(6);
-        // CRUD::field('value_list')->size(6);
-        // CRUD::field('parent_unit_id')->size(6);
-        CRUD::field('parent_unit_id')->label('Accountable to')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
-        //  CRUD::field('reports_to_id')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
-       // CRUD::field('organization_id')->size(6)->type('select2')->entity('organization')->model(Organization::class)->attribute('name');
-        CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(ChairManType::class)->attribute('name');
-
-        CRUD::field('chair_man_type_id')->size(6)->label('Office chairman')->type('select2')->entity('chairManType')->model(Employee::class)->attribute('name');
+         CRUD::setValidation(UnitRequest::class);
+         CRUD::field('name')->label('Orignization unit')->size(6);
       
+
+        // CRUD::field('level')->size(6);
+         CRUD::field('parent_unit_id')->label('Accountable to')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
+     
+
+
+        CRUD::field('chair_man_type_id')->size(6)->label('Office leader')->type('select2')->entity('employee')->model(Employee::class)->attribute('name');
+
+        CRUD::field('hr_branch_id')->size(6)->label('HR Branch')->type('select2')->entity('hrBranch')->model(HrBranch::class)->attribute('name');
+
         CRUD::field('subordinate')->label('Is it subordinate?')->size(4);
 
         /**
@@ -196,6 +157,16 @@ class UnitCrudController extends CrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
+
+     protected function setupReorderOperation()
+     {
+         // define which model attribute will be shown on draggable elements
+         CRUD::set('reorder.label', 'name');
+         // define how deep the admin is allowed to nest the items
+         // for infinite levels, set it to 0
+         CRUD::set('reorder.max_level', 2);
+     }
+
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

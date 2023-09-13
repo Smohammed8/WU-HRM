@@ -51,6 +51,11 @@ class HrBranch extends Model
     {
         return $this->hasOne(CollegePositionCode::class);
     }
+
+    public function units()
+    {
+        return $this->hasMany(Unit::class, 'hr_branch_id', 'id');
+    }
     
     public function employees(): HasMany
     {
