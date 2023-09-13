@@ -277,6 +277,7 @@ class EmployeeCrudController extends CrudController
         CRUD::column('date_of_birth')->type('closure')->function(function($entry){
             return $entry->age()?? '-';})->label('ዕድሜ')->wrapper([
                 'element' => 'span',
+                'title'=>'Employee age in years',
                 'class' => function ($crud, $column, $entry) {
                     switch ($entry->age()) {
                         case '61':
