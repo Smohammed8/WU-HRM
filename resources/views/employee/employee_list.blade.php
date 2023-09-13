@@ -593,7 +593,7 @@ line-height: 1.5;
 
                             <div class="info-box-content">
                                 <span class="info-box-text"> <a href ="{{ backpack_url('position') }}">Avaliable Positions  </a></span>
-                                <span class="info-box-number"> {{ '0' }} </span>
+                                <span class="info-box-number"> {{ '-' }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -640,11 +640,14 @@ line-height: 1.5;
             <thead>
                 <tr>
                     <th> # </th>
-                    <th> Employee FullName</th>
+                    <th> FullName</th>
                     <th> Job Title  </th>
                     <th> Educational Level </th>
-                    <th> Organization Unit </th>
+                    <th> Working Unit </th>
                     <th> HR Branch </th>
+                    <th> Age(in years) </th>
+                    <th> Job Code</th>
+                 
                     <th> Action</th>
                 </tr>
             </thead>
@@ -660,13 +663,40 @@ line-height: 1.5;
                             <td> {{ $employee->educationLevel->name  ?? '-'}}</td> 
                             <td> {{ $employee->gender ?? '-'  ?? '-'}}</td> 
                             <td> {{ $employee->hrBranch->name  ?? '-'}}</td> 
+                            <td> 
+                               <label for="" style="font-size:17px;"
+                              title=" GC: {{ \Carbon\Carbon::parse($employee->date_of_birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
+                             
+                          
+                           
+                             @if ($employee->age() >58 )
+
+                             <span  title="Retirement date is reach!" class="badge badge-pill badge-danger">  {{ $employee->age() }}  </span>
+                            
+                             @elseif ($employee->age() > 56)
+                            
+                             <span title="Retirement date is reaching" class="badge badge-pill badge-warning"> {{ $employee->age() }} </span>
+
+                             @elseif ($employee->age() >17 )
+                            
+                             <span  title="Retirement date yet not reach!" class="badge badge-pill badge-defualt"> {{ $employee->age() }}  </span>
+
+                             @else
+                           <span  title="Inavide age! Less than 18 can be an employee" class="badge badge-pill badge-defualt">   <del> Less 18 years old </del></span>   
+                            </label> </td>
+                            @endif 
+                           
+
+
+                              <td> {{ $employee->positionCode?->code ?? '-'  ?? '-'}}</td> 
                         <td>
+                          <a href="{{ route('employee.edit', ['id'=>$employee->id]) }}" title="Edit" class="btn  btn-sm btn-outline-primary float-right mr-1">
+                            <i class="fa fa-edit">  </i> 
+                        </a>
                             <a href="{{ route('employee', ['employee_id'=>$employee->id]) }}" title="Profile" class="btn  btn-sm btn-outline-primary float-right mr-1">
                                 <i class="fa fa-user-tie">  </i> 
                             </a>
-                            <a href="{{ route('employee.edit', ['id'=>$employee->id]) }}" title="Edit" class="btn  btn-sm btn-outline-primary float-right mr-1">
-                                <i class="fa fa-edit">  </i> 
-                            </a>
+                         
 
                            
                         </td>

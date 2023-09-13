@@ -408,7 +408,6 @@
                                         {{ $crud->entry->age() }} years old </label>
 
 
-
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> Current status : </b></label>
