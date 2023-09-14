@@ -124,13 +124,6 @@ class AuthController extends Controller
              if (!$user) {
 
                     try {
-            // dd([
-            //     'username' => $uid,
-            //     'password' => Hash::make($password),
-            //     'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
-            //     'email' => $email,
-
-            // ]);
 
                         $user = User::create([
                             'username' => $uid,
@@ -139,22 +132,17 @@ class AuthController extends Controller
                             'email' => $email,
 
                         ]);
+                
+                   $user->assignRole('employee');
 
-
-
-                        // ]);
-                        // $user->assignRole('Staff');
-
-                        if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
+             if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
                             return redirect(route('dashboard')) ;
                         }
                     } catch (Exception $e) {
-                        // dd($email);
-                        // dd($e->getMessage());
-
                         return $e;
                     }
-                } else {
+                } 
+                else {
                     // dd($first_name,$middle_name,$last_name,$email,$phone);
 
                     $user->update([
@@ -163,8 +151,6 @@ class AuthController extends Controller
                         'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
                         'email' => $email,
                     ]);
-
-
                     $user->save();
 
                     if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
@@ -172,7 +158,8 @@ class AuthController extends Controller
                     }
                 }
             } else {
-                return new ModelNotFoundException();
+             return new ModelNotFoundException();
+ 
             }
         } catch (Exception $e) {
             if (strpos($e->getMessage(), 'Invalid credentials') == true) {
@@ -181,7 +168,11 @@ class AuthController extends Controller
                     return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
                      redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => 'Invalid credenatial'])->withInput();
                 }
-                return new ModelNotFoundException();
+
+                //return new ModelNotFoundException();
+               return redirect()->back()->withErrors(['username' => 'It seems you do not have UAS account! Contact Your System Adminstrator'])->withInput();
+                //   throw ValidationException::withMessages(['username'=>'It seems you do not have UAS account! Contact nearest System Adminstrator']);
+           
             } else {
                 return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
                 redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();

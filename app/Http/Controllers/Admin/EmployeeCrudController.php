@@ -235,6 +235,7 @@ class EmployeeCrudController extends CrudController
                 $query->orWhere('pention_number', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('position_id', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('date_of_birth', 'like', '%' . $searchTerm . '%');
+                $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' . $searchTerm . '%');
                
              
             }
