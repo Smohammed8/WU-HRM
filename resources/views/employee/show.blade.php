@@ -1315,14 +1315,18 @@
     </script>
     <script src="{{ asset('packages/backpack/crud/js/show.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
     </script>
-
-    <script src="{{ asset('assets/select2/dist/js/select2.min.js') }}"></script>
     <script>
-        $(function() { // Initialize Select2 Elements
-            $('.select2').select2()
+        $(function() {
+            @if (old('code') != null && $errors->has('new')==false)
+                $('#position_code_edit').modal('show')
+            @endif
         });
-    </script>
-    <script>
+
+        function editEntry(route, value) {
+            $('#position_code_edit_form').attr('action', route);
+            $('#old_job_code').val(value);
+            $('#job_code').val('');
+        }
         if (typeof deleteEntry != 'function') {
             $("[data-button-type=delete]").unbind('click');
 
@@ -1367,10 +1371,7 @@
 
                                     // Hide the modal, if any
                                     $('.modal').modal('hide');
-                                } 
-                                else {
-<link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
+                                } else {
                                     // if the result is an array, it means
                                     // we have notification bubbles to show
                                     if (result instanceof Object) {
@@ -1414,26 +1415,14 @@
 
         // make it so that the function above is run after each DataTable draw event
         // crud.addFunctionToDataTablesDrawEventQueue('deleteEntry');
-  
-        function createPopupWin(pageURL, pageTitle,
-            popupWinWidth, popupWinHeight) {
-            var left = (screen.width - popupWinWidth) / 2;
-            var top = (screen.height - popupWinHeight) / 4;
-
-            var myWindow = window.open(pageURL, pageTitle,
-                'resizable=yes, width=' + popupWinWidth +
-                ', height=' + popupWinHeight + ', top=' +
-                top + ', left=' + left);
-        }
-    <
-
-    <script src=" {{ asset('assets/calendar/js/jquery.plugin.js') }}"></script>
-    <script src=" {{ asset('assets/calendar/js/jquery.calendars.js') }}"></script>
-    <script src=" {{ asset('assets/calendar/js/jquery.calendars.plus.js') }}"></script>
-    <script src=" {{ asset('assets/calendar/js/jquery.calendars.picker.js') }}"></script>
-    <script src=" {{ asset('assets/calendar/js/jquery.calendars.ethiopian.js') }}"></script>
-    <script src=" {{ asset('assets/calendar/js/jquery.calendars.ethiopian-am.js') }}"></script>
-    <script src=" {{ asset('assets/calendar/js/jquery.calendars.picker-am.js') }}"></script>
+   
+    // <script src=" {{ asset('assets/calendar/js/jquery.plugin.js') }}"></script>
+    // <script src=" {{ asset('assets/calendar/js/jquery.calendars.js') }}"></script>
+    // <script src=" {{ asset('assets/calendar/js/jquery.calendars.plus.js') }}"></script>
+    // <script src=" {{ asset('assets/calendar/js/jquery.calendars.picker.js') }}"></script>
+    // <script src=" {{ asset('assets/calendar/js/jquery.calendars.ethiopian.js') }}"></script>
+    // <script src=" {{ asset('assets/calendar/js/jquery.calendars.ethiopian-am.js') }}"></script>
+    // <script src=" {{ asset('assets/calendar/js/jquery.calendars.picker-am.js') }}"></script>
 
 
     // <script>
@@ -1443,4 +1432,5 @@
     //     });
     //     // $('#end').calendarsPicker({calendar: calendar});
     // </script>
+</script>
 @endsection
