@@ -435,28 +435,28 @@
                 <div class="col-md-3  p-0 m-0">
                     <ul class="nav nav-tabs nav-stacked flex-column " role="tablist">
          
-                        @canany(['empployee.emergency-contact.icrud', 'empployee.emergency-contact.index'])
+                        @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.index'])
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_contact" aria-controls="" role="tab" tab_name="tab_employee_contact"
                                 data-toggle="tab" class="nav-link active">
                                 <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contacts' }}</a>
                         </li>
                         @endcanany
-                        @canany(['empployee.education.icrud', 'empployee.education.icrud.index'])
+                        @canany(['employee.education.icrud', 'employee.education.icrud.index'])
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_education" aria-controls="tab_employee_education" role="tab" tab_name="employee_education" data-toggle="tab"
                                 class="nav-link "> <i class="la la-graduation-cap"
                                     style="font-size: 20px"> </i> {{ 'Employee Education' }}</a>
                         </li>
                         @endcanany
-                        @canany(['empployee.internal-experience.icrud', 'empployee.internal-experience.index'])
+                        @canany(['employee.internal-experience.icrud', 'employee.internal-experience.index'])
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_internal_experience" aria-controls="tab_employee_internal_experience"
                                 role="tab" tab_name="employee_internal_experience" data-toggle="tab" class="nav-link ">
                                 <i class="la la-map" style="font-size: 20px"> </i> {{ 'Internal Experience' }}</a>
                         </li>
                         @endcanany
-                        @canany(['empployee.external-experience.icrud', 'empployee.external-experience.index'])
+                        @canany(['employee.external-experience.icrud', 'employee.external-experience.index'])
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_external_experience" aria-controls="tab_employee_external_experience"
                                 role="tab" tab_name="employee_external_experience" data-toggle="tab" class="nav-link ">
@@ -536,7 +536,7 @@
         <h4>Employee Efficiancy </h4>
         <div class="no-padding no-border">
     <div class="">
-        @canany(['empployee.education.icrud', 'empployee.education.create'])
+        @canany(['employee.education.icrud', 'employee.education.create'])
         <a href="{{ route('{employee}/evaluation.create',['employee'=>$crud->entry?->id]) }}"
                     class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee evaluation'}}</span></a>
         @endcanany
@@ -597,7 +597,7 @@
                 <h4>Employee Education</h4>
                 <div class="no-padding no-border">
             <div class="">
-                @canany(['empployee.education.icrud', 'empployee.education.create'])
+                @canany(['employee.education.icrud', 'employee.education.create'])
                 <a href="{{ route('{employee}/employee-education.create',['employee'=>$crud->entry?->id]) }}"
                             class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> {{ trans('backpack::crud.add') }} {{ 'Employee Education'}}</span></a>
                @endcanany
@@ -630,11 +630,11 @@
 
 
                                 <td>
-                            @canany(['empployee.education.icrud', 'empployee.education.edit'])
+                            @canany(['employee.education.icrud', 'employee.education.edit'])
                         <a href="{{ route('{employee}/employee-education.edit', ['employee'=>$crud->entry?->id,'id'=>$employeeEducation->id]) }}" class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
 
                             @endcanany
-                            @canany(['empployee.education.icrud', 'empployee.education.delete'])
+                            @canany(['employee.education.icrud', 'employee.education.delete'])
                                     <a href="javascript:void(0)" onclick="deleteEntry(this)"
                                         data-route="{{ route('{employee}/employee-education.destroy', ['employee'=>$crud->entry?->id,'id'=>$employeeEducation->id]) }}"
                                         class="btn btn-sm btn-link" data-button-type="delete"><i
@@ -664,7 +664,7 @@
                         <div class="no-padding no-border">
                             <div class="">
                              
-                                @canany(['empployee.emergency-contact.icrud', 'empployee.emergency-contact.create'])
+                                @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.create'])
                                     <a href="{{ route('{employee}/employee-contact.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
@@ -690,11 +690,11 @@
                                             <td>{{ $employeeContact->contact_name }}</td>
                                             <td>{{ $employeeContact->contact }}</td>
                                             <td>
-                                        @canany(['empployee.emergency-contact.icrud', 'empployee.emergency-contact.edit'])
+                                        @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.edit'])
                                             <a href="{{ route('{employee}/employee-contact.edit', ['employee' => $crud->entry?->id, 'id' => $employeeContact->id]) }}"
                                                 class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
                                         @endcanany
-                                        @canany(['empployee.emergency-contact.icrud', 'empployee.emergency-contact.delete'])
+                                        @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.delete'])
                                             <a href="javascript:void(0)" onclick="deleteEntry(this)"
                                                 data-route="{{ route('{employee}/employee-contact.destroy', ['employee' => $crud->entry?->id, 'id' => $employeeContact->id]) }}"
                                                 class="btn btn-sm btn-link" data-button-type="delete"><i
@@ -904,7 +904,7 @@
                         <div class=" no-padding no-border">
                             <div class="">
                              
-                                @canany(['empployee.emergency-contact.icrud', 'empployee.emergency-contact.create'])
+                                @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.create'])
                                     <a href="{{ route('{employee}/employee-contact.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
@@ -930,11 +930,12 @@
                                             <td>{{ $employeeContact->contact }}</td>
                                             <td>
                                          
-                                        @canany(['empployee.emergency-contact.icrud', 'empployee.emergency-contact.edit'])
+                                        @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.edit'])
                                             <a href="{{ route('{employee}/employee-contact.edit', ['employee' => $crud->entry?->id, 'id' => $employeeContact->id]) }}"
                                                 class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
                                         @endcanany
-                                        @canany(['empployee.emergency-contact.icrud', 'empployee.emergency-contact.delete'])
+                                     
+                                        @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.delete'])
                                             <a href="javascript:void(0)" onclick="deleteEntry(this)"
                                                 data-route="{{ route('{employee}/employee-contact.destroy', ['employee' => $crud->entry?->id, 'id' => $employeeContact->id]) }}"
                                                 class="btn btn-sm btn-link" data-button-type="delete"><i
@@ -1086,7 +1087,7 @@
                         <div class=" no-padding no-border">
                             <div class="">
                        
-                                @canany(['empployee.internal-experience.icrud', 'empployee.internal-experience.create'])
+                                @canany(['employee.internal-experience.icrud', 'employee.internal-experience.create'])
                                     <a href="{{ route('{employee}/internal-experience.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
@@ -1119,11 +1120,11 @@
                                             <td>
 
                                             
-                                                @canany(['empployee.internal-experience.icrud', 'empployee.internal-experience.edit'])
+                                                @canany(['employee.internal-experience.icrud', 'employee.internal-experience.edit'])
                                                     <a href="{{ route('{employee}/internal-experience.edit', ['employee' => $crud->entry?->id, 'id' => $internalExperience->id]) }}"
                                                         class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
                                                 @endcanany
-                                                @canany(['empployee.internal-experience.icrud', 'empployee.internal-experience.delete'])
+                                                @canany(['employee.internal-experience.icrud', 'employee.internal-experience.delete'])
                                                     <a href="javascript:void(0)" onclick="deleteEntry(this)"
                                                         data-route="{{ route('{employee}/internal-experience.destroy', ['employee' => $crud->entry?->id, 'id' => $internalExperience->id]) }}"
                                                         class="btn btn-sm btn-link" data-button-type="delete"><i
@@ -1150,7 +1151,7 @@
                         <div class=" no-padding no-border">
                             <div class="">
                              
-                                @canany(['empployee.external-experience.icrud', 'empployee.external-experience.create'])
+                                @canany(['employee.external-experience.icrud', 'employee.external-experience.create'])
                                     <a href="{{ route('{employee}/external-experience.create', ['employee' => $crud->entry?->id]) }}"
                                         class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
                                                 class="la la-plus"></i> {{ trans('backpack::crud.add') }}
@@ -1183,11 +1184,11 @@
                                             <td>
 
                                                
-                                                @canany(['empployee.external-experience.icrud', 'empployee.external-experience.edit'])
+                                                @canany(['employee.external-experience.icrud', 'employee.external-experience.edit'])
                                                     <a href="{{ route('{employee}/external-experience.edit', ['employee' => $crud->entry?->id, 'id' => $externalExperience->id]) }}"
                                                         class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
                                                 @endcanany     
-                                                @canany(['empployee.external-experience.icrud', 'empployee.external-experience.delete'])
+                                                @canany(['employee.external-experience.icrud', 'employee.external-experience.delete'])
                                                     <a href="javascript:void(0)" onclick="deleteEntry(this)"
                                                         data-route="{{ route('{employee}/external-experience.destroy', ['employee' => $crud->entry?->id, 'id' => $externalExperience->id]) }}"
                                                         class="btn btn-sm btn-link" data-button-type="delete"><i
