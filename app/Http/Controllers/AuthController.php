@@ -157,21 +157,23 @@ class AuthController extends Controller
                         return redirect(route('dashboard')) ;
                     }
                 }
-            } else {
-             return new ModelNotFoundException();
+             } 
+            else {
+
+             //return new ModelNotFoundException();
+             return redirect()->back()->withErrors(['username' => 'It seems you do not have UAS account! Contact Your System Adminstrator'])->withInput();
  
             }
-        } catch (Exception $e) {
+         } 
+        catch (Exception $e) {
             if (strpos($e->getMessage(), 'Invalid credentials') == true) {
                 if (Config::get('app.env') == 'local') {
                     // dd($e->getMessage());
                     return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
                      redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => 'Invalid credenatial'])->withInput();
                 }
-
                 //return new ModelNotFoundException();
                return redirect()->back()->withErrors(['username' => 'It seems you do not have UAS account! Contact Your System Adminstrator'])->withInput();
-                //   throw ValidationException::withMessages(['username'=>'It seems you do not have UAS account! Contact nearest System Adminstrator']);
            
             } else {
                 return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
