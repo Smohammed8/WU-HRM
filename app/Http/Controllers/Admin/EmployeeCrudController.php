@@ -173,6 +173,20 @@ class EmployeeCrudController extends CrudController
             }
         }
     }
+
+    public function getEffiency($employe_id)
+    {
+        $efficnecies = Evaluation::select('total_mark')->where('employee_id', $employe_id)->where('quarter_id', 1)->pluck('total_mark')->toArray();
+        $sum = array_sum($efficnecies);
+        if ($sum  == null) {
+            $result = 0;
+        } else {
+            $result = $sum;
+        }
+        return $result;
+    }
+    
+    
     public function showDetailsRow($id)
     {
         $this->crud->hasAccessOrFail('details_row');
@@ -185,17 +199,7 @@ class EmployeeCrudController extends CrudController
 
     //////////////////////////////////// get Last 3 average effiency /////////////////
     //$efficnecies = Evaluation::where('employee_id' ,$employe_id)->where('quarter_id','=',1)->get()->toArray();
-    public function getEffiency($employe_id)
-    {
-        $efficnecies = Evaluation::select('total_mark')->where('employee_id', $employe_id)->where('quarter_id', 1)->pluck('total_mark')->toArray();
-        $sum = array_sum($efficnecies);
-        if ($sum  == null) {
-            $result = 0;
-        } else {
-            $result = $sum;
-        }
-        return $result;
-    }
+ 
     ////////////////////////////////////////////////////////////////////////
     /**
      * Define what happens when the List operation is loaded.
@@ -210,7 +214,7 @@ class EmployeeCrudController extends CrudController
         $this->crud->setDetailsRowView('details_row');
         $this->crud->disablePersistentTable();
        // $this->crud->setOperationSetting('persistentTableDuration', 60); //for 1 hours persistency.
-        $this->crud->denyAccess('delete');
+       // $this->crud->denyAccess('delete');
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
         // column with custom search logic
@@ -322,6 +326,8 @@ class EmployeeCrudController extends CrudController
                 // $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
             }
         );
+
+
         $this->crud->addFilter(
             [
                 'type' => 'select2',

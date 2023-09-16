@@ -547,8 +547,14 @@
                     <tr>
                         <th>Term of evalution </th>
                         <th>Total Point</th>
-                        <th>User</th>
-                        <th>Date of created </th>   
+                        <th>Inserted by</th>
+                     
+                        <th>Is approved</th>
+                        <th>Approved by </th>
+                        <th>Date of created </th>  
+                        
+                        
+                  
                       
                         <th>Action</th>
                     </tr>
@@ -559,8 +565,31 @@
                         <td>{{ $evaluation->quarter->name ?? '-' }}</td>
                         <td>{{ $evaluation->total_mark ?? '-'  }}</td>
                         <td>{{ $evaluation->createdBy->name ?? '-' }}</td>
-                        <td>{{ $evaluation->created_at->format('d-m-Y')   }} E.C </td>
                         <td>
+                            {{-- {{  $evaluation->isApproved  == 1 ? 'Approved' : '-' }}
+                         --}}
+                             @if ($evaluation->isApproved == 1)
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            @else
+                            -
+                            @endif
+
+                        </td>
+                        <td>
+                                @if ($evaluation->isApproved == 1)
+              
+                                {{ $evaluation->approval->name ?? '-' }}
+                                @else
+                                -
+                                @endif
+                        </td>
+
+
+                        <td>{{ $evaluation->created_at->format('d-m-Y')   }} E.C </td>
+
+
+                      <td>
+                        @if ($evaluation->isApproved == 0)
                         @canany(['employee.efficency.icrud', 'employee.efficency.icrud.edit'])
                        <a href="{{ route('{employee}/evaluation.edit', ['employee'=>$crud->entry?->id,'id'=>$evaluation->id]) }}"
                         class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
@@ -572,6 +601,10 @@
                         class="btn btn-sm btn-link" data-button-type="delete"><i
                             class="la la-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                         @endcanany
+                     
+                        @else
+                        Closed
+                        @endif
                         </td>
                     </tr>
                     @endforeach

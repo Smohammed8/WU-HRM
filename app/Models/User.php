@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 //use App\Models\LdapAuthenticatable;
 //use LdapRecord\Laravel\Auth\LdapAuthenticatable;
@@ -59,4 +60,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function approvalby():HasMany
+    // {
+       
+    //     return $this->hasMany(Evaluation::class);
+    // }
 }
