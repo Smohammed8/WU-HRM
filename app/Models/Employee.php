@@ -265,6 +265,8 @@ class Employee extends  Model
     }
 
 
+   
+
     public function employeeCategory()
     {
         return $this->belongsTo(EmployeeCategory::class);

@@ -123,7 +123,7 @@ class JobTitleCrudController extends CrudController
             'type'  => 'select2_multiple',
             'label' => 'By job catergory'
         ], function () {
-            return \App\Models\JobTitleCategory::all()->pluck('name', 'id')->toArray();
+            return JobTitleCategory::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'job_title_category_id', json_decode($values));
         });
@@ -133,7 +133,7 @@ class JobTitleCrudController extends CrudController
             'label' => 'By organizational unit'
 
         ], function () {
-            return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
+            return Unit::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
         });
@@ -143,7 +143,7 @@ class JobTitleCrudController extends CrudController
             'label' => 'By educational level'
 
         ], function () {
-            return \App\Models\EducationalLevel::all()->pluck('name', 'id')->toArray();
+            return EducationalLevel::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'educational_level_id', json_decode($values));
         });
@@ -156,7 +156,7 @@ class JobTitleCrudController extends CrudController
             'label' => 'By field of study'
 
         ], function () {
-            return \App\Models\FieldOfStudy::all()->pluck('name', 'id')->toArray();
+            return FieldOfStudy::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'field_of_study_id', json_decode($values));
         });
@@ -168,7 +168,7 @@ class JobTitleCrudController extends CrudController
             'label' => 'By job grade'
 
         ], function () {
-            return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+            return Level::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('whereIn', 'level_id', json_decode($values));
         });
@@ -302,10 +302,16 @@ class JobTitleCrudController extends CrudController
         $request = $this->crud->validateRequest();
         // update the row in the db
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
-                            $this->crud->getStrippedSaveRequest());
+
+
+        $this->crud->getStrippedSaveRequest());
+        $saveRequest = $this->crud->getStrippedSaveRequest();
+
         $this->data['entry'] = $this->crud->entry = $item;
         $deleteItems = $this->crud->getCurrentEntry()->jobTitlePrequests()->pluck('id')->toArray();
+if (isset($saveRequest['job_prerequest_id']) && is_array($saveRequest['job_prerequest_id'])) {
         foreach ($this->crud->getStrippedSaveRequest()['job_prerequest_id'] as $jobPrerequestId) {
+
             if(jobTitlePrerequest::where('job_title_id',$item->id)->where('job_prerequest_id',$jobPrerequestId)->count()==0)
                 jobTitlePrerequest::create([
                     'job_prerequest_id'    => $jobPrerequestId,
@@ -317,6 +323,12 @@ class JobTitleCrudController extends CrudController
                 }
             }
         }
+    }
+    else {
+        \Alert::warning(trans('backpack::crud.update_warning'))->flash();
+
+    }
+    
         foreach($deleteItems as $deleteItem){
             jobTitlePrerequest::where('id',$deleteItem)->delete();
         }
