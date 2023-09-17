@@ -217,33 +217,34 @@ class EmployeeCrudController extends CrudController
        // $this->crud->denyAccess('delete');
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
-        // column with custom search logic
-        // $this->crud->addColumn([
-        //     'name'        => 'first_name',
-        //     'label'       => 'FirstName',
-        //     'searchLogic' => function ($query, $column, $searchTerm) {
-        //         $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
-        //     }
-        // ]);
+
         CRUD::column('photo')->type('image')->label('Photo');
-       
-        $this->crud->addColumn([
+    
+          $this->crud->addColumn([
             'name'        => 'name',
             'label'       => 'FirstName',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('father_name', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('grand_father_name', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('phone_number', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('email', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('pention_number', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('position_id', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('date_of_birth', 'like', '%' . $searchTerm . '%');
-                $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' . $searchTerm . '%');
-               
+                $query->orWhere('first_name', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('father_name', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('grand_father_name', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('phone_number', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('email', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('pention_number', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('position_id', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('date_of_birth', 'like', '%' .$searchTerm. '%');
+                $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' .$searchTerm. '%');
+                if ((is_numeric($searchTerm)) && ($searchTerm <=70)) {
+                    $currentYear = date('Y');
+                    $birthYear = $currentYear - (int)$searchTerm;
+                    $sql = "YEAR(date_of_birth) = ?";
+                    \Log::info("Generated SQL: $sql with parameter $birthYear");
+                    $query->orWhereRaw($sql, [$birthYear]);
+                }
              
             }
         ]);
+
+
 
         
       
@@ -256,7 +257,6 @@ class EmployeeCrudController extends CrudController
         CRUD::column('position.unit.name')->label('የስራ ክፍል')->type('select')->entity('position.unit')->model(Unit::class);
         CRUD::column('hr_branch_id')->type('select')->label('ኮሌጅ/ኢንስቲዩት')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
         CRUD::column('phone_number')->label('ስልክ ቁጥር');
-
 
         CRUD::column('employee_category_id')->type('select')->label('የሰራተኛው አይነት')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(4);
         // ->wrapper([
@@ -300,39 +300,77 @@ class EmployeeCrudController extends CrudController
                     }
                 }
             ]);
-
-
+            
+        CRUD::column('position_id')->label('የስራ መደቡ መለያ')->type('select')->entity('PositionCode')->model(PositionCode::class)->attribute('code');
        
 
+        CRUD::column('birth_city')->label('Place of birth');
+        CRUD::column('employmeent_identity')->label('Employee ID');
+       // CRUD::column('employee_title_id')->label('Title');
 
-            
-        CRUD::column('position_id')->label('የስራ መደቡ መለያ')->type('select')->entity('PositionCode')->model(PositionCode::class)->attribute('code')->size(4);
 
-       // 'value'    => '<span class="text-danger">Something</span>',
 
+        CRUD::column('educational_level_id')->type('select')->label('Educational Level')->entity('educationLevel')->model(EducationalLevel::class)->attribute('name');
+      
+        CRUD::column('marital_status_id')->type('select')->label('Marital Status')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name');
+
+        CRUD::column('ethnicity_id')->label('Ethnicity');
+        CRUD::column('religion_id')->label('Religion');
+    
+
+        CRUD::column('field_of_study_id')->type('select')->label('Field of study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name');
+
+
+
+        CRUD::column('employement_date')->label('Employment date')->display(function($date) {
+            return Carbon::parse($date)->format('Y-m-d');
+        });
+
+   
+        CRUD::column('employment_type_id')->type('select')->label('Employment type')->entity('employmentType')->model(EmploymentType::class)->attribute('name');
+
+        CRUD::column('pention_number')->label('Pension number');
+       // CRUD::column('hr_branch_id')->label('College/Institue');
+       
+        CRUD::column('employment_status_id')->type('select')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name');
+
+        CRUD::column('nationality_id')->label('Nationality');
+        CRUD::column('gender')->label('Gender');
+        CRUD::column('email')->label('Email');
+        
         $this->crud->addFilter(
             [
                 'type'  => 'select2',
                 'name'  => 'employee_category_id',
-                'label' => 'By employee category '
+                'label' => 'By Employee Type'
             ],
             function () {
                 return EmployeeCategory::all()->pluck('name', 'id')->toArray();
             },
-            function ($value) { // if the filter is active, apply these constraints
-                // $dates = json_decode($value);
+            function ($value) { 
                 $this->crud->addClause('where', 'employee_category_id', $value);
-                // $this->crud->addClause('where', ' employement_date ', '>=', $dates->from);
-                // $this->crud->addClause('where', ' employement_date ', '<=', $dates->to . ' 23:59:59');
+              
             }
         );
+
+        $this->crud->addFilter([
+            'name'  => 'hr_branch_id',
+            'type'  => 'select2',
+            'label' => 'Filter by College/Institue'
+        ], function () {
+            return HrBranch::all()->pluck('name', 'id')->toArray();
+
+        }, function ($values) {
+            $this->crud->addClause('where', 'hr_branch_id', json_decode($values));
+        });
+
 
 
         $this->crud->addFilter(
             [
                 'type' => 'select2',
                 'name' => 'job_title_id',
-                'label' => 'Job title '
+                'label' => 'Filtter by Job title'
             ],
             function () {
                 return JobTitle::all()->pluck('name', 'id')->toArray();
@@ -343,49 +381,34 @@ class EmployeeCrudController extends CrudController
                 $this->crud->addClause('whereIn', 'position_id', $positions);
             }
         );
-        // $this->crud->addFilter([
-        //     'name' => 'unit_id',
-        //     'type' => 'select2',
-        //     'label' => 'Filter by office'
-        // ], function () {
-        //     return Unit::all()->pluck('name', 'id')->toArray();
-        // }, function ($value) {
-        //     $positions = Position::where('unit_id', $value)->pluck('id')->toArray();
-        //     $this->crud->addClause('whereIn', 'position_id', ($positions));
-        // });
-
-        $this->crud->addFilter([
-            'name'  => 'hr_branch_id',
-            'type'  => 'select2',
-            'label' => 'Filter by Hr Office'
-        ], function () {
-            return HrBranch::all()->pluck('name', 'id')->toArray();
-
-        }, function ($values) {
-            $this->crud->addClause('whereIn', 'hr_branch_id', json_decode($values));
-        });
-
 
 
         $this->crud->addFilter([
             'name'  => 'employment_type_id',
             'type'  => 'select2_multiple',
-            'label' => 'Filter by type'
+            'label' => 'Filter by Employment type'
         ], function () {
             return EmploymentType::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
-            $this->crud->addClause('whereIn', 'employment_type_id', json_decode($values));
+            $this->crud->addClause('where', 'employment_type_id', json_decode($values));
         });
 
-        $this->crud->addFilter([
-            'name'  => 'position_id',
-            'type'  => 'select2_multiple',
-            'label' => 'By job position'
-        ], function () {
-            return Position::all()->pluck('name', 'id')->toArray();
-        }, function ($values) {
-            $this->crud->addClause('whereIn', 'position_id', json_decode($values));
+  /////////////////////////////////////////////////////////////
+        CRUD::filter('genders')
+        ->type('select2')->label('Filter by Gender')
+        ->values(function () {
+          return [
+            'Male' => 'Male',
+            'Female' => 'Female',
+        
+          ];
+        })
+        ->whenActive(function($value) {
+           CRUD::addClause('where', 'gender', $value);
         });
+
+////////////////////////////////////////////////////////
+
         $this->crud->addFilter(
             [
                 'type'  => 'date_range',
@@ -593,11 +616,7 @@ public function showExportForm()
     
     }
 
-    // $present = new DateTime('now');
-    // $future = new DateTime('last day of January 2024');
-    // $interval = $present->diff($future);
-
-
+    //sCRUD::field('price')->type('number')->label('Price')->prefix('$')->suffix('.00');
 
     public function store()
     {

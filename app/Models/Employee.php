@@ -219,6 +219,11 @@ class Employee extends  Model
         return $this->belongsTo(EmployeeTitle::class);
     }
 
+    // public function employeeTitle(): BelongsTo
+    // {
+    //     return $this->belongsTo(EmployeeTitle::class,'employee_title_id','id');
+    // }
+
 
     public function level()
     {
@@ -244,6 +249,13 @@ class Employee extends  Model
     {
         return $this->belongsTo(JobTitle::class);
     }
+
+    public function employmentStatus()
+    {
+        return $this->belongsTo(EmploymentStatus::class);
+        
+    }
+
 
 
     public function nationality()
@@ -321,10 +333,7 @@ class Employee extends  Model
 
 
 
-    public function employmentStatus()
-    {
-        return $this->belongsTo(EmploymentStatus::class);
-    }
+
     /**
      * Get all of the externalExperiences for the Employee
      *
