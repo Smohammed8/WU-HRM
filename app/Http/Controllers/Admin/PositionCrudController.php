@@ -114,6 +114,19 @@ class PositionCrudController extends CrudController
         }, function ($value) {
             $this->crud->addClause('where', 'unit_id', $value);
         });
+//////////////////////////////////////////////////////
+       $this->crud->addFilter([
+        'type'  => 'select2',
+        'name'  => 'job_title_id',
+        'label' => 'Fileter by Job title',
+    ], function () {
+        
+        return jobTitle::pluck('name', 'id')->toArray();
+    }, function ($value) {
+       
+        $this->crud->addClause('where', 'job_title_id', $value);
+    });
+//////////////////////////////////////////////////////////////
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

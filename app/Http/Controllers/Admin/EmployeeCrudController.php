@@ -585,8 +585,8 @@ public function showExportForm()
         CRUD::field('religion_id')->size(6)->tab($pi);
         CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('title')->size(6)->tab($pi);
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
-        // CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
-        // CRUD::field('job_title_id')->label('Job Position')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
+
+
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
 
@@ -608,9 +608,9 @@ public function showExportForm()
          CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
          CRUD::field('horizontal_level')->type('enum')->label('Horizontal Level')->size(6)->tab($job);
          CRUD::field('employment_status_id')->type('select2')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(6)->tab($job);
-        CRUD::field('employement_date')->size(6)->tab($job);
-        CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
-        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
+         CRUD::field('employement_date')->size(6)->tab($job);
+         CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
+         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         CRUD::field('hr_branch_id')->type('select2')->label('HR Office')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(6)->tab($job);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
