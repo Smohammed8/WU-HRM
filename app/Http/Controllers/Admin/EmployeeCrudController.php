@@ -336,7 +336,10 @@ class EmployeeCrudController extends CrudController
 
         CRUD::column('nationality_id')->label('Nationality');
         CRUD::column('gender')->label('Gender');
-        CRUD::column('email')->label('Email');
+        CRUD::column('email')->label('Email'); 
+        CRUD::column('national_id')->label('National ID');
+        CRUD::column('cbe_account')->label('CBE Account');
+      
         
         $this->crud->addFilter(
             [
@@ -596,8 +599,11 @@ public function showExportForm()
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
          CRUD::field('ethnicity_id')->size(6)->tab($bio);
-         CRUD::field('email')->type('email')->size(6)->tab($ci);
+         CRUD::field('email')->type('email')->label('Email Address')->size(6)->tab($ci);
          CRUD::field('phone_number')->size(6)->tab($ci);
+         CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
+         CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
+        
         //CRUD::field('uas_user_id')->tab($ci)->size(3);
          CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
          CRUD::field('horizontal_level')->type('enum')->label('Horizontal Level')->size(6)->tab($job);

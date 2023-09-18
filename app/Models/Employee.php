@@ -89,7 +89,9 @@ class Employee extends  Model
         'first_name_am',
         'employee_title_id',
         'hr_branch_id',
-        'horizontal_level'
+        'horizontal_level',
+        'national_id',
+        'cbe_account'
 
     ];
 

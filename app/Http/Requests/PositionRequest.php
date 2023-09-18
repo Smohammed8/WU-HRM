@@ -32,13 +32,16 @@ class PositionRequest extends FormRequest
         $unitId = $this->input('unit_id');
         if (Position::where('job_title_id', $jobTitleId)->where('unit_id', $unitId)->count() > 0) {
             if (in_array($this->method(), ['POST'])) {
-                throw ValidationException::withMessages(['unit' => 'Existing job within current unit']);
+                throw ValidationException::withMessages(['unit' => 'Existing job within current organizational unit']);
             }
         }
         return [
-            'job_code_prefix' => 'required|',
+            'unit_id' => 'required',
+            'job_title_id' => 'required',
+            'job_code_prefix' => 'required',
             'job_code_starting_number'=>'required|numeric',
             'total_employees'=>'required|numeric',
+            'position_available_for_placement'=>'required',
             // '' => [
             //     Rule::unique('positions')->where(function ($query) use($jobTitleId) {
             //         return $query->where('ip', $ip);

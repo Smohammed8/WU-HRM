@@ -62,6 +62,14 @@ class EmployeeRequest extends FormRequest
             'hr_branch_id' => 'required',
             'employment_status_id' => 'required',
             'employee_title_id' => 'required',
+            'cbe_account' => [
+                'nullable',
+                'string',
+                'size:13', 
+                'unique:employees,cbe_account,' .request()->id, 
+              
+            ],
+
            
         ];
         

@@ -288,6 +288,12 @@
                                     <label for="">  {{  $crud->entry->hrBranch->name ?? '-'      }} </label>
                                 </div>
 
+                                <div class="d-flex justify-content-between">
+                                <label for=""><b> National ID: </b></label>
+                                <label for="">  {{  $crud->entry->national_id ?? '-'      }} </label>
+                            </div>
+                       
+
 
                             
                             </div>
@@ -414,6 +420,13 @@
                                     <label for=""> {{ $crud->entry->employmentStatus->name ?? '-' }} </label>
                                 </div>
 
+
+
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b> CBE Account: </b></label>
+                                    <label for="">  {{  $crud->entry->cbe_account ?? '-'      }} </label>
+                                    </div>
+                                    
 
                             </div>
                         </div>
@@ -586,8 +599,6 @@
 
 
                         <td>{{ $evaluation->created_at->format('d-m-Y')   }} E.C </td>
-
-
                       <td>
                         @if ($evaluation->isApproved == 0)
                         @canany(['employee.efficency.icrud', 'employee.efficency.icrud.edit'])
