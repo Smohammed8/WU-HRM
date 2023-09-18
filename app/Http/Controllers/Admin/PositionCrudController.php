@@ -108,7 +108,7 @@ class PositionCrudController extends CrudController
         $this->crud->addFilter([
             'name'  => 'unit_id',
             'type'  => 'select2',
-            'label' => 'Office'
+            'label' => 'Filter by organizational unit'
         ], function () {
             return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
         }, function ($value) {
