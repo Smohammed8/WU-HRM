@@ -224,23 +224,25 @@ class EmployeeCrudController extends CrudController
             'name'        => 'name',
             'label'       => 'FirstName',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhere('first_name', 'like', '%' .$searchTerm. '%');
-                $query->orWhere('father_name', 'like', '%' .$searchTerm. '%');
-                $query->orWhere('grand_father_name', 'like', '%' .$searchTerm. '%');
-                $query->orWhere('phone_number', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('father_name', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('grand_father_name', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('email', 'like', '%' .$searchTerm. '%');
-                $query->orWhere('pention_number', 'like', '%' .$searchTerm. '%');
-                $query->orWhere('position_id', 'like', '%' .$searchTerm. '%');
-                $query->orWhere('date_of_birth', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('pention_number', 'like', '%' . $searchTerm . '%');
+              
+                $query->orWhere('position_id', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('date_of_birth', 'like', '%' . $searchTerm . '%');
                 $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' .$searchTerm. '%');
-                if ((is_numeric($searchTerm)) && ($searchTerm <=70)) {
+                if (is_numeric($searchTerm) && $searchTerm <= 70 && $searchTerm >= 18) {
                     $currentYear = date('Y');
                     $birthYear = $currentYear - (int)$searchTerm;
                     $sql = "YEAR(date_of_birth) = ?";
                     \Log::info("Generated SQL: $sql with parameter $birthYear");
                     $query->orWhereRaw($sql, [$birthYear]);
                 }
-             
+                else{
+                    $query->orWhere('phone_number', 'like', '%' . $searchTerm . '%');
+                }
             }
         ]);
 
@@ -586,7 +588,6 @@ public function showExportForm()
         CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('title')->size(6)->tab($pi);
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
 
-
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
 
@@ -827,17 +828,22 @@ public function importEmployee(Request $request){
         $currentPosition = $this->crud->getCurrentEntry()->position;
         $newPosition = Position::where('id', request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
-        if ($currentPosition->id == $newPosition->id) {
+        if ($newPosition !== null) {
+        if ($currentPosition->id == $newPosition->id ) {
             if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
                 PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
 
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
                     throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-                } else {
+                } 
+                else {
                     PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
                 }
             }
-        } else {
+        } 
+    
+
+        else {
 
 
             if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
@@ -847,6 +853,8 @@ public function importEmployee(Request $request){
 
             PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
         }
+    }  // the end of null check if null of new position
+       
         $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
             $item['employee_id'] = $employee_id;
             if ($item['id']) {

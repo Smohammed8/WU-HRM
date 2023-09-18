@@ -68,6 +68,7 @@ class Employee extends  Model
         'phone_number',
         'alternate_email',
         'rfid',
+        'email',
         'employmeent_identity',
         'marital_status_id',
         'ethnicity_id',

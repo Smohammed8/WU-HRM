@@ -39,8 +39,7 @@ class EmployeeRequest extends FormRequest
             'driving_licence' =>'nullable',
             'blood_group' =>'nullable',
             'eye_color' =>'nullable',
-            'phone_number' => 'nullable|numeric|digits:10',
-            'alternate_email' => 'nullable|email|unique:employees,alternate_email,'.request()->id,
+        
             'rfid' => 'nullable|numeric|unique:employees,rfid,'.request()->id,
             'employment_identity' => 'nullable|numeric|unique:employees,   employment_identity,'.request()->id,
             'marital_status_id' =>'required',
@@ -62,14 +61,23 @@ class EmployeeRequest extends FormRequest
             'hr_branch_id' => 'required',
             'employment_status_id' => 'required',
             'employee_title_id' => 'required',
-            'cbe_account' => [
+            'national_id' => [
                 'nullable',
                 'string',
+                'size:4', 
+                'unique:employees,national_id,' .request()->id, 
+              
+            ],
+            'cbe_account' => [
+                'nullable',
+                'numeric',
                 'size:13', 
                 'unique:employees,cbe_account,' .request()->id, 
               
             ],
-
+            'phone_number' => 'nullable|numeric|digits:10|unique:employees,phone_number,'.request()->id,
+            'email' => 'nullable|email|unique:employees,email,'.request()->id,
+       
            
         ];
         
