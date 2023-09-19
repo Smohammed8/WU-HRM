@@ -20,11 +20,11 @@ class EmploymentStatus extends Model
         'description',
     ];
 
-    // public function employees()
-    // {
-    //     return $this->hasMany(Employee::class);
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
         
-    // }
+    }
     
 //     public function employees()
 // {
