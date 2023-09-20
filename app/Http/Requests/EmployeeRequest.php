@@ -64,9 +64,10 @@ class EmployeeRequest extends FormRequest
             'national_id' => [
                 'nullable',
                 'string',
-                'size:4', 
-                'unique:employees,national_id,' .request()->id, 
-              
+                'size:10', 
+                //'min:10',
+                //'max:10',
+                'unique:employees,national_id,' . request()->id,
             ],
             'cbe_account' => [
                 'nullable',
