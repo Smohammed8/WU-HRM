@@ -433,29 +433,76 @@ class EmployeeCrudController extends CrudController
     {
         $employee_category = $request->input('employee_category');
         $hr_office = $request->input('hr_office');
-        //dd(Employee::all());
 
         $query = Employee::query();
-        // dd($query);
+
+        // Join with related tables and select 'name' columns
+        $query->select(
+            'employees.id',
+            'employees.first_name',
+            'employees.father_name',
+            'employees.grand_father_name',
+            'employees.gender',
+            'employees.date_of_birth',
+            'employees.photo',
+            'employees.birth_city',
+            'employees.driving_licence',
+            'employees.blood_group',
+            'employees.eye_color',
+            'employees.phone_number',
+            'employees.email',
+            'employees.rfid',
+            'employees.employmeent_identity',
+            'employee_titles.title as employee_title',
+            'educational_levels.name as educational_level',
+            'marital_statuses.name as marital_status',
+            'ethnicities.name as ethnicity',
+            'religions.name as religion',
+            'field_of_studies.name as field_of_study',
+            'employees.employement_date',
+            'employment_types.name as employment_type',
+            'employees.pention_number',
+            'hr_branches.name as hr_branch',
+            'employment_statuses.name as employment_status',
+            'nationalities.nation as nationality',
+            'employees.created_at',
+            'employees.updated_at',
+            'employees.first_name_am',
+            'employees.father_name_am',
+            'employees.grand_father_name_am',
+            'employee_categories.name as employee_category',
+            'employees.horizontal_level'
+        )
+            ->leftJoin('employee_titles', 'employees.employee_title_id', '=', 'employee_titles.id')
+            ->leftJoin('educational_levels', 'employees.educational_level_id', '=', 'educational_levels.id')
+            ->leftJoin('marital_statuses', 'employees.marital_status_id', '=', 'marital_statuses.id')
+            ->leftJoin('ethnicities', 'employees.ethnicity_id', '=', 'ethnicities.id')
+            ->leftJoin('religions', 'employees.religion_id', '=', 'religions.id')
+            ->leftJoin('field_of_studies', 'employees.field_of_study_id', '=', 'field_of_studies.id')
+            ->leftJoin('employment_types', 'employees.employment_type_id', '=', 'employment_types.id')
+            ->leftJoin('hr_branches', 'employees.hr_branch_id', '=', 'hr_branches.id')
+            ->leftJoin('employment_statuses', 'employees.employment_status_id', '=', 'employment_statuses.id')
+            ->leftJoin('nationalities', 'employees.nationality_id', '=', 'nationalities.id')
+            ->leftJoin('employee_categories', 'employees.employee_category_id', '=', 'employee_categories.id');
 
         if ($employee_category) {
-            $query->where('employee_category_id', $employee_category);
+            $query->where('employees.employee_category_id', $employee_category);
         }
 
         if ($hr_office) {
-            $query->where('hr_branch_id', $hr_office);
+            $query->where('employees.hr_branch_id', $hr_office);
         }
 
         $employees = $query->get();
+        dd($employees);
+
         // Get the currently signed-in user
         $username = Auth::user()->username;
         $fileName = Carbon::now()->format('Ymd_His') . '_' . $username . '.xlsx';
 
-
-        // dd($employees);
         return Excel::download(new EmployeesExport($employees), $fileName);
-        // return Excel::download(new EmployeesExport($employees), 'employees.csv');
     }
+
 
 
     public function showExportForm()
