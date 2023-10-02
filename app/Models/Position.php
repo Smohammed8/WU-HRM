@@ -67,6 +67,12 @@ class Position extends Model
     {
         return PositionCode::where('position_id', $this->attributes['id'])->count();
     }
+
+    public function positions()
+    {
+        return $this->hasMany(PositionCode::class);
+    }
+
     public function getPositionInfoAttribute()
     {
         return $this->jobTitle->name.' at '.$this->unit->name;

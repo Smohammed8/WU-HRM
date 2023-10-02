@@ -138,8 +138,8 @@ class EvaluationCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EvaluationRequest::class);
-     $employeeId = \Route::current()->parameter('employee');
-     CRUD::field('employee_id')->type('hidden')->value($employeeId);
+        $employeeId = \Route::current()->parameter('employee');
+         CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
 
         // CRUD::field('employee_id')->type('select2')->entity('employee')->model(Employee::class)->attribute('name')->size(6);
@@ -147,6 +147,10 @@ class EvaluationCrudController extends CrudController
         CRUD::field('quarter_id')->label('Term of evaluation')->size(4)->value(1);
         CRUD::field('total_mark')->label('Total mark(100%)')->size(4);
         CRUD::field('created_by_id')->type('hidden')->value(backpack_user()->id);
+        CRUD::field('approval_id')->type('hidden')->value(null);
+        CRUD::field('isApproved')->type('hidden')->value(false);
+
+      
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

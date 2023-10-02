@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Constants;
+use App\Models\User;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use App\Models\User;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
@@ -19,21 +20,19 @@ class AuthController extends Controller
 
     public function registerForm()
     {
-
     }
 
     public function register()
     {
-
     }
 
     public function userLoginView()
     {
         $username = 'username';
-        if(Auth::check() || backpack_auth()->check()){
+        if (Auth::check() || backpack_auth()->check()) {
             return redirect()->route('home');
         }
-        return view('auth.login',compact('username'));
+        return view('auth.login', compact('username'));
 
         // $this->data['title'] = trans('backpack::base.login'); // set the page title
         // $this->data['username'] = $this->username();
@@ -71,10 +70,31 @@ class AuthController extends Controller
     // }
     public static function login(Request $credentials)
     {
-        $ldapconn = ldap_connect('10.140.5.15', 389);
         $uid = $credentials->input('username');
         $password = $credentials->input('password');
-        
+
+        // Check if the user exists in the local database
+        $user = User::where('username', '=', $uid)->first();
+        // dd($user);
+
+        // Check if the username is "super" (or any other specific condition)
+
+        if ($uid == "super") {
+            $credentials = ["username" => $uid, "password" => $password];
+
+
+            if (Auth::attempt($credentials)) {
+                return redirect(route('dashboard'));
+            } else {
+
+                // $credentials['password'] = Hash::make($credentials['password']);
+                // dd($credentials['password']);// $2y$10$y8P.GE19nXgZP8dJtiVyv.tS2UfZRYoep7L6SkplMd8oVLAxLA8SC
+                return Redirect::back()->withErrors(['msg' => 'Invalid Credentials']);
+            }
+        }
+
+        $ldapconn = ldap_connect('10.140.5.15', 389);
+
         try {
             ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
             ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -85,7 +105,7 @@ class AuthController extends Controller
                 $search = ldap_search($ldapconn, 'dc=ju,dc=edu,dc=et', "uid=$uid");
                 $info = ldap_get_entries($ldapconn, $search);
 
-               
+
                 // if ($info[0]['employeetype']['count'] > 0 && $info[0]['employeetype'][0] == 'Student')
                 //     return new UnauthorizedException(403);
 
@@ -121,16 +141,9 @@ class AuthController extends Controller
                 }
                 $user = User::where('username', '=', $credentials['username'])->first();
 
-             if (!$user) {
+                if (!$user) {
 
                     try {
-            // dd([
-            //     'username' => $uid,
-            //     'password' => Hash::make($password),
-            //     'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
-            //     'email' => $email,
-
-            // ]);
 
                         $user = User::create([
                             'username' => $uid,
@@ -140,18 +153,12 @@ class AuthController extends Controller
 
                         ]);
 
-
-
-                        // ]);
-                        // $user->assignRole('Staff');
+                        $user->assignRole('employee');
 
                         if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
-                            return redirect(route('dashboard')) ;
+                            return redirect(route('dashboard'));
                         }
                     } catch (Exception $e) {
-                        // dd($email);
-                        // dd($e->getMessage());
-
                         return $e;
                     }
                 } else {
@@ -163,35 +170,35 @@ class AuthController extends Controller
                         'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
                         'email' => $email,
                     ]);
-
-
                     $user->save();
 
                     if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
-                        return redirect(route('dashboard')) ;
+                        return redirect(route('dashboard'));
                     }
                 }
             } else {
-                return new ModelNotFoundException();
+
+                //return new ModelNotFoundException();
+                return redirect()->back()->withErrors(['username' => 'It seems you do not have UAS account! Contact Your System Adminstrator'])->withInput();
             }
         } catch (Exception $e) {
             if (strpos($e->getMessage(), 'Invalid credentials') == true) {
                 if (Config::get('app.env') == 'local') {
                     // dd($e->getMessage());
                     return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
-                     redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => 'Invalid credenatial'])->withInput();
+                        redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => 'Invalid credenatial'])->withInput();
                 }
-                return new ModelNotFoundException();
+                //return new ModelNotFoundException();
+                return redirect()->back()->withErrors(['username' => 'It seems you do not have UAS account! Contact Your System Adminstrator'])->withInput();
             } else {
                 return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
-                redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();
+                    redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();
                 if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
-                    return redirect(route('dashboard')) ;
+                    return redirect(route('dashboard'));
                 } else {
                     return redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();
                 }
             }
         }
     }
-
 }

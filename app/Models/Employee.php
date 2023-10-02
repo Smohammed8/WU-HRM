@@ -68,6 +68,7 @@ class Employee extends  Model
         'phone_number',
         'alternate_email',
         'rfid',
+        'email',
         'employmeent_identity',
         'marital_status_id',
         'ethnicity_id',
@@ -89,7 +90,9 @@ class Employee extends  Model
         'first_name_am',
         'employee_title_id',
         'hr_branch_id',
-        'horizontal_level'
+        'horizontal_level',
+        'national_id',
+        'cbe_account'
 
     ];
 
@@ -219,6 +222,11 @@ class Employee extends  Model
         return $this->belongsTo(EmployeeTitle::class);
     }
 
+    // public function employeeTitle(): BelongsTo
+    // {
+    //     return $this->belongsTo(EmployeeTitle::class,'employee_title_id','id');
+    // }
+
 
     public function level()
     {
@@ -245,6 +253,13 @@ class Employee extends  Model
         return $this->belongsTo(JobTitle::class);
     }
 
+    public function employmentStatus()
+    {
+        return $this->belongsTo(EmploymentStatus::class);
+        
+    }
+
+
 
     public function nationality()
     {
@@ -264,6 +279,8 @@ class Employee extends  Model
         
     }
 
+
+   
 
     public function employeeCategory()
     {
@@ -319,10 +336,7 @@ class Employee extends  Model
 
 
 
-    public function employmentStatus()
-    {
-        return $this->belongsTo(EmploymentStatus::class);
-    }
+
     /**
      * Get all of the externalExperiences for the Employee
      *

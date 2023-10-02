@@ -31,9 +31,23 @@ class DashboardController extends Controller
         $units    = Unit::count();
         $offices = HrBranch::all();
         $positions = Position::count();
-        $probation = Employee::where('employment_type_id', 3)->count();
-            return view('dashboard', compact('positions','users', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','probation'));
+        $count = Employee::where('date_of_birth', '<=', now()->subYears(60))->count();
+
+
+$currentDate = Carbon::now();
+// Calculate the date 6 months ago
+$sixMonthsAgo = $currentDate->subMonths(6);
+
+$probations = Employee::whereBetween('employement_date', [$sixMonthsAgo, $currentDate])
+                    //->where('employment_type_id', '=', 1)
+                    ->count();
+
+
+       // $probation = Employee::where('employment_type_id', 3)->count();
+            return view('dashboard', compact('positions','users', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','count','probations'));
 
        
 }
+
+
 }

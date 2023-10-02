@@ -66,7 +66,105 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('setting.show');
         Permission::findOrCreate('setting.edit');
         Permission::findOrCreate('setting.delete');
+//////////////////////////////////////////////////////////////////////////////
+        // Employee Emeregncy contact
+        Permission::findOrCreate('employee.emergency-contact.icrud');
+        Permission::findOrCreate('employee.emergency-contact.index');
+        Permission::findOrCreate('employee.emergency-contact.create');
+        Permission::findOrCreate('employee.emergency-contact.show');
+        Permission::findOrCreate('employee.emergency-contact.edit');
+        Permission::findOrCreate('employee.emergency-contact.delete');
+        // Employee Education
+        Permission::findOrCreate('employee.education.icrud');
+        Permission::findOrCreate('employee.education.index');
+        Permission::findOrCreate('employee.education.create');
+        Permission::findOrCreate('employee.education.show');
+        Permission::findOrCreate('employee.education.edit');
+        Permission::findOrCreate('employee.education.delete');
 
+        // Employee Internal Experince
+        Permission::findOrCreate('employee.internal-experience.icrud');
+        Permission::findOrCreate('employee.internal-experience.index');
+        Permission::findOrCreate('employee.internal-experience.create');
+        Permission::findOrCreate('employee.internal-experience.show');
+        Permission::findOrCreate('employee.internal-experience.edit');
+        Permission::findOrCreate('employee.internal-experience.delete');
+
+        // Employee Internal Experince
+        Permission::findOrCreate('employee.external-experience.icrud');
+        Permission::findOrCreate('employee.external-experience.index');
+        Permission::findOrCreate('employee.external-experience.create');
+        Permission::findOrCreate('employee.external-experience.show');
+        Permission::findOrCreate('employee.external-experience.edit');
+        Permission::findOrCreate('employee.external-experience.delete');
+        // Permission for employee operation efficency
+        Permission::findOrCreate('employee.efficency.icrud');
+        Permission::findOrCreate('employee.efficency.index');
+        Permission::findOrCreate('employee.efficency.create');
+        Permission::findOrCreate('employee.efficency.show');
+        Permission::findOrCreate('employee.efficency.edit');
+        Permission::findOrCreate('employee.efficency.delete');
+        // Permission for employee families
+        Permission::findOrCreate('employee.family.icrud');
+        Permission::findOrCreate('employee.family.index');
+        Permission::findOrCreate('employee.family.create');
+        Permission::findOrCreate('employee.family.show');
+        Permission::findOrCreate('employee.family.edit');
+        Permission::findOrCreate('employee.family.delete');
+        // Permission for employee families
+        Permission::findOrCreate('employee.family.icrud');
+        Permission::findOrCreate('employee.family.index');
+        Permission::findOrCreate('employee.family.create');
+        Permission::findOrCreate('employee.family.show');
+        Permission::findOrCreate('employee.family.edit');
+        Permission::findOrCreate('employee.family.delete');
+
+        // Permission for employee  language ability
+        Permission::findOrCreate('employee.language.icrud');
+        Permission::findOrCreate('employee.language.index');
+        Permission::findOrCreate('employee.language.create');
+        Permission::findOrCreate('employee.language.show');
+        Permission::findOrCreate('employee.language.edit');
+        Permission::findOrCreate('employee.language.delete');
+        // Permission for employee  training and study
+        Permission::findOrCreate('employee.training-study.icrud');
+        Permission::findOrCreate('employee.training-study.index');
+        Permission::findOrCreate('employee.training-study.create');
+        Permission::findOrCreate('employee.training-study.show');
+        Permission::findOrCreate('employee.training-study.edit');
+        Permission::findOrCreate('employee.training-study.delete');
+
+        // Permission for employee  special-skill
+        Permission::findOrCreate('employee.special-skill.icrud');
+        Permission::findOrCreate('employee.special-skill.index');
+        Permission::findOrCreate('employee.special-skill.create');
+        Permission::findOrCreate('employee.special-skill.show');
+        Permission::findOrCreate('employee.special-skill.edit');
+        Permission::findOrCreate('employee.special-skill.delete');
+    
+        // Permission for employee  license
+        Permission::findOrCreate('employee.license.icrud');
+        Permission::findOrCreate('employee.license.index');
+        Permission::findOrCreate('employee.license.create');
+        Permission::findOrCreate('employee.license.show');
+        Permission::findOrCreate('employee.license.edit');
+        Permission::findOrCreate('employee.license.delete');
+    
+        // Permission for employee  certification
+        Permission::findOrCreate('employee.certification.icrud');
+        Permission::findOrCreate('employee.certification.index');
+        Permission::findOrCreate('employee.certification.create');
+        Permission::findOrCreate('employee.certification.show');
+        Permission::findOrCreate('employee.certification.edit');
+        Permission::findOrCreate('employee.certification.delete');
+        // Permission for employee  letters
+        Permission::findOrCreate('employee.letters.icrud');
+        Permission::findOrCreate('employee.letters.index');
+        Permission::findOrCreate('employee.letters.create');
+        Permission::findOrCreate('employee.letters.show');
+        Permission::findOrCreate('employee.letters.edit');
+        Permission::findOrCreate('employee.letters.delete');
+///////////////////////////////////////////////////////////////////////////
         // Permission for id
         Permission::findOrCreate('id.icrud');
         Permission::findOrCreate('id.index');
@@ -124,13 +222,7 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('employee.leave.edit');
         Permission::findOrCreate('employee.leave.delete');
 
-        // Permission for employee operation efficency
-        Permission::findOrCreate('employee.efficency.icrud');
-        Permission::findOrCreate('employee.efficency.index');
-        Permission::findOrCreate('employee.efficency.create');
-        Permission::findOrCreate('employee.efficency.show');
-        Permission::findOrCreate('employee.efficency.edit');
-        Permission::findOrCreate('employee.efficency.delete');
+
 
         // Permission for organization
         Permission::findOrCreate('organization.icrud');

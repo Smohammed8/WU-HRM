@@ -30,7 +30,7 @@ class EmployeeEducationRequest extends FormRequest
              'educational_level_id' => 'required',
              'training_start_date' => 'required',
              'training_end_date' => 'required',
-             'upload' => 'required'
+            // 'upload' => 'required'
         ];
     }
 

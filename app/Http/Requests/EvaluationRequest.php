@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Backpack\CRUD\app\Http\Requests\CrudRequest;
 
 class EvaluationRequest extends FormRequest
 {
@@ -25,8 +27,8 @@ class EvaluationRequest extends FormRequest
     public function rules()
     {
         return [
-              // 'employee_id ' => 'required',
-             // 'total_mark ' => 'required|min:0|max:100',
+              'quarter_id' => 'required',
+              'total_mark' => 'required|numeric|min:0|max:100',
 
             
         ];
@@ -52,7 +54,10 @@ class EvaluationRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'quarter_id.required' => 'The Evaluation term is required.',
+            'total_mark.required' => 'The total mark is required.',
+            'total_mark.min' => 'The total mark must be at least 0.',
+            'total_mark.max' => 'The total mark must not exceed 100.',
         ];
     }
 }

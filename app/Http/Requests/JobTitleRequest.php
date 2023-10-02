@@ -22,11 +22,17 @@ class JobTitleRequest extends FormRequest
      *
      * @return array
      */
+
+
     public function rules()
     {
         // dd('sd');
         return [
-            'name'  => 'required',
+            'name' => 'required|unique:job_titles,name,'.request()->id,
+            'level_id'  => 'required',
+            'work_experience'=>'required',
+            'educational_level_id'=>'required',
+            'position_type_id'  => 'required',
             'description' =>'nullable|regex:/^[a-z A-Z]+$/u|min:3|max:255',
             'job_title_category_id'  => 'required',
         ];

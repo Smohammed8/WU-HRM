@@ -58,7 +58,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Retirements </span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-number">{{ $count }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -117,7 +117,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">In probation Period  </span>
-                                <span class="info-box-number">{{  $probation  }} </span>
+                                <span class="info-box-number">{{  $probations }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>

@@ -24,6 +24,7 @@ class UserCrudController extends CrudController
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
         $this->crud->setRoute(backpack_url('user'));
         $this->setupPermission();
+      //  $this->crud->setListView('vendor.backpack.crud.permissions.dualbox');
     }
 
     public function setupPermission()
