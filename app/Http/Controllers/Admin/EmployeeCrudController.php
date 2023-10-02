@@ -75,6 +75,7 @@ use NumberFormatter;
 use Illuminate\Support\Facades\DB;
 use \Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EmployeeExport;
+use App\Imports\ImportEmployee;
 use App\Models\EmployeeEducation;
 use App\Models\HrBranch;
 
@@ -209,6 +210,16 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+         //change default order key
+    if (!$this->crud->getRequest()->has('order')) {
+          // $this->crud->orderBy('updated_at', 'desc');
+        $this->crud->orderBy('first_name', 'asc');
+        $this->crud->orderBy('father_name', 'asc'); 
+        $this->crud->orderBy('grand_father_name', 'asc');
+    }
+
+//dd($form = backpack_form_input());
+//$search_term = $request->input('q'); 
         $this->crud->enableDetailsRow();
         //$this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
@@ -254,7 +265,7 @@ class EmployeeCrudController extends CrudController
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
       
-        
+
         CRUD::column('position.name')->label('የስራ መደብ')->type('select')->entity('position')->model(Position::class);
         CRUD::column('position.unit.name')->label('የስራ ክፍል')->type('select')->entity('position.unit')->model(Unit::class);
         CRUD::column('hr_branch_id')->type('select')->label('ኮሌጅ/ኢንስቲዩት')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
@@ -279,6 +290,8 @@ class EmployeeCrudController extends CrudController
         //     }
         // ]);
 
+       // CRUD::column('salary')->type('closure')->function(function($entry){
+         //   return $entry->getSalary(1)?? '-';})->label('salary');
 
 
         CRUD::column('date_of_birth')->type('closure')->function(function($entry){
@@ -288,7 +301,7 @@ class EmployeeCrudController extends CrudController
                 'class' => function ($crud, $column, $entry) {
                     switch ($entry->age()) {
                         case '61':
-                            return 'badge badge-pill badge-success border';
+                            return 'badge badge-pill badge-danger border';
                         case '60':
                             return 'badge badge-pill badge-danger border';
                         case '59':
@@ -342,7 +355,7 @@ class EmployeeCrudController extends CrudController
         CRUD::column('national_id')->label('National ID');
         CRUD::column('cbe_account')->label('CBE Account');
       
-        
+  
         $this->crud->addFilter(
             [
                 'type'  => 'select2',
@@ -743,7 +756,7 @@ public function importEmployee(Request $request){
     $file = $request->input('file');
     // dd($request);
    
-    Excel::import(new EmployeesImport, $request->file('file')->store('files'));
+    Excel::import(new ImportEmployee, $request->file('file')->store('files'));
     return redirect()->back();
 
    // return back()->with('success', 'Your CSV file has been uploaded');
@@ -771,50 +784,7 @@ public function importEmployee(Request $request){
      protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-        // unique:employees,phone_number,
-        //     $this->crud->enableTabs();
-        //     // $this->crud->enableVerticalTabs();
-        //     $this->crud->enableHorizontalTabs();
-        //     $pi      = 'Personal Information';
-        //     $ci      = 'Contact Information';
-        //     $bio     = 'Bio Information';
-        //     $address = 'Address Information';
-        //     $job     = 'Job Information';
-        //     $edu     = 'Employee Credentials';
-        //     CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
-        //     CRUD::field('first_name')->size(6)->tab($pi);
-        //     CRUD::field('father_name')->size(6)->tab($pi);
-        //     CRUD::field('grand_father_name')->size(6)->tab($pi);
-        //     CRUD::field('first_name_am')->label('የመጀመሪያ ስም')->size(6)->tab($pi);
-        //     CRUD::field('father_name_am')->label('የአባት ስም')->size(6)->tab($pi);
-        //     CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
-        //     CRUD::field('gender')->type('enum')->size(6)->tab($pi);
-        //     CRUD::field('date_of_birth')->size(6)->tab($pi);
-        //     CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
-        //     CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
-        //     CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
-        // CRUD::field('uas_user_id')->tab($edu)->size(3);
-        //     CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
-        //     CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
-        //     CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
-        //     CRUD::field('ethnicity_id')->size(6)->tab($bio);
-        //     CRUD::field('phone_number')->size(6)->tab($ci);
-        //     CRUD::field('email')->type('email')->size(6)->tab($ci);
-        //     // CRUD::field('rfid')->size(4);
-        //     CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($ci);
-        //     CRUD::field('religion_id')->size(6)->tab($address);
-        //   //  CRUD::field('religion_id')->type('select2')->label('religion')->entity('')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($address);
-        //     CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
-        //     CRUD::field('employement_date')->size(6)->tab($job);
-
-        //     CRUD::field('employee_category_id')->type('select2')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
-        //     CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($address);
-        //     CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
-        //    // CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
-        //     CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
-        //     CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
-
-
+       
     }
 
     public function update()
@@ -1016,27 +986,12 @@ public function importEmployee(Request $request){
         $levels =    Level::orderBy('id', 'asc')->Paginate(22);
         $this->data['levels'] = $levels;
 
-
-
-// $columnName = DB::table('JobGrade')
-//     ->where('your_column', $valueToSearch)->select(DB::raw('your_column AS column_name'))->value('column_name');
-
-// if ($columnName) {
-  
-//     echo "Column name: " . $columnName;
-// } else {
+         $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
     
-//     echo "Value not found in any column.";
-// }
-
-$level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
-        //  dd($level);
-
           $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
           $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
-        //  dd(  $level_id );
-        $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
-      
+          $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
+        //horizontal_level 
         if($step =='Start')
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'start_salary');
         elseif($step ==1) 
@@ -1072,9 +1027,5 @@ $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?-
         // $evaluations = Evaluation::orderBy('id', 'desc')->limit(3)->get();
         // $this->data['evs'] = $evs;
 
-        // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
-        // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
-        // and we plan to change behaviour in the next version; see this Github issue for more details
-        // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
 }
