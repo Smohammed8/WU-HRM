@@ -471,7 +471,9 @@ class EmployeeCrudController extends CrudController
             'employees.father_name_am',
             'employees.grand_father_name_am',
             'employee_categories.name as employee_category',
-            'employees.horizontal_level'
+            'employees.horizontal_level',
+            'units.name as unit', // Fetch unit name
+            'job_titles.name as job_title' // Fetch job title
         )
             ->leftJoin('employee_titles', 'employees.employee_title_id', '=', 'employee_titles.id')
             ->leftJoin('educational_levels', 'employees.educational_level_id', '=', 'educational_levels.id')
@@ -483,7 +485,12 @@ class EmployeeCrudController extends CrudController
             ->leftJoin('hr_branches', 'employees.hr_branch_id', '=', 'hr_branches.id')
             ->leftJoin('employment_statuses', 'employees.employment_status_id', '=', 'employment_statuses.id')
             ->leftJoin('nationalities', 'employees.nationality_id', '=', 'nationalities.id')
-            ->leftJoin('employee_categories', 'employees.employee_category_id', '=', 'employee_categories.id');
+
+            ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
+
+            ->leftJoin('employee_categories', 'employees.employee_category_id', '=', 'employee_categories.id')
+            ->leftJoin('units', 'positions.unit_id', '=', 'units.id') // Left join with units
+            ->leftJoin('job_titles', 'positions.job_title_id', '=', 'job_titles.id'); // Left join with job titles;
 
         if ($employee_category) {
             $query->where('employees.employee_category_id', $employee_category);
