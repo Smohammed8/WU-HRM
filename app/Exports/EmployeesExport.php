@@ -42,6 +42,7 @@ class EmployeesExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Grand Father Name',
             'Gender',
             'Date of Birth',
+            'Age',
             'Birth City',
             'Driving License',
             'Blood Group',

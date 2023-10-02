@@ -444,6 +444,7 @@ class EmployeeCrudController extends CrudController
             'employees.grand_father_name',
             'employees.gender',
             'employees.date_of_birth',
+            DB::raw('TIMESTAMPDIFF(YEAR, employees.date_of_birth, CURDATE()) AS age_years'), //Calculate age in years,
             'employees.birth_city',
             'employees.driving_licence',
             'employees.blood_group',
@@ -477,6 +478,8 @@ class EmployeeCrudController extends CrudController
 
             'levels.name as job_level', // Fetch job level
             'job_grades.start_salary', // Fetch start salary
+
+
 
             DB::raw('(SELECT COUNT(*) FROM employee_families WHERE employee_families.employee_id = employees.id AND employee_families.family_relationship_id = 1) as number_of_children'), //number of children where family_relationship_id=1(child)
 
