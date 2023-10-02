@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Carbon\Carbon;
 use App\Employee; // Replace with the actual Employee model namespace
 
 // class EmployeesExport implements FromCollection, WithHeadings, WithStyles
@@ -23,6 +24,12 @@ class EmployeesExport implements FromCollection, WithHeadings, ShouldAutoSize
     public function collection()
     {
         return $this->exportEmployees;
+
+        // foreach ($this->exportEmployees as $item) {
+        //     $item->date = Carbon::parse($item->date)->format('Y-m-d');
+        // }
+
+        // return collect($this->exportEmployees);
     }
 
     // public function headings(): array
@@ -41,41 +48,51 @@ class EmployeesExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Father Name',
             'Grand Father Name',
             'Gender',
-            'Date of Birth',
+            'Nationality',
+            'Date of Birth(E.C)',
             'Age',
+
             'Birth City',
-            //'Driving License',
-            //'Blood Group',
-            //'Eye Color',
-            'Phone Number',
             'Email',
-            //'RFID',
+            'Phone Number',
+          //  'Disablity',
+
+            'Employment Date(E.C)',
+            'Service years in JU',
+
+            // 'Service year in other organization',
+            // 'Total service year',
+
+            'Marital Status',
+            'Number of Children',
+            'Educational Level',
+            'Field of Study',
+            // 'Specialization for health care providers',
+            // 'Training/ Skills(Specify)',
+
+            'Employee Category',
+            'Institute or Colleges',
+            'Organizational Unit',
             'Employment Identity',
             'Employee Title',
-            'Educational Level',
-            'Marital Status',
             'Ethnicity',
             'Religion',
-            'Field of Study',
-            'Employment Date',
+        
             'Employment Type',
             'Pension Number',
-            'HR Office',
+         
             'Employment Status',
-            'Nationality',
-           // 'Created At',
-           // 'Updated At',
-            'First Name (Amharic)',
-            'Father Name (Amharic)',
-            'Grand Father Name (Amharic)',
-            'Employee Category',
+          
+
+            'First Name(Amharic)',
+            'Middle Name(Amharic)',
+            'Last Name(Amharic)',
             'Horizontal Level',
-            'Organizational Unit',
+           
             'Job Title',
             'Job Code',
             'Job Level',
             'Gross Salary',
-            'Number of Children',
             'First Internal Experience Start Date',
             'Last Internal Experience End Date',
             'Internal Experience in Years',
