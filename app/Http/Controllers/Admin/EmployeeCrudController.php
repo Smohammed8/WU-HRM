@@ -473,7 +473,11 @@ class EmployeeCrudController extends CrudController
             'employee_categories.name as employee_category',
             'employees.horizontal_level',
             'units.name as unit', // Fetch unit name
-            'job_titles.name as job_title' // Fetch job title
+            'job_titles.name as job_title', // Fetch job title
+            'job_titles.job_code as job_code', // Fetch job title
+
+            'levels.name as job_level', // Fetch job level
+            'job_grades.start_salary' // Fetch start salary
         )
             ->leftJoin('employee_titles', 'employees.employee_title_id', '=', 'employee_titles.id')
             ->leftJoin('educational_levels', 'employees.educational_level_id', '=', 'educational_levels.id')
@@ -489,8 +493,16 @@ class EmployeeCrudController extends CrudController
             ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
 
             ->leftJoin('employee_categories', 'employees.employee_category_id', '=', 'employee_categories.id')
+
             ->leftJoin('units', 'positions.unit_id', '=', 'units.id') // Left join with units
-            ->leftJoin('job_titles', 'positions.job_title_id', '=', 'job_titles.id'); // Left join with job titles;
+            ->leftJoin('job_titles', 'positions.job_title_id', '=', 'job_titles.id') // Left join with job titles;
+
+
+            ->leftJoin('levels', 'job_titles.level_id', '=', 'levels.id') // Left join with job levels
+
+            ->leftJoin('job_grades', 'levels.id', '=', 'job_grades.level_id'); // Left join with job grades
+
+
 
         if ($employee_category) {
             $query->where('employees.employee_category_id', $employee_category);
@@ -951,6 +963,7 @@ class EmployeeCrudController extends CrudController
 
     protected function setupShowOperation()
     {
+        //dd('show');
         $employeeId = $this->crud->getCurrentEntryId();
         $licenses = License::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeLicenses'] = $licenses;
