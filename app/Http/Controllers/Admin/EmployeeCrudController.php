@@ -444,7 +444,6 @@ class EmployeeCrudController extends CrudController
             'employees.grand_father_name',
             'employees.gender',
             'employees.date_of_birth',
-            'employees.photo',
             'employees.birth_city',
             'employees.driving_licence',
             'employees.blood_group',
@@ -477,7 +476,21 @@ class EmployeeCrudController extends CrudController
             'job_titles.job_code as job_code', // Fetch job title
 
             'levels.name as job_level', // Fetch job level
-            'job_grades.start_salary' // Fetch start salary
+            'job_grades.start_salary', // Fetch start salary
+
+            DB::raw('(SELECT COUNT(*) FROM employee_families WHERE employee_families.employee_id = employees.id AND employee_families.family_relationship_id = 1) as number_of_children'), //number of children where family_relationship_id=1(child)
+
+            DB::raw('(SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id) as first_internal_experience_start_date'),
+            DB::raw('(SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id) as last_internal_experience_end_date'),
+            DB::raw('(TIMESTAMPDIFF(YEAR, (SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id))) as internal_experience_years'),
+            DB::raw('(TIMESTAMPDIFF(MONTH, (SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id))) as internal_experience_months'),
+            DB::raw('(TIMESTAMPDIFF(DAY, (SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id))) as internal_experience_days'),
+
+            DB::raw('(SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as first_internal_external_start_date'),
+            DB::raw('(SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as last_external_experience_end_date'),
+            DB::raw('(TIMESTAMPDIFF(YEAR, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_years'),
+            DB::raw('(TIMESTAMPDIFF(MONTH, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_months'),
+            DB::raw('(TIMESTAMPDIFF(DAY, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_days')
         )
             ->leftJoin('employee_titles', 'employees.employee_title_id', '=', 'employee_titles.id')
             ->leftJoin('educational_levels', 'employees.educational_level_id', '=', 'educational_levels.id')
@@ -513,7 +526,7 @@ class EmployeeCrudController extends CrudController
         }
 
         $employees = $query->get();
-        dd($employees);
+        //dd($employees);
 
         // Get the currently signed-in user
         $username = Auth::user()->username;
