@@ -7,7 +7,7 @@
         "bold": "poppins_bold_8fe618268f56b4b8f1e70e87a9e99fc0"
     },
     "ethiopian": {
-        "normal": "ethiopian_normal_9633e896783b858363a8a24d62410224"
+        "normal": "ethiopian_normal_97aa9b986f83fe5673253d0d5666ec3f"
     },
     "ethiopian12": {
         "normal": "ethiopian12_normal_e884b6c3f344f8ccf46067bf5b307504"
@@ -19,16 +19,16 @@
         "bold": "roboto_serif_bold_b6b8e73687041fe636da5add17d24802"
     },
     "eb garamond": {
-        "italic": "eb_garamond_italic_6bbcb5be4bf04976e74ac97c01be906a",
-        "500_italic": "eb_garamond_500_italic_8ae7b82e4913290ed94202d39f425a7b",
-        "600_italic": "eb_garamond_600_italic_f26d6d77cc526b4d770632f305354e71",
-        "bold_italic": "eb_garamond_bold_italic_a8915946df1b3205f2f76932462cf7bd",
-        "800_italic": "eb_garamond_800_italic_2d14f1f9630d4bc7f465eba5c5463d09",
-        "normal": "eb_garamond_normal_c386c0ef1b9a2052438d05906c36d6d0",
-        "500": "eb_garamond_500_b6cdc43d284d921fe81b4c31e065ec09",
-        "600": "eb_garamond_600_0e201eb43f987d908733af26aef57a7c",
-        "bold": "eb_garamond_bold_6bfc0307abe75fa91f3ad969c021a8f3",
-        "800": "eb_garamond_800_7594508911ad3b63c09be09193a1cdbd"
+        "italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_italic_c37a89ad3e52d9ea4332b72ce185ec93",
+        "500_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_500_italic_db096515176f9bc1ad8f0e80014ee4bc",
+        "600_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_600_italic_7643151417a3a80ae2c8ce16554fc897",
+        "bold_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_bold_italic_b74482801e818fa92fa0916ca6d85626",
+        "800_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_800_italic_07943d20c195702324f7748121411df7",
+        "normal": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_normal_f29c47fec12bbca768541ec199a63e3d",
+        "500": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_500_de63dd15ef7fc2779d6a4e0a10a46a1a",
+        "600": "eb_garamond_600_4073b0bdd90fccd8e58bf59cb62f769a",
+        "bold": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_bold_6bfc0307abe75fa91f3ad969c021a8f3",
+        "800": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_800_7594508911ad3b63c09be09193a1cdbd"
     },
     "droid sans ethiopic": {
         "normal": "droid_sans_ethiopic_normal_94f3eb64161a37bcbbbad13223d4f011",

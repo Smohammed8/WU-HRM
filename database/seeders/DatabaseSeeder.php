@@ -56,42 +56,42 @@ class DatabaseSeeder extends Seeder
         Role::findOrCreate('super-admin');
         $user = User::where('username', 'super')->first();
         if ($user == null)
-        if (User::count() == 0){
-            // $user = User::create([
-            //     'name' => 'Super Admin',
-            //     'username' => 'super',
-            //     'email' => 'super@hrm.com',
-            //     'password' => Hash::make('1213/06'),
-            // ]);
-        
-        $user->assignRole(Constants::USER_TYPE_SUPER_ADMIN);
-        
-        if (Organization::count() == 0)
-            Organization::create([
-                'name' => 'Jimma university',
-                'email' => 'ero@ju.edu.et',
-                'motto' => 'We are in the community!',
-                'web_address' => 'www.ju.edu.et',
-                'fax' => '+251-(0)47-443-0355',
-                'telephone' => '+251-(0)47-443-0199',
-                'pobox' => '213, Oromia, Ethiopia',
-                'seal' => '',
-            ]);
-        $martialStatus = ['Divorce', 'Married', 'Single', 'Widow'];
-        foreach ($martialStatus as $mStatus) {
-            if (MaritalStatus::where('name', $mStatus)->count() == 0)
-                MaritalStatus::create(['name' => $mStatus]);
-        }
-        if (Nationality::where('nation', 'Ethiopian[ኢትዮጵያዊ')->count() == 0)
-            Nationality::create(['nation' => 'Ethiopian[ኢትዮጵያዊ', 'code' => 'ET[ኢት', 'label' => 'Ethiopia[ኢትዮጵያ']);
-        if (EmployeeCategory::where('name', 'Administrative Staff')->count() == 0)
-            EmployeeCategory::create(['name' => 'Administrative Staff']);
-        if (EmployeeCategory::where('name', 'Academic Staff')->count() == 0)
-            EmployeeCategory::create(['name' => 'Academic Staff']);
-        if (EmploymentType::where('name', 'Permanent')->count() == 0)
-            EmploymentType::create(['name' => 'Permanent']);
-        if (EmploymentStatus::where('name', 'Working')->count() == 0)
-            EmploymentStatus::create(['name' => 'Working']);
+            if (User::count() == 0) {
+                // $user = User::create([
+                //     'name' => 'Super Admin',
+                //     'username' => 'super',
+                //     'email' => 'super@hrm.com',
+                //     'password' => Hash::make('1213/06'),
+                // ]);
+
+                $user->assignRole(Constants::USER_TYPE_SUPER_ADMIN);
+
+                if (Organization::count() == 0)
+                    Organization::create([
+                        'name' => 'Jimma university',
+                        'email' => 'ero@ju.edu.et',
+                        'motto' => 'We are in the community!',
+                        'web_address' => 'www.ju.edu.et',
+                        'fax' => '+251-(0)47-443-0355',
+                        'telephone' => '+251-(0)47-443-0199',
+                        'pobox' => '213, Oromia, Ethiopia',
+                        'seal' => '',
+                    ]);
+                $martialStatus = ['Divorce', 'Married', 'Single', 'Widow'];
+                foreach ($martialStatus as $mStatus) {
+                    if (MaritalStatus::where('name', $mStatus)->count() == 0)
+                        MaritalStatus::create(['name' => $mStatus]);
+                }
+                if (Nationality::where('nation', 'Ethiopian[ኢትዮጵያዊ')->count() == 0)
+                    Nationality::create(['nation' => 'Ethiopian[ኢትዮጵያዊ', 'code' => 'ET[ኢት', 'label' => 'Ethiopia[ኢትዮጵያ']);
+                if (EmployeeCategory::where('name', 'Administrative Staff')->count() == 0)
+                    EmployeeCategory::create(['name' => 'Administrative Staff']);
+                if (EmployeeCategory::where('name', 'Academic Staff')->count() == 0)
+                    EmployeeCategory::create(['name' => 'Academic Staff']);
+                if (EmploymentType::where('name', 'Permanent')->count() == 0)
+                    EmploymentType::create(['name' => 'Permanent']);
+                if (EmploymentStatus::where('name', 'Working')->count() == 0)
+                    EmploymentStatus::create(['name' => 'Working']);
+            }
     }
-}
 }

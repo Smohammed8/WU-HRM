@@ -2,81 +2,84 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DateTime;
 use App\Constants;
-use App\Http\Requests\EmployeeAddressRequest;
-use App\Http\Requests\EmployeeRequest;
-use App\Models\Demotion;
-use App\Models\EducationalLevel;
-use App\Models\Employee;
-use App\Models\EmployeeAddress;
-use App\Models\EmployeeCategory;
-use App\Models\EmployeeCertificate;
-use App\Models\EmployeeContact;
-use App\Models\EmployeeEvaluation;
-use App\Models\EvaluationCategory;
-use App\Models\EvaluationLevel;
-use App\Models\TypeOfLeave;
-use App\Models\EmployeeFamily;
-use App\Models\EmployeeLanguage;
-use App\Models\EmployeeTitle;
-use App\Models\EmploymentStatus;
-use App\Models\EmploymentType;
-use App\Models\Evaluation;
-use App\Models\EvaluationPeriod;
-use App\Models\EvalutionCreteria;
-use App\Models\Quarter;
-use App\Models\ExternalExperience;
-use App\Models\FieldOfStudy;
-use App\Models\FormStyle;
-use App\Models\InternalExperience;
-use App\Models\JobGrade;
-use App\Models\JobTitle;
-use App\Models\Template;
-//use PDF;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use EmployeeExport;
+use App\Models\Unit;
+use NumberFormatter;
 use App\Models\Leave;
 use App\Models\Level;
-use App\Models\License;
-use App\Models\LicenseType;
-use App\Models\MaritalStatus;
-use App\Models\EmployementStatus;
-use App\Models\Misconduct;
-use App\Models\Nationality;
-use App\Models\Pension;
-use App\Models\Position;
-use App\Models\PositionCode;
-use App\Models\EducationLevel;
-use App\Models\Promotion;
-use App\Models\SalaryIncreament;
 use App\Models\Skill;
+use App\Models\License;
+use App\Models\Pension;
+use App\Models\Quarter;
+use App\Models\Demotion;
+use App\Models\Employee;
+use App\Models\HrBranch;
+use App\Models\JobGrade;
+use App\Models\JobTitle;
+use App\Models\Position;
+use App\Models\Template;
+use App\Models\FormStyle;
+use App\Models\Promotion;
+use App\Models\Evaluation;
+use App\Models\Misconduct;
+use App\Models\LicenseType;
+use App\Models\Nationality;
+use App\Models\TypeOfLeave;
+use App\Models\FieldOfStudy;
+use App\Models\PositionCode;
 use App\Models\TemplateType;
+use Illuminate\Http\Request;
+//use PDF;
+use App\Models\EmployeeTitle;
+use App\Models\MaritalStatus;
+use App\Models\EducationLevel;
+use App\Models\EmployeeFamily;
+use App\Models\EmploymentType;
+use App\Models\EmployeeAddress;
+use App\Models\EmployeeContact;
+use App\Models\EvaluationLevel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\EmployeesExport;
+use App\Imports\EmployeesImport;
+use App\Models\EducationalLevel;
+use App\Models\EmployeeCategory;
+use App\Models\EmployeeLanguage;
+use App\Models\EmploymentStatus;
+use App\Models\EvaluationPeriod;
+use App\Models\SalaryIncreament;
 use App\Models\TrainingAndStudy;
 use App\Models\TypeOfMisconduct;
-use Illuminate\Http\Request;
-
-use App\Models\Unit;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use App\Models\EmployeeEducation;
+use App\Models\EmployementStatus;
+use App\Models\EvalutionCreteria;
+use App\Models\EmployeeEvaluation;
+use App\Models\EvaluationCategory;
+use App\Models\ExternalExperience;
+use App\Models\InternalExperience;
+use Illuminate\Support\Facades\DB;
+use Prologue\Alerts\Facades\Alert;
+use App\Models\EmployeeCertificate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use \Maatwebsite\Excel\Facades\Excel;
+
+use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\EmployeeAddressRequest;
 use Illuminate\Validation\ValidationException;
-use Prologue\Alerts\Facades\Alert;
+use \Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
-use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
-use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
-use DateTime;
-use NumberFormatter;
-use Illuminate\Support\Facades\DB;
-use \Maatwebsite\Excel\Facades\Excel;
-use App\Exports\EmployeeExport;
-use App\Models\EmployeeEducation;
-use App\Models\HrBranch;
+use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
+
 
 /**
  * Class EmployeeCrudController
@@ -96,14 +99,14 @@ class EmployeeCrudController extends CrudController
 
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
-    
+
 
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use FetchOperation;
-   // use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -124,9 +127,6 @@ class EmployeeCrudController extends CrudController
         // $this->crud->enableAjaxTable()  ;
         $this->crud->enableDetailsRow();
         $this->setupPermission();
-
-
-       
     }
     public function setupPermission()
     {
@@ -185,8 +185,8 @@ class EmployeeCrudController extends CrudController
         }
         return $result;
     }
-    
-    
+
+
     public function showDetailsRow($id)
     {
         $this->crud->hasAccessOrFail('details_row');
@@ -199,7 +199,7 @@ class EmployeeCrudController extends CrudController
 
     //////////////////////////////////// get Last 3 average effiency /////////////////
     //$efficnecies = Evaluation::where('employee_id' ,$employe_id)->where('quarter_id','=',1)->get()->toArray();
- 
+
     ////////////////////////////////////////////////////////////////////////
     /**
      * Define what happens when the List operation is loaded.
@@ -209,38 +209,47 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+         //change default order key
+    if (!$this->crud->getRequest()->has('order')) {
+          // $this->crud->orderBy('updated_at', 'desc');
+        $this->crud->orderBy('first_name', 'asc');
+        $this->crud->orderBy('father_name', 'asc'); 
+        $this->crud->orderBy('grand_father_name', 'asc');
+    }
+
+//dd($form = backpack_form_input());
+//$search_term = $request->input('q'); 
         $this->crud->enableDetailsRow();
         //$this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
         $this->crud->disablePersistentTable();
-       // $this->crud->setOperationSetting('persistentTableDuration', 60); //for 1 hours persistency.
-       // $this->crud->denyAccess('delete');
+        // $this->crud->setOperationSetting('persistentTableDuration', 60); //for 1 hours persistency.
+        // $this->crud->denyAccess('delete');
         //   $this->crud->addButtonFromModelFunction('line', 'print_id', 'printID', 'end');
 
 
         CRUD::column('photo')->type('image')->label('Photo');
-    
-          $this->crud->addColumn([
+
+        $this->crud->addColumn([
             'name'        => 'name',
             'label'       => 'FirstName',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhere('first_name', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('father_name', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('grand_father_name', 'like', '%' . $searchTerm . '%');
-                $query->orWhere('email', 'like', '%' .$searchTerm. '%');
+                $query->orWhere('email', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('pention_number', 'like', '%' . $searchTerm . '%');
-              
+
                 $query->orWhere('position_id', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('date_of_birth', 'like', '%' . $searchTerm . '%');
-                $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' .$searchTerm. '%');
+                $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' . $searchTerm . '%');
                 if (is_numeric($searchTerm) && $searchTerm <= 70 && $searchTerm >= 18) {
                     $currentYear = date('Y');
                     $birthYear = $currentYear - (int)$searchTerm;
                     $sql = "YEAR(date_of_birth) = ?";
                     \Log::info("Generated SQL: $sql with parameter $birthYear");
                     $query->orWhereRaw($sql, [$birthYear]);
-                }
-                else{
+                } else {
                     $query->orWhere('phone_number', 'like', '%' . $searchTerm . '%');
                 }
             }
@@ -248,13 +257,12 @@ class EmployeeCrudController extends CrudController
 
 
 
-        
-      
+
+
         CRUD::column('name')->label('የሰራተኛዉ ሙሉ ስም')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
         });
-      
-        
+
         CRUD::column('position.name')->label('የስራ መደብ')->type('select')->entity('position')->model(Position::class);
         CRUD::column('position.unit.name')->label('የስራ ክፍል')->type('select')->entity('position.unit')->model(Unit::class);
         CRUD::column('hr_branch_id')->type('select')->label('ኮሌጅ/ኢንስቲዩት')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
@@ -271,78 +279,79 @@ class EmployeeCrudController extends CrudController
         //                 return 'badge badge-pill badge-success';
         //             case '3':
         //                 return ' badge badge-pill badge-warning';
-                
+
         //             default:
         //                 return 'badge badge-pill badge-defualt';
-                      
+
         //         }
         //     }
         // ]);
 
+       // CRUD::column('salary')->type('closure')->function(function($entry){
+         //   return $entry->getSalary(1)?? '-';})->label('salary');
 
 
-        CRUD::column('date_of_birth')->type('closure')->function(function($entry){
-            return $entry->age()?? '-';})->label('ዕድሜ')->wrapper([
-                'element' => 'span',
-                'title'=>'Employee age in years',
-                'class' => function ($crud, $column, $entry) {
-                    switch ($entry->age()) {
-                        case '61':
-                            return 'badge badge-pill badge-success border';
-                        case '60':
-                            return 'badge badge-pill badge-danger border';
-                        case '59':
-                            return ' badge badge-pill badge-warning border';
-                        case '58':
-                            return ' badge badge-pill badge-warning border';
-    
-                        default:
-                            return 'badge badge-pill badge-defualt border';
-                          
-                    }
+        CRUD::column('date_of_birth')->type('closure')->function(function ($entry) {
+            return $entry->age() ?? '-';
+        })->label('ዕድሜ')->wrapper([
+            'element' => 'span',
+            'title' => 'Employee age in years',
+            'class' => function ($crud, $column, $entry) {
+                switch ($entry->age()) {
+                    case '61':
+                        return 'badge badge-pill badge-success border';
+                    case '60':
+                        return 'badge badge-pill badge-danger border';
+                    case '59':
+                        return ' badge badge-pill badge-warning border';
+                    case '58':
+                        return ' badge badge-pill badge-warning border';
+
+                    default:
+                        return 'badge badge-pill badge-defualt border';
                 }
-            ]);
-            
+            }
+        ]);
+
         CRUD::column('position_id')->label('የስራ መደቡ መለያ')->type('select')->entity('PositionCode')->model(PositionCode::class)->attribute('code');
-       
+
 
         CRUD::column('birth_city')->label('Place of birth');
         CRUD::column('employmeent_identity')->label('Employee ID');
-       // CRUD::column('employee_title_id')->label('Title');
+        // CRUD::column('employee_title_id')->label('Title');
 
 
 
         CRUD::column('educational_level_id')->type('select')->label('Educational Level')->entity('educationLevel')->model(EducationalLevel::class)->attribute('name');
-      
+
         CRUD::column('marital_status_id')->type('select')->label('Marital Status')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name');
 
         CRUD::column('ethnicity_id')->label('Ethnicity');
         CRUD::column('religion_id')->label('Religion');
-    
+
 
         CRUD::column('field_of_study_id')->type('select')->label('Field of study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name');
 
 
 
-        CRUD::column('employement_date')->label('Employment date')->display(function($date) {
+        CRUD::column('employement_date')->label('Employment date')->display(function ($date) {
             return Carbon::parse($date)->format('Y-m-d');
         });
 
-   
+
         CRUD::column('employment_type_id')->type('select')->label('Employment type')->entity('employmentType')->model(EmploymentType::class)->attribute('name');
 
         CRUD::column('pention_number')->label('Pension number');
-       // CRUD::column('hr_branch_id')->label('College/Institue');
-       
+        // CRUD::column('hr_branch_id')->label('College/Institue');
+
         CRUD::column('employment_status_id')->type('select')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name');
 
         CRUD::column('nationality_id')->label('Nationality');
         CRUD::column('gender')->label('Gender');
-        CRUD::column('email')->label('Email'); 
+        CRUD::column('email')->label('Email');
         CRUD::column('national_id')->label('National ID');
         CRUD::column('cbe_account')->label('CBE Account');
       
-        
         $this->crud->addFilter(
             [
                 'type'  => 'select2',
@@ -352,9 +361,8 @@ class EmployeeCrudController extends CrudController
             function () {
                 return EmployeeCategory::all()->pluck('name', 'id')->toArray();
             },
-            function ($value) { 
+            function ($value) {
                 $this->crud->addClause('where', 'employee_category_id', $value);
-              
             }
         );
 
@@ -364,7 +372,6 @@ class EmployeeCrudController extends CrudController
             'label' => 'Filter by College/Institue'
         ], function () {
             return HrBranch::all()->pluck('name', 'id')->toArray();
-
         }, function ($values) {
             $this->crud->addClause('where', 'hr_branch_id', json_decode($values));
         });
@@ -398,21 +405,21 @@ class EmployeeCrudController extends CrudController
             $this->crud->addClause('where', 'employment_type_id', json_decode($values));
         });
 
-  /////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////
         CRUD::filter('genders')
-        ->type('select2')->label('Filter by Gender')
-        ->values(function () {
-          return [
-            'Male' => 'Male',
-            'Female' => 'Female',
-        
-          ];
-        })
-        ->whenActive(function($value) {
-           CRUD::addClause('where', 'gender', $value);
-        });
+            ->type('select2')->label('Filter by Gender')
+            ->values(function () {
+                return [
+                    'Male' => 'Male',
+                    'Female' => 'Female',
 
-////////////////////////////////////////////////////////
+                ];
+            })
+            ->whenActive(function ($value) {
+                CRUD::addClause('where', 'gender', $value);
+            });
+
+        ////////////////////////////////////////////////////////
 
         $this->crud->addFilter(
             [
@@ -429,58 +436,158 @@ class EmployeeCrudController extends CrudController
     }
 
 
+    
 
     public function exportEmployees(Request $request)
     {
-        $category = $request->input('category');
-        $office = $request->input('office');
-    
-        $query = Employee::query();
-        if ($category) {
-            $query->where('employee_category_id', $category);
-        }
-        if ($office) {
-            $query->where('hr_branch_id', $office);
-        }
-    
-        $employees = $query->get();
-    
-        return Excel::download(new \EmployeeExport($employees), 'employees.xlsx');
-    }
-  
+        $employee_category = $request->input('employee_category');
+        $hr_office = $request->input('hr_office');
 
-public function showExportForm()
-{
-    return view('export');
-}
+        $query = Employee::query();
+
+        // Join with related tables and select 'name' columns
+        $query->select(
+            //'employees.id',
+            'employees.first_name',
+            'employees.father_name',
+            'employees.grand_father_name',
+            'employees.gender',
+            'nationalities.nation as nationality',
+            'employees.date_of_birth',
+            DB::raw('TIMESTAMPDIFF(YEAR, employees.date_of_birth, CURDATE()) AS age_years'), //
+
+            'employees.birth_city',
+            'employees.email',
+            'employees.phone_number',
+            ///////////////////////
+           // 'employees.rfid',
+            ///////////////////////Wrong column
+            DB::raw("DATE_FORMAT(employees.employement_date, '%Y-%m-%d') AS formatted_employement_date"),
+            DB::raw("CONCAT(TIMESTAMPDIFF(YEAR, employees.employement_date, CURDATE()), ' Years ',
+            TIMESTAMPDIFF(MONTH, employees.employement_date, CURDATE()) % 12, ' Months') AS experience_years_format"),
+          
+            'marital_statuses.name as marital_status',
+            DB::raw('(SELECT COUNT(*) FROM employee_families WHERE employee_families.employee_id = employees.id AND employee_families.family_relationship_id = 1) as number_of_children'), //number of children where family_relationship_id=1(child)
+
+            'educational_levels.name as educational_level',
+            'field_of_studies.name as field_of_study',
+            // '',
+            // '',
+            'employee_categories.name as employee_category',
+            'hr_branches.name as hr_branch',
+            'units.name as unit', // Fetch unit name
+
+            'employees.employmeent_identity',
+            'employee_titles.title as employee_title',
+            
+           
+            'ethnicities.name as ethnicity',
+            'religions.name as religion',
+            'employment_types.name as employment_type',
+            'employees.pention_number',
+        
+            'employment_statuses.name as employment_status',
+           
+            //'employees.created_at',
+            //'employees.updated_at',
+            'employees.first_name_am',
+            'employees.father_name_am',
+            'employees.grand_father_name_am',
+       
+            'employees.horizontal_level',
+          
+            'job_titles.name as job_title', // Fetch job title
+            'job_titles.job_code as job_code', // Fetch job title
+            'levels.name as job_level', // Fetch job level
+            'job_grades.start_salary', // Fetch start salary
+
+            DB::raw('(SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id) as first_internal_experience_start_date'),
+            DB::raw('(SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id) as last_internal_experience_end_date'),
+            DB::raw('(TIMESTAMPDIFF(YEAR, (SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id))) as internal_experience_years'),
+            DB::raw('(TIMESTAMPDIFF(MONTH, (SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id))) as internal_experience_months'),
+            DB::raw('(TIMESTAMPDIFF(DAY, (SELECT MIN(start_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM internal_experiences WHERE internal_experiences.employee_id = employees.id))) as internal_experience_days'),
+
+            DB::raw('(SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as first_internal_external_start_date'),
+            DB::raw('(SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as last_external_experience_end_date'),
+            DB::raw('(TIMESTAMPDIFF(YEAR, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_years'),
+            DB::raw('(TIMESTAMPDIFF(MONTH, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_months'),
+            DB::raw('(TIMESTAMPDIFF(DAY, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_days')
+            )
+            ->leftJoin('employee_titles', 'employees.employee_title_id', '=', 'employee_titles.id')
+            ->leftJoin('educational_levels', 'employees.educational_level_id', '=', 'educational_levels.id')
+            ->leftJoin('marital_statuses', 'employees.marital_status_id', '=', 'marital_statuses.id')
+            ->leftJoin('ethnicities', 'employees.ethnicity_id', '=', 'ethnicities.id')
+            ->leftJoin('religions', 'employees.religion_id', '=', 'religions.id')
+            ->leftJoin('field_of_studies', 'employees.field_of_study_id', '=', 'field_of_studies.id')
+            ->leftJoin('employment_types', 'employees.employment_type_id', '=', 'employment_types.id')
+            ->leftJoin('hr_branches', 'employees.hr_branch_id', '=', 'hr_branches.id')
+            ->leftJoin('employment_statuses','employees.employment_status_id', '=', 'employment_statuses.id')
+            ->leftJoin('nationalities', 'employees.nationality_id', '=', 'nationalities.id')
+            ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
+            ->leftJoin('employee_categories', 'employees.employee_category_id', '=', 'employee_categories.id')
+            ->leftJoin('units', 'positions.unit_id', '=', 'units.id') // Left join with units
+            ->leftJoin('job_titles', 'positions.job_title_id', '=', 'job_titles.id') // Left join with job titles;
+
+            ->leftJoin('levels', 'job_titles.level_id', '=', 'levels.id') // Left join with job levels
+
+            ->leftJoin('job_grades', 'levels.id', '=', 'job_grades.level_id'); // Left join with job grades
+
+        if ($employee_category) {
+            $query->where('employees.employee_category_id', $employee_category);
+        }
+
+        if ($hr_office) {
+            $query->where('employees.hr_branch_id', $hr_office);
+        }
+
+        $employees = $query->get();
+        //dd($employees);
+
+        // Get the currently signed-in user
+        $username = Auth::user()->username;
+        $fileName = Carbon::now()->format('Ymd_His') . '_' . $username . '.xlsx';
+
+        return Excel::download(new EmployeesExport($employees), $fileName);
+    }
+    public function showExportForm()
+    {
+        return view('export');
+    }
 
     public function getEmployee($hr_branch_id)
     {
-         $employees = Employee::where('hr_branch_id', '=', $hr_branch_id)->paginate(15);
-      //  $name = DB::table('hr_branches')->where('id', $hr_branch_id)->pluck('name');
-         $name = DB::table('hr_branches')->where('id', $hr_branch_id)->select('name')->first()->name;
+        $employees = Employee::where('hr_branch_id', '=', $hr_branch_id)->paginate(15);
+        //  $name = DB::table('hr_branches')->where('id', $hr_branch_id)->pluck('name');
+        $name = DB::table('hr_branches')->where('id', $hr_branch_id)->select('name')->first()->name;
+        // dd("getEmployee");
 
 
 
-            $categories = EmployeeCategory::withCount([
-            'employees as male_category_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
-             },
-            'employees as female_category_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
+        $categories = EmployeeCategory::withCount([
+            'employees as male_category_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
+            },
+            'employees as female_category_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);
+            },
 
-           ])->get();
-
-
-           $employmentStatuses = EmploymentStatus::withCount([
-            'employees as male_status_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
-             },
-            'employees as female_status_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
-
-           ])->get();
+        ])->get();
 
 
+        $employmentStatuses = EmploymentStatus::withCount([
+            'employees as male_status_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
+            },
+            'employees as female_status_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);
+            },
+
+        ])->get();
 
 
-           $branches = HrBranch::withCount([
+
+
+        $branches = HrBranch::withCount([
             'employees as male_hr_count' => function ($query) {
                 $query->where('gender', 'Male');
             },
@@ -488,59 +595,67 @@ public function showExportForm()
                 $query->where('gender', 'Female');
             },
         ])->get();
-        
 
 
 
-            $employements = EmploymentType::withCount([
-            'employees as type_male_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
-             },
-            'employees as type_female_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
 
-           ])->get();
-
-
-            $educations = EducationalLevel::withCount([
-         
-            'employees as male_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Male')->where('hr_branch_id', $hr_branch_id);
+        $employements = EmploymentType::withCount([
+            'employees as type_male_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Male')->where('hr_branch_id',  $hr_branch_id);
             },
-            'employees as female_count' => function ($query) use ($hr_branch_id) { $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);},
+            'employees as type_female_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);
+            },
 
-        
-       
+        ])->get();
+
+
+        $educations = EducationalLevel::withCount([
+
+            'employees as male_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Male')->where('hr_branch_id', $hr_branch_id);
+            },
+            'employees as female_count' => function ($query) use ($hr_branch_id) {
+                $query->where('gender', 'Female')->where('hr_branch_id', $hr_branch_id);
+            },
+
+
+
 
             'employees as female_left_count' => function ($query) use ($hr_branch_id) {
                 $query->where('gender', 'Female')
-                      ->where(function ($query) {
-                          $query->where('employment_type_id', 11)
-                                ->orWhere('employment_type_id', 7)
-                                ->orWhere('employment_type_id', 6); // Add more conditions as needed
-                      })
-                      ->where('hr_branch_id', $hr_branch_id);
+                    ->where(function ($query) {
+                        $query->where('employment_type_id', 11)
+                            ->orWhere('employment_type_id', 7)
+                            ->orWhere('employment_type_id', 6); // Add more conditions as needed
+                    })
+                    ->where('hr_branch_id', $hr_branch_id);
             },
 
 
             'employees as male_left_count' => function ($query) use ($hr_branch_id) {
                 $query->where('gender', 'Male')
-                      ->where(function ($query) {
-                          $query->where('employment_type_id', 11)
-                                ->orWhere('employment_type_id', 7)
-                                ->orWhere('employment_type_id', 6); // Add more conditions as needed
-                      })
-                      ->where('hr_branch_id', $hr_branch_id);
+                    ->where(function ($query) {
+                        $query->where('employment_type_id', 11)
+                            ->orWhere('employment_type_id', 7)
+                            ->orWhere('employment_type_id', 6); // Add more conditions as needed
+                    })
+                    ->where('hr_branch_id', $hr_branch_id);
             },
 
 
 
-            ])->get();
-          $males    = Employee::where('gender','=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
-          $females  = Employee::where('gender','=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
+        ])->get();
+        $males    = Employee::where('gender', '=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
+        $females  = Employee::where('gender', '=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
 
-         $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
-      
+        $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
 
-        return view('employee.employee_list', compact(['employees','educations',
-        'employmentStatuses','categories','employements','branches','total','females','males'],'name'));
+
+        return view('employee.employee_list', compact([
+            'employees', 'educations',
+            'employmentStatuses', 'categories', 'employements', 'branches', 'total', 'females', 'males'
+        ], 'name'));
     }
 
     public function  getEmployeeID()
@@ -599,19 +714,19 @@ public function showExportForm()
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
-         CRUD::field('ethnicity_id')->size(6)->tab($bio);
-         CRUD::field('email')->type('email')->label('Email Address')->size(6)->tab($ci);
-         CRUD::field('phone_number')->size(6)->tab($ci);
-         CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
-         CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
-        
+        CRUD::field('ethnicity_id')->size(6)->tab($bio);
+        CRUD::field('email')->type('email')->label('Email Address')->size(6)->tab($ci);
+        CRUD::field('phone_number')->size(6)->tab($ci);
+        CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
+        CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
+
         //CRUD::field('uas_user_id')->tab($ci)->size(3);
-         CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
-         CRUD::field('horizontal_level')->type('enum')->label('Horizontal Level')->size(6)->tab($job);
-         CRUD::field('employment_status_id')->type('select2')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(6)->tab($job);
-         CRUD::field('employement_date')->size(6)->tab($job);
-         CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
-         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
+        CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
+        CRUD::field('horizontal_level')->type('enum')->label('Horizontal Level')->size(6)->tab($job);
+        CRUD::field('employment_status_id')->type('select2')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('employement_date')->size(6)->tab($job);
+        CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
+        CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         CRUD::field('hr_branch_id')->type('select2')->label('HR Office')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(6)->tab($job);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
@@ -620,7 +735,7 @@ public function showExportForm()
         CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
-    
+
     }
 
     //sCRUD::field('price')->type('number')->label('Price')->prefix('$')->suffix('.00');
@@ -679,80 +794,81 @@ public function showExportForm()
         }
     }
 
-///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     public function checkProbation()
     {
-    
-         $males = DB::table('employees')->where('gender','Male')->count();
-         $females = DB::table('employees')->where('gender','Female')->count();
 
-         $permanets = DB::table('employees')->where('employment_type_id',1)->count();
-         $contracts = DB::table('employees')->where('employment_type_id',2)->count();
+        $males = DB::table('employees')->where('gender', 'Male')->count();
+        $females = DB::table('employees')->where('gender', 'Female')->count();
 
-          $employees = Employee::where('employment_type_id', 3)->orderBy('id', 'desc')->Paginate(10);
+        $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
+        $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
 
-
-        return view('employee.probation', compact('employees','females','males','permanets','contracts'));
+        $employees = Employee::where('employment_type_id', 3)->orderBy('id', 'desc')->Paginate(10);
 
 
+        return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
     }
 
 
-//      public function ageToDay(){
+    //      public function ageToDay(){
 
 
-     
-//         $bday = new DateTime('11.4. 1987');
-//       // Your date of birth 
-//         $today = new Datetime(date('m.d.y')); 
-//         $diff = $today->diff($bday);
-//         printf(' Your age : %d years, %d month, %d days', 
-//         $diff->y, $diff->m, $diff->d);
-      
-// }
+
+    //         $bday = new DateTime('11.4. 1987');
+    //       // Your date of birth 
+    //         $today = new Datetime(date('m.d.y')); 
+    //         $diff = $today->diff($bday);
+    //         printf(' Your age : %d years, %d month, %d days', 
+    //         $diff->y, $diff->m, $diff->d);
+
+    // }
 
     public function checkRetirment()
     {
 
-         $now =  Carbon::now();
-         $notify = Pension::where('id',  1)->first()->notify;
-         $males = DB::table('employees')->where('gender','Male')->count();
-         $females = DB::table('employees')->where('gender','Female')->count();
-         $permanets = DB::table('employees')->where('employment_type_id',1)->count();
-         $contracts = DB::table('employees')->where('employment_type_id',2)->count();
-         $emps = Employee::all();
+        $now =  Carbon::now();
+        $notify = Pension::where('id',  1)->first()->notify;
+        $males = DB::table('employees')->where('gender', 'Male')->count();
+        $females = DB::table('employees')->where('gender', 'Female')->count();
+        $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
+        $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
+        $emps = Employee::all();
 
-         foreach ($emps  as $employee ) {
-             $diff_ind_days =  $now->diff($employee->date_of_birth);
+        foreach ($emps  as $employee) {
+            $diff_ind_days =  $now->diff($employee->date_of_birth);
 
-            if ($diff_ind_days->d <= $notify ){
+            if ($diff_ind_days->d <= $notify) {
 
-            $employees = Employee::where('id', $employee->id)->orderBy('id', 'desc')->Paginate(10);
-          //  dd($employees);
+                $employees = Employee::where('id', $employee->id)->orderBy('id', 'desc')->Paginate(10);
+                //  dd($employees);
 
+            }
         }
-    }
-   
-        return view('employee.retirment', compact('employees','females','males','permanets','contracts'));
-    
-}
 
-public function importEmployee(Request $request){
+        return view('employee.retirment', compact('employees', 'females', 'males', 'permanets', 'contracts'));
+    }
+
+    public function importEmployee(Request $request)
+    {
 
 
     $file = $request->input('file');
     // dd($request);
    
-    Excel::import(new EmployeesImport, $request->file('file')->store('files'));
+    Excel::import(new ImportEmployee, $request->file('file')->store('files'));
     return redirect()->back();
 
-   // return back()->with('success', 'Your CSV file has been uploaded');
+        Excel::import(new EmployeesImport, $request->file('file')->store('files'));
+        return redirect()->back();
 
-}
-// public function exportUsers(Request $request){
-//     return Excel::download(new EmployeesExport, 'employees.xlsx');
-// }
-   /////////////////////////////////////////////////////////////////////////////// 
+        // return back()->with('success', 'Your CSV file has been uploaded');
+
+    }
+    // public function exportUsers(Request $request){
+    //     return Excel::download(new EmployeesExport, 'employees.xlsx');
+    // }
+    /////////////////////////////////////////////////////////////////////////////// 
     /**
      * Define what happens when the Update operation is loaded.
      *
@@ -768,53 +884,10 @@ public function importEmployee(Request $request){
         CRUD::set('reorder.max_level', 2);
     }
 
-     protected function setupUpdateOperation()
+    protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-        // unique:employees,phone_number,
-        //     $this->crud->enableTabs();
-        //     // $this->crud->enableVerticalTabs();
-        //     $this->crud->enableHorizontalTabs();
-        //     $pi      = 'Personal Information';
-        //     $ci      = 'Contact Information';
-        //     $bio     = 'Bio Information';
-        //     $address = 'Address Information';
-        //     $job     = 'Job Information';
-        //     $edu     = 'Employee Credentials';
-        //     CRUD::field('photo')->label('Employee photo(4x4)')->size(6)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
-        //     CRUD::field('first_name')->size(6)->tab($pi);
-        //     CRUD::field('father_name')->size(6)->tab($pi);
-        //     CRUD::field('grand_father_name')->size(6)->tab($pi);
-        //     CRUD::field('first_name_am')->label('የመጀመሪያ ስም')->size(6)->tab($pi);
-        //     CRUD::field('father_name_am')->label('የአባት ስም')->size(6)->tab($pi);
-        //     CRUD::field('grand_father_name_am')->label('የአያት ስም')->size(6)->tab($pi);
-        //     CRUD::field('gender')->type('enum')->size(6)->tab($pi);
-        //     CRUD::field('date_of_birth')->size(6)->tab($pi);
-        //     CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($pi);
-        //     CRUD::field('passport')->size(6)->type('upload')->upload(true)->tab($edu);
-        //     CRUD::field('driving_licence')->size(6)->type('upload')->upload(true)->tab($edu);
-        // CRUD::field('uas_user_id')->tab($edu)->size(3);
-        //     CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
-        //     CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
-        //     CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
-        //     CRUD::field('ethnicity_id')->size(6)->tab($bio);
-        //     CRUD::field('phone_number')->size(6)->tab($ci);
-        //     CRUD::field('email')->type('email')->size(6)->tab($ci);
-        //     // CRUD::field('rfid')->size(4);
-        //     CRUD::field('employment_identity')->label('Employee ID Number')->size(6)->tab($ci);
-        //     CRUD::field('religion_id')->size(6)->tab($address);
-        //   //  CRUD::field('religion_id')->type('select2')->label('religion')->entity('')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($address);
-        //     CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
-        //     CRUD::field('employement_date')->size(6)->tab($job);
-
-        //     CRUD::field('employee_category_id')->type('select2')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
-        //     CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($address);
-        //     CRUD::field('level_id')->type('select2')->label('Job grade')->entity('level')->model(Level::class)->attribute('name')->size(6)->tab($job);
-        //    // CRUD::field('job_title_id')->type('select2')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(6)->tab($job);
-        //     CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
-        //     CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
-
-
+       
     }
 
     public function update()
@@ -829,32 +902,28 @@ public function importEmployee(Request $request){
         $newPosition = Position::where('id', request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
         if ($newPosition !== null) {
-        if ($currentPosition->id == $newPosition->id ) {
-            if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
-                PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
+            if ($currentPosition->id == $newPosition->id) {
+                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
+                    PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
+
+                    if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
+                        throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+                    } else {
+                        PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
+                    }
+                }
+            } else {
+
 
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
                     throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-                } 
-                else {
-                    PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
                 }
+                PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+
+                PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
             }
-        } 
-    
+        }  // the end of null check if null of new position
 
-        else {
-
-
-            if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
-                throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-            }
-            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
-
-            PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
-        }
-    }  // the end of null check if null of new position
-       
         $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
             $item['employee_id'] = $employee_id;
             if ($item['id']) {
@@ -879,6 +948,7 @@ public function importEmployee(Request $request){
 
     protected function setupShowOperation()
     {
+        //dd('show');
         $employeeId = $this->crud->getCurrentEntryId();
         $licenses = License::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeLicenses'] = $licenses;
@@ -907,7 +977,7 @@ public function importEmployee(Request $request){
 
         $externalExperiences = ExternalExperience::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['externalExperiences'] = $externalExperiences;
-        
+
         $trainingAndStudies = TrainingAndStudy::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['trainingAndStudies'] = $trainingAndStudies;
 
@@ -917,38 +987,31 @@ public function importEmployee(Request $request){
         $this->data['evalutionCreterias'] = $evalutionCreterias;
 
 
-        $mark  = Evaluation::select('total_mark')->where('employee_id', '=', $employeeId)->get()->first()?->total_mark;
+        $mark = Evaluation::select('total_mark')->where('employee_id', '=', $employeeId)->get()->first()?->total_mark;
         $this->data['mark'] = $mark;
 
-        $evaluation_levels =  EvaluationLevel::orderBy('id', 'desc')->Paginate(10);
+        $evaluation_levels = EvaluationLevel::orderBy('id', 'desc')->Paginate(10);
         $this->data['evaluation_levels'] = $evaluation_levels;
 
 
-        $leaves =  Leave::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(1);
+        $leaves = Leave::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(1);
         $this->data['leaves'] = $leaves;
-
-     
-
-        $type_of_leaves =    TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
+        $type_of_leaves = TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_leaves'] = $type_of_leaves;
         $this->data['employee.leave'] = $type_of_leaves;
 
-        $misconducts =    Misconduct::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $misconducts = Misconduct::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['misconducts'] = $misconducts;
 
-        $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $demotions = Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
 
-        $promotions =    Promotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $promotions = Promotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['promotions'] = $promotions;
 
-        $demotions =    Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $demotions = Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
-
-
-
-
-        $dob  = Employee::select('date_of_birth')->where('id', '=', $employeeId)->get()->first()->date_of_birth;
+        $dob = Employee::select('date_of_birth')->where('id', '=', $employeeId)->get()->first()->date_of_birth;
         $dob_ex = explode("-", $dob);
         $age_diff = date_diff(date_create($dob), date_create('today'))->y;
         $year_of_retire = 68 - $age_diff;
@@ -959,7 +1022,6 @@ public function importEmployee(Request $request){
             $date_of_retire2 = $d->format('F d, Y H:i:s');
             $this->data['date_of_retire2'] = $date_of_retire2;
         }
-
         $edate   = Employee::select('employement_date')->where('id', '=', $employeeId)->get()->first()->employement_date;
 
         $end = date('Y-m-d', strtotime($edate . ' + 6 months'));
@@ -1016,53 +1078,18 @@ public function importEmployee(Request $request){
         $levels =    Level::orderBy('id', 'asc')->Paginate(22);
         $this->data['levels'] = $levels;
 
-
-
-// $columnName = DB::table('JobGrade')
-//     ->where('your_column', $valueToSearch)->select(DB::raw('your_column AS column_name'))->value('column_name');
-
-// if ($columnName) {
-  
-//     echo "Column name: " . $columnName;
-// } else {
+         $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
     
-//     echo "Value not found in any column.";
-// }
-
-$level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
-        //  dd($level);
-
           $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
           $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
-        //  dd(  $level_id );
-        $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
-      
+          $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
+        //horizontal_level 
         if($step =='Start')
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'start_salary');
-        elseif($step ==1) 
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'one');
-        elseif($step ==2)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'two');
-        elseif($step ==3)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'three');
-        elseif($step ==4)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'four');
-        elseif($step ==5)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'five');
-        elseif($step ==6)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'six');
-        elseif($step ==7)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'seven');
-        elseif($step ==8)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'eight');
-        elseif($step ==9)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'nine'); 
-        elseif($step ==null)
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id , 'start_salary'); 
         else
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'ceil_salary');
 
-        
+
         /////////// Laraevl count ////////////////////////
         //   $employee = Employee::where('id', '<=', 100)->get();
         //   $totalEmployee = $employee->count();
@@ -1072,9 +1099,5 @@ $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?-
         // $evaluations = Evaluation::orderBy('id', 'desc')->limit(3)->get();
         // $this->data['evs'] = $evs;
 
-        // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
-        // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
-        // and we plan to change behaviour in the next version; see this Github issue for more details
-        // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
 }

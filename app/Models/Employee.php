@@ -484,4 +484,38 @@ class Employee extends  Model
     {
         return $this->hasMany(Evaluation::class, 'employee_id', 'id');
     }
+
+    public function getSalary($employeeId){
+        $level  =    Employee::where('id', $employeeId)?->position?->jobTitle?->level_id;
+
+        $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
+        $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
+        $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
+      //horizontal_level 
+      if($step =='Start')
+      return  JobGrade::getValueByIdAndColumn($level_id, 'start_salary');
+      elseif($step ==1) 
+      return JobGrade::getValueByIdAndColumn($level_id , 'one');
+      elseif($step ==2)
+      return JobGrade::getValueByIdAndColumn($level_id , 'two');
+      elseif($step ==3)
+      return JobGrade::getValueByIdAndColumn($level_id , 'three');
+      elseif($step ==4)
+      return  JobGrade::getValueByIdAndColumn($level_id , 'four');
+      elseif($step ==5)
+      return  JobGrade::getValueByIdAndColumn($level_id , 'five');
+      elseif($step ==6)
+      return  JobGrade::getValueByIdAndColumn($level_id , 'six');
+      elseif($step ==7)
+      return JobGrade::getValueByIdAndColumn($level_id , 'seven');
+      elseif($step ==8)
+      return  JobGrade::getValueByIdAndColumn($level_id , 'eight');
+      elseif($step ==9)
+      return  JobGrade::getValueByIdAndColumn($level_id , 'nine'); 
+      elseif($step ==null)
+      return  JobGrade::getValueByIdAndColumn($level_id , 'start_salary'); 
+      else
+          return JobGrade::getValueByIdAndColumn($level_id, 'ceil_salary');
+
+    }
 }
