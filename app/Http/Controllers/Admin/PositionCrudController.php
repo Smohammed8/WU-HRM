@@ -107,7 +107,7 @@ class PositionCrudController extends CrudController
         
         CRUD::column('total_employees')->type('closure')->function(function ($entry) {
             return $entry->totalPositions() ?? '-';
-        })->label('Total Positions')->wrapper([
+        })->label('Permitted Positions')->wrapper([
             'element' => 'span',
             'class' => function ($crud, $column, $entry) {
                 switch ($entry->totalPositions()) {
@@ -121,7 +121,23 @@ class PositionCrudController extends CrudController
                 }
             }
         ]);
+        CRUD::column('occupied_positions')->type('closure')->function(function ($entry) {
+            return $entry->totalOccupiedPositions() ?? '-';
+        })->label('Occupied Positions')->wrapper([
+            'element' => 'span',
+            'class' => function ($crud, $column, $entry) {
+                switch ($entry->totalOccupiedPositions()) {
+                    case '0':
+                        return 'badge badge-pill badge-info border';
+                    case '1':
+                        return 'badge badge-pill badge-info border';
+                    default:
+                        return 'badge badge-pill badge-info border';
+                        
 
+                }
+            }
+        ]);
             CRUD::column('free_positions')->type('closure')->function(function ($entry) {
                 return $entry->totalFreePositions() ?? '-';
             })->label('Free Positions')->wrapper([
@@ -131,11 +147,11 @@ class PositionCrudController extends CrudController
             'class' => function ($crud, $column, $entry) {
                 switch ($entry->totalFreePositions()) {
                     case '0':
-                        return 'badge badge-pill badge-danger';
+                        return 'badge badge-pill badge-danger  border';
                     case '1':
-                        return 'badge badge-pill badge-warning';
+                        return 'badge badge-pill badge-warning border';
                     default:
-                        return 'badge badge-pill badge-info';
+                        return 'badge badge-pill badge-info border';
 
                 }
             }

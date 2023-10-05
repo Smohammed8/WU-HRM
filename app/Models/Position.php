@@ -71,11 +71,11 @@ class Position extends Model
     {
         return PositionCode::where('position_id', $this->attributes['id'])->where('employee_id',null)->count();
     }
+
     public function totalOccupiedPositions()
     {
-        return PositionCode::where('position_id', $this->attributes['id'])->where('employee_id',null)->count();
+        return PositionCode::where('position_id', $this->attributes['id'])->where('employee_id', '!=', null)->count();
     }
-
 
     public function positions()
     {
