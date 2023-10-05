@@ -44,7 +44,7 @@ class Constants
         4 => 'CNS',
         5 => 'JIH',
         6 => 'JIT',
-        7 => 'JUCAVM',
+        7 => 'CAVM',
         8 => 'LAW',
         9 => 'SPORT ACADEMY'
     ];
