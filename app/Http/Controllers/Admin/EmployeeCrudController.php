@@ -120,7 +120,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setEntityNameStrings('employee', 'employees');
 
         CRUD::disablePersistentTable();
-        CRUD::enableExportButtons();
+        //CRUD::enableExportButtons(); // check this if the page is not loading
         //CRUD::setDefaultPageLength(10); // No of paginatings
 
         $this->crud->setShowView('employee.show');
@@ -217,8 +217,6 @@ class EmployeeCrudController extends CrudController
         $this->crud->orderBy('grand_father_name', 'asc');
     }
 
-//dd($form = backpack_form_input());
-//$search_term = $request->input('q'); 
         $this->crud->enableDetailsRow();
         //$this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
@@ -319,9 +317,6 @@ class EmployeeCrudController extends CrudController
         CRUD::column('birth_city')->label('Place of birth');
         CRUD::column('employmeent_identity')->label('Employee ID');
         // CRUD::column('employee_title_id')->label('Title');
-
-
-
         CRUD::column('educational_level_id')->type('select')->label('Educational Level')->entity('educationLevel')->model(EducationalLevel::class)->attribute('name');
 
         CRUD::column('marital_status_id')->type('select')->label('Marital Status')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name');
@@ -434,10 +429,6 @@ class EmployeeCrudController extends CrudController
             }
         );
     }
-
-
-    
-
     public function exportEmployees(Request $request)
     {
         $employee_category = $request->input('employee_category');
@@ -549,6 +540,8 @@ class EmployeeCrudController extends CrudController
 
         return Excel::download(new EmployeesExport($employees), $fileName);
     }
+
+    
     public function showExportForm()
     {
         return view('export');
@@ -853,12 +846,8 @@ class EmployeeCrudController extends CrudController
     {
 
 
-    $file = $request->input('file');
+      $file = $request->input('file');
     // dd($request);
-   
-    Excel::import(new ImportEmployee, $request->file('file')->store('files'));
-    return redirect()->back();
-
         Excel::import(new EmployeesImport, $request->file('file')->store('files'));
         return redirect()->back();
 
@@ -912,7 +901,8 @@ class EmployeeCrudController extends CrudController
                         PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
                     }
                 }
-            } else {
+            } 
+            else {
 
 
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
@@ -922,7 +912,14 @@ class EmployeeCrudController extends CrudController
 
                 PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
             }
-        }  // the end of null check if null of new position
+        }
+        else{
+
+            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+        }
+         
+        
+        // the end of null check if null of new position
 
         $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
             $item['employee_id'] = $employee_id;
