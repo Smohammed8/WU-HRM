@@ -46,7 +46,7 @@ class JobGrade extends Model
     ];
 
   // Function to get a specific value by ID and column name
-  public static function getValueByIdAndColumn($id, $columnName)
+  public static function getSalarySheet($id, $columnName)
   {
       // Find the record by ID
       $record = self::find($id);
