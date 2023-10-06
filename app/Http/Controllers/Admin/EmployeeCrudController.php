@@ -120,7 +120,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setEntityNameStrings('employee', 'employees');
 
         CRUD::disablePersistentTable();
-        //CRUD::enableExportButtons(); // check this if the page is not loading
+        CRUD::enableExportButtons(); // check this if the page is not loading
         //CRUD::setDefaultPageLength(10); // No of paginatings
 
         $this->crud->setShowView('employee.show');
@@ -240,6 +240,11 @@ class EmployeeCrudController extends CrudController
 
                 $query->orWhere('position_id', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('date_of_birth', 'like', '%' . $searchTerm . '%');
+                ////////////////////////////////////////////////////////////////////////
+                $query->orWhere('first_name_am', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('father_name_am', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('grand_father_name_am', 'like', '%' . $searchTerm . '%');
+                //////////////////////////////////////////////////////////////////////////
                 $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' . $searchTerm . '%');
                 if (is_numeric($searchTerm) && $searchTerm <= 70 && $searchTerm >= 18) {
                     $currentYear = date('Y');
@@ -1080,11 +1085,41 @@ class EmployeeCrudController extends CrudController
           $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
           $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
           $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
-        //horizontal_level 
+        //horizontal_level salary calculation
         if($step =='Start')
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'start_salary');
-        else
+
+        elseif($step =='1')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'one');
+
+        elseif($step =='2')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'two');
+
+        elseif($step =='3')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'three');
+
+        elseif($step =='4')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'four');
+
+        elseif($step =='5')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'five');
+
+        elseif($step =='6')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'six');
+
+        elseif($step =='7')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'seven');
+
+        elseif($step =='8')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'eight');
+
+        elseif($step =='9')
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'nine');
+
+        elseif($step =='Ceil')
             $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'ceil_salary');
+        else
+            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'start_salary');
 
 
         /////////// Laraevl count ////////////////////////

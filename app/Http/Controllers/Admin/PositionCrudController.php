@@ -39,7 +39,7 @@ class PositionCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/position');
         CRUD::setEntityNameStrings('position', 'positions');
         CRUD::disablePersistentTable();
-        //CRUD::enableExportButtons();
+        CRUD::enableExportButtons();
         $this->crud->setShowView('position.show');
         $this->setupPermission();
     }
