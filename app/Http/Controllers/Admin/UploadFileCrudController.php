@@ -29,7 +29,7 @@ class UploadFileCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\UploadFile::class);
+        CRUD::setModel(UploadFile::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/upload-file');
         CRUD::setEntityNameStrings('upload file', 'upload files');
         $this->setupPermission();
@@ -37,7 +37,7 @@ class UploadFileCrudController extends CrudController
 
     public function setupPermission()
     {
-        $permission_base = 'setting';
+        $permission_base = 'upload_file';
         if (!backpack_user()->can($permission_base . '.icrud')) {
             $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
             if (in_array('show', $explodedRoute)) {

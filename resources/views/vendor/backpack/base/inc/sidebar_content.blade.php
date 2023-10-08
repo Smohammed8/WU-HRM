@@ -138,59 +138,98 @@ color:black;
 
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'>
             <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
-
-            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('certification-type') }}'><i class='nav-icon la la-caret-right'></i> Certification type </a></li>
-
+    @canany(['certification_type.index', 'certification_type.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('certification-type') }}'><i class='nav-icon la la-caret-right'></i> Certification type </a></li>
+    @endcanany
+    
+    @canany(['education_level.index', 'education_level.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('educational-level') }}'><i
                 class='nav-icon la la-caret-right'></i> Educational level</a></li>
-
+    @endcanany
+    @canany(['employee_title.index', 'employee_title.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-title') }}'><i
                 class='nav-icon la la-caret-right'></i> Employee title</a></li>
+    @endcanany
+
+    @canany(['ethnicity.index', 'ethnicity.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('ethnicity') }}'><i
                 class='nav-icon la la-caret-right'></i>
             Ethnicities</a></li>
+    @endcanany
+    
+    @canany(['employee_category.index', 'employee_category.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-category') }}'><i
-                class='nav-icon la la-caret-right'></i> Employment categoty </a></li>
+                class='nav-icon la la-caret-right'></i> Employee category </a></li>
+    @endcanany
 
+    @canany(['field_of_study.index', 'field_of_study.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('field-of-study') }}'><i
                 class='nav-icon la la-caret-right'></i> Field of study</a></li>
-
-
+   @endcanany
+   @canany(['hr_branch.index', 'hr_branch.icrud'])
      <li class='nav-item'><a class='nav-link' href='{{ backpack_url('hr-branch') }}'><i class='nav-icon la la-caret-right'></i> Hr branches</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'><i
-                class='nav-icon la la-caret-right'></i> Language</a></li>
+     @endcanany
+
+     @canany(['language.index', 'language.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('language') }}'>
+        <i class='nav-icon la la-caret-right'></i> Language </a></li>
+    @endcanany
+
+    @canany(['marital_status.index', 'marital_status.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('marital-status') }}'><i
                 class='nav-icon la la-caret-right'></i> Marital status</a></li>
+     @endcanany
+
+     @canany(['license_type.index', 'license_type.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('license-type') }}'><i
                 class='nav-icon la la-caret-right'></i> License type</a></li>
+     @endcanany
+
+     @canany(['nationality.index', 'nationality.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('nationality') }}'><i
                 class='nav-icon la la-caret-right'></i> Nationality</a></li>
+    @endcanany
+    @canany(['region.index', 'region.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('region') }}'><i
                 class='nav-icon la la-caret-right'></i> Regions</a></li>
+    @endcanany
+    @canany(['religion.index', 'religion.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('religion') }}'><i
                 class='nav-icon la la-caret-right'></i> Religion</a></li>
+    @endcanany
+    @canany(['skill_type.index', 'skill_type.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skill-type') }}'><i
                 class='nav-icon la la-caret-right'></i> Skill type</a></li>
+    @endcanany
 
+    @canany(['upload_file.index', 'upload_file.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('upload-file') }}'><i
                 class='nav-icon la la-caret-right'></i> Upload files</a></li>
+    @endcanany
+    @canany(['family_relationship.index', 'family_relationship.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-relationship') }}'>
          <i class='nav-icon la la-caret-right'></i> Family relationship</a></li>
+    @endcanany
 
+    @canany(['type_of_leave.index', 'type_of_leave.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('type-of-leave') }}'><i
                 class='nav-icon la la-caret-right'></i> Type of leave</a></li>
+    @endcanany
+
+    @canany(['type_of_misconduct.index', 'type_of_misconduct.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('type-of-misconduct') }}'>
         <i class='nav-icon la la-caret-right'></i>Type of misconduct</a></li>
-
-    <!-- //////////////////////////////////////////////////////// -->
+    @endcanany
+    @canany(['template.index', 'template.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template') }}'>
             <i class='nav-icon la la-caret-right'></i> Template</a></li>
 
-
+    @endcanany
+    @canany(['template_type.index', 'template_type.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-type') }}'>
 
             <i class='nav-icon la la-caret-right'></i> Template type</a></li>
-    <!-- /////////////////////////////////////////////////////////////-->
+    @endcanany`
 </ul>
 </li>
 @endcanany
