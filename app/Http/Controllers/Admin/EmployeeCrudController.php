@@ -70,6 +70,7 @@ use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\EmployeeAddressRequest;
+use App\Models\EmployeeLetter;
 use Illuminate\Validation\ValidationException;
 use \Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -956,8 +957,13 @@ class EmployeeCrudController extends CrudController
         $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
+
+
         $employeeCertificates = EmployeeCertificate::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeCertificates'] = $employeeCertificates;
+
+        $employeeLetters = EmployeeLetter::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $this->data['employeeLetters'] = $employeeLetters;
 
         $employeeContacts = EmployeeContact::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;

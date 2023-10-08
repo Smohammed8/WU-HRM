@@ -26,6 +26,11 @@ class EmployeeLetterRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'employee_id' => 'required',
+            'title' => 'required|min:3|max:50',
+            //'body' => 'required',
+            'written_date' => 'required',
+            'upload' => 'required',
         ];
     }
 

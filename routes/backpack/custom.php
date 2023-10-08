@@ -36,7 +36,7 @@ Route::group([
     Route::crud('{employee}/employee-family', 'EmployeeFamilyCrudController');
     Route::crud('{employee}/employee-language', 'EmployeeLanguageCrudController');
     Route::crud('{employee}/employee-education', 'EmployeeEducationCrudController');
-
+    Route::crud('{employee}/employee-letter', 'EmployeeLetterCrudController');
     Route::crud('{employee}/evaluation', 'EvaluationCrudController');
 
     Route::crud('{employee}/skill', 'SkillCrudController');
@@ -68,6 +68,7 @@ Route::group([
     Route::crud('employee-contact', 'EmployeeContactCrudController');
     Route::crud('employee-evaluation', 'EmployeeEvaluationCrudController');
     Route::crud('employee-family', 'EmployeeFamilyCrudController');
+   
     Route::crud('employee-language', 'EmployeeLanguageCrudController');
     Route::crud('evaluation-category', 'EvaluationCategoryCrudController');
     Route::crud('evaluation-level', 'EvaluationLevelCrudController');
@@ -146,5 +147,6 @@ Route::group([
     Route::crud('certification-type', 'CertificationTypeCrudController');
     Route::crud('college-position-code', 'CollegePositionCodeCrudController');
     Route::crud('employee-education', 'EmployeeEducationCrudController');
-    Route::crud('employee-letter', 'EmployeeLetterCrudController');
+
+   
 });
