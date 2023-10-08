@@ -378,6 +378,17 @@ class EmployeeCrudController extends CrudController
         });
 
 
+        $this->crud->addFilter([
+            'name'  => 'employment_status_id',
+            'type'  => 'select2',
+            'label' => 'Filter Current Status'
+        ], function () {
+            return EmploymentStatus::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'employment_status_id', json_decode($values));
+        });
+
+
 
         $this->crud->addFilter(
             [
@@ -797,16 +808,15 @@ class EmployeeCrudController extends CrudController
     public function checkProbation()
     {
 
-        $males = DB::table('employees')->where('gender', 'Male')->count();
-        $females = DB::table('employees')->where('gender', 'Female')->count();
+    $males     = DB::table('employees')->where('gender', 'Male')->count();
+    $females   = DB::table('employees')->where('gender', 'Female')->count();
+    $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
+    $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
+   // $employees = Employee::where('employment_type_id', 3)->orderBy('first_name', 'ASC')->Paginate(10);
 
-        $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
-        $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
+    $employees  = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->orderBy('first_name', 'ASC')->Paginate(10);
 
-        $employees = Employee::where('employment_type_id', 3)->orderBy('id', 'desc')->Paginate(10);
-
-
-        return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
+    return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
     }
 
 
@@ -823,29 +833,38 @@ class EmployeeCrudController extends CrudController
 
     // }
 
+
+    public function checkLeave()
+    {
+
+        $now =  Carbon::now();
+        $males = Employee::where('employment_status_id','!=',  1)->where('gender', 'Male')->count();
+        $females = Employee::where('employment_status_id','!=',  1)->where('gender', 'Female')->count();
+
+        $employees = Employee::where('employment_status_id','!=',  1)->orderBy('first_name', 'ASC')->Paginate(10);
+
+        return view('employee.active_leave', compact('employees' ,'females', 'males'));
+    }
+
     public function checkRetirment()
     {
 
         $now =  Carbon::now();
-        $notify = Pension::where('id',  1)->first()->notify;
-        $males = DB::table('employees')->where('gender', 'Male')->count();
-        $females = DB::table('employees')->where('gender', 'Female')->count();
+        $active_leaves = Employee::where('employment_status_id','!=',  1)->count();
+
+        $males = Employee::where('gender', 'Male')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
+        $females  = Employee::where('gender', 'Female')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
         $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
         $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
-        $emps = Employee::all();
+      
+        $employees = Employee::whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->orderBy('first_name', 'ASC')->Paginate(10);
 
-        foreach ($emps  as $employee) {
-            $diff_ind_days =  $now->diff($employee->date_of_birth);
+        $males = Employee::where('gender', 'Male')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
+        $females  = Employee::where('gender', 'Female')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
 
-            if ($diff_ind_days->d <= $notify) {
-
-                $employees = Employee::where('id', $employee->id)->orderBy('id', 'desc')->Paginate(10);
-                //  dd($employees);
-
-            }
-        }
-
-        return view('employee.retirment', compact('employees', 'females', 'males', 'permanets', 'contracts'));
+            
+    
+        return view('employee.retirment', compact('employees' ,'females', 'males', 'permanets', 'contracts'));
     }
 
     public function importEmployee(Request $request)

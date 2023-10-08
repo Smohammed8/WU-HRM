@@ -45,7 +45,10 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Employees</span>
-                                <span class="info-box-number">{{ number_format($employees, 0, '.', ',') }}</span>
+                                <span class="info-box-number">{{ number_format($employees, 0, '.', ',') }}
+                               
+                                 , M:{{ $males }}, F:{{ $females }}
+                                </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -58,7 +61,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Retirements </span>
-                                <span class="info-box-number">{{ $count }} </span>
+                                <span class="info-box-number">{{ $retired }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -67,11 +70,11 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"> <a href="{{ route('employee.index', []) }}" title="Click to view details"> <i class="fa fa-user-plus"></i> </a></span>
+                            <span class="info-box-icon bg-warning"> <a href="{{ route('employee.checkLeave') }}" title="Click to view details"> <i class="fa fa-user-plus"></i> </a></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text"> Active Leaves</span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-text"> Emloyee Leaves</span>
+                                <span class="info-box-number">{{ $active_leaves}} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -80,11 +83,11 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"> <a href="" title="Click to view details"> <i class="fa fa-female"></i> </a> </span>
+                            <span class="info-box-icon bg-danger"> <a href="#" title="Click to view details"> <i class="fa fa-users"></i> </a> </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text"> Total Female</span>
-                                <span class="info-box-number">{{ $females }}</span>
+                                <span class="info-box-text"> Total Permanet</span>
+                                <span class="info-box-number">{{ $permanets }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -139,11 +142,11 @@
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"> <a href="" title="Click to view details">  <i class="fa fa-male"></i> </a></span>
+                            <span class="info-box-icon bg-danger"> <a href="#" title="Click to view details">  <i class="fa fa-users"></i> </a></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Total Male</span>
-                                <span class="info-box-number">{{ $males }}</span>
+                                <span class="info-box-text">Total Contracts </span>
+                                <span class="info-box-number">{{ $contracts }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
