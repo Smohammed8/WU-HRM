@@ -22,7 +22,7 @@ line-height: 1.5;
       {{-- <div class="card"> --}}
    
         <div class="card-header">
-            <h5 class="mb-2"> Retirments in this year :       {{ \Carbon\Carbon::now()->format('Y') -8  }} E.C</h5>
+            <h5 class="mb-2"> Retirments in this year : {{ \Carbon\Carbon::now()->format('Y') -8  }} E.C</h5>
 
        
         
@@ -60,6 +60,20 @@ line-height: 1.5;
                         </div>
                         <!-- /.info-box -->
                     </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="fa fa-users"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text"> <a href =""> Total Retirments  </a></span>
+                                <span class="info-box-number">{{ $females +  $males  }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
                     <!-- /.col -->
                     {{-- <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
@@ -103,13 +117,9 @@ line-height: 1.5;
                     <th>#</th>
                     <th> Employee</th>
                     <th> Gender  </th>
-             
                     <th> Working unit </th>
-              
-
                     <th> Job title</th>
                     <th> Employee type </th>
-                
                     <th> Age  </th>
                     <th> Action</th>
                 </tr>
@@ -123,18 +133,13 @@ line-height: 1.5;
                         <td> {{ $loop->index + 1 }} </td>
 
                       
-                            <td> {{ $employee->name }} </td>
-                    
-
-                            <td>{{  $employee->gender }}   </td>
+                            <td> {{ $employee->name ?? '-' }} </td>
+                            <td>{{  $employee->gender ?? '-' }}   </td>
                          
-                            <td> {{ $employee->position->unit->name }} </td>
-                        
-                        
+                            <td> {{ $employee->position->unit->name ?? '-' }} </td>
                             <td> {{ $employee->position->jobTitle->name ?? '-' }} - {{ $employee->positionCode?->code ?? '-'  }} </td>
-
                             <td> {{ $employee->employeeCategory->name ?? '-' }} </td>
-                            <td> 
+                            <td style="color:red;"> 
                                 
                                 <label for=""
                                 title="{{ \Carbon\Carbon::parse($employee->date_of_birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
@@ -179,7 +184,7 @@ line-height: 1.5;
                 @endforeach
                 @if (count($employees) == 0)
                 <tr>
-                    <td colspan="7" class="text-center"> No employee found in probation period! </td>
+                    <td colspan="7" class="text-center"> No employee are retired! </td>
                 </tr>
             @endif
               

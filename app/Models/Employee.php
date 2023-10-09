@@ -473,8 +473,12 @@ class Employee extends  Model
     {
         return $this->hasMany(EmployeeCertificate::class);
     }
-
-
+  //////////////////////////////////////////////////////
+    public function getAgeAttribute()
+    {
+        return now()->diffInYears($this->date_of_birth);
+    }
+   /////////////////////////////////////////////////////
     /**
      * Get all of the evaluations for the Employee
      *

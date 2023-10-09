@@ -240,6 +240,163 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('unit.show');
         Permission::findOrCreate('unit.edit');
         Permission::findOrCreate('unit.delete');
+///////////////////////////////////////////////////////////////////////////////
+        // Permission for field of study in G setting
+        Permission::findOrCreate('field_of_study.icrud');
+        Permission::findOrCreate('field_of_study.index');
+        Permission::findOrCreate('field_of_study.create');
+        Permission::findOrCreate('field_of_study.show');
+        Permission::findOrCreate('field_of_study.edit');
+        Permission::findOrCreate('field_of_study.delete');
+      ////////////// 
+        Permission::findOrCreate('employee_title.icrud');
+        Permission::findOrCreate('employee_title.index');
+        Permission::findOrCreate('employee_title.create');
+        Permission::findOrCreate('employee_title.show');
+        Permission::findOrCreate('employee_title.edit');
+        Permission::findOrCreate('employee_title.delete');
+        /////////////////// Permission for ethnicity in G setting
+        Permission::findOrCreate('ethnicity.icrud');
+        Permission::findOrCreate('ethnicity.index');
+        Permission::findOrCreate('ethnicity.create');
+        Permission::findOrCreate('ethnicity.show');
+        Permission::findOrCreate('ethnicity.edit');
+        Permission::findOrCreate('ethnicity.delete');
+
+        /////////////////// Permission for category in G setting
+        Permission::findOrCreate('employee_category.icrud');
+        Permission::findOrCreate('employee_category.index');
+        Permission::findOrCreate('employee_category.create');
+        Permission::findOrCreate('employee_category.show');
+        Permission::findOrCreate('employee_category.edit');
+        Permission::findOrCreate('employee_category.delete');
+
+        //////////// Permission for hr-branch creation in G setting
+        Permission::findOrCreate('hr_branch.icrud');
+        Permission::findOrCreate('hr_branch.index');
+        Permission::findOrCreate('hr_branch.create');
+        Permission::findOrCreate('hr_branch.show');
+        Permission::findOrCreate('hr_branch.edit');
+        Permission::findOrCreate('hr_branch.delete');
+
+        //////////////////////// Permsssion for language in G setting
+        Permission::findOrCreate('language.icrud');
+        Permission::findOrCreate('language.index');
+        Permission::findOrCreate('language.create');
+        Permission::findOrCreate('language.show');
+        Permission::findOrCreate('language.edit');
+        Permission::findOrCreate('language.delete');
+
+        //////////////////////// Permsssion for  marital status in G setting
+        Permission::findOrCreate('marital_status.icrud');
+        Permission::findOrCreate('marital_status.index');
+        Permission::findOrCreate('marital_status.create');
+        Permission::findOrCreate('marital_status.show');
+        Permission::findOrCreate('marital_status.edit');
+        Permission::findOrCreate('marital_status.delete');
+
+    ///////////////////// Permission for license_type in G setting
+        Permission::findOrCreate('license_type.icrud');
+        Permission::findOrCreate('license_type.index');
+        Permission::findOrCreate('license_type.create');
+        Permission::findOrCreate('license_type.show');
+        Permission::findOrCreate('license_type.edit');
+        Permission::findOrCreate('license_type.delete');
+    //////////////// Permission for nationality in G setting
+        Permission::findOrCreate('nationality.icrud');
+        Permission::findOrCreate('nationality.index');
+        Permission::findOrCreate('nationality.create');
+        Permission::findOrCreate('nationality.show');
+        Permission::findOrCreate('nationality.edit');
+        Permission::findOrCreate('nationality.delete');
+
+        //////////////// Permission for region in G setting
+        Permission::findOrCreate('region.icrud');
+        Permission::findOrCreate('region.index');
+        Permission::findOrCreate('region.create');
+        Permission::findOrCreate('region.show');
+        Permission::findOrCreate('region.edit');
+        Permission::findOrCreate('region.delete');
+
+        //////////////// Permission for religion in G setting
+        Permission::findOrCreate('religion.icrud');
+        Permission::findOrCreate('religion.index');
+        Permission::findOrCreate('religion.create');
+        Permission::findOrCreate('religion.show');
+        Permission::findOrCreate('religion.edit');
+        Permission::findOrCreate('religion.delete');
+        //////////////// Permission for skill-type in G setting
+        Permission::findOrCreate('skill_type.icrud');
+        Permission::findOrCreate('skill_type.index');
+        Permission::findOrCreate('skill_type.create');
+        Permission::findOrCreate('skill_type.show');
+        Permission::findOrCreate('skill_type.edit');
+        Permission::findOrCreate('skill_type.delete');
+        //////////////// Permission for upload_file in G setting
+        Permission::findOrCreate('upload_file.icrud');
+        Permission::findOrCreate('upload_file.index');
+        Permission::findOrCreate('upload_file.create');
+        Permission::findOrCreate('upload_file.show');
+        Permission::findOrCreate('upload_file.edit');
+        Permission::findOrCreate('upload_file.delete');
+
+///////// Permission for family_relationship in G setting
+        Permission::findOrCreate('family_relationship.icrud');
+        Permission::findOrCreate('family_relationship.index');
+        Permission::findOrCreate('family_relationship.create');
+        Permission::findOrCreate('family_relationship.show');
+        Permission::findOrCreate('family_relationship.edit');
+        Permission::findOrCreate('family_relationship.delete');
+    
+///////// Permission for type_of_leave in G setting
+        Permission::findOrCreate('type_of_leave.icrud');
+        Permission::findOrCreate('type_of_leave.index');
+        Permission::findOrCreate('type_of_leave.create');
+        Permission::findOrCreate('type_of_leave.show');
+        Permission::findOrCreate('type_of_leave.edit');
+        Permission::findOrCreate('type_of_leave.delete');
+
+        ///////// Permission for type_of_misconduct in G setting
+        Permission::findOrCreate('type_of_misconduct.icrud');
+        Permission::findOrCreate('type_of_misconduct.index');
+        Permission::findOrCreate('type_of_misconduct.create');
+        Permission::findOrCreate('type_of_misconduct.show');
+        Permission::findOrCreate('type_of_misconduct.edit');
+        Permission::findOrCreate('type_of_misconduct.delete');
+
+        ///////// Permission for template in G setting
+        Permission::findOrCreate('template.icrud');
+        Permission::findOrCreate('template.index');
+        Permission::findOrCreate('template.create');
+        Permission::findOrCreate('template.show');
+        Permission::findOrCreate('template.edit');
+        Permission::findOrCreate('template.delete');
+        ///////// Permission for template_type in G setting
+        Permission::findOrCreate('template_type.icrud');
+        Permission::findOrCreate('template_type.index');
+        Permission::findOrCreate('template_type.create');
+        Permission::findOrCreate('template_type.show');
+        Permission::findOrCreate('template_type.edit');
+        Permission::findOrCreate('template_type.delete');
+        
+    
+// Permission for educational Level in G setting
+        Permission::findOrCreate('education_level.icrud');
+        Permission::findOrCreate('education_level.index');
+        Permission::findOrCreate('education_level.create');
+        Permission::findOrCreate('education_level.show');
+        Permission::findOrCreate('education_level.edit');
+        Permission::findOrCreate('education_level.delete');
+
+        // Permission for certification_type in G setting
+        Permission::findOrCreate('certification_type.icrud');
+        Permission::findOrCreate('certification_type.index');
+        Permission::findOrCreate('certification_type.create');
+        Permission::findOrCreate('certification_type.show');
+        Permission::findOrCreate('certification_type.edit');
+        Permission::findOrCreate('certification_type.delete');
+        
+////////////////////////////////////////////////////////////////////////////////
         // Permission for job_title_category
         Permission::findOrCreate('job_title_category.icrud');
         Permission::findOrCreate('job_title_category.index');

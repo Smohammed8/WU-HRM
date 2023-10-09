@@ -14,7 +14,7 @@
                 <h6 class="modal-title" id="exampleModalLabel"> Employee: {{ $crud?->entry?->name }} &nbsp; &nbsp;
                     &nbsp;
                     @if ($evaluations[0])
-                        Working Unit: {{ $crud?->entry?->position->unit?->name }} &nbsp; &nbsp;<br> Last Efficiency :{{ $crud?->entry?->evaluations[0]->total_mark }}  &nbsp; &nbsp; Job
+                        Working Unit: {{ $crud?->entry?->position?->unit?->name }} &nbsp; &nbsp;<br> Last Efficiency :{{ $crud?->entry?->evaluations[0]->total_mark }}  &nbsp; &nbsp; Job
                         Position : {{ $crud?->entry?->position?->name }} </h6>
                     @endif
                 <div class="row">

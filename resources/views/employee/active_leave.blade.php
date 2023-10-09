@@ -20,10 +20,16 @@ line-height: 1.5;
      <div class="card card-primary card-outline"> 
         
       {{-- <div class="card"> --}}
-
+   
         <div class="card-header">
-            <h5 class="mb-2"> Employees under probation period </h5>
+            <h5 class="mb-2"> Employee Leaves : {{ \Carbon\Carbon::now()->format('Y') -8  }} E.C</h5>
+
+       
+        
+
+         
         </div> <!-- /.card-body -->
+
         <div class="card-body">
             <div class="container-fluid animated fadeIn">
 
@@ -54,38 +60,26 @@ line-height: 1.5;
                         </div>
                         <!-- /.info-box -->
                     </div>
-                    <!-- /.col -->
+
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="fa fa-user-tie"></i></span>
+                            <span class="info-box-icon bg-success"><i class="fa fa-users"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">  <a href ="#"> Contracts  </a></span>
-                                <span class="info-box-number">{{   $contracts }}</span>
+                                <span class="info-box-text"> <a href =""> Total Leaves  </a></span>
+                                <span class="info-box-number">{{ $females +  $males  }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
                     </div>
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="fa fa-users"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text"> <a href ="#"> Permanents </a> </a></span>
-                                <span class="info-box-number"> {{ $permanets }} </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+                
                 </div>
                 <!-- /.row -->
 
              
-     
+           
 
 
 
@@ -100,8 +94,7 @@ line-height: 1.5;
                     <th> Working unit </th>
                     <th> Job title</th>
                     <th> Employee type </th>
-                    <th> Employement date  </th>
-                    {{-- <th> Duration  </th> --}}
+                    <th> Leave type  </th>
                     <th> Action</th>
                 </tr>
             </thead>
@@ -114,26 +107,21 @@ line-height: 1.5;
                         <td> {{ $loop->index + 1 }} </td>
 
                       
-                            <td> {{ $employee->name }} </td>
-                    
-
-                            <td>{{  $employee->gender }}   </td>
+                            <td> {{ $employee->name ?? '-' }} </td>
+                            <td>{{  $employee->gender ?? '-' }}   </td>
                          
                             <td> {{ $employee->position->unit->name ?? '-' }} </td>
-                        
-                        
                             <td> {{ $employee->position->jobTitle->name ?? '-' }} - {{ $employee->positionCode?->code ?? '-'  }} </td>
-
                             <td> {{ $employee->employeeCategory->name ?? '-' }} </td>
-
-                            <td style="color:red;"> {{ $employee->employement_date->format('d-m-Y') ?? '-' }} E.C </td>
-
+                            <td style="color:red;"> 
+                                
+                               
+                                {{ $employee->employmentStatus->name ?? '-' }} 
                             
-{{-- <td> {{ \Carbon\Carbon::parse($employee->employement_date->)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }}</td> --}}
+                            </td>
                         
 
-                        
-
+                
                     
                         <td>
 
@@ -145,15 +133,33 @@ line-height: 1.5;
 
                       
                                
-        
+                          
+                                  {{-- 
+                            <form method="GET" action="{{ route('details',[]) }}">
+
+                                    @csrf
+
+                                <input type="hidden" value="{{ $placement_result->newPosition->jobTitle->id ?? null }}" name="newposition">
+
+                                <button title="Make analysis"  name="filter" class="btn btn-sm btn-primary float-right">
+                               <span class="fa fa-list"></span>
+                              </button>
+
+                            </form> --}}
+                        
+                            {{-- {{ route('payrollSheet.payee', ['payroll_sheet_id'=> $payroll_sheet->id]) }} --}}
+
                           
                         </td>
                         
                     </tr>
+
+
+                    
                 @endforeach
                 @if (count($employees) == 0)
                 <tr>
-                    <td colspan="7" class="text-center"> No employee found in probation period! </td>
+                    <td colspan="7" class="text-center"> No employee are retired! </td>
                 </tr>
             @endif
               

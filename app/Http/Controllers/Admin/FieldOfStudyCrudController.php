@@ -28,7 +28,7 @@ class FieldOfStudyCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\FieldOfStudy::class);
+        CRUD::setModel(FieldOfStudy::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/field-of-study');
         CRUD::setEntityNameStrings('field of study', 'field of studies');
         $this->setupPermission();
@@ -49,7 +49,7 @@ class FieldOfStudyCrudController extends CrudController
 
     public function setupPermission()
     {
-        $permission_base = 'setting';
+        $permission_base = 'field_of_study';
         if (!backpack_user()->can($permission_base . '.icrud')) {
             $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
             if (in_array('show', $explodedRoute)) {

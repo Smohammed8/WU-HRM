@@ -25,11 +25,13 @@
 
         @include('manageChild',['childs' => $child->childs])
 
-		@foreach($child->positions as $position)
+		{{-- @foreach($child->positions as $position)
 
-		@if(count($child->positions )) &nbsp;&nbsp;&nbsp;	
-		<i class="la la-caret-right"> </i> 
-		{{$position->name}}-
+		@if(count($child->positions ))
+	
+		&nbsp;&nbsp;&nbsp;	
+		
+		 <i class="la la-caret-right"> </i> {{$position->name}}-
 
 		@foreach($position->positionCodes as $positionCode)
 		
@@ -37,11 +39,12 @@
 
 
 
-		<br> 
-		@endforeach
+	
+		@endforeach 
 
 		@endif 
-		@endforeach
+
+		@endforeach --}}
 
         @endif
 

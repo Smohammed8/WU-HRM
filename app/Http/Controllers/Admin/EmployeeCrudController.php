@@ -70,6 +70,7 @@ use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\EmployeeAddressRequest;
+use App\Models\EmployeeLetter;
 use Illuminate\Validation\ValidationException;
 use \Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -120,7 +121,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setEntityNameStrings('employee', 'employees');
 
         CRUD::disablePersistentTable();
-        CRUD::enableExportButtons();
+        CRUD::enableExportButtons(); // check this if the page is not loading
         //CRUD::setDefaultPageLength(10); // No of paginatings
 
         $this->crud->setShowView('employee.show');
@@ -217,8 +218,6 @@ class EmployeeCrudController extends CrudController
         $this->crud->orderBy('grand_father_name', 'asc');
     }
 
-//dd($form = backpack_form_input());
-//$search_term = $request->input('q'); 
         $this->crud->enableDetailsRow();
         //$this->crud->allowAccess('details_row');
         $this->crud->setDetailsRowView('details_row');
@@ -242,6 +241,11 @@ class EmployeeCrudController extends CrudController
 
                 $query->orWhere('position_id', 'like', '%' . $searchTerm . '%');
                 $query->orWhere('date_of_birth', 'like', '%' . $searchTerm . '%');
+                ////////////////////////////////////////////////////////////////////////
+                $query->orWhere('first_name_am', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('father_name_am', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('grand_father_name_am', 'like', '%' . $searchTerm . '%');
+                //////////////////////////////////////////////////////////////////////////
                 $query->orWhere(DB::raw("CONCAT_WS(' ', first_name, father_name, grand_father_name)"), 'like', '%' . $searchTerm . '%');
                 if (is_numeric($searchTerm) && $searchTerm <= 70 && $searchTerm >= 18) {
                     $currentYear = date('Y');
@@ -319,9 +323,6 @@ class EmployeeCrudController extends CrudController
         CRUD::column('birth_city')->label('Place of birth');
         CRUD::column('employmeent_identity')->label('Employee ID');
         // CRUD::column('employee_title_id')->label('Title');
-
-
-
         CRUD::column('educational_level_id')->type('select')->label('Educational Level')->entity('educationLevel')->model(EducationalLevel::class)->attribute('name');
 
         CRUD::column('marital_status_id')->type('select')->label('Marital Status')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name');
@@ -374,6 +375,17 @@ class EmployeeCrudController extends CrudController
             return HrBranch::all()->pluck('name', 'id')->toArray();
         }, function ($values) {
             $this->crud->addClause('where', 'hr_branch_id', json_decode($values));
+        });
+
+
+        $this->crud->addFilter([
+            'name'  => 'employment_status_id',
+            'type'  => 'select2',
+            'label' => 'Filter Current Status'
+        ], function () {
+            return EmploymentStatus::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'employment_status_id', json_decode($values));
         });
 
 
@@ -434,10 +446,6 @@ class EmployeeCrudController extends CrudController
             }
         );
     }
-
-
-    
-
     public function exportEmployees(Request $request)
     {
         $employee_category = $request->input('employee_category');
@@ -549,6 +557,8 @@ class EmployeeCrudController extends CrudController
 
         return Excel::download(new EmployeesExport($employees), $fileName);
     }
+
+    
     public function showExportForm()
     {
         return view('export');
@@ -798,16 +808,15 @@ class EmployeeCrudController extends CrudController
     public function checkProbation()
     {
 
-        $males = DB::table('employees')->where('gender', 'Male')->count();
-        $females = DB::table('employees')->where('gender', 'Female')->count();
+    $males     = DB::table('employees')->where('gender', 'Male')->count();
+    $females   = DB::table('employees')->where('gender', 'Female')->count();
+    $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
+    $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
+   // $employees = Employee::where('employment_type_id', 3)->orderBy('first_name', 'ASC')->Paginate(10);
 
-        $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
-        $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
+    $employees  = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->orderBy('first_name', 'ASC')->Paginate(10);
 
-        $employees = Employee::where('employment_type_id', 3)->orderBy('id', 'desc')->Paginate(10);
-
-
-        return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
+    return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
     }
 
 
@@ -824,41 +833,46 @@ class EmployeeCrudController extends CrudController
 
     // }
 
+
+    public function checkLeave()
+    {
+
+        $now =  Carbon::now();
+        $males = Employee::where('employment_status_id','!=',  1)->where('gender', 'Male')->count();
+        $females = Employee::where('employment_status_id','!=',  1)->where('gender', 'Female')->count();
+
+        $employees = Employee::where('employment_status_id','!=',  1)->orderBy('first_name', 'ASC')->Paginate(10);
+
+        return view('employee.active_leave', compact('employees' ,'females', 'males'));
+    }
+
     public function checkRetirment()
     {
 
         $now =  Carbon::now();
-        $notify = Pension::where('id',  1)->first()->notify;
-        $males = DB::table('employees')->where('gender', 'Male')->count();
-        $females = DB::table('employees')->where('gender', 'Female')->count();
+        $active_leaves = Employee::where('employment_status_id','!=',  1)->count();
+
+        $males = Employee::where('gender', 'Male')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
+        $females  = Employee::where('gender', 'Female')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
         $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
         $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
-        $emps = Employee::all();
+      
+        $employees = Employee::whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->orderBy('first_name', 'ASC')->Paginate(10);
 
-        foreach ($emps  as $employee) {
-            $diff_ind_days =  $now->diff($employee->date_of_birth);
+        $males = Employee::where('gender', 'Male')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
+        $females  = Employee::where('gender', 'Female')->whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
 
-            if ($diff_ind_days->d <= $notify) {
-
-                $employees = Employee::where('id', $employee->id)->orderBy('id', 'desc')->Paginate(10);
-                //  dd($employees);
-
-            }
-        }
-
-        return view('employee.retirment', compact('employees', 'females', 'males', 'permanets', 'contracts'));
+            
+    
+        return view('employee.retirment', compact('employees' ,'females', 'males', 'permanets', 'contracts'));
     }
 
     public function importEmployee(Request $request)
     {
 
 
-    $file = $request->input('file');
+      $file = $request->input('file');
     // dd($request);
-   
-    Excel::import(new ImportEmployee, $request->file('file')->store('files'));
-    return redirect()->back();
-
         Excel::import(new EmployeesImport, $request->file('file')->store('files'));
         return redirect()->back();
 
@@ -912,7 +926,8 @@ class EmployeeCrudController extends CrudController
                         PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
                     }
                 }
-            } else {
+            } 
+            else {
 
 
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
@@ -922,7 +937,14 @@ class EmployeeCrudController extends CrudController
 
                 PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
             }
-        }  // the end of null check if null of new position
+        }
+        else{
+
+            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+        }
+         
+        
+        // the end of null check if null of new position
 
         $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
             $item['employee_id'] = $employee_id;
@@ -954,8 +976,13 @@ class EmployeeCrudController extends CrudController
         $this->data['employeeLicenses'] = $licenses;
         $employeeAddresses = EmployeeAddress::where('employee_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['employeeAddresses'] = $employeeAddresses;
+
+
         $employeeCertificates = EmployeeCertificate::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeCertificates'] = $employeeCertificates;
+
+        $employeeLetters = EmployeeLetter::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
+        $this->data['employeeLetters'] = $employeeLetters;
 
         $employeeContacts = EmployeeContact::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;
@@ -1083,14 +1110,46 @@ class EmployeeCrudController extends CrudController
           $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
           $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
           $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
-        //horizontal_level 
-        if($step =='Start')
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'start_salary');
-        else
-            $this->data['startSalary'] = JobGrade::getValueByIdAndColumn($level_id, 'ceil_salary');
-
-
-        /////////// Laraevl count ////////////////////////
+        //////////////////// Warining: Don't change this code  //////////////////////////////////////
+        if($step =='Start'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'start_salary');
+        }
+        elseif($step =='1'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'one');
+        }
+        elseif($step =='2'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'two');
+        }
+        elseif($step =='3'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'three');
+        }
+        elseif($step =='4'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'four');
+        }
+        elseif($step =='5'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'five');
+        }
+        elseif($step =='6'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'six');
+        }
+        elseif($step =='7'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'seven');
+        }
+        elseif($step =='8'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'eight');
+        }
+        elseif($step =='9'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'nine');
+        }
+        elseif($step =='Ceil'){
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'ceil_salary');
+        }
+        else{
+            $this->data['startSalary'] = JobGrade::getSalarySheet($level_id, 'start_salary');
+        }
+    ///////////////////////////////////////////Ende of code ///////////////////////////////////////
+      
+    /////////// Laraevl count ////////////////////////
         //   $employee = Employee::where('id', '<=', 100)->get();
         //   $totalEmployee = $employee->count();
 

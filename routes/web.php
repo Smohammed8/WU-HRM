@@ -119,6 +119,9 @@ Route::get('legistlation', function(){
 Route::get('checkProbation', [EmployeeCrudController::class, 'checkProbation'])->name('employee.probation');
 Route::get('checkRetirment', [EmployeeCrudController::class, 'checkRetirment'])->name('employee.checkRetirment');
 
+Route::get('checkLeave', [EmployeeCrudController::class, 'checkLeave'])->name('employee.checkLeave');
+
+
 Route::post('/file-import',[EmployeeCrudController::class,'importEmployee'])->name('import-employee');
 
 Route::get('{employee_id}/employee/pdf', [EmployeeCrudController::class, 'createPDF'])->name('hire.letter');

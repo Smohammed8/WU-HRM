@@ -100,10 +100,65 @@ class PositionCrudController extends CrudController
     {
         CRUD::column('unit.name')->label('Organizational unit');
         CRUD::column('job_title_id')->type('select')->entity('jobTitle')->model(JobTitle::class)->attribute('name')->size(4);
-        CRUD::column('total_employees')->label('No of positions')->type('model_function')->function_name('totalPositions');
+   
         CRUD::column('range')->label('Job Code Range')->type('model_function')->function_name('positionRange');
         CRUD::column('available_for_placement')->label('Open for candidates')->type('boolean');
-        CRUD::column('status')->type('select_from_array')->options(Constants::POSITION_STATUS);
+        // CRUD::column('total_employees')->label('Total Positions')->type('model_function')->function_name('totalPositions')
+        
+        CRUD::column('total_employees')->type('closure')->function(function ($entry) {
+            return $entry->totalPositions() ?? '-';
+        })->label('Permitted Positions')->wrapper([
+            'element' => 'span',
+            'class' => function ($crud, $column, $entry) {
+                switch ($entry->totalPositions()) {
+                    case '0':
+                        return 'badge badge-pill badge-danger';
+                    case '1':
+                        return 'badge badge-pill badge-warning';
+                    default:
+                        return 'badge badge-pill badge-info';
+
+                }
+            }
+        ]);
+        CRUD::column('occupied_positions')->type('closure')->function(function ($entry) {
+            return $entry->totalOccupiedPositions() ?? '-';
+        })->label('Occupied Positions')->wrapper([
+            'element' => 'span',
+            'class' => function ($crud, $column, $entry) {
+                switch ($entry->totalOccupiedPositions()) {
+                    case '0':
+                        return 'badge badge-pill badge-info border';
+                    case '1':
+                        return 'badge badge-pill badge-info border';
+                    default:
+                        return 'badge badge-pill badge-info border';
+                        
+
+                }
+            }
+        ]);
+            CRUD::column('free_positions')->type('closure')->function(function ($entry) {
+                return $entry->totalFreePositions() ?? '-';
+            })->label('Free Positions')->wrapper([
+
+
+            'element' => 'span',
+            'class' => function ($crud, $column, $entry) {
+                switch ($entry->totalFreePositions()) {
+                    case '0':
+                        return 'badge badge-pill badge-danger  border';
+                    case '1':
+                        return 'badge badge-pill badge-warning border';
+                    default:
+                        return 'badge badge-pill badge-info border';
+
+                }
+            }
+        ]);
+
+
+        // CRUD::column('status')->label('Free Positions')->type('select_from_array')->options(Constants::POSITION_STATUS);
 
         $this->crud->addFilter([
             'name'  => 'unit_id',

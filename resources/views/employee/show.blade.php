@@ -668,7 +668,7 @@
                                 <td>{{ $employeeEducation->training_start_date->format('s-m-Y')   }} E.C - 
                                     {{ $employeeEducation->training_end_date->format('d-m-Y')   }} E.C</td>
                         
-                               <td><a href="{{  $employeeEducation->upload ?? '-' }}" target="_blank">Download
+                               <td><a href="{{  $employeeEducation->upload ?? '-' }}" target="_blank">View
                                 Document</a>
                         </td>
 
@@ -943,6 +943,98 @@
                         </div>
                     </div>
                     <!-- /////////////////////////////////////////////////////////////////// -->
+
+
+
+
+
+
+
+
+           
+
+
+
+                    <!-- //////////////////////////////////////////////////////////////// -->
+                    <div role="tabpanel" class="tab-pane" id="tab_employee_letter">
+                        <h5>Employee Letters </h5>
+                        <div class=" no-padding no-border">
+                            <div class="">
+                             
+                                @canany(['employee.letters.icrud', 'employee.letters.create'])
+                                    <a href="{{ route('{employee}/employee-letter.create', ['employee' => $crud->entry?->id]) }}"
+                                        class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i
+                                                class="la la-plus"></i> {{ trans('backpack::crud.add') }}
+                                            {{ 'Employee Letters ' }}</span></a>
+                                @endcanany
+                            </div>
+                            <table id="crudTable"
+                                class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
+                                cellspacing="0">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th>Title</th>
+                                        <th>Body</th>
+                                        <th>Date of Written </th>
+                                        <th>Scan Uploads </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($employeeLetters as $employeeLetter)
+                                        <tr>
+                                        <td>{{ $employeeLetter->title ?? '-' }}</td>
+                                            <td>{{ $employeeLetter?->body ?? '-'  }}</td>
+                                            <td>{{ $employeeLetter->written_date->format('d-m-Y') ?? '-'  }}</td>
+                                           
+
+                                            <td><a href="{{$employeeLetter->upload  ?? '-' }}" target="_blank">View
+                                                Document </a>
+                                        </td>
+
+                                         
+                                            <td>
+
+                                              
+                        @canany(['employee.letters.icrud', 'employee.letters.icrud.edit'])
+                            <a href="{{ route('{employee}/employee-letter.edit', ['employee' => $crud->entry?->id, 'id' => $employeeLetter->id]) }}"
+                                class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
+                        @endcanany
+                    
+                        @canany(['employee.letters.icrud', 'employee.letters.delete'])
+                            <a href="javascript:void(0)" onclick="deleteEntry(this)"
+                                data-route="{{ route('{employee}/employee-letter.destroy', ['employee' => $crud->entry?->id, 'id' => $employeeLetter->id]) }}"
+                                class="btn btn-sm btn-link" data-button-type="delete"><i
+                                    class="la la-trash"></i> {{ trans('backpack::crud.delete') }}
+                            </a>
+                        @endcanany
+                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @if (count($employeeLetters) == 0)
+                                        <tr>
+                                            <td colspan="4" class="text-center">No Employee Letter</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                            <div>
+                                {{$employeeLetters->links() }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /////////////////////////////////////////////////////////////////// -->
+                    
+
+
+
+
+
+
+
+
+
                     <div role="tabpanel" class="tab-pane" id="tab_employee_contact">
                         <h5>Emergency Contact</h5>
                         <div class=" no-padding no-border">

@@ -35,7 +35,7 @@ class JobTitleCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\JobTitle::class);
+        CRUD::setModel(JobTitle::class);
         $jobTitleCategory = \Route::current()->parameter('job_title_category');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title-category/' . $jobTitleCategory . '/job-title');
         CRUD::setEntityNameStrings('job title', 'job titles');

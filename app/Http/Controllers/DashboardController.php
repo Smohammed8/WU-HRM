@@ -21,6 +21,14 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+
+//     public function countEmployeesAbove60()
+// {
+//     $count = Employee::whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
+
+//     return $count;
+// }
+
     
     public function index(){
         $users = DB::table('users')->count();
@@ -31,20 +39,14 @@ class DashboardController extends Controller
         $units    = Unit::count();
         $offices = HrBranch::all();
         $positions = Position::count();
-        $count = Employee::where('date_of_birth', '<=', now()->subYears(60))->count();
+        $active_leaves = Employee::where('employment_status_id','!=',  1)->count();
+        $retired       = Employee::whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
+        $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
+        $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
 
-
-$currentDate = Carbon::now();
-// Calculate the date 6 months ago
-$sixMonthsAgo = $currentDate->subMonths(6);
-
-$probations = Employee::whereBetween('employement_date', [$sixMonthsAgo, $currentDate])
-                    //->where('employment_type_id', '=', 1)
-                    ->count();
-
-
-       // $probation = Employee::where('employment_type_id', 3)->count();
-            return view('dashboard', compact('positions','users', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','count','probations'));
+        $probations = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->count();
+     
+            return view('dashboard', compact('positions','users','permanets', 'contracts','active_leaves', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','retired','probations'));
 
        
 }

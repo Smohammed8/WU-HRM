@@ -35,7 +35,7 @@ class EthnicityCrudController extends CrudController
 
     public function setupPermission()
     {
-        $permission_base = 'setting';
+        $permission_base = 'ethnicity';
         if (!backpack_user()->can($permission_base . '.icrud')) {
             $explodedRoute = explode('/', $this->crud->getRequest()->getRequestUri());
             if (in_array('show', $explodedRoute)) {

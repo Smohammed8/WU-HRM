@@ -38,10 +38,8 @@ class DatabaseSeeder extends Seeder
             // TestDataSeeder::class,
         ]);
         if (TemplateType::where('name', Constants::PROBATION_HIRE_LETTER)->count() == 0)
-            TemplateType::create([
-                'name' => Constants::PROBATION_HIRE_LETTER
-            ]);
-        $templateType = TemplateType::where('name', Constants::PROBATION_HIRE_LETTER)->first();
+            TemplateType::create(['name' => Constants::PROBATION_HIRE_LETTER]);
+             $templateType = TemplateType::where('name', Constants::PROBATION_HIRE_LETTER)->first();
         if (Template::where('template_type_id', $templateType->id)->count() == 0)
             Template::create([
                 'template_type_id' => $templateType->id,
