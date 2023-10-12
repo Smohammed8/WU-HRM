@@ -157,6 +157,7 @@ class EmployeeCrudController extends CrudController
             if ($explodedRoute[count($explodedRoute) - 1] == $this->crud->entity_name && !backpack_user()->can($permission_base . '.index')) {
                 return abort(401);
             }
+            
             if (!backpack_user()->can($permission_base . '.create')) {
                 $this->crud->denyAccess('create');
             }
@@ -840,7 +841,6 @@ class EmployeeCrudController extends CrudController
         $now =  Carbon::now();
         $males = Employee::where('employment_status_id','!=',  1)->where('gender', 'Male')->count();
         $females = Employee::where('employment_status_id','!=',  1)->where('gender', 'Female')->count();
-
         $employees = Employee::where('employment_status_id','!=',  1)->orderBy('first_name', 'ASC')->Paginate(10);
 
         return view('employee.active_leave', compact('employees' ,'females', 'males'));

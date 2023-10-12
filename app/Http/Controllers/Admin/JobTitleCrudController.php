@@ -104,12 +104,14 @@ class JobTitleCrudController extends CrudController
         CRUD::column('name')->label('የስራ መደቡ መጠሪያ');
         // CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job level');
-        // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
+        CRUD::column('educational_level_id')->label('Min Educational level')->type('select')->entity('PositionType')->model(PositionType::class)->attribute('title')->label('Min.Educational Req.');
+    
 
         CRUD::column('educational_level_id')->label('Min Educational level')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Min.Educational Req.');
         CRUD::column('work_experience')->label('Min. Experience');
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
         //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
+        CRUD::column('position_type_id')->type('select')->entity('positionType')->model(PositionType::class)->attribute('title')->label('Position type');
        $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
        $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
         $breadcrumbs = [
@@ -118,24 +120,45 @@ class JobTitleCrudController extends CrudController
             'Job Titles' => false,
         ];
         $this->data['breadcrumbs'] = $breadcrumbs;
+
+
+        CRUD::filter('work_experience')
+        ->type('range')
+        ->whenActive(function ($value) {
+            $range = json_decode($value);
+    
+    
+            if ($range->from) {
+                CRUD::addClause('where', 'work_experience', '>=', (float) $range->from);
+            }
+
+            if ($range->to) {
+                CRUD::addClause('where', 'work_experience', '<=', (float) $range->to);
+            }
+        })
+        ->minLabel('Min Value') 
+        ->maxLabel('Max Value'); 
+
+
+        // $this->crud->addFilter([
+        //     'name'  => 'job_title_category_id',
+        //     'type'  => 'select2_multiple',
+        //     'label' => 'By job catergory'
+        // ], function () {
+        //     return JobTitleCategory::all()->pluck('name', 'id')->toArray();
+        // }, function ($values) {
+        //     $this->crud->addClause('where', 'job_title_category_id', json_decode($values));
+        // });
+
         $this->crud->addFilter([
-            'name'  => 'job_title_category_id',
+            'name'  => 'position_type_id',
             'type'  => 'select2_multiple',
-            'label' => 'By job catergory'
-        ], function () {
-            return JobTitleCategory::all()->pluck('name', 'id')->toArray();
-        }, function ($values) {
-            $this->crud->addClause('whereIn', 'job_title_category_id', json_decode($values));
-        });
-        $this->crud->addFilter([
-            'name'  => 'unit_id',
-            'type'  => 'select2_multiple',
-            'label' => 'By organizational unit'
+            'label' => 'By Position type'
 
         ], function () {
-            return Unit::all()->pluck('name', 'id')->toArray();
+            return PositionType::all()->pluck('title', 'id')->toArray();
         }, function ($values) {
-            $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
+            $this->crud->addClause('where', 'position_type_id', json_decode($values));
         });
         $this->crud->addFilter([
             'name'  => 'educational_level_id',

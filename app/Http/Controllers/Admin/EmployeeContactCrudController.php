@@ -72,8 +72,8 @@ class EmployeeContactCrudController extends CrudController
         CRUD::setValidation(EmployeeContactRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('contact_type')->type('enum');
-        CRUD::field('contact_name');
-        CRUD::field('contact');
+        CRUD::field('contact_name')->label('Person Name');
+        CRUD::field('contact')->label('Telephone');
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
