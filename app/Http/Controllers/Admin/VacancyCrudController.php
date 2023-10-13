@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Constants;
 use App\Http\Requests\VacancyRequest;
 use App\Models\Position;
+use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 use Faker\Core\DateTime;
 use Illuminate\Http\Request;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class VacancyCrudController
@@ -94,7 +97,7 @@ class VacancyCrudController extends CrudController
         CRUD::column('registration_start_date');
         CRUD::column('registration_end_date');
         CRUD::column('position_id')->label('Job Position')->type('select')->entity('position')->model(Position::class)->attribute('position_info')->size(6);
-        CRUD::column('number_of_vacants')->label('No of vaccant');
+        CRUD::column('number_of_vacants')->label('No of vaccant positions');
         CRUD::column('description');
  
         $this->crud->addButtonFromModelFunction('line', 'candidates', 'candidatesButtonView', 'beginning');
@@ -119,7 +122,7 @@ class VacancyCrudController extends CrudController
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6);
         CRUD::field('registration_start_date')->size(4);
         CRUD::field('registration_end_date')->size(4);
-        CRUD::field('number_of_vacants')->size(4);
+        CRUD::field('number_of_vacants')->label('No of vaccant positions')->size(4);
         // CRUD::field('position.jobTitle.name')->type('select2')->label('Position')->size(6);
         CRUD::field('description')->size(12)->type('summernote');
 
@@ -128,6 +131,43 @@ class VacancyCrudController extends CrudController
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+    }
+
+
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+         if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
+            throw ValidationException::withMessages(['position_id' => 'Insufficient number of positions!']);
+        }
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+ 
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+        if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
+            throw ValidationException::withMessages(['position_id' => 'Insufficient number of positions!']);
+        }
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+ 
+        Alert::success(trans('backpack::crud.update_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
     }
 
     /**

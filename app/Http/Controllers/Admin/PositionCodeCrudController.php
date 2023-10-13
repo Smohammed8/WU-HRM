@@ -7,6 +7,7 @@ use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\ValidationException;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class PositionCodeCrudController
@@ -106,7 +107,7 @@ class PositionCodeCrudController extends CrudController
         $this->data['entry'] = $this->crud->entry = $item;
 
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
         return redirect()->back();
         // save the redirect choice for next time
         $this->crud->setSaveAction();
@@ -141,7 +142,7 @@ class PositionCodeCrudController extends CrudController
         // $this->data['entry'] = $this->crud->entry = $item;
 
         // show a success message
-        \Alert::success(trans('backpack::crud.update_success'))->flash();
+        Alert::success(trans('backpack::crud.update_success'))->flash();
 
         // save the redirect choice for next time
         // $this->crud->setSaveAction();

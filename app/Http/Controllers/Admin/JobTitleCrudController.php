@@ -14,7 +14,7 @@ use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use PhpParser\Node\Stmt\Label;
-
+use Prologue\Alerts\Facades\Alert;
 /**
  * Class JobTitleCrudController
  * @package App\Http\Controllers\Admin
@@ -299,7 +299,7 @@ class JobTitleCrudController extends CrudController
                 ]);
             }
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();
@@ -348,7 +348,7 @@ if (isset($saveRequest['job_prerequest_id']) && is_array($saveRequest['job_prere
         }
     }
     else {
-        \Alert::warning(trans('backpack::crud.update_warning'))->flash();
+        Alert::warning(trans('backpack::crud.update_warning'))->flash();
 
     }
     
@@ -356,7 +356,7 @@ if (isset($saveRequest['job_prerequest_id']) && is_array($saveRequest['job_prere
             jobTitlePrerequest::where('id',$deleteItem)->delete();
         }
         // show a success message
-        \Alert::success(trans('backpack::crud.update_success'))->flash();
+        Alert::success(trans('backpack::crud.update_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();

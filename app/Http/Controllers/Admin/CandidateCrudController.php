@@ -11,6 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class CandidateCrudController
@@ -134,7 +135,7 @@ class CandidateCrudController extends CrudController
             'mark' => 'required',
         ]);
         $this->crud->getCurrentEntry()->update(['mark' => $request->get('mark')]);
-        \Alert::add('success', 'Mark added successfully');
+        Alert::add('success', 'Mark added successfully');
         return redirect()->back();
     }
 

@@ -9,7 +9,7 @@ use App\Models\MinimumRequirement;
 use App\Models\RelatedWork;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Prologue\Alerts\Facades\Alert;
 /**
  * Class MinimumRequirementCrudController
  * @package App\Http\Controllers\Admin
@@ -30,7 +30,7 @@ class MinimumRequirementCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\MinimumRequirement::class);
+        CRUD::setModel(MinimumRequirement::class);
         $positionId = \Route::current()->parameter('position');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/' . $positionId . '/minimum-requirement');
         CRUD::setEntityNameStrings('minimum requirement', 'minimum requirements');
@@ -124,7 +124,7 @@ class MinimumRequirementCrudController extends CrudController
         $this->data['entry'] = $this->crud->entry = $item;
 
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();
@@ -160,7 +160,7 @@ class MinimumRequirementCrudController extends CrudController
             }
         }
         // show a success message
-        \Alert::success(trans('backpack::crud.update_success'))->flash();
+        Alert::success(trans('backpack::crud.update_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();

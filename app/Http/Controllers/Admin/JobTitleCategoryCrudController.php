@@ -8,6 +8,7 @@ use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\RelatedWork;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class JobTitleCategoryCrudController
@@ -154,7 +155,7 @@ class JobTitleCategoryCrudController extends CrudController
             }
 
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();

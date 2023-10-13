@@ -65,7 +65,6 @@ use App\Models\EmployeeCertificate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use \Maatwebsite\Excel\Facades\Excel;
-
 use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -758,7 +757,7 @@ class EmployeeCrudController extends CrudController
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
         $data = $this->crud->getStrippedSaveRequest();
-        if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
+if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
             throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
         }
         // insert item in the db
@@ -766,7 +765,7 @@ class EmployeeCrudController extends CrudController
         $this->data['entry'] = $this->crud->entry = $item;
         PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->first()->update(['employee_id' => $item->id]);
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();

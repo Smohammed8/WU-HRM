@@ -84,7 +84,10 @@ class Position extends Model
 
     public function getPositionInfoAttribute()
     {
-        return $this->jobTitle->name.' at '.$this->unit->name;
+  
+    
+        return $this->jobTitle->name.' at '.$this->unit->name.'['.$this->totalFreePositions().']';
+    
     }
 
     public function positionRange()

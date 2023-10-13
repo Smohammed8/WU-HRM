@@ -7,6 +7,8 @@ use App\Models\JobTitle;
 use App\Models\EmploymentType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\ValidationException;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class InternalExperienceCrudController
@@ -102,6 +104,39 @@ class InternalExperienceCrudController extends CrudController
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+    }
+
+
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+         if ($data['start_date'] >= $data['end_date']) {
+            throw ValidationException::withMessages(['start_date' => 'Start-date must be less than End-date!']);
+        }
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+    
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+      if ($data['start_date'] >= $data['end_date']) {
+            throw ValidationException::withMessages(['start_date' => 'Start-date must be less than End-date!']);
+        }
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+        Alert::success(trans('backpack::crud.update_success'))->flash();
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+
     }
 
     /**
