@@ -1073,7 +1073,6 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
         ////////////////////////////////////////////////////////////////////
         $this->data['last_effiency'] =  $this->getEffiency($this->crud->getCurrentEntryId());
 
-
         ////////////////////////////////////////////////////////////////////
 
         $employeeEvaluations = EmployeeEvaluation::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
@@ -1158,9 +1157,17 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
         // $this->data['evs'] = $evs;
 
     }
-    function getTotalLeaveDays($employee_id,$date_of_employee){
 
+    public function getCalculateLeaveDaysForEmployee($employeeId)
+{
+    $employee = Employee::find($employeeId);
 
-
+    if ($employee) {
+        $totalLeaveDays = $employee->calculateTotalLeaveDays();
+        return "Total leave days for employee: {$totalLeaveDays}";
+    } else {
+        return "Employee not found";
     }
+}
+
 }

@@ -6,6 +6,10 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Models\HrBranch;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserCrudController extends CrudController
 {
@@ -82,6 +86,16 @@ class UserCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'text',
             ],
+
+            [
+                'name'  => 'hr_branch_id',
+                'label' => 'College/Institute',
+                'attribute'=> 'name',
+                'entity'    => 'HrBranch',
+                'type'      => 'select',
+                'model' => 'App\Models\HrBranch', 
+               ],
+
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
@@ -204,6 +218,7 @@ class UserCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'text',
             ],
+
             [
                 'name'  => 'username',
                 'label' => trans('Username'),
@@ -224,6 +239,16 @@ class UserCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.password_confirmation'),
                 'type'  => 'password',
             ],
+
+            [
+                'name'  => 'hr_branch_id',
+                'label' => 'College/Institute',
+                'attribute'=> 'name',
+                //'label' => trans('backpack::permissionmanager.hr_branch_id'),
+                'entity'    => 'HrBranch',
+                'type'      => 'select',
+                'model' => 'App\Models\HrBranch', 
+               ],
             [
                 // two interconnected entities
                 'label'             => trans('backpack::permissionmanager.user_role_permission'),
@@ -249,7 +274,7 @@ class UserCrudController extends CrudController
                         'attribute'      => 'name', // foreign key attribute that is shown to user
                         'model'          => config('permission.models.permission'), // foreign key model
                         'pivot'          => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
+                        'number_columns' => 3 //can be 1,2,3,4,6
                     ],
                 ],
             ],

@@ -61,6 +61,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function hrBranch() {
+        return $this->belongsTo(HrBranch::class, 'hr_branch_id');
+    }
+    
     // public function approvalby():HasMany
     // {
        
