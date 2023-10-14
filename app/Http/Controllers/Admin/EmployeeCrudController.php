@@ -1048,17 +1048,17 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
             $date_of_retire2 = $d->format('F d, Y H:i:s');
             $this->data['date_of_retire2'] = $date_of_retire2;
         }
-        $edate   = Employee::select('employement_date')->where('id', '=', $employeeId)->get()->first()->employement_date;
-
-        $end = date('Y-m-d', strtotime($edate . ' + 6 months'));
-
-        if ($end >= new DateTime('now')) {
-
-            $this->data['status'] = 'Yes';
-        } else {
+     ///////////////////////////////////////////////////////////////
+        $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])
+        ->where('id', $employeeId)->get();
+        if ($prob->isEmpty()) {
             $this->data['status'] = 'No';
+           
+        } else {
+       
+            $this->data['status'] = 'Yes';
         }
-
+    ///////////////////////////////////////////////////////////////
 
         $type_of_misconducts =    TypeOfMisconduct::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_misconducts'] = $type_of_misconducts;
@@ -1156,6 +1156,11 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
         // $evs = Evaluation::where('employee_id',$this->crud->getCurrentEntryId())->limit(3)->get();
         // $evaluations = Evaluation::orderBy('id', 'desc')->limit(3)->get();
         // $this->data['evs'] = $evs;
+
+    }
+    function getTotalLeaveDays($employee_id,$date_of_employee){
+
+
 
     }
 }
