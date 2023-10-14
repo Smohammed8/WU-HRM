@@ -40,6 +40,7 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
+        'hr_branch_id'
     ];
 
     /**
@@ -59,6 +60,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'hr_branch_id'  => 'integer',
     ];
 
     public function hrBranch() {

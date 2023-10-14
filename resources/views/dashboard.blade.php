@@ -160,6 +160,9 @@
       <div class="card card-body">
         <div class="row">
             @canany(['HR-all.manage'])
+
+            @if (backpack_user()->hr_branch_id == null)
+
             @foreach($offices  as $hr)
             <div class="col-md-3">   
                 <div class="card card-defualt">  
@@ -172,6 +175,8 @@
                          </a> 
                         </h4>
                     </div>  
+                 
+
                     <div class="col-md-12 col-sm-6 col-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-default"> 
@@ -188,11 +193,60 @@
                              </div>
                         </div>
                     </div>
+
+              
+                        
+              
+
                    </span>
                   </div>
                   <!-- /.card -->
                 </div>
                 @endforeach
+
+                @else
+
+                @foreach($offices  as $hr)
+
+                @if (backpack_user()->hr_branch_id == $hr->id)
+
+                <div class="col-md-3">   
+                    <div class="card card-defualt">  
+                        <!-- card card-info -->
+                        <span class="border border-secondary">
+                        <div class="card-header">
+                          <h4 class="card-title"><i class="fa fa-flag"></i>   <a href=""> 
+                            {{ $hr->name }}
+                             {{-- Main HR Office  --}}
+                             </a> 
+                            </h4>
+                        </div>  
+                    
+                        <div class="col-md-12 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-default"> 
+                                    <a href="{{ route('getEmployee', ['hr_branch_id'=>$hr->id]) }}
+    
+                                    " title="Click to view details"> 
+                                         <i class="fa fa-sitemap"></i>
+                                    </a>
+                                  </span>
+                                  <div class="info-box-content">
+                                    <span class="info-box-text">Total Employees</span>
+                                    <span class="info-box-number">{{  $hr->employees->count() }} </span>
+                                
+                                 </div>
+                            </div>
+                        </div>
+    
+                       </span>
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                    @endif
+                    @endforeach 
+                @endif
+
                 @endcanany
              </div>   
           </div>

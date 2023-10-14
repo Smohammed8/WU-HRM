@@ -7,6 +7,8 @@ use Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest as StoreRe
 use Backpack\PermissionManager\app\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Models\HrBranch;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -80,11 +82,15 @@ class UserCrudController extends CrudController
 
     public function setupListOperation()
     {
+       // dd(backpack_user()->hasRole('super-admin'));
+        //$hr_branch = backpack_user()->hr_branch_id; 
+             
         $this->crud->addColumns([
             [
                 'name'  => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'text',
+        
             ],
 
             [
@@ -152,6 +158,7 @@ class UserCrudController extends CrudController
 
     public function setupCreateOperation()
     {
+        $this->crud->setCreateContentClass('col-md-12');
         $this->addUserFields();
         $this->crud->setValidation(StoreRequest::class);
     }
@@ -217,27 +224,48 @@ class UserCrudController extends CrudController
                 'name'  => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'text',
+
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
 
             [
                 'name'  => 'username',
                 'label' => trans('Username'),
                 'type'  => 'text',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'email',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
             [
                 'name'  => 'password',
                 'label' => trans('backpack::permissionmanager.password'),
                 'type'  => 'password',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
             [
                 'name'  => 'password_confirmation',
                 'label' => trans('backpack::permissionmanager.password_confirmation'),
                 'type'  => 'password',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
 
             [
@@ -246,8 +274,12 @@ class UserCrudController extends CrudController
                 'attribute'=> 'name',
                 //'label' => trans('backpack::permissionmanager.hr_branch_id'),
                 'entity'    => 'HrBranch',
-                'type'      => 'select',
+                'type'      => 'select2',
                 'model' => 'App\Models\HrBranch', 
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
                ],
             [
                 // two interconnected entities
