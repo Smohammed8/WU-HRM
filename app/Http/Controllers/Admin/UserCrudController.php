@@ -190,6 +190,7 @@ class UserCrudController extends CrudController
      */
     public function update()
     {
+        $this->crud->setCreateContentClass('col-md-12');
         $this->crud->setRequest($this->crud->validateRequest());
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run

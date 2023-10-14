@@ -31,6 +31,7 @@ use App\Models\TypeOfLeave;
 use App\Models\FieldOfStudy;
 use App\Models\PositionCode;
 use App\Models\TemplateType;
+use App\Models\User;
 use Illuminate\Http\Request;
 //use PDF;
 use App\Models\EmployeeTitle;
@@ -729,6 +730,8 @@ class EmployeeCrudController extends CrudController
         CRUD::field('phone_number')->size(6)->tab($ci);
         CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
         CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
+        CRUD::field('user_id')->type('select2')->label('UAS Account')->entity('user')->model(User::class)->attribute('name')->size(6)->tab($ci);
+
 
         //CRUD::field('uas_user_id')->tab($ci)->size(3);
         CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);

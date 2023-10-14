@@ -92,7 +92,8 @@ class Employee extends  Model
         'hr_branch_id',
         'horizontal_level',
         'national_id',
-        'cbe_account'
+        'cbe_account',
+        'user_id'
 
     ];
 
@@ -177,6 +178,7 @@ class Employee extends  Model
         'employment_status_id' => 'integer',
         'employee_title_id' =>'integer',
         'educational_level_id' =>'integer',
+        'user_id'=>'integer'
     ];
 
     public function getDateOfBirthAttribute()
@@ -473,6 +475,17 @@ class Employee extends  Model
     {
         return $this->hasMany(EmployeeCertificate::class);
     }
+    public function account(){
+
+        return $this->hasOne(User::class);
+
+        //return $this->hasOne(User::class, 'user_id', 'id');
+
+    }
+
+ 
+
+
   //////////////////////////////////////////////////////
     public function getAgeAttribute()
     {

@@ -63,8 +63,18 @@ class User extends Authenticatable
         'hr_branch_id'  => 'integer',
     ];
 
+    public function employee(){
+
+    return $this->belongsTo(Employee::class);
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->attributes['name'] . '[' . $this->attributes['username'] . ']';
+    }
+
     public function hrBranch() {
-        return $this->belongsTo(HrBranch::class, 'hr_branch_id');
+        return $this->belongsTo(HrBranch::class);
     }
     
     // public function approvalby():HasMany
