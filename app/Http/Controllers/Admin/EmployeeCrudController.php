@@ -989,6 +989,9 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
         $employeeContacts = EmployeeContact::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;
 
+
+
+
         $employeeLanguages = EmployeeLanguage::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeLanguages'] = $employeeLanguages;
         $employeeFamilies = EmployeeFamily::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
@@ -1106,7 +1109,17 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
         $levels =    Level::orderBy('id', 'asc')->Paginate(22);
         $this->data['levels'] = $levels;
 
-         $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
+
+        $user_id  =  Employee::where('id', $employeeId)->first()?->user_id;
+        $user = User::find($user_id);
+        $username = $user?->username;
+        $roles = $user?->roles->pluck('name')->toArray();
+        $this->data['username'] =$username;
+        $this->data['roles'] =$roles;
+        $this->data['user_id'] = $user_id;
+
+        
+    $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
     
           $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
           $level_id  =    JobGrade::where('level_id', $level)->first()?->id;

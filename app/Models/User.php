@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Role;
+use App\Models\Employee;
 //use App\Models\LdapAuthenticatable;
 //use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
@@ -59,13 +61,16 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'id' => 'integer',
         'email_verified_at' => 'datetime',
         'hr_branch_id'  => 'integer',
     ];
 
-    public function employee(){
 
-    return $this->belongsTo(Employee::class);
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     public function getNameAttribute()

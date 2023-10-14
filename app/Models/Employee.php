@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Constants;
 use App\Http\Requests\PositionRequest;
 use App\Models\HrBranch;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,6 +22,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Permission\Traits\HasRoles;
 use function PHPSTORM_META\map;
 
@@ -93,7 +95,7 @@ class Employee extends  Model
         'horizontal_level',
         'national_id',
         'cbe_account',
-        'user_id'
+        'user_id',
 
     ];
 
@@ -178,7 +180,7 @@ class Employee extends  Model
         'employment_status_id' => 'integer',
         'employee_title_id' =>'integer',
         'educational_level_id' =>'integer',
-        'user_id'=>'integer'
+        'user_id'=>'integer',
     ];
 
     public function getDateOfBirthAttribute()
@@ -475,16 +477,12 @@ class Employee extends  Model
     {
         return $this->hasMany(EmployeeCertificate::class);
     }
-    public function account(){
-
-        return $this->hasOne(User::class);
-
-        //return $this->hasOne(User::class, 'user_id', 'id');
-
+    public function account() : HasOne {
+        
+            return $this->hasOne(User::class);
+            
     }
-
- 
-
+    
 
   //////////////////////////////////////////////////////
     public function getAgeAttribute()

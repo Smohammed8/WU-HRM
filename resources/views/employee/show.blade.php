@@ -172,7 +172,23 @@
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
                         <img src="{{ $crud->entry?->photo }}" alt="profile Pic" height="160" width="150">
+                        <hr>
+                     
+                       
+                        @if ($user_id !== null)
+                        <span style="color:green"> <b>UAS Account is Mapped</b> </span><br>
+                     
+                        <i class='fa fa-caret-right'></i> Username: <u>{{ $username ?? '' }}</u><br>
+                       <i class='fa fa-caret-right'></i> Role :
+                       @foreach ($roles as $role)
+                       {{ $role }}
+                        @endforeach
+                    
+                       @else
+
+                       @endif 
                     </div>
+                
                     <div class="col-md-9">
                         <div class="row justify-content-between">
                             <div class="col-md-6">
@@ -255,7 +271,7 @@
 
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b> የመደብ መታወቂያ ቁጥር : </b></label>
+                                    <label for=""><b> Job Position Code : </b></label>
                                     <label for=""> {{ $crud->entry->positionCode?->code ?? '-' }} </label>
                                 </div>
 
