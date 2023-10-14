@@ -473,7 +473,7 @@
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_contact" aria-controls="" role="tab" tab_name="tab_employee_contact"
                                 data-toggle="tab" class="nav-link active">
-                                <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contacts' }}</a>
+                                <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contact' }}</a>
                         </li>
                         @endcanany
                         @canany(['employee.education.icrud', 'employee.education.icrud.index'])
