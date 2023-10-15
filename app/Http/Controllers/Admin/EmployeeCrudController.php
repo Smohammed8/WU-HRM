@@ -760,7 +760,19 @@ class EmployeeCrudController extends CrudController
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
         $data = $this->crud->getStrippedSaveRequest();
-if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
+     
+
+        if (Carbon::parse($data['date_of_birth'])->year == 1970) {
+
+            throw ValidationException::withMessages(['position_id' => 'Invalid date of birth!']);
+
+        }
+            if (Carbon::parse($data['employement_date'])->year == 1970) {
+            throw ValidationException::withMessages(['position_id' => 'Invalid date of employement!']);
+            
+        }
+
+            if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
             throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
         }
         // insert item in the db
@@ -918,6 +930,17 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
         $currentPosition = $this->crud->getCurrentEntry()->position;
         $newPosition = Position::where('id', request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
+        $data = $this->crud->getStrippedSaveRequest();
+        if (Carbon::parse($data['date_of_birth'])->year == 1970) {
+
+            throw ValidationException::withMessages(['position_id' => 'Invalid date of birth!']);
+
+        }
+            if (Carbon::parse($data['employement_date'])->year == 1970) {
+            throw ValidationException::withMessages(['position_id' => 'Invalid date of employement!']);
+            
+        }
+
         if ($newPosition !== null) {
             if ($currentPosition->id == $newPosition->id) {
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
