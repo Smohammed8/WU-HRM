@@ -98,9 +98,10 @@
                                                     <span title="Retirement date yet not reach!"
                                                         class="badge badge-pill badge-defualt"> {{ $employee->age() }} </span>
                                                 @else
-                                                    <span title="Inavide age! Less than 18 can be an employee"
-                                                        class="badge badge-pill badge-defualt"> <del> Less 18 years old
-                                                        </del></span>
+                                                    <span title="Inavide age! Less than 18 can be an employee" style="color:red;"
+                                                        class="badge badge-pill badge-defualt"> 
+                                                        {{ $employee->age() }}
+                                                    </span>
                                             </label>
                                         </td>
                                 @endif
@@ -187,24 +188,21 @@
                                                 <label for="" style="font-size:17px;"
                                                     title=" GC: {{ \Carbon\Carbon::parse($employee->date_of_birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
         
-        
-        
-                                                    @if ($employee->age() > 58)
-                                                        <span title="Retirement date is reach!" class="badge badge-pill badge-danger">
-                                                            {{ $employee->age() }} </span>
-                                                    @elseif ($employee->age() > 56)
-                                                        <span title="Retirement date is reaching"
-                                                            class="badge badge-pill badge-warning"> {{ $employee->age() }} </span>
-                                                    @elseif ($employee->age() > 17)
-                                                        <span title="Retirement date yet not reach!"
-                                                            class="badge badge-pill badge-defualt"> {{ $employee->age() }} </span>
-                                                    @else
-                                                        <span title="Inavide age! Less than 18 can be an employee"
-                                                            class="badge badge-pill badge-defualt"> <del> Less 18 years old
-                                                            </del></span>
+                                                       @if($employee->age()> 60 or $employee->age() < 19 )
+                                                    <span title="Inavide age! Less than 18 can be an employee" style="color:red;"
+                                                    class="badge badge-pill badge-defualt"> 
+                                                    {{ $employee->age() }}
+                                                </span>
+                                                @else
+                                                <span title="" style="color:black;"
+                                                class="badge badge-pill badge-defualt"> 
+                                                {{ $employee->age() }}
+                                            </span>
+                                                @endif
+
                                                 </label>
                                             </td>
-                                    @endif
+                                
         
         
         
@@ -261,7 +259,7 @@
                                     <th> Educational Level </th>
                                     <th> Working Unit </th>
                                     <th> HR Branch </th>
-                                    <th> Age(in years) </th>
+                                    <th> Invalid age </th>
                                     <th> Job Code</th>
     
                                     <th> Action</th>
@@ -271,6 +269,8 @@
     
     
                                 @foreach ($employee_ages as $employee)
+
+                                @if ($employee->age() >= 61 or $employee->age() < 19)
                                     <tr>
     
                                         <td> {{ $loop->index + 1 }} </td>
@@ -285,22 +285,13 @@
     
     
     
-                                                @if ($employee->age() > 58)
-                                                    <span title="Retirement date is reach!" class="badge badge-pill badge-danger">
-                                                        {{ $employee->age() }} </span>
-                                                @elseif ($employee->age() > 56)
-                                                    <span title="Retirement date is reaching"
-                                                        class="badge badge-pill badge-warning"> {{ $employee->age() }} </span>
-                                                @elseif ($employee->age() > 17)
-                                                    <span title="Retirement date yet not reach!"
-                                                        class="badge badge-pill badge-defualt"> {{ $employee->age() }} </span>
-                                                @else
-                                                    <span title="Inavide age! Less than 18 can be an employee"
-                                                        class="badge badge-pill badge-defualt"> <del> Less 18 years old
-                                                        </del></span>
+                                            <span title="Inavide age! Less than 18 can be an employee" style="color:red;"
+                                                class="badge badge-pill badge-defualt"> 
+                                                {{ $employee->age() }}
+                                            </span>
                                             </label>
                                         </td>
-                                @endif
+                           
     
     
     
@@ -320,6 +311,7 @@
                                 </td>
     
                                 </tr>
+                                @endif
                                 @endforeach
                                 @if (count($employees) == 0)
                                     <tr>
