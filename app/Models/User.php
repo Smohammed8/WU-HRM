@@ -75,8 +75,11 @@ class User extends Authenticatable
 
     public function getNameAttribute()
     {
-        return $this->attributes['name'] . '[' . $this->attributes['username'] . ']';
+       // return $this->attributes['name'] . '[' . $this->attributes['username'] . ']';
+        return $this->attributes['name'];
     }
+
+
 
     public function hrBranch() {
         return $this->belongsTo(HrBranch::class);

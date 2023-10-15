@@ -33,7 +33,8 @@ class EmployeeController extends Controller
             return abort(401);
         }
         $user = Auth::user();
-        $employee = Employee::where('uas_user_id', $user->username)->get();
+       // $employee = Employee::where('user_id', $user->username)->get();
+        $employee = Employee::where('user_id', $user->id)->get();
         if ($employee->count() == 0 && backpack_user()->hasRole('employee')) {
             Auth::logout();
             return abort(401, 'Please you have no employee profile contact admin');

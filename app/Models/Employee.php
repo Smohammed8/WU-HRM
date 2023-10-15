@@ -346,10 +346,12 @@ class Employee extends  Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function externalExperiences(): HasMany
-    {
-        return $this->hasMany(ExternalExperience::class);
-    }
+
+
+    // public function internalExperiences(): HasMany
+    // {
+    //     return $this->hasMany(InternalExperience::class);
+    // }
 
 
 
@@ -388,6 +390,12 @@ class Employee extends  Model
     public function internalExperiences(): HasMany
     {
         return $this->hasMany(InternalExperience::class, 'employee_id', 'id');
+    }
+
+    public function externalExperiences(): HasMany
+    {
+     
+        return $this->hasMany(ExternalExperience::class, 'employee_id', 'id');
     }
 
 

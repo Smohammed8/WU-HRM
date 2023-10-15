@@ -129,10 +129,7 @@ color:black;
               <span>Active Retirments</span></a>
       </li>
        @endcanany
-
-      
-
-       @canany('errors.employee.index')
+       @canany('error.logs.index')
        <li class="nav-item"><a class="nav-link" href="{{ route('suspected_errors') }}">
          <i class='nav-icon la la-caret-right'></i> 
                <span>Suspected Errors</span></a>

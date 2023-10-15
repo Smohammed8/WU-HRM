@@ -819,6 +819,7 @@ if (PositionCode::where('position_id', $data['position_id'])->where('employee_id
 
     $employees  = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->orderBy('first_name', 'ASC')->Paginate(10);
 
+    //$employees = Employee::where('phone_number', $employee1->phone_number)->where('id', '<>', $employee1->id)->get(); // to check duplicated phone
     return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
     }
 
