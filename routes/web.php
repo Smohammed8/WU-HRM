@@ -121,6 +121,9 @@ Route::get('checkRetirment', [EmployeeCrudController::class, 'checkRetirment'])-
 
 Route::get('checkLeave', [EmployeeCrudController::class, 'checkLeave'])->name('employee.checkLeave');
 
+Route::get('suspectedErrors', [EmployeeController::class, 'suspectedErrors'])->name('suspected_errors');
+
+
 
 Route::post('/file-import',[EmployeeCrudController::class,'importEmployee'])->name('import-employee');
 

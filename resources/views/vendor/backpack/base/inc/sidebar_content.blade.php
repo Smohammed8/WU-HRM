@@ -130,8 +130,10 @@ color:black;
       </li>
        @endcanany
 
+      
+
        @canany('errors.employee.index')
-       <li class="nav-item"><a class="nav-link" href="#">
+       <li class="nav-item"><a class="nav-link" href="{{ route('suspected_errors') }}">
          <i class='nav-icon la la-caret-right'></i> 
                <span>Suspected Errors</span></a>
        </li>
