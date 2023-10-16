@@ -760,20 +760,24 @@ class EmployeeCrudController extends CrudController
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
         $data = $this->crud->getStrippedSaveRequest();
-     
+       // $employee_id = $this->crud->entry->id;
 
-        if (Carbon::parse($data['date_of_birth'])->year == 1970) {
+        ///if (Carbon::isYear($data['employement_date'], 1970)) {
 
-            throw ValidationException::withMessages(['position_id' => 'Invalid date of birth!']);
+         
+        if (Carbon::parse($data['date_of_birth'])->year == 1970 and Carbon::parse($data['date_of_birth'])->month == 01 and Carbon::parse($data['date_of_birth'])->day == 01 ) {
 
+                throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
+    
+            }
+        if (Carbon::parse($data['employement_date'])->year == 1970 and Carbon::parse($data['employement_date'])->month == 01 and Carbon::parse($data['employement_date'])->day == 01) {
+    
+                throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
+                
         }
-            if (Carbon::parse($data['employement_date'])->year == 1970) {
-            throw ValidationException::withMessages(['position_id' => 'Invalid date of employement!']);
-            
-        }
 
-            if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
-            throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+        if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
+            throw ValidationException::withMessages(['position_id' => 'The job position  field is required!']);
         }
         // insert item in the db
         $item = $this->crud->create($data);
@@ -785,6 +789,82 @@ class EmployeeCrudController extends CrudController
         // save the redirect choice for next time
         $this->crud->setSaveAction();
         return $this->crud->performSaveAction($item->getKey());
+    }
+    public function update()
+    {
+        $items = collect(json_decode(request('employeeAddresses'), true));
+        // $employeeAddressRequest = new EmployeeAddressRequest();
+        // $employeeAddressRules = $employeeAddressRequest->rules();
+        $response = $this->traitUpdate();
+        $employee_id = $this->crud->entry->id;
+        $created_ids = [];
+        $currentPosition = $this->crud->getCurrentEntry()->position;
+        $newPosition = Position::where('id', request()->position_id)->first();
+        $employee = $this->crud->getCurrentEntry();
+       // $data = $this->crud->getStrippedSaveRequest();
+       
+        if (Carbon::parse($this->crud->entry->date_of_birth)->year == 1970 and Carbon::parse($this->crud->entry->date_of_birth)->month ==01 and Carbon::parse($this->crud->entry->date_of_birth)->day==01 ) {
+
+            throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
+
+        }
+            if (Carbon::parse($this->crud->entry->employement_date)->year == 1970 and Carbon::parse($this->crud->entry->employement_date)->month==01 and Carbon::parse($this->crud->entry->employement_date)->day==01) {
+
+            throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
+            
+        }
+
+        if ($newPosition !== null) {
+            if ($currentPosition->id == $newPosition->id) {
+                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
+                    PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
+
+                    if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
+                        throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+                    } else {
+                        PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
+                    }
+                }
+            } 
+            else {
+
+
+                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
+                    throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+                }
+                PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+
+                PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
+            }
+        }
+        else{
+
+            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+        }
+         
+        
+        // the end of null check if null of new position
+
+        $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
+            $item['employee_id'] = $employee_id;
+            if ($item['id']) {
+                $comment = EmployeeAddress::find($item['id']);
+                $comment->update($item);
+            } else {
+
+                $created_ids[] = EmployeeAddress::create($item)->id;
+            }
+        });
+        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
+        $related_items_in_db = $this->crud->entry->addresses;
+
+        $related_items_in_db?->each(function ($item, $key) use ($related_items_in_request) {
+            if (!$related_items_in_request->contains($item['id'])) {
+                $item->delete();
+            }
+        });
+
+        return $response;
     }
     public function createPDF(Employee $employee_id)
     {
@@ -919,80 +999,7 @@ class EmployeeCrudController extends CrudController
        
     }
 
-    public function update()
-    {
-        $items = collect(json_decode(request('employeeAddresses'), true));
-        // $employeeAddressRequest = new EmployeeAddressRequest();
-        // $employeeAddressRules = $employeeAddressRequest->rules();
-        $response = $this->traitUpdate();
-        $employee_id = $this->crud->entry->id;
-        $created_ids = [];
-        $currentPosition = $this->crud->getCurrentEntry()->position;
-        $newPosition = Position::where('id', request()->position_id)->first();
-        $employee = $this->crud->getCurrentEntry();
-        $data = $this->crud->getStrippedSaveRequest();
-        if (Carbon::parse($data['date_of_birth'])->year == 1970) {
-
-            throw ValidationException::withMessages(['position_id' => 'Invalid date of birth!']);
-
-        }
-            if (Carbon::parse($data['employement_date'])->year == 1970) {
-            throw ValidationException::withMessages(['position_id' => 'Invalid date of employement!']);
-            
-        }
-
-        if ($newPosition !== null) {
-            if ($currentPosition->id == $newPosition->id) {
-                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
-                    PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
-
-                    if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
-                        throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-                    } else {
-                        PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
-                    }
-                }
-            } 
-            else {
-
-
-                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
-                    throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-                }
-                PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
-
-                PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
-            }
-        }
-        else{
-
-            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
-        }
-         
-        
-        // the end of null check if null of new position
-
-        $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
-            $item['employee_id'] = $employee_id;
-            if ($item['id']) {
-                $comment = EmployeeAddress::find($item['id']);
-                $comment->update($item);
-            } else {
-
-                $created_ids[] = EmployeeAddress::create($item)->id;
-            }
-        });
-        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
-        $related_items_in_db = $this->crud->entry->addresses;
-
-        $related_items_in_db?->each(function ($item, $key) use ($related_items_in_request) {
-            if (!$related_items_in_request->contains($item['id'])) {
-                $item->delete();
-            }
-        });
-
-        return $response;
-    }
+ 
 
     protected function setupShowOperation()
     {
