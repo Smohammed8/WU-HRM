@@ -59,7 +59,11 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('employee.show');
         Permission::findOrCreate('employee.edit');
         Permission::findOrCreate('employee.delete');
-
+        Permission::findOrCreate('employee-sample.export');
+        Permission::findOrCreate('employee.import');
+        /////////////////////////////////////////////////////
+        Permission::findOrCreate('download.manual');
+        //////////////////////////////////////////////////
         Permission::findOrCreate('error.logs.index');
         Permission::findOrCreate('retirment.employee.index');
         Permission::findOrCreate('probation.employee.index');

@@ -25,15 +25,19 @@
         <div class="card-header">
             <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
 
-         
+            @canany('employee-sample.export')
             <a href="{{ route('employee-form') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-download"></i> Export</a>
-            {{-- <a href="{{ route('import-employee') }}" class="btn btn-sm btn-primary float-right mr-1"> Import</a> --}}
-
+        
+            @endcanany
+            @canany('employee.import')
             <button type="button" class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-upload"></i>  Import
             </button>
+            @endcanany
+       
+            @canany('download.manual')
             <a href="{{ route('user-manual') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-book"></i> Download User Manual</a>
-
+            @endcanany
 
         </div> <!-- /.card-body -->
         <div class="card-body">
