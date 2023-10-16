@@ -121,7 +121,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setEntityNameStrings('employee', 'employees');
 
         CRUD::disablePersistentTable();
-        //CRUD::enableExportButtons(); // check this if the page is not loading
+        CRUD::enableExportButtons(); // check this if the page is not loading
         //CRUD::setDefaultPageLength(10); // No of paginatings
 
         $this->crud->setShowView('employee.show');
