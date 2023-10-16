@@ -198,6 +198,9 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('employee.setting.delete');
         // Permission for employee id print
         Permission::findOrCreate('employee.id.print');
+        Permission::findOrCreate('hire.letter.print');
+        Permission::findOrCreate('experience.letter.print');
+    
         // Permission for employee operation demotion
         Permission::findOrCreate('employee.demotion.icrud');
         Permission::findOrCreate('employee.demotion.index');

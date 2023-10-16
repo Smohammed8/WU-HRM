@@ -21,7 +21,9 @@
     <div style="width: 50%; height: auto; position: absolute; page-break-after: always; margin-left: -27px; margin-top: -230px; break-after: page; transform: rotate(270deg);">
         <img src="images/front.png" alt="">
         <div style="position: relative; float: right; left: -236px; top: -453px;">
-            <img src="{{ public_path('/storage/employee/photo/'.$img) }}" alt="" style="width: 190px; height: 190px; border-radius: 50%;">
+            <img src="
+           
+            {{ public_path('/storage/employee/photo/'.$img) }}" alt="" style="width: 190px; height: 190px; border-radius: 50%;">
         </div>
         <div style="width: 350px; position: relative; float: right; left: -165px; top: -285px; background-color: inherit; text-align: center; ">
             <p style="font-size: 27px; color: black;">

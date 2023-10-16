@@ -22,9 +22,12 @@
 
 @section('header')
     <section class="container-fluid d-print-none">
+
+        @canany('employee.edit')
         <a href="{{ route('employee.edit', ['id'=>$crud->entry?->id]) }}"
         class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-edit"></i> Edit
-    </a>
+        </a>
+        @endcanany
 
         @canany(['employee.efficency.icrud', 'employee.efficency.index'])
             @if ($ep != null)
@@ -72,32 +75,36 @@
             <input type="hidden" id="qrValue" name="qrValue">
             <input type="hidden" id="barValue" name="barValue">
         </form>
+
+        @if($crud->entry?->photo and $crud->entry->position?->jobTitle)
         @can('employee.id.print')
             <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
                 <i class="la la-exclamation-circle"></i>
                 Print ID
             </a>
         @endcan
+        @endif
 
         
-
-
-        {{-- @can('employee.id.print') --}}
+        @if($crud->entry->position?->jobTitle)
+        @canany('hire.letter.print')
         <a  href="{{ route('hire.letter', ['employee_id'=> $crud->entry->id]) }}" class="btn  btn-sm btn-outline-primary float-right mr-1">
             <i class="la la-book"></i>
             Hire Letter
         </a>
+          @endcanany
+          @endif
 
-  
-
-    {{-- @endcan --}}
-
-
-          {{-- @can('employee.id.print') --}}
+          @if($crud->entry->internalExperiences->count() > 0)
+          @canany('experience.letter.print')
           <a href="#" class="btn  btn-sm btn-outline-primary float-right mr-1">
             <i class="la la-calendar"></i>
-            Exp. Letter
+            Exp.Letter
         </a>
+         @endcanany
+         @endif
+
+
     {{-- @endcan --}}
         {{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i
             class="la la-print"></i></a> --}}
@@ -188,7 +195,7 @@
 
                        @endif 
                        <hr>
-                       <i class='fa fa-caret-right'></i>Total Leave days: - 22 days <br>
+                       <i class='fa fa-caret-right'></i> Total Leave days: - 22 days <br>
                        <i class='fa fa-caret-right'></i> Experience taken: - 0 times <br>
                        <i class='fa fa-caret-right'></i> Number of families: - {{ $crud->entry->families->count() }} <br>
                        <hr>
@@ -256,7 +263,7 @@
 
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Horizonat Level: </b></label>
+                                    <label for=""><b> Horizonat Level: </b></label>
                             <label for="">
                                 
                                 @if($crud->entry->horizontal_level  ==1)  

@@ -488,7 +488,7 @@
                                         <td> {{ $employee->gender ?? ('-' ?? '-') }}</td>
                                         <td> {{ $employee->hrBranch->name ?? '-' }}</td>
                                         <td>
-                                           {{  $employee->internalExperiences->count(); }}
+                                           {{  $employee->internalExperiences->count() }}
                                         </td>
                            
 
@@ -577,7 +577,7 @@
                                         <td> {{ $employee->gender ?? ('-' ?? '-') }}</td>
                                         <td> {{ $employee->hrBranch->name ?? '-' }}</td>
                                         <td>
-                                           {{  $employee->externalExperiences->count(); }}
+                                           {{  $employee->externalExperiences->count() }}
                                         </td>
                            
                                        
