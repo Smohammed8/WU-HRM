@@ -508,12 +508,17 @@ class Employee extends  Model
         return $this->hasMany(Evaluation::class, 'employee_id', 'id');
     }
 
-    public function getSalary($employeeId){
-        $level  =    Employee::where('id', $employeeId)?->position?->jobTitle?->level_id;
 
-        $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
-        $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
-        $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
+    public function families(): HasMany
+    {
+        return $this->hasMany(EmployeeFamily::class, 'employee_id', 'id');
+    }
+
+    public function getSalary($employeeId){
+     $level  =    Employee::where('id', $employeeId)?->position?->jobTitle?->level_id;
+     $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
+     $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
+     $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
       //horizontal_level 
       if($step =='Start')
       return  JobGrade::getValueByIdAndColumn($level_id, 'start_salary');

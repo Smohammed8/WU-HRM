@@ -188,9 +188,9 @@
 
                        @endif 
                        <hr>
-                       <i class='fa fa-caret-right'></i>Total Leave days: - 0 days <br>
+                       <i class='fa fa-caret-right'></i>Total Leave days: - 22 days <br>
                        <i class='fa fa-caret-right'></i> Experience taken: - 0 times <br>
-                       <i class='fa fa-caret-right'></i> Number of families: - 0 <br>
+                       <i class='fa fa-caret-right'></i> Number of families: - {{ $crud->entry->families->count() }} <br>
                        <hr>
                     </div>
                 
