@@ -8,6 +8,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class PositionCodeCrudController
@@ -35,7 +36,7 @@ class PositionCodeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(PositionCode::class);
-        $position_id= \Route::current()->parameter('position_id');
+        $position_id= Route::current()->parameter('position_id');
         CRUD::setRoute(config('backpack.base.route_prefix').'/position/'.$position_id. '/position-code');
         CRUD::setEntityNameStrings('position code', 'position codes');
 
@@ -94,10 +95,10 @@ class PositionCodeCrudController extends CrudController
 
         // insert item in the db
         $data = $this->crud->getStrippedSaveRequest();
-        $position_id= \Route::current()->parameter('position_id');
-
+        $position_id= Route::current()->parameter('position_id');
+       
         if(PositionCode::where('code', request()->code)->count()>0){
-            throw ValidationException::withMessages(['code' => 'Duplicate position code found','new'=>'abdi']);
+            throw ValidationException::withMessages(['code' => 'Duplicate position code found!']);
         }
 
         if(PositionCode::where('code',request()->code)->count()==0){

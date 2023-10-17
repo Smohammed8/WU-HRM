@@ -10,6 +10,7 @@ use App\Models\Position;
 use App\Score\ExperienceScore;
 use App\Score\Score;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class PlacementController extends Controller
 {

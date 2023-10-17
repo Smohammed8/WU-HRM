@@ -8,6 +8,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\EducationalLevel;
 use App\Models\FieldOfStudy;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 /**
  * Class FieldOfStudyCrudController
  * @package App\Http\Controllers\Admin

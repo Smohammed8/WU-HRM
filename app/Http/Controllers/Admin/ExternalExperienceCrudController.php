@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class ExternalExperienceCrudController
@@ -31,7 +32,7 @@ class ExternalExperienceCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\ExternalExperience::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
 
         CRUD::setRoute(config('backpack.base.route_prefix') .'/'.$employeeId. '/external-experience');
         CRUD::setEntityNameStrings('external experience', 'external experiences');
@@ -41,7 +42,7 @@ class ExternalExperienceCrudController extends CrudController
 
     public function setupBreadcrumb()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Employees' => route('employee.index'),
@@ -90,7 +91,7 @@ class ExternalExperienceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
 
         CRUD::setValidation(ExternalExperienceRequest::class);
 

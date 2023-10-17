@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\jobTitlePrerequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class JobTitlePrerequestController extends Controller
 {

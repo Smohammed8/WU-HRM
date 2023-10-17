@@ -80,7 +80,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
-
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeCrudController

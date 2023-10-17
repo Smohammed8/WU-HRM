@@ -10,6 +10,7 @@ use App\Models\RelatedWork;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 /**
  * Class MinimumRequirementCrudController
  * @package App\Http\Controllers\Admin
@@ -31,7 +32,7 @@ class MinimumRequirementCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(MinimumRequirement::class);
-        $positionId = \Route::current()->parameter('position');
+        $positionId = Route::current()->parameter('position');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/' . $positionId . '/minimum-requirement');
         CRUD::setEntityNameStrings('minimum requirement', 'minimum requirements');
         $this->crud->setEditView('minimum_requirement.edit');
@@ -67,7 +68,7 @@ class MinimumRequirementCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $positionId = \Route::current()->parameter('position');
+        $positionId = Route::current()->parameter('position');
         CRUD::setValidation(MinimumRequirementRequest::class);
         CRUD::field('position_id')->type('hidden')->value($positionId);
         CRUD::field('experience');

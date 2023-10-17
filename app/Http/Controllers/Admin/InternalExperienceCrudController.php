@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class InternalExperienceCrudController
@@ -31,7 +32,7 @@ class InternalExperienceCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\InternalExperience::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') .'/'.$employeeId. '/internal-experience');
         CRUD::setEntityNameStrings('internal experience', 'internal experiences');
         $this->setupBreadcrumb();
@@ -39,7 +40,7 @@ class InternalExperienceCrudController extends CrudController
 
     public function setupBreadcrumb()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Employees' => route('employee.index'),
@@ -87,7 +88,7 @@ class InternalExperienceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setValidation(InternalExperienceRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('unit_id')->label('Working unit')->size(6);

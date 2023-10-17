@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\EmployeeLanguageRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 /**
  * Class EmployeeLanguageCrudController
  * @package App\Http\Controllers\Admin
@@ -24,7 +25,7 @@ class EmployeeLanguageCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\EmployeeLanguage::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
 
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/employee-language');
         CRUD::setEntityNameStrings('employee language', 'employee languages');
@@ -78,7 +79,7 @@ class EmployeeLanguageCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setValidation(EmployeeLanguageRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('language_id')->size(6);

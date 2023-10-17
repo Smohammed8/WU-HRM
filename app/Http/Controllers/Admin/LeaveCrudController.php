@@ -22,6 +22,7 @@ use DateTime;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use PDF;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class LeaveCrudController

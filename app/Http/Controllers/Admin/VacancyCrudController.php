@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use Faker\Core\DateTime;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class VacancyCrudController

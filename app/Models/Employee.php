@@ -29,11 +29,17 @@ use function PHPSTORM_META\map;
 class Employee extends  Model
 {
 
-    use  \Venturecraft\Revisionable\RevisionableTrait;
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    // use  \Venturecraft\Revisionable\RevisionableTrait;
+    // use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     use CrudTrait;
     use HasRoles;
+    use RevisionableTrait;
+
+    // use RevisionableTrait, CrudTrait, HasFactory, HasRoles;
+
+  
+
     public function identifiableName()
     {
         return $this->name;
@@ -41,15 +47,9 @@ class Employee extends  Model
 
 
 
-    use RevisionableTrait;
-    protected $revisionEnabled = true; //If needed, you can disable the revisioning by setting $revisionEnabled to false in your Model.
-    // protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
-    // protected $historyLimit = 500;   //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
-    // protected $revisionForceDeleteEnabled = false; //If you want to store the Force Delete as a revision you can override this behavior by setting revisionForceDeleteEnabled to true
+
+    protected $revisionEnabled = true; 
     protected $appends = ['name'];
-
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -348,11 +348,6 @@ class Employee extends  Model
      */
 
 
-    // public function internalExperiences(): HasMany
-    // {
-    //     return $this->hasMany(InternalExperience::class);
-    // }
-
 
 
     protected function firstName(): Attribute
@@ -362,12 +357,18 @@ class Employee extends  Model
         );
     }
 
+
+
+
     protected function fatherName(): Attribute
     {
         return new Attribute(
             set: fn ($value) => strtoupper($value),
         );
     }
+
+
+
 
     protected function grandFatherName(): Attribute
     {

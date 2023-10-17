@@ -8,7 +8,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Constants;
 use App\Models\UploadFile;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Class UploadFileCrudController
  * @package App\Http\Controllers\Admin
