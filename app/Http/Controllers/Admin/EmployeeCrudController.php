@@ -1204,7 +1204,33 @@ class EmployeeCrudController extends CrudController
         // $this->data['evs'] = $evs;
 
     }
+/////////////////////////////////////////////////////////////////////
 
+public function uploadPhoto(Request $request)
+{
+    // Get the uploaded photo file from the request.
+    $imageData = $request->get('image');
+
+    // Decode the base64 encoded image data.
+    $image = base64_decode($imageData);
+
+    // Save the image file to the server.
+    $photoPath = storage_path('app/employee_photos/' . $request->get('employeeId') . '.jpg');
+    file_put_contents($photoPath, $image);
+
+    // Update the employee's photo field in the database to point to the saved photo file.
+    $employee = Employee::find($request->get('employeeId'));
+    $employee->photo = $photoPath;
+    $employee->save();
+
+    // Return a success response to the user.
+    return response()->json([
+        'success' => true,
+        'message' => 'Employee photo uploaded successfully.',
+    ]);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
     public function getCalculateLeaveDaysForEmployee($employeeId)
 {
     $employee = Employee::find($employeeId);

@@ -70,6 +70,10 @@ Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('exp
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
  Route::get('{hr_branch_id}/getEmployee', [EmployeeCrudController::class, 'getEmployee'])->name('getEmployee');
+//----------------------------------------------------------
+// Route::post('/employee/{id}/upload-photo', [EmployeeCrudController::class, 'uploadPhoto'])->name('upload.photo');
+ Route::post('employee/upload-photo', [EmployeeCrudController::class, 'uploadPhoto']);
+//------------------------------------------------------------
 // Route::get('/details', [PlacementChoiceCrudController::class, 'details'])->name('details');
  Route::get('employee/{employee_id}/show', [EmployeeCrudController::class, 'show'])->name('employee');
  Route::get('{new_position_id?}/details', [PlacementChoiceCrudController::class, 'details'])->name('PlacementChoice.details');

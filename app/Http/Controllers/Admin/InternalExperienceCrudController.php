@@ -133,8 +133,8 @@ class InternalExperienceCrudController extends CrudController
     
         $request = $this->crud->validateRequest();
         $data = $this->crud->getStrippedSaveRequest();
-        if ($data['end_date'] !== null) {
-      if ($data['start_date'] >= $data['end_date']) {
+       if ($data['end_date'] !== null) {
+       if ($data['start_date'] >= $data['end_date']) {
             throw ValidationException::withMessages(['start_date' => 'Start-date must be less than End-date!']);
         }
         }
