@@ -6,7 +6,13 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\HrBranch;
+use App\Models\Permission;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Route;
 class UserCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -76,12 +82,26 @@ class UserCrudController extends CrudController
 
     public function setupListOperation()
     {
+       // dd(backpack_user()->hasRole('super-admin'));
+        //$hr_branch = backpack_user()->hr_branch_id; 
+             
         $this->crud->addColumns([
             [
                 'name'  => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'text',
+        
             ],
+
+            [
+                'name'  => 'hr_branch_id',
+                'label' => 'College/Institute',
+                'attribute'=> 'name',
+                'entity'    => 'HrBranch',
+                'type'      => 'select',
+                'model' => 'App\Models\HrBranch', 
+               ],
+
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
@@ -138,6 +158,7 @@ class UserCrudController extends CrudController
 
     public function setupCreateOperation()
     {
+        $this->crud->setCreateContentClass('col-md-12');
         $this->addUserFields();
         $this->crud->setValidation(StoreRequest::class);
     }
@@ -169,6 +190,7 @@ class UserCrudController extends CrudController
      */
     public function update()
     {
+        $this->crud->setCreateContentClass('col-md-12');
         $this->crud->setRequest($this->crud->validateRequest());
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run
@@ -203,27 +225,63 @@ class UserCrudController extends CrudController
                 'name'  => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'text',
+
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
+
             [
                 'name'  => 'username',
                 'label' => trans('Username'),
                 'type'  => 'text',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'email',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
             [
                 'name'  => 'password',
                 'label' => trans('backpack::permissionmanager.password'),
                 'type'  => 'password',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
             [
                 'name'  => 'password_confirmation',
                 'label' => trans('backpack::permissionmanager.password_confirmation'),
                 'type'  => 'password',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
             ],
+
+            [
+                'name'  => 'hr_branch_id',
+                'label' => 'College/Institute',
+                'attribute'=> 'name',
+                //'label' => trans('backpack::permissionmanager.hr_branch_id'),
+                'entity'    => 'HrBranch',
+                'type'      => 'select2',
+                'model' => 'App\Models\HrBranch', 
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                  
+                ],
+               ],
             [
                 // two interconnected entities
                 'label'             => trans('backpack::permissionmanager.user_role_permission'),
@@ -249,7 +307,7 @@ class UserCrudController extends CrudController
                         'attribute'      => 'name', // foreign key attribute that is shown to user
                         'model'          => config('permission.models.permission'), // foreign key model
                         'pivot'          => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
+                        'number_columns' => 3 //can be 1,2,3,4,6
                     ],
                 ],
             ],

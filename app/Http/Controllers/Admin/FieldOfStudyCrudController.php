@@ -7,7 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\EducationalLevel;
 use App\Models\FieldOfStudy;
-
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 /**
  * Class FieldOfStudyCrudController
  * @package App\Http\Controllers\Admin
@@ -43,7 +44,7 @@ class FieldOfStudyCrudController extends CrudController
         foreach ($fieldOfStudies as $fieldOfStudy) {
             FieldOfStudy::firstOrCreate(['name' => ucfirst($fieldOfStudy)], ['name' => ucfirst($fieldOfStudy)]);
         }
-        \Alert::success('Field of study synced successfully')->flash();
+        Alert::success('Field of study synced successfully')->flash();
         return redirect()->back();
     }
 

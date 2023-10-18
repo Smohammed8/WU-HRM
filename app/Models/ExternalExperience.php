@@ -46,7 +46,7 @@ class ExternalExperience extends Model
         }
         return false;
     }
-    
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);

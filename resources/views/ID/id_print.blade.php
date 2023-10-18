@@ -82,7 +82,7 @@
             <strong style="font-family: 'Noto Serif Ethiopic'">{{ $employee->employment_identity ?? 'UNKNOWN' }}</strong>
         </p>
         <div style="position: relative; float: right; top: -1810px; left: -90px;">
-            <img src="{{ storage_path('/employee/photo/' . $img) }}" alt=""
+            <img src="{{ storage_path('/employee/photo/' . $img) }}E" alt=""
                 style="width: 230px; height: 290px;">
         </div>
     </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\PayrollHistoryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Class PayrollHistoryCrudController
  * @package App\Http\Controllers\Admin

@@ -18,6 +18,8 @@ use Illuminate\Support\Collection;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 class PlacementChoiceController extends Controller
 {
@@ -60,7 +62,7 @@ class PlacementChoiceController extends Controller
 
         PlacementChoice::create(['placement_round_id' => $placementRound->id, 'employee_id' => $employee->id, 'choice_one_id' => $first_choice->id, 'choice_two_id' => $second_choice->id]);
 
-        \Alert::success('Placement choice added successfully')->flash();
+        Alert::success('Placement choice added successfully')->flash();
         return redirect()->route('placement-choice.index', ['placement_round' => $placementRound->id]);
     }
 

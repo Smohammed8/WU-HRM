@@ -6,6 +6,7 @@ use App\Http\Requests\EvaluationRequest;
 use App\Models\Employee;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EvaluationCrudController
@@ -28,7 +29,7 @@ class EvaluationCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Evaluation::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/evaluation');
         CRUD::setEntityNameStrings('evaluation', 'evaluations');
         $this->setupBreadcrumb($employeeId);
@@ -138,7 +139,7 @@ class EvaluationCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EvaluationRequest::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
          CRUD::field('employee_id')->type('hidden')->value($employeeId);
 
 

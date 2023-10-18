@@ -9,6 +9,7 @@ use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class DemotionCrudController

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\EmployeeContactRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeContactCrudController
@@ -29,7 +30,7 @@ class EmployeeContactCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\EmployeeContact::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/employee-contact');
         CRUD::setEntityNameStrings('employee contact', 'employee contacts');
     }
@@ -62,7 +63,7 @@ class EmployeeContactCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         $this->data['breadcrumbs']=[
             trans('backpack::crud.admin') => backpack_url('dashboard'),
             'Employees' => route('employee.index'),
@@ -72,8 +73,8 @@ class EmployeeContactCrudController extends CrudController
         CRUD::setValidation(EmployeeContactRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('contact_type')->type('enum');
-        CRUD::field('contact_name');
-        CRUD::field('contact');
+        CRUD::field('contact_name')->label('Person Name');
+        CRUD::field('contact')->label('Telephone');
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

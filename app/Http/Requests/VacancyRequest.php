@@ -25,7 +25,13 @@ class VacancyRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            // 'type' => 'required|min:5|max:255'
+             'type' => 'required',
+             'registration_start_date' => 'required',
+             'registration_end_date' => 'required',
+             'position_id'=> 'required',
+             'number_of_vacants'=> 'required',
+             'description' => 'nullable|min:50',
         ];
     }
 

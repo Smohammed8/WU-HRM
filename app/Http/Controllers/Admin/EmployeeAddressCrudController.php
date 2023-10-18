@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\EmployeeAddressRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeAddressCrudController
@@ -27,7 +28,7 @@ class EmployeeAddressCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\EmployeeAddress::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/employee-address');
         CRUD::setEntityNameStrings('employee address', 'employee addresses');
         $this->setupBreadcrumb($employeeId);
@@ -81,7 +82,7 @@ class EmployeeAddressCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setValidation(EmployeeAddressRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('address_type')->type('enum')->size(6);

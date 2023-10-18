@@ -22,9 +22,12 @@
 
 @section('header')
     <section class="container-fluid d-print-none">
+
+        @canany('employee.edit')
         <a href="{{ route('employee.edit', ['id'=>$crud->entry?->id]) }}"
         class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-edit"></i> Edit
-    </a>
+        </a>
+        @endcanany
 
         @canany(['employee.efficency.icrud', 'employee.efficency.index'])
             @if ($ep != null)
@@ -72,32 +75,36 @@
             <input type="hidden" id="qrValue" name="qrValue">
             <input type="hidden" id="barValue" name="barValue">
         </form>
+
+        @if($crud->entry?->photo and $crud->entry->position?->jobTitle)
         @can('employee.id.print')
             <a href="#" onclick="printID();" class="btn  btn-sm btn-outline-primary float-right mr-1">
                 <i class="la la-exclamation-circle"></i>
                 Print ID
             </a>
         @endcan
+        @endif
 
         
-
-
-        {{-- @can('employee.id.print') --}}
+        @if($crud->entry->position?->jobTitle)
+        @canany('hire.letter.print')
         <a  href="{{ route('hire.letter', ['employee_id'=> $crud->entry->id]) }}" class="btn  btn-sm btn-outline-primary float-right mr-1">
             <i class="la la-book"></i>
             Hire Letter
         </a>
+          @endcanany
+          @endif
 
-  
-
-    {{-- @endcan --}}
-
-
-          {{-- @can('employee.id.print') --}}
+          @if($crud->entry->internalExperiences->count() > 0)
+          @canany('experience.letter.print')
           <a href="#" class="btn  btn-sm btn-outline-primary float-right mr-1">
             <i class="la la-calendar"></i>
-            Exp. Letter
+            Exp.Letter
         </a>
+         @endcanany
+         @endif
+
+
     {{-- @endcan --}}
         {{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i
             class="la la-print"></i></a> --}}
@@ -172,7 +179,28 @@
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
                         <img src="{{ $crud->entry?->photo }}" alt="profile Pic" height="160" width="150">
+                        <hr>
+                     
+                       
+                        @if ($user_id !== null)
+                        <span style="color:green"> <b>UAS Account is Mapped</b> </span><br>
+                     
+                        <i class='fa fa-caret-right'></i> Username: <u>{{ $username ?? '' }}</u><br>
+                       <i class='fa fa-caret-right'></i> Role :
+                       @foreach ($roles as $role)
+                       {{ $role }}
+                        @endforeach
+                    
+                       @else
+
+                       @endif 
+                       <hr>
+                       <i class='fa fa-caret-right'></i> Total Leave days: - 22 days <br>
+                       <i class='fa fa-caret-right'></i> Experience taken: - 0 times <br>
+                       <i class='fa fa-caret-right'></i> Number of families: - {{ $crud->entry->families->count() }} <br>
+                       <hr>
                     </div>
+                
                     <div class="col-md-9">
                         <div class="row justify-content-between">
                             <div class="col-md-6">
@@ -235,7 +263,7 @@
 
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Horizonat Level: </b></label>
+                                    <label for=""><b> Horizonat Level: </b></label>
                             <label for="">
                                 
                                 @if($crud->entry->horizontal_level  ==1)  
@@ -255,7 +283,7 @@
 
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b> የመደብ መታወቂያ ቁጥር : </b></label>
+                                    <label for=""><b> Job Position Code : </b></label>
                                     <label for=""> {{ $crud->entry->positionCode?->code ?? '-' }} </label>
                                 </div>
 
@@ -452,7 +480,7 @@
                         <li role="presentation" class="nav-item">
                             <a href="#tab_employee_contact" aria-controls="" role="tab" tab_name="tab_employee_contact"
                                 data-toggle="tab" class="nav-link active">
-                                <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contacts' }}</a>
+                                <i class="la la la-user" style="font-size: 20px;"> </i>&nbsp; {{ 'Emergency Contact' }}</a>
                         </li>
                         @endcanany
                         @canany(['employee.education.icrud', 'employee.education.icrud.index'])

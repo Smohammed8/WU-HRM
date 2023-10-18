@@ -7,6 +7,8 @@ use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\ValidationException;
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class PositionCodeCrudController
@@ -34,7 +36,7 @@ class PositionCodeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(PositionCode::class);
-        $position_id= \Route::current()->parameter('position_id');
+        $position_id= Route::current()->parameter('position_id');
         CRUD::setRoute(config('backpack.base.route_prefix').'/position/'.$position_id. '/position-code');
         CRUD::setEntityNameStrings('position code', 'position codes');
 
@@ -93,10 +95,10 @@ class PositionCodeCrudController extends CrudController
 
         // insert item in the db
         $data = $this->crud->getStrippedSaveRequest();
-        $position_id= \Route::current()->parameter('position_id');
-
+        $position_id= Route::current()->parameter('position_id');
+       
         if(PositionCode::where('code', request()->code)->count()>0){
-            throw ValidationException::withMessages(['code' => 'Duplicate position code found','new'=>'abdi']);
+            throw ValidationException::withMessages(['code' => 'Duplicate position code found!']);
         }
 
         if(PositionCode::where('code',request()->code)->count()==0){
@@ -106,7 +108,7 @@ class PositionCodeCrudController extends CrudController
         $this->data['entry'] = $this->crud->entry = $item;
 
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
         return redirect()->back();
         // save the redirect choice for next time
         $this->crud->setSaveAction();
@@ -141,7 +143,7 @@ class PositionCodeCrudController extends CrudController
         // $this->data['entry'] = $this->crud->entry = $item;
 
         // show a success message
-        \Alert::success(trans('backpack::crud.update_success'))->flash();
+        Alert::success(trans('backpack::crud.update_success'))->flash();
 
         // save the redirect choice for next time
         // $this->crud->setSaveAction();

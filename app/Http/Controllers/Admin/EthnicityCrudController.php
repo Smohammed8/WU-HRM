@@ -6,6 +6,7 @@ use App\Http\Requests\EthnicityRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EthnicityCrudController

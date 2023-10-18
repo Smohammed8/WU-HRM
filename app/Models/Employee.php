@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Constants;
 use App\Http\Requests\PositionRequest;
 use App\Models\HrBranch;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,17 +22,24 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Permission\Traits\HasRoles;
 use function PHPSTORM_META\map;
 
 class Employee extends  Model
 {
 
-    use  \Venturecraft\Revisionable\RevisionableTrait;
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    // use  \Venturecraft\Revisionable\RevisionableTrait;
+    // use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     use CrudTrait;
     use HasRoles;
+    use RevisionableTrait;
+
+    // use RevisionableTrait, CrudTrait, HasFactory, HasRoles;
+
+  
+
     public function identifiableName()
     {
         return $this->name;
@@ -39,15 +47,9 @@ class Employee extends  Model
 
 
 
-    use RevisionableTrait;
-    protected $revisionEnabled = true; //If needed, you can disable the revisioning by setting $revisionEnabled to false in your Model.
-    // protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
-    // protected $historyLimit = 500;   //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
-    // protected $revisionForceDeleteEnabled = false; //If you want to store the Force Delete as a revision you can override this behavior by setting revisionForceDeleteEnabled to true
+
+    protected $revisionEnabled = true; 
     protected $appends = ['name'];
-
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -92,7 +94,8 @@ class Employee extends  Model
         'hr_branch_id',
         'horizontal_level',
         'national_id',
-        'cbe_account'
+        'cbe_account',
+        'user_id',
 
     ];
 
@@ -177,6 +180,7 @@ class Employee extends  Model
         'employment_status_id' => 'integer',
         'employee_title_id' =>'integer',
         'educational_level_id' =>'integer',
+        'user_id'=>'integer',
     ];
 
     public function getDateOfBirthAttribute()
@@ -342,10 +346,7 @@ class Employee extends  Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function externalExperiences(): HasMany
-    {
-        return $this->hasMany(ExternalExperience::class);
-    }
+
 
 
 
@@ -356,12 +357,18 @@ class Employee extends  Model
         );
     }
 
+
+
+
     protected function fatherName(): Attribute
     {
         return new Attribute(
             set: fn ($value) => strtoupper($value),
         );
     }
+
+
+
 
     protected function grandFatherName(): Attribute
     {
@@ -384,6 +391,12 @@ class Employee extends  Model
     public function internalExperiences(): HasMany
     {
         return $this->hasMany(InternalExperience::class, 'employee_id', 'id');
+    }
+
+    public function externalExperiences(): HasMany
+    {
+     
+        return $this->hasMany(ExternalExperience::class, 'employee_id', 'id');
     }
 
 
@@ -473,6 +486,13 @@ class Employee extends  Model
     {
         return $this->hasMany(EmployeeCertificate::class);
     }
+    public function account() : HasOne {
+        
+            return $this->hasOne(User::class);
+            
+    }
+    
+
   //////////////////////////////////////////////////////
     public function getAgeAttribute()
     {
@@ -489,12 +509,17 @@ class Employee extends  Model
         return $this->hasMany(Evaluation::class, 'employee_id', 'id');
     }
 
-    public function getSalary($employeeId){
-        $level  =    Employee::where('id', $employeeId)?->position?->jobTitle?->level_id;
 
-        $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
-        $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
-        $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
+    public function families(): HasMany
+    {
+        return $this->hasMany(EmployeeFamily::class, 'employee_id', 'id');
+    }
+
+    public function getSalary($employeeId){
+     $level  =    Employee::where('id', $employeeId)?->position?->jobTitle?->level_id;
+     $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
+     $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
+     $step  =    Employee::where('id', $employeeId)->first()?->horizontal_level;
       //horizontal_level 
       if($step =='Start')
       return  JobGrade::getValueByIdAndColumn($level_id, 'start_salary');

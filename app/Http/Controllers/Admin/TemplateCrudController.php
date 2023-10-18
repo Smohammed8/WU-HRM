@@ -6,7 +6,7 @@ use App\Http\Requests\TemplateRequest;
 use App\Models\TemplateType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Class TemplateCrudController
  * @package App\Http\Controllers\Admin

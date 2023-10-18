@@ -34,19 +34,21 @@ color:black;
 
 @canany(['user.icrud', 'user.index', 'role.icrud', 'role.index', 'permission.icrud', 'permission.index'])
 <li class="nav-item nav-dropdown">
-<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i>User Managment</a>
+<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user"></i> User Managment</a>
 <ul class="nav-dropdown-items">
     @canany(['user.index', 'user.icrud'])
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('user') }}">   <i class='nav-icon la la-caret-right'></i> 
                 <span>User list</span></a></li>
     @endcanany
     @canany(['role.index', 'role.icrud'])
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('role') }}"><i
-                    class="nav-icon la la-id-badge"></i> <span> User group </span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('role') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+             <span> User group </span></a></li>
     @endcanany
     @canany(['permission.index', 'permission.icrud'])
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i
-                    class="nav-icon la la-key"></i> <span> Permission</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+            <span> Permission</span></a></li>
     @endcanany
 </ul>
 </li>
@@ -59,33 +61,90 @@ color:black;
 <ul class="nav-dropdown-items">
     @canany(['id.design.icrud', 'id.design.index'])
         <li class="nav-item"><a class="nav-link" href="{{ route('idcard.index') }}">
-                <i class="nav-icon la la-user"></i>
+            <i class='nav-icon la la-caret-right'></i> 
                 <span>ID Design</span></a></li>
     @endcanany
     @canany(['id.setting.icrud', 'id.setting.index'])
         <li class="nav-item"><a class="nav-link" href="{{ route('attribute.index') }}">
-                <i class="nav-icon la la-id-badge"></i>
+            <i class='nav-icon la la-caret-right'></i> 
                 <span>ID Setting</span></a>
         </li>
     @endcanany
     @canany(['signature.icrud', 'signature.index'])
         <li class="nav-item"><a class="nav-link" href="{{ route('signature.index') }}">
-                <i class="nav-icon la la-id-badge"></i>
+            <i class='nav-icon la la-caret-right'></i> 
                 <span>Signature</span></a>
         </li>
     @endcanany
 </ul>
 </li>
 @endcanany
-@can('employee.index')
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i style="color:black;"  class='nav-icon la la-user-tie'></i>
+
+{{-- @can('employee.index')
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'>
+    <i style="color:black;"  class='nav-icon la la-user-tie'></i>
     Employee Managment </a></li>
-@endcan
+@endcan --}}
+
+@can('employee.index')
+<li class="nav-item nav-dropdown">
+<a class="nav-link nav-dropdown-toggle" href="#"> <i style="color:black;"  class='nav-icon la la-user-tie'></i>
+    Employee Managment</a>
+<ul class="nav-dropdown-items">
+    @can('employee.index')
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('employee') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+                <span>All Employees</span></a></li>
+    @endcanany
+    @canany('contract.employee.index')
+        <li class="nav-item"><a class="nav-link" href="#">
+            <i class='nav-icon la la-caret-right'></i> 
+                <span>Contract Employees</span></a>
+        </li>
+    @endcanany
+ 
+    @canany('temporary.employee.index')
+        <li class="nav-item"><a class="nav-link" href="#">
+            <i class='nav-icon la la-caret-right'></i> 
+                <span>Temporary Employees</span></a>
+        </li>
+    @endcanany
+    @canany('left.employee.index')
+    <li class="nav-item"><a class="nav-link" href="{{ route('employee.checkLeave') }}">
+        <i class='nav-icon la la-caret-right'></i> 
+            <span>Left Employees</span></a>
+    </li>
+     @endcanany
+
+     @canany('probation.employee.index')
+     <li class="nav-item"><a class="nav-link" href="{{ route('employee.probation', []) }}">
+        <i class='nav-icon la la-caret-right'></i> 
+             <span>Under Probation Period</span></a>
+     </li>
+      @endcanany
+
+      @canany('retirment.employee.index')
+      <li class="nav-item"><a class="nav-link" href="{{ route('employee.checkRetirment', []) }}">
+        <i class='nav-icon la la-caret-right'></i> 
+              <span>Active Retirments</span></a>
+      </li>
+       @endcanany
+       @canany('error.logs.index')
+       <li class="nav-item"><a class="nav-link" href="{{ route('suspected_errors') }}">
+         <i class='nav-icon la la-caret-right'></i> 
+               <span>Suspected Errors</span></a>
+       </li>
+        @endcanany
+
+</ul>
+</li>
+@endcanany
+
 @canany(['organization.index', 'organization.icrud', 'unit.index', 'unit.icrud'])
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-institution"></i> Organization   </a>
 <ul class="nav-dropdown-items"> 
-
+  
 
 
     @canany(['organization.index', 'organization.icrud'])

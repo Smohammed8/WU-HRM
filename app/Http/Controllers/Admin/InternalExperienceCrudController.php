@@ -7,6 +7,9 @@ use App\Models\JobTitle;
 use App\Models\EmploymentType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\ValidationException;
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class InternalExperienceCrudController
@@ -29,7 +32,7 @@ class InternalExperienceCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\InternalExperience::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') .'/'.$employeeId. '/internal-experience');
         CRUD::setEntityNameStrings('internal experience', 'internal experiences');
         $this->setupBreadcrumb();
@@ -37,7 +40,7 @@ class InternalExperienceCrudController extends CrudController
 
     public function setupBreadcrumb()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Employees' => route('employee.index'),
@@ -85,7 +88,7 @@ class InternalExperienceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setValidation(InternalExperienceRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('unit_id')->label('Working unit')->size(6);
@@ -102,6 +105,39 @@ class InternalExperienceCrudController extends CrudController
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+    }
+
+
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+         if ($data['start_date'] >= $data['end_date']) {
+            throw ValidationException::withMessages(['start_date' => 'Start-date must be less than End-date!']);
+        }
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+    
+        $request = $this->crud->validateRequest();
+        $data = $this->crud->getStrippedSaveRequest();
+      if ($data['start_date'] >= $data['end_date']) {
+            throw ValidationException::withMessages(['start_date' => 'Start-date must be less than End-date!']);
+        }
+        $item = $this->crud->create($data);
+        $this->data['entry'] = $this->crud->entry = $item;
+        Alert::success(trans('backpack::crud.update_success'))->flash();
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+
     }
 
     /**

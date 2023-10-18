@@ -31,6 +31,7 @@ class ExternalExperienceRequest extends FormRequest
             'job_title_id'=> 'required',
             'company_name' =>'required|min:3|max:30',
             'start_date'=> 'required|date',
+            'employment_type_id' => 'required',
             'end_date'=>'required|date',
             'comment' => 'nullable|regex:/^[a-z A-Z]+$/u|min:20|max:255',
         ];

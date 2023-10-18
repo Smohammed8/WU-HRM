@@ -14,7 +14,8 @@ use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use PhpParser\Node\Stmt\Label;
-
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 /**
  * Class JobTitleCrudController
  * @package App\Http\Controllers\Admin
@@ -36,7 +37,7 @@ class JobTitleCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(JobTitle::class);
-        $jobTitleCategory = \Route::current()->parameter('job_title_category');
+        $jobTitleCategory = Route::current()->parameter('job_title_category');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title-category/' . $jobTitleCategory . '/job-title');
         CRUD::setEntityNameStrings('job title', 'job titles');
         $this->setupPermission();
@@ -99,17 +100,19 @@ class JobTitleCrudController extends CrudController
 
         $this->crud->addButtonFromModelFunction('line', 'jobTitlePrerequests', 'prerequestButtonView', 'beginning');
         $this->crud->denyAccess('show');
-        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = Route::current()->parameter('job_title_category');
         $this->crud->setHeading(JobTitleCategory::find($jobTitleCategoryId)->name.' Job titles');
         CRUD::column('name')->label('የስራ መደቡ መጠሪያ');
         // CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
         CRUD::column('level_id')->type('select')->entity('level')->model(Level::class)->attribute('name')->label('Job level');
-        // CRUD::column('job_title_category_id')->type('hidden')->value($jobTitleCategory);
+        CRUD::column('educational_level_id')->label('Min Educational level')->type('select')->entity('PositionType')->model(PositionType::class)->attribute('title')->label('Min.Educational Req.');
+    
 
         CRUD::column('educational_level_id')->label('Min Educational level')->type('select')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->label('Min.Educational Req.');
         CRUD::column('work_experience')->label('Min. Experience');
         $jobTitleCategory = JobTitleCategory::find($jobTitleCategoryId);
         //$this->crud->setHeading('Job titles on ' . $jobTitleCategory->name);
+        CRUD::column('position_type_id')->type('select')->entity('positionType')->model(PositionType::class)->attribute('title')->label('Position type');
        $this->crud->addClause('where', 'job_title_category_id', '=',$jobTitleCategoryId);
        $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
         $breadcrumbs = [
@@ -118,24 +121,45 @@ class JobTitleCrudController extends CrudController
             'Job Titles' => false,
         ];
         $this->data['breadcrumbs'] = $breadcrumbs;
+
+
+        CRUD::filter('work_experience')
+        ->type('range')
+        ->whenActive(function ($value) {
+            $range = json_decode($value);
+    
+    
+            if ($range->from) {
+                CRUD::addClause('where', 'work_experience', '>=', (float) $range->from);
+            }
+
+            if ($range->to) {
+                CRUD::addClause('where', 'work_experience', '<=', (float) $range->to);
+            }
+        })
+        ->minLabel('Min Value') 
+        ->maxLabel('Max Value'); 
+
+
+        // $this->crud->addFilter([
+        //     'name'  => 'job_title_category_id',
+        //     'type'  => 'select2_multiple',
+        //     'label' => 'By job catergory'
+        // ], function () {
+        //     return JobTitleCategory::all()->pluck('name', 'id')->toArray();
+        // }, function ($values) {
+        //     $this->crud->addClause('where', 'job_title_category_id', json_decode($values));
+        // });
+
         $this->crud->addFilter([
-            'name'  => 'job_title_category_id',
+            'name'  => 'position_type_id',
             'type'  => 'select2_multiple',
-            'label' => 'By job catergory'
-        ], function () {
-            return JobTitleCategory::all()->pluck('name', 'id')->toArray();
-        }, function ($values) {
-            $this->crud->addClause('whereIn', 'job_title_category_id', json_decode($values));
-        });
-        $this->crud->addFilter([
-            'name'  => 'unit_id',
-            'type'  => 'select2_multiple',
-            'label' => 'By organizational unit'
+            'label' => 'By Position type'
 
         ], function () {
-            return Unit::all()->pluck('name', 'id')->toArray();
+            return PositionType::all()->pluck('title', 'id')->toArray();
         }, function ($values) {
-            $this->crud->addClause('whereIn', 'unit_id', json_decode($values));
+            $this->crud->addClause('where', 'position_type_id', json_decode($values));
         });
         $this->crud->addFilter([
             'name'  => 'educational_level_id',
@@ -216,7 +240,7 @@ class JobTitleCrudController extends CrudController
     {
         
         CRUD::setValidation(JobTitleRequest::class);
-        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = Route::current()->parameter('job_title_category');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Job Title Categories' => route('job-title-category.index'),
@@ -276,7 +300,7 @@ class JobTitleCrudController extends CrudController
                 ]);
             }
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();
@@ -325,7 +349,7 @@ if (isset($saveRequest['job_prerequest_id']) && is_array($saveRequest['job_prere
         }
     }
     else {
-        \Alert::warning(trans('backpack::crud.update_warning'))->flash();
+        Alert::warning(trans('backpack::crud.update_warning'))->flash();
 
     }
     
@@ -333,7 +357,7 @@ if (isset($saveRequest['job_prerequest_id']) && is_array($saveRequest['job_prere
             jobTitlePrerequest::where('id',$deleteItem)->delete();
         }
         // show a success message
-        \Alert::success(trans('backpack::crud.update_success'))->flash();
+        Alert::success(trans('backpack::crud.update_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();

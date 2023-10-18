@@ -13,7 +13,7 @@
         "normal": "ethiopian12_normal_e884b6c3f344f8ccf46067bf5b307504"
     },
     "noto serif ethiopic": {
-        "bold": "noto_serif_ethiopic_bold_5f6da2601bb7c62653e9f885f680eb28"
+        "bold": "noto_serif_ethiopic_bold_be0e185c4b09e90db7aeea672992732b"
     },
     "roboto serif": {
         "bold": "roboto_serif_bold_b6b8e73687041fe636da5add17d24802"
@@ -26,9 +26,9 @@
         "800_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_800_italic_07943d20c195702324f7748121411df7",
         "normal": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_normal_f29c47fec12bbca768541ec199a63e3d",
         "500": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_500_de63dd15ef7fc2779d6a4e0a10a46a1a",
-        "600": "eb_garamond_600_4073b0bdd90fccd8e58bf59cb62f769a",
-        "bold": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_bold_6bfc0307abe75fa91f3ad969c021a8f3",
-        "800": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_800_7594508911ad3b63c09be09193a1cdbd"
+        "600": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_600_4073b0bdd90fccd8e58bf59cb62f769a",
+        "bold": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_bold_b51335225e8768547c66bb63d3e71b9e",
+        "800": "eb_garamond_800_e08fe6daee1f2b0b1df00257faaa00db"
     },
     "droid sans ethiopic": {
         "normal": "droid_sans_ethiopic_normal_94f3eb64161a37bcbbbad13223d4f011",

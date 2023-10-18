@@ -8,6 +8,7 @@ use App\Models\JobTitleCategory;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class jobTitlePrerequestsCrudController
@@ -30,7 +31,7 @@ class jobTitlePrerequestsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\jobTitlePrerequests::class);
-        $jobTitle= \Route::current()->parameter('job_title');
+        $jobTitle= Route::current()->parameter('job_title');
        // CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title-prerequests');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title/' . $jobTitle. '/job-title-prerequest');
      
@@ -49,7 +50,7 @@ class jobTitlePrerequestsCrudController extends CrudController
         {
 
        
-            $jobTitleId = \Route::current()->parameter('job_title');
+            $jobTitleId = Route::current()->parameter('job_title');
             $this->crud->setHeading('List of field of study in');
             $this->crud->setSubHeading(JobTitle::find($jobTitleId)->name);
             CRUD::column('job_title.name')->label("Experince");
@@ -99,7 +100,7 @@ class jobTitlePrerequestsCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        $jobTitleId = \Route::current()->parameter('job_title');
+        $jobTitleId = Route::current()->parameter('job_title');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Job Title' => route('job-title.index'),

@@ -6,6 +6,7 @@ use App\Models\IdAttribute;
 use App\Http\Requests\StoreIdAttributeRequest;
 use App\Http\Requests\UpdateIdAttributeRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class IdAttributeController extends Controller
 {

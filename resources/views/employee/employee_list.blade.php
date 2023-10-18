@@ -59,7 +59,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Education Level</th>
                                     <th scope="col">Male</th>
-                                    <th scope="col">Feamle</th>
+                                    <th scope="col">Female</th>
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>
@@ -99,110 +99,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    Number of Administrative Staff on Leave by Educational Level(Retired,Resigned & Left due to
-                                    death) at {{ $name }}
-                                    <hr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Education Level</th>
-                                    <th scope="col">Male</th>
-                                    <th scope="col">Feamle</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($educations as $education)
-                                    <tr>
 
-                                        <td> {{ $loop->index + 1 }} </td>
-                                        <td> {{ $education->name ?? '-' }} </td>
-                                        <td> {{ $education->male_left_count }}</td>
-                                        <td> {{ $education->female_left_count }} </td>
-                                        <td> {{ $education->male_left_count + $education->female_left_count }}</td>
-
-
-
-                                    </tr>
-                                @endforeach
-
-
-                            </tbody>
-
-                            <tfoot>
-                                <tr style="background-color:lightblue;">
-                                    <td colspan="2"> Grand Total</td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-
-                                </tr>
-                            </tfoot>
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    Number of Administrative Staff on Leave by Target Educational Level at {{ $name }}
-                                </tr>
-                                <hr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Advanced Diploma </th>
-                                    <th scope="col">Male</th>
-                                    <th scope="col">Feamle</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($educations as $education)
-                                    <tr>
-
-                                        <td> {{ $loop->index + 1 }} </td>
-                                        <td> {{ $education->name ?? '-' }} </td>
-                                        <td> {{ $education->male_left_count }}</td>
-                                        <td> {{ $education->female_left_count }} </td>
-                                        <td> {{ $education->male_left_count + $education->female_left_count }}</td>
-
-
-
-                                    </tr>
-                                @endforeach
-
-
-                            </tbody>
-                            <tfoot>
-                                <tr style="background-color:lightblue;">
-                                    <td colspan="2"> Grand Total</td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
             <div class="col">
                 <div class="collapse multi-collapse" id="multiCollapseExample2">
                     <div class="card card-body">
@@ -218,7 +115,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Employement type</th>
                                     <th scope="col">Male</th>
-                                    <th scope="col">Feamle</th>
+                                    <th scope="col">Female</th>
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>
@@ -252,7 +149,12 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
+
+      
+        
         <!-- ////////////////////////////////////////// -->
         <div class="row">
             <div class="col">
@@ -270,7 +172,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col"> Employment status</th>
                                     <th scope="col">Male</th>
-                                    <th scope="col">Feamle</th>
+                                    <th scope="col">Female</th>
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>
@@ -306,56 +208,7 @@
                 </div>
             </div>
 
-
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    Number of Administrative staff left last year (ሐምሌ 2014 - ሰኔ 2015) by department,
-                                    Educational level and Academic Rank at {{ $name }}
-                                </tr>
-                                <hr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Current Educational Status</th>
-                                    <th scope="col">Male</th>
-                                    <th scope="col">Feamle</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($educations as $education)
-                                    <tr>
-                                        <td> {{ $loop->index + 1 }} </td>
-                                        <td> {{ $education->name ?? '-' }} </td>
-                                        <td> {{ $education->male_count }}</td>
-                                        <td> {{ $education->female_count }} </td>
-                                        <td> {{ $education->male_count + $education->female_count }}</td>
-                                    </tr>
-                                @endforeach
-
-
-                            </tbody>
-                            <tfoot>
-                                <tr style="background-color:lightblue;">
-                                    <td colspan="2"> Grand Total</td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ///////////////////////////////////////////////// -->
-        <div class="row">
+  
             <div class="col">
                 <div class="collapse multi-collapse" id="multiCollapseExample2">
                     <div class="card card-body">
@@ -410,6 +263,50 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- ///////////////////////////////////////////////// -->
+        <div class="row">
+
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    <div class="card card-body">
+
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            Number of Employee by Age classification
+        </tr>
+        <hr>
+    </thead>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Age range</th>
+            <th scope="col">Male</th>
+            <th scope="col">Female</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{-- @foreach ($employmentStatuses as $employmentStatus) --}}
+            <tr><td> 1 </td> <td> 18 - 30 </td> <td> - </td> <td> - </td> <td> - </td></tr>
+            <tr><td> 2 </td><td> 31 - 40 </td> <td> - </td> <td> - </td> <td> - </td></tr>
+            <tr><td> 3 </td><td> {{ '41 -50' }}</td> <td> - </td> <td> - </td> <td> - </td></tr>
+            <tr><td> 4 </td><td> {{ ' 51 -60' }} </td> <td> - </td> <td> - </td>  <td> - </td></tr>
+          
+
+        {{-- @endforeach --}}
+
+
+    </tbody>
+
+</table>
+
+
+                    </div>
+                </div>     
+            </div>
 
 
             <div class="col">
@@ -429,7 +326,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">HR Office</th>
                                     <th scope="col">Male</th>
-                                    <th scope="col">Feamle</th>
+                                    <th scope="col">Female</th>
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>

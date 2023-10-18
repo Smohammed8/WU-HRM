@@ -22,7 +22,7 @@ line-height: 1.5;
       {{-- <div class="card"> --}}
 
         <div class="card-header">
-            <h5 class="mb-2"> Employees under probation period </h5>
+            <h5 class="mb-2"> Employees under probation period in the last 6 months </h5>
         </div> <!-- /.card-body -->
         <div class="card-body">
             <div class="container-fluid animated fadeIn">

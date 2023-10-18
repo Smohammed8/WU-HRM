@@ -28,9 +28,11 @@ class EmployeeRequest extends FormRequest
             'first_name'=>'required',
             'father_name'=>'required',
             'grand_father_name' => 'required',
-            'first_name_am'=>'nullable',
-            'father_name_am'=>'nullable',
-            'grand_father_name_am' => 'nullable',
+
+            'first_name_am' => 'required',
+            'father_name_am' => 'required',
+            'grand_father_name_am' => 'required',
+        
             'gender'=>'required',
             'date_of_birth' =>'required',
             'photo' =>'nullable',
@@ -61,6 +63,8 @@ class EmployeeRequest extends FormRequest
             'hr_branch_id' => 'required',
             'employment_status_id' => 'required',
             'employee_title_id' => 'required',
+
+
             'national_id' => [
                 'nullable',
                 'string',

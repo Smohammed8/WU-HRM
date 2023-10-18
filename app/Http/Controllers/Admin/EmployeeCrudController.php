@@ -31,6 +31,7 @@ use App\Models\TypeOfLeave;
 use App\Models\FieldOfStudy;
 use App\Models\PositionCode;
 use App\Models\TemplateType;
+use App\Models\User;
 use Illuminate\Http\Request;
 //use PDF;
 use App\Models\EmployeeTitle;
@@ -65,7 +66,6 @@ use App\Models\EmployeeCertificate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use \Maatwebsite\Excel\Facades\Excel;
-
 use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -80,7 +80,7 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
-
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeCrudController
@@ -157,6 +157,7 @@ class EmployeeCrudController extends CrudController
             if ($explodedRoute[count($explodedRoute) - 1] == $this->crud->entity_name && !backpack_user()->can($permission_base . '.index')) {
                 return abort(401);
             }
+            
             if (!backpack_user()->can($permission_base . '.create')) {
                 $this->crud->denyAccess('create');
             }
@@ -729,6 +730,8 @@ class EmployeeCrudController extends CrudController
         CRUD::field('phone_number')->size(6)->tab($ci);
         CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
         CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
+        CRUD::field('user_id')->type('select2')->label('UAS Account')->entity('user')->model(User::class)->attribute('name')->size(6)->tab($ci);
+
 
         //CRUD::field('uas_user_id')->tab($ci)->size(3);
         CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
@@ -757,19 +760,111 @@ class EmployeeCrudController extends CrudController
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
         $data = $this->crud->getStrippedSaveRequest();
+       // $employee_id = $this->crud->entry->id;
+
+        ///if (Carbon::isYear($data['employement_date'], 1970)) {
+
+         
+        if (Carbon::parse($data['date_of_birth'])->year == 1970 and Carbon::parse($data['date_of_birth'])->month == 01 and Carbon::parse($data['date_of_birth'])->day == 01 ) {
+
+                throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
+    
+            }
+        if (Carbon::parse($data['employement_date'])->year == 1970 and Carbon::parse($data['employement_date'])->month == 01 and Carbon::parse($data['employement_date'])->day == 01) {
+    
+                throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
+                
+        }
+
         if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
-            throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+            throw ValidationException::withMessages(['position_id' => 'The job position  field is required!']);
         }
         // insert item in the db
         $item = $this->crud->create($data);
         $this->data['entry'] = $this->crud->entry = $item;
         PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->first()->update(['employee_id' => $item->id]);
         // show a success message
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
 
         // save the redirect choice for next time
         $this->crud->setSaveAction();
         return $this->crud->performSaveAction($item->getKey());
+    }
+    public function update()
+    {
+        $items = collect(json_decode(request('employeeAddresses'), true));
+        // $employeeAddressRequest = new EmployeeAddressRequest();
+        // $employeeAddressRules = $employeeAddressRequest->rules();
+        $response = $this->traitUpdate();
+        $employee_id = $this->crud->entry->id;
+        $created_ids = [];
+        $currentPosition = $this->crud->getCurrentEntry()->position;
+        $newPosition = Position::where('id', request()->position_id)->first();
+        $employee = $this->crud->getCurrentEntry();
+       // $data = $this->crud->getStrippedSaveRequest();
+       
+        if (Carbon::parse($this->crud->entry->date_of_birth)->year == 1970 and Carbon::parse($this->crud->entry->date_of_birth)->month ==01 and Carbon::parse($this->crud->entry->date_of_birth)->day==01 ) {
+
+            throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
+
+        }
+            if (Carbon::parse($this->crud->entry->employement_date)->year == 1970 and Carbon::parse($this->crud->entry->employement_date)->month==01 and Carbon::parse($this->crud->entry->employement_date)->day==01) {
+
+            throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
+            
+        }
+
+        if ($newPosition !== null) {
+            if ($currentPosition->id == $newPosition->id) {
+                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
+                    PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
+
+                    if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
+                        throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+                    } else {
+                        PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
+                    }
+                }
+            } 
+            else {
+
+
+                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
+                    throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
+                }
+                PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+
+                PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
+            }
+        }
+        else{
+
+            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
+        }
+         
+        
+        // the end of null check if null of new position
+
+        $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
+            $item['employee_id'] = $employee_id;
+            if ($item['id']) {
+                $comment = EmployeeAddress::find($item['id']);
+                $comment->update($item);
+            } else {
+
+                $created_ids[] = EmployeeAddress::create($item)->id;
+            }
+        });
+        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
+        $related_items_in_db = $this->crud->entry->addresses;
+
+        $related_items_in_db?->each(function ($item, $key) use ($related_items_in_request) {
+            if (!$related_items_in_request->contains($item['id'])) {
+                $item->delete();
+            }
+        });
+
+        return $response;
     }
     public function createPDF(Employee $employee_id)
     {
@@ -816,6 +911,7 @@ class EmployeeCrudController extends CrudController
 
     $employees  = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->orderBy('first_name', 'ASC')->Paginate(10);
 
+    //$employees = Employee::where('phone_number', $employee1->phone_number)->where('id', '<>', $employee1->id)->get(); // to check duplicated phone
     return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
     }
 
@@ -840,7 +936,6 @@ class EmployeeCrudController extends CrudController
         $now =  Carbon::now();
         $males = Employee::where('employment_status_id','!=',  1)->where('gender', 'Male')->count();
         $females = Employee::where('employment_status_id','!=',  1)->where('gender', 'Female')->count();
-
         $employees = Employee::where('employment_status_id','!=',  1)->orderBy('first_name', 'ASC')->Paginate(10);
 
         return view('employee.active_leave', compact('employees' ,'females', 'males'));
@@ -904,69 +999,7 @@ class EmployeeCrudController extends CrudController
        
     }
 
-    public function update()
-    {
-        $items = collect(json_decode(request('employeeAddresses'), true));
-        // $employeeAddressRequest = new EmployeeAddressRequest();
-        // $employeeAddressRules = $employeeAddressRequest->rules();
-        $response = $this->traitUpdate();
-        $employee_id = $this->crud->entry->id;
-        $created_ids = [];
-        $currentPosition = $this->crud->getCurrentEntry()->position;
-        $newPosition = Position::where('id', request()->position_id)->first();
-        $employee = $this->crud->getCurrentEntry();
-        if ($newPosition !== null) {
-            if ($currentPosition->id == $newPosition->id) {
-                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
-                    PositionCode::where('employee_id', $employee->id)->first()?->update(['employee_id' => null]);
-
-                    if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
-                        throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-                    } else {
-                        PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
-                    }
-                }
-            } 
-            else {
-
-
-                if (PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->count() == 0) {
-                    throw ValidationException::withMessages(['position_id' => 'No available place on this position!']);
-                }
-                PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
-
-                PositionCode::where('position_id', request()->position_id)->where('employee_id', null)->first()->update(['employee_id' => $employee->id]);
-            }
-        }
-        else{
-
-            PositionCode::where('employee_id', $this->crud->getCurrentEntry()->id)->first()->update(['employee_id' => null]);
-        }
-         
-        
-        // the end of null check if null of new position
-
-        $items->each(function ($item, $key) use ($employee_id, &$created_ids) {
-            $item['employee_id'] = $employee_id;
-            if ($item['id']) {
-                $comment = EmployeeAddress::find($item['id']);
-                $comment->update($item);
-            } else {
-
-                $created_ids[] = EmployeeAddress::create($item)->id;
-            }
-        });
-        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
-        $related_items_in_db = $this->crud->entry->addresses;
-
-        $related_items_in_db?->each(function ($item, $key) use ($related_items_in_request) {
-            if (!$related_items_in_request->contains($item['id'])) {
-                $item->delete();
-            }
-        });
-
-        return $response;
-    }
+ 
 
     protected function setupShowOperation()
     {
@@ -986,6 +1019,9 @@ class EmployeeCrudController extends CrudController
 
         $employeeContacts = EmployeeContact::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeContacts'] = $employeeContacts;
+
+
+
 
         $employeeLanguages = EmployeeLanguage::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['employeeLanguages'] = $employeeLanguages;
@@ -1049,17 +1085,17 @@ class EmployeeCrudController extends CrudController
             $date_of_retire2 = $d->format('F d, Y H:i:s');
             $this->data['date_of_retire2'] = $date_of_retire2;
         }
-        $edate   = Employee::select('employement_date')->where('id', '=', $employeeId)->get()->first()->employement_date;
-
-        $end = date('Y-m-d', strtotime($edate . ' + 6 months'));
-
-        if ($end >= new DateTime('now')) {
-
-            $this->data['status'] = 'Yes';
-        } else {
+     ///////////////////////////////////////////////////////////////
+        $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])
+        ->where('id', $employeeId)->get();
+        if ($prob->isEmpty()) {
             $this->data['status'] = 'No';
+           
+        } else {
+       
+            $this->data['status'] = 'Yes';
         }
-
+    ///////////////////////////////////////////////////////////////
 
         $type_of_misconducts =    TypeOfMisconduct::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_misconducts'] = $type_of_misconducts;
@@ -1073,7 +1109,6 @@ class EmployeeCrudController extends CrudController
         $this->data['quarters'] = $quarters;
         ////////////////////////////////////////////////////////////////////
         $this->data['last_effiency'] =  $this->getEffiency($this->crud->getCurrentEntryId());
-
 
         ////////////////////////////////////////////////////////////////////
 
@@ -1105,7 +1140,17 @@ class EmployeeCrudController extends CrudController
         $levels =    Level::orderBy('id', 'asc')->Paginate(22);
         $this->data['levels'] = $levels;
 
-         $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
+
+        $user_id  =  Employee::where('id', $employeeId)->first()?->user_id;
+        $user = User::find($user_id);
+        $username = $user?->username;
+        $roles = $user?->roles->pluck('name')->toArray();
+        $this->data['username'] =$username;
+        $this->data['roles'] =$roles;
+        $this->data['user_id'] = $user_id;
+
+        
+    $level  =    Employee::where('id', $employeeId)->first()?->position?->jobTitle?->level_id;
     
           $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
           $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
@@ -1159,4 +1204,17 @@ class EmployeeCrudController extends CrudController
         // $this->data['evs'] = $evs;
 
     }
+
+    public function getCalculateLeaveDaysForEmployee($employeeId)
+{
+    $employee = Employee::find($employeeId);
+
+    if ($employee) {
+        $totalLeaveDays = $employee->calculateTotalLeaveDays();
+        return "Total leave days for employee: {$totalLeaveDays}";
+    } else {
+        return "Employee not found";
+    }
+}
+
 }

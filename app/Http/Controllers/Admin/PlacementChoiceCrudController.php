@@ -22,6 +22,7 @@ use App\Models\JobTitle;
 use App\Models\PositionCode;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class PlacementChoiceCrudController
@@ -45,7 +46,7 @@ class PlacementChoiceCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\PlacementChoice::class);
         $this->crud->setShowView('placement_show.show');
-        $placementRound = \Route::current()->parameter('placement_round');
+        $placementRound = Route::current()->parameter('placement_round');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/placement-round/' . $placementRound . '/placement-choice');
         CRUD::setEntityNameStrings('placement choice', 'placement choices');
         $this->crud->setListView('placement_choice.show');
@@ -129,7 +130,7 @@ class PlacementChoiceCrudController extends CrudController
 
 
         
-        $placementRoundId = \Route::current()->parameter('placement_round');
+        $placementRoundId = Route::current()->parameter('placement_round');
         $placementRound = PlacementRound::find($placementRoundId);
         if ($placementRound->status == Constants::PLACEMENT_ROUND_STATUS_CLOSED) {
             $this->crud->removeAllButtons();
@@ -199,7 +200,7 @@ class PlacementChoiceCrudController extends CrudController
 
         // $this->crud->denyAccess('update');
         // $this->crud->denyAccess('delete');
-        $placementRound = \Route::current()->parameter('placement_round');
+        $placementRound = Route::current()->parameter('placement_round');
         $this->data['placementRound'] = PlacementRound::find($placementRound);
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -217,7 +218,7 @@ class PlacementChoiceCrudController extends CrudController
     {
         // $this->crud->setValidation(CreateRequest::class);
 
-        $placementRound = \Route::current()->parameter('placement_round');
+        $placementRound = Route::current()->parameter('placement_round');
         CRUD::setValidation(PlacementChoiceRequest::class);
         CRUD::field('placement_round_id')->type('hidden')->value($placementRound);
 

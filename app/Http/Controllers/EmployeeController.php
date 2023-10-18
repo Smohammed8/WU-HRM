@@ -14,9 +14,11 @@ use App\Models\Employee;
 use App\Models\PlacementChoice;
 use App\Models\PlacementRound;
 use App\Models\Position;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use NumberFormatter;
+use Illuminate\Support\Facades\Route;
 
 class EmployeeController extends Controller
 {
@@ -32,7 +34,8 @@ class EmployeeController extends Controller
             return abort(401);
         }
         $user = Auth::user();
-        $employee = Employee::where('uas_user_id', $user->username)->get();
+       // $employee = Employee::where('user_id', $user->username)->get();
+        $employee = Employee::where('user_id', $user->id)->get();
         if ($employee->count() == 0 && backpack_user()->hasRole('employee')) {
             Auth::logout();
             return abort(401, 'Please you have no employee profile contact admin');
@@ -109,5 +112,28 @@ class EmployeeController extends Controller
         $choiceTwo = $placementChoice->choiceTwo;
         $employee->calculateEducationalValue($choiceOne);
         $employee->calculateEducationalValue($choiceTwo);
+    }
+
+    public function suspectedErrors(){
+//  $employees = Employee::where('employement_date', 3)->orderBy('first_name', 'ASC')->Paginate(10);
+ //$employees = Employee::where('date_of_birth', '<', Carbon::now()->subYears(46))->get();
+
+//  $employees1 = Employee::where('employement_date', '<', Carbon::now()->subYears(35))->get();
+
+//  $employees2  = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->get();
+//  $employees_employeds = array_merge($employees1, $employees2)->orderBy('id', 'DESC')->Paginate(10);
+
+
+
+    $employees_employeds = Employee::where('employment_status_id', 1)->where('employement_date', '<', Carbon::now()->subYears(35))->union(Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()]))->orderBy('id', 'DESC')->paginate(10);
+    
+    $employee_ages = Employee::where('employment_status_id', 1)->orderBy('id', 'DESC')->paginate(10); 
+
+    $employees = Employee::orderBy('id', 'DESC')->paginate(10);
+
+
+  return view('employee.suspected_errors', compact('employees','employees_employeds', 'employee_ages'));
+
+
     }
 }

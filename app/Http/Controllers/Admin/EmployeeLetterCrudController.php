@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\EmployeeLetterRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeLetterCrudController
@@ -27,7 +28,7 @@ class EmployeeLetterCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\EmployeeLetter::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/employee-letter');
         CRUD::setEntityNameStrings('employee letter', 'employee letters');
         $this->setupBreadcrumb($employeeId);
@@ -84,7 +85,7 @@ class EmployeeLetterCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EmployeeLetterRequest::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
 
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('title')->size(6);

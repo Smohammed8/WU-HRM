@@ -25,15 +25,19 @@
         <div class="card-header">
             <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
 
-         
+            @canany('employee-sample.export')
             <a href="{{ route('employee-form') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-download"></i> Export</a>
-            {{-- <a href="{{ route('import-employee') }}" class="btn btn-sm btn-primary float-right mr-1"> Import</a> --}}
-
+        
+            @endcanany
+            @canany('employee.import')
             <button type="button" class="btn  btn-sm btn-outline-primary float-right mr-1" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-upload"></i>  Import
             </button>
+            @endcanany
+       
+            @canany('download.manual')
             <a href="{{ route('user-manual') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-book"></i> Download User Manual</a>
-
+            @endcanany
 
         </div> <!-- /.card-body -->
         <div class="card-body">
@@ -160,6 +164,9 @@
       <div class="card card-body">
         <div class="row">
             @canany(['HR-all.manage'])
+
+            @if (backpack_user()->hr_branch_id == null)
+
             @foreach($offices  as $hr)
             <div class="col-md-3">   
                 <div class="card card-defualt">  
@@ -172,6 +179,8 @@
                          </a> 
                         </h4>
                     </div>  
+                 
+
                     <div class="col-md-12 col-sm-6 col-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-default"> 
@@ -188,11 +197,60 @@
                              </div>
                         </div>
                     </div>
+
+              
+                        
+              
+
                    </span>
                   </div>
                   <!-- /.card -->
                 </div>
                 @endforeach
+
+                @else
+
+                @foreach($offices  as $hr)
+
+                @if (backpack_user()->hr_branch_id == $hr->id)
+
+                <div class="col-md-3">   
+                    <div class="card card-defualt">  
+                        <!-- card card-info -->
+                        <span class="border border-secondary">
+                        <div class="card-header">
+                          <h4 class="card-title"><i class="fa fa-flag"></i>   <a href=""> 
+                            {{ $hr->name }}
+                             {{-- Main HR Office  --}}
+                             </a> 
+                            </h4>
+                        </div>  
+                    
+                        <div class="col-md-12 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-default"> 
+                                    <a href="{{ route('getEmployee', ['hr_branch_id'=>$hr->id]) }}
+    
+                                    " title="Click to view details"> 
+                                         <i class="fa fa-sitemap"></i>
+                                    </a>
+                                  </span>
+                                  <div class="info-box-content">
+                                    <span class="info-box-text">Total Employees</span>
+                                    <span class="info-box-number">{{  $hr->employees->count() }} </span>
+                                
+                                 </div>
+                            </div>
+                        </div>
+    
+                       </span>
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                    @endif
+                    @endforeach 
+                @endif
+
                 @endcanany
              </div>   
           </div>

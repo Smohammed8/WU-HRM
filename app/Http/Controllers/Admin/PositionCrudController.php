@@ -10,7 +10,8 @@ use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\ValidationException;
-
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 /**
  * Class PositionCrudController
  * @package App\Http\Controllers\Admin
@@ -231,7 +232,7 @@ class PositionCrudController extends CrudController
         $item = $this->crud->create($data);
         $this->data['entry'] = $this->crud->entry = $item;
         $counter = $jobCodeStartingNumber;
-        for($currentCodeNumber = $jobCodeStartingNumber;$currentCodeNumber<$jobCodeStartingNumber+$data['total_employees'];) {
+        for($currentCodeNumber = $jobCodeStartingNumber; $currentCodeNumber < $jobCodeStartingNumber+$data['total_employees'];) {
             $code = $jobCodePrefix.$counter;
             $counter++;
             if(PositionCode::where('code',$code)->count()==0){
@@ -239,7 +240,7 @@ class PositionCrudController extends CrudController
                 PositionCode::firstOrCreate(['code'=>$code],['position_id'=>$item->id,'code'=>$code]);
             }
         }
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
         $this->crud->setSaveAction();
         return $this->crud->performSaveAction($item->getKey());
     }

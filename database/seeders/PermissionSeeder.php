@@ -59,6 +59,17 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('employee.show');
         Permission::findOrCreate('employee.edit');
         Permission::findOrCreate('employee.delete');
+        Permission::findOrCreate('employee-sample.export');
+        Permission::findOrCreate('employee.import');
+        /////////////////////////////////////////////////////
+        Permission::findOrCreate('download.manual');
+        //////////////////////////////////////////////////
+        Permission::findOrCreate('error.logs.index');
+        Permission::findOrCreate('retirment.employee.index');
+        Permission::findOrCreate('probation.employee.index');
+        Permission::findOrCreate('left.employee.index');
+        Permission::findOrCreate('temporary.employee.index');
+        Permission::findOrCreate('contract.employee.index');
         // Permission for setting
         Permission::findOrCreate('setting.icrud');
         Permission::findOrCreate('setting.index');
@@ -191,6 +202,9 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('employee.setting.delete');
         // Permission for employee id print
         Permission::findOrCreate('employee.id.print');
+        Permission::findOrCreate('hire.letter.print');
+        Permission::findOrCreate('experience.letter.print');
+    
         // Permission for employee operation demotion
         Permission::findOrCreate('employee.demotion.icrud');
         Permission::findOrCreate('employee.demotion.index');
@@ -568,5 +582,9 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('HR-agaro.manage');
         // Employee placement
         Permission::findOrCreate('placement.manage');
+
+     
+
+        
     }
 }
