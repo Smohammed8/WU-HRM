@@ -392,11 +392,11 @@
 
 
                                        <tr>
-                                        <td> 3 </td><td> {{ '41 -50' }}</td>
+                                          <td> 3 </td><td> {{ '41 -50' }}</td>
                                          <td> {{  $male_count4150   }} </td>
                                           <td> {{  $female_count4150   }}  </td>
-                                           <td> {{    $male_count4150 + $female_count4150    }}  </td> 
-                                            <td> {{  ($male_count4150 +  $female_count4150/100) * $total  }} % </td></tr>
+                                           <td> {{   $male_count4150 + $female_count4150    }}  </td> 
+                                            <td> {{  ($male_count4150+$female_count4150/100) * $total  }} % </td></tr>
 
                                       
 
