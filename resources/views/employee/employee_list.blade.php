@@ -325,14 +325,18 @@
 
                             
                                 @foreach ($employees as $employee)
+                                @if($employee->date_of_birth !== null)
                                 @if($employee->age >=18 and $employee->age <= 30 and  $employee->gender=='Male')
                                 <?php $male_count1830 ++ ?>
+                                @endif
                                 @endif
                                 @endforeach
 
                                 @foreach ($employees as $employee)
+                                @if($employee->date_of_birth !== null)
                                 @if($employee->age >=18 and $employee->age <= 30 and  $employee->gender=='Female')
                                 <?php $female_count1830 ++ ?>
+                                @endif
                                 @endif
                                 @endforeach
                                     <tr>
@@ -345,17 +349,21 @@
                                          <td>{{  ($male_count1830 +  $female_count1830/100) * $total  }} %</td>
                                     </tr>
                                     @foreach ($employees as $employee)
+                                    @if($employee->date_of_birth !== null)
                                     @if($employee->age >=31 and $employee->age <= 40 and  $employee->gender=='Male')
                                     <?php $male_count3140 ++ ?>
+                                    @endif
                                     @endif
                                     @endforeach
     
                                  
     
                                     @foreach ($employees as $employee)
+                                    @if($employee->date_of_birth !== null)
                                     @if($employee->age >=31 and $employee->age <= 40 and  $employee->gender=='Female')
                                     <?php $female_count3140 ++ ?>
                                     @endif 
+                                    @endif
                                     @endforeach
                                         <tr>
                                             <td> 2 </td><td> 31 - 40 </td>
@@ -367,15 +375,19 @@
                                     
 
                                             @foreach ($employees as $employee)
+                                            @if($employee->date_of_birth !== null)
                                             @if($employee->age >=41 and $employee->age <= 50 and  $employee->gender=='Male')
                                             <?php $male_count4150 ++ ?>
+                                            @endif
                                             @endif
                                             @endforeach
             
                                             @foreach ($employees as $employee)
+                                            @if($employee->date_of_birth !== null)
                                             @if($employee->age >=41 and $employee->age <= 50 and  $employee->gender=='Female')
                                             <?php $female_count4150 ++ ?>
                                             @endif 
+                                            @endif
                                             @endforeach
 
 
@@ -390,14 +402,18 @@
 
 
                                             @foreach ($employees as $employee)
+                                            @if($employee->date_of_birth !== null)
                                             @if($employee->age >=51 and $employee->age <= 60 and  $employee->gender=='Male')
                                             <?php $male_count5160 ++ ?>
+                                            @endif
                                             @endif
                                             @endforeach
             
                                             @foreach ($employees as $employee)
+                                            @if($employee->date_of_birth !== null)
                                             @if($employee->age >=51 and $employee->age <= 60 and  $employee->gender=='Female')
                                             <?php $female_count5160 ++ ?>
+                                            @endif
                                             @endif
                                             @endforeach
             
