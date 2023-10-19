@@ -279,6 +279,12 @@
             <div class="col">
                 <div class="collapse multi-collapse" id="multiCollapseExample2">
                     <div class="card card-body">
+                        <?php
+                        
+                        $female_count = 0;
+                        $male_count = 0;
+                        
+                        ?>
 
                         <table class="table table-sm">
                             <thead>
@@ -294,14 +300,15 @@
                                     <th scope="col">Male</th>
                                     <th scope="col">Female</th>
                                     <th scope="col">Total</th>
+                                    <th scope="col">Percentage</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{-- @foreach ($employmentStatuses as $employmentStatus) --}}
-                                    <tr><td> 1 </td> <td> 18 - 30 </td> <td> - </td> <td> - </td> <td> - </td></tr>
-                                    <tr><td> 2 </td><td> 31 - 40 </td> <td> - </td> <td> - </td> <td> - </td></tr>
-                                    <tr><td> 3 </td><td> {{ '41 -50' }}</td> <td> - </td> <td> - </td> <td> - </td></tr>
-                                    <tr><td> 4 </td><td> {{ ' 51 -60' }} </td> <td> - </td> <td> - </td>  <td> - </td></tr>
+                                    <tr><td> 1 </td> <td> 18 - 30 </td> <td> - </td> <td> - </td> <td> - </td>  <td> 15%</td></tr>
+                                    <tr><td> 2 </td><td> 31 - 40 </td> <td> - </td> <td> - </td> <td> - </td>  <td>  45% </td></tr>
+                                    <tr><td> 3 </td><td> {{ '41 -50' }}</td> <td> - </td> <td> - </td> <td> - </td>  <td> 20%</td></tr>
+                                    <tr><td> 4 </td><td> {{ ' 51 -60' }} </td> <td> - </td> <td> - </td>  <td> - </td>  <td>  20%</td></tr>
                                   
                         
                                 {{-- @endforeach --}}
