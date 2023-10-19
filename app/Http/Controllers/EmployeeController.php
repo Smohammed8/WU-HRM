@@ -114,15 +114,22 @@ class EmployeeController extends Controller
         $employee->calculateEducationalValue($choiceTwo);
     }
 
+
+
+    public function findEmployeesWithDuplicatedPhoneNumbers()
+{
+    $duplicatedPhoneNumbers = Employee::select('phone_number')
+        ->groupBy('phone_number')
+        ->havingRaw('COUNT(phone_number) > 1')
+        ->pluck('phone_number');
+
+    $employeesWithDuplicatedPhoneNumbers = Employee::whereIn('phone_number', $duplicatedPhoneNumbers)->get();
+
+    return view('employee.index', compact('employeesWithDuplicatedPhoneNumbers'));
+}
+
+
     public function suspectedErrors(){
-//  $employees = Employee::where('employement_date', 3)->orderBy('first_name', 'ASC')->Paginate(10);
- //$employees = Employee::where('date_of_birth', '<', Carbon::now()->subYears(46))->get();
-
-//  $employees1 = Employee::where('employement_date', '<', Carbon::now()->subYears(35))->get();
-
-//  $employees2  = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->get();
-//  $employees_employeds = array_merge($employees1, $employees2)->orderBy('id', 'DESC')->Paginate(10);
-
 
 
     $employees_employeds = Employee::where('employment_status_id', 1)->where('employement_date', '<', Carbon::now()->subYears(35))->union(Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()]))->orderBy('id', 'DESC')->paginate(10);
@@ -131,8 +138,18 @@ class EmployeeController extends Controller
 
     $employees = Employee::orderBy('id', 'DESC')->paginate(10);
 
+   $employees_internal = Employee::orderBy('id', 'DESC')->paginate(10);
 
-  return view('employee.suspected_errors', compact('employees','employees_employeds', 'employee_ages'));
+
+
+    /////////////////////////////////////////////////////////
+    $duplicatedPhoneNumbers = Employee::select('phone_number')->groupBy('phone_number')->havingRaw('COUNT(phone_number) > 1')
+    ->pluck('phone_number');
+    $employees_phone = Employee::whereIn('phone_number', $duplicatedPhoneNumbers)->paginate(10); 
+   ////////////////////////////////////////////////////////////
+
+
+  return view('employee.suspected_errors', compact('employees','employees_employeds','employees_phone','employees_internal', 'employee_ages'));
 
 
     }

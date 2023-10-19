@@ -17,9 +17,22 @@
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/calendar/css/redmond.calendars.picker.css') }}" />
+<style>
+#capture {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
 
+#remove {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
 
-
+#photo {
+    width: 30px;
+    height: 30px;
+}
+</style>
 @section('header')
     <section class="container-fluid d-print-none">
 
@@ -168,6 +181,35 @@
             }
         @endcan
     </script>
+
+<script>
+  const camera = document.getElementById('camera');
+const captureButton = document.getElementById('capture');
+const photoCanvas = document.getElementById('photo').getContext('2d');
+const entryId = captureButton.getAttribute('data-entry-id');
+captureButton.addEventListener('click', () => {
+    Webcam.snap(data_uri => {
+      axios.post('/uploadPhoto', { image: data_uri, employeeId: entryId })
+        .then(response => {
+          // Handle the response from the server
+          if (response.data.success) {
+            successMessage.innerText = "Image uploaded successfully!";
+            errorMessage.innerText = ""; // Clear any previous error message
+          } else {
+            errorMessage.innerText = "Image upload failed. Please try again.";
+            successMessage.innerText = ""; // Clear any previous success message
+          }
+        })
+        .catch(error => {
+          // Handle errors
+          errorMessage.innerText = "An error occurred while uploading the image. Please try again.";
+          successMessage.innerText = ""; // Clear any previous success message
+        });
+    });
+  });
+
+</script>
+  
 @endsection
 
 @section('content')
@@ -179,6 +221,22 @@
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
                         <img src="{{ $crud->entry?->photo }}" alt="profile Pic" height="160" width="150">
+
+                   
+
+                      
+                        <button type="button" class="btn btn-danger btn-sm mr-3" id="remove" disabled> Remove</button>
+                        <button type="button" data-entry-id="{{ $crud->entry->id }}" class="btn btn-primary btn-sm " id="capture">Capture</button>
+
+                        <canvas id="photo" style="display:none;"></canvas>
+
+                        <div id="camera">
+                            <!-- Webcam stream will be displayed here -->
+                        </div>
+                     
+
+                          
+
                         <hr>
                      
                        
@@ -1577,6 +1635,9 @@
             }
         }
 
+
+
+
         // make it so that the function above is run after each DataTable draw event
         // crud.addFunctionToDataTablesDrawEventQueue('deleteEntry');
    
@@ -1597,4 +1658,5 @@
     //     // $('#end').calendarsPicker({calendar: calendar});
     // </script>
 </script>
+
 @endsection
