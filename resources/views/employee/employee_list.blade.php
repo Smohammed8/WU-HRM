@@ -281,8 +281,19 @@
                     <div class="card card-body">
                         <?php
                         
-                        $female_count = 0;
-                        $male_count = 0;
+                        $male_count1830 = 0;
+                        $male_count3140 = 0;
+                        $male_count4150 = 0;
+                        $male_count4150 = 0;
+                        $male_count5160 = 0;
+
+
+                        $female_count1830 = 0;
+                        $female_count3140 = 0;
+                        $female_count4150 = 0;
+                        $female_count4150 = 0;
+                        $female_count5160 = 0;
+                        $total = 0;
                         
                         ?>
 
@@ -304,14 +315,101 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($employmentStatuses as $employmentStatus) --}}
-                                    <tr><td> 1 </td> <td> 18 - 30 </td> <td> - </td> <td> - </td> <td> - </td>  <td> 15%</td></tr>
-                                    <tr><td> 2 </td><td> 31 - 40 </td> <td> - </td> <td> - </td> <td> - </td>  <td>  45% </td></tr>
-                                    <tr><td> 3 </td><td> {{ '41 -50' }}</td> <td> - </td> <td> - </td> <td> - </td>  <td> 20%</td></tr>
-                                    <tr><td> 4 </td><td> {{ ' 51 -60' }} </td> <td> - </td> <td> - </td>  <td> - </td>  <td>  20%</td></tr>
+                              
+                                @foreach ($employees as $employee)
+                             @if($employee->date_of_birth !== null)
+                                <?php $total ++ ?>
+                              @endif
+                           
+                                @endforeach
+
+                            
+                                @foreach ($employees as $employee)
+                                @if($employee->age >=18 and $employee->age <= 30 and  $employee->gender=='Male')
+                                <?php $male_count1830 ++ ?>
+                                @endif
+                                @endforeach
+
+                                @foreach ($employees as $employee)
+                                @if($employee->age >=18 and $employee->age <= 30 and  $employee->gender=='Female')
+                                <?php $female_count1830 ++ ?>
+                                @endif
+                                @endforeach
+                                    <tr>
+                                        <td> 1 </td>
+                                         <td> 18 - 30 </td>
+
+                                         <td> {{  $male_count1830  }}</td> 
+                                         <td>{{  $female_count1830  }} </td>
+                                         <td>{{   $male_count1830 +  $female_count1830   }} </td> 
+                                         <td>{{  ($male_count1830 +  $female_count1830/100) * $total  }} %</td>
+                                    </tr>
+                                    @foreach ($employees as $employee)
+                                    @if($employee->age >=31 and $employee->age <= 40 and  $employee->gender=='Male')
+                                    <?php $male_count3140 ++ ?>
+                                    @endif
+                                    @endforeach
+    
+                                 
+    
+                                    @foreach ($employees as $employee)
+                                    @if($employee->age >=31 and $employee->age <= 40 and  $employee->gender=='Female')
+                                    <?php $female_count3140 ++ ?>
+                                    @endif 
+                                    @endforeach
+                                        <tr>
+                                            <td> 2 </td><td> 31 - 40 </td>
+                                          <td> {{ $male_count3140 }} </td>
+                                          <td> {{ $female_count3140 }} </td>
+                                          <td> {{  $male_count3140 + $female_count3140 }} </td> 
+                                            <td>  {{  ($male_count3140 +  $female_count3140/100) * $total  }} % </td></tr>
+
+                                    
+
+                                            @foreach ($employees as $employee)
+                                            @if($employee->age >=41 and $employee->age <= 50 and  $employee->gender=='Male')
+                                            <?php $male_count4150 ++ ?>
+                                            @endif
+                                            @endforeach
+            
+                                            @foreach ($employees as $employee)
+                                            @if($employee->age >=41 and $employee->age <= 50 and  $employee->gender=='Female')
+                                            <?php $female_count4150 ++ ?>
+                                            @endif 
+                                            @endforeach
+
+
+                                       <tr>
+                                        <td> 3 </td><td> {{ '41 -50' }}</td>
+                                         <td> {{  $male_count4150   }} </td>
+                                          <td> {{  $female_count4150   }}  </td>
+                                           <td> {{    $male_count4150 + $female_count4150    }}  </td> 
+                                            <td> {{  ($male_count4150 +  $female_count4150/100) * $total  }} % </td></tr>
+
+                                      
+
+
+                                            @foreach ($employees as $employee)
+                                            @if($employee->age >=51 and $employee->age <= 60 and  $employee->gender=='Male')
+                                            <?php $male_count5160 ++ ?>
+                                            @endif
+                                            @endforeach
+            
+                                            @foreach ($employees as $employee)
+                                            @if($employee->age >=51 and $employee->age <= 60 and  $employee->gender=='Female')
+                                            <?php $female_count5160 ++ ?>
+                                            @endif
+                                            @endforeach
+            
+                                         <tr>
+                                            <td> 4 </td><td> {{ ' 51 -60' }} </td> 
+                                        <td> {{ $male_count5160 }} </td> 
+                                        <td> {{  $female_count5160 }} </td> 
+                                         <td> {{ $male_count5160 +  $female_count5160 }} </td> 
+                                          <td>  {{  ($male_count5160 +  $female_count5160/100) * $total  }} % </td></tr>
                                   
                         
-                                {{-- @endforeach --}}
+                               
                         
                         
                             </tbody>
