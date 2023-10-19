@@ -103,63 +103,8 @@
             <div class="col">
                 <div class="collapse multi-collapse" id="multiCollapseExample2">
                     <div class="card card-body">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    Number of Administrative Staff by Type of Employment at {{ $name }}
-                                </tr>
-                                <hr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Employement type</th>
-                                    <th scope="col">Male</th>
-                                    <th scope="col">Female</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($employements as $employement)
-                                    <tr>
-
-                                        <td> {{ $loop->index + 1 }} </td>
-                                        <td> {{ $employement->name ?? '-' }} </td>
-                                        <td> {{ $employement->type_male_count }}</td>
-                                        <td> {{ $employement->type_female_count }}</td>
-                                        <td> {{ $employement->type_male_count + $employement->type_female_count }}</td>
 
 
-
-                                    </tr>
-                                @endforeach
-
-
-                            </tbody>
-                            <tfoot>
-                                <tr style="background-color:lightblue;">
-                                    <td colspan="2"> Grand Total</td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-                                    <td> <u>{{ '-' }} </u></td>
-
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-
-      
-        
-        <!-- ////////////////////////////////////////// -->
-        <div class="row">
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
                         <table class="table table-sm">
                             <thead>
                                 <tr>
@@ -204,112 +149,13 @@
                                 </tr>
                             </tfoot>
                         </table>
+
+
+
+
                     </div>
                 </div>
-            </div>
-
-  
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
-                        <?php
-                        
-                        $female_category_count = 0;
-                        $male_category_count = 0;
-                        
-                        ?>
-
-                        <table class="table table-sm">
-
-                            <thead>
-                                <tr>
-                                    Number of employee by Employee Category at {{ $name }}
-                                </tr>
-                                <hr>
-                            </thead>
-
-
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Employee Category</th>
-                                    <th scope="col">Male</th>
-                                    <th scope="col">Female</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($categories as $category)
-                                    <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $category->name ?? '-' }}</td>
-                                        <td>{{ $category->male_category_count }}</td>
-                                        <td>{{ $category->female_category_count }}</td>
-                                        <td>{{ $category->male_category_count + $category->female_category_count }}</td>
-                                    </tr>
-                                    <?php $male_category_count += $category->male_category_count; ?>
-                                    <?php $female_category_count += $category->female_category_count; ?>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr style="background-color:lightblue;">
-                                    <td colspan="2">&nbsp;&nbsp;&nbsp;Grand Total</td>
-                                    <td><u>{{ $male_category_count }}</u></td>
-                                    <td><u>{{ $female_category_count }}</u></td>
-                                    <td><u>{{ $male_category_count + $female_category_count }}</u></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ///////////////////////////////////////////////// -->
-        <div class="row">
-
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
-
-
-<table class="table table-sm">
-    <thead>
-        <tr>
-            Number of Employee by Age classification
-        </tr>
-        <hr>
-    </thead>
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Age range</th>
-            <th scope="col">Male</th>
-            <th scope="col">Female</th>
-            <th scope="col">Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{-- @foreach ($employmentStatuses as $employmentStatus) --}}
-            <tr><td> 1 </td> <td> 18 - 30 </td> <td> - </td> <td> - </td> <td> - </td></tr>
-            <tr><td> 2 </td><td> 31 - 40 </td> <td> - </td> <td> - </td> <td> - </td></tr>
-            <tr><td> 3 </td><td> {{ '41 -50' }}</td> <td> - </td> <td> - </td> <td> - </td></tr>
-            <tr><td> 4 </td><td> {{ ' 51 -60' }} </td> <td> - </td> <td> - </td>  <td> - </td></tr>
-          
-
-        {{-- @endforeach --}}
-
-
-    </tbody>
-
-</table>
-
-
-                    </div>
-                </div>     
-            </div>
-
-
-            <div class="col">
+                <!---- sencond div -->
                 <div class="collapse multi-collapse" id="multiCollapseExample2">
                     <div class="card card-body">
                         <?php $male_hr_count = 0; ?>
@@ -363,6 +209,179 @@
                             </tfoot>
 
                         </table>
+                    </div>
+                </div>
+                <!-- ///////////////////////// -->
+            </div>
+
+
+        </div>
+
+      
+        
+        <!-- ////////////////////////////////////////// -->
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    <div class="card card-body">
+
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    Number of Administrative Staff by Type of Employment at {{ $name }}
+                                </tr>
+                                <hr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Employement type</th>
+                                    <th scope="col">Male</th>
+                                    <th scope="col">Female</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($employements as $employement)
+                                    <tr>
+
+                                        <td> {{ $loop->index + 1 }} </td>
+                                        <td> {{ $employement->name ?? '-' }} </td>
+                                        <td> {{ $employement->type_male_count }}</td>
+                                        <td> {{ $employement->type_female_count }}</td>
+                                        <td> {{ $employement->type_male_count + $employement->type_female_count }}</td>
+
+
+
+                                    </tr>
+                                @endforeach
+
+
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color:lightblue;">
+                                    <td colspan="2"> Grand Total</td>
+                                    <td> <u>{{ '-' }} </u></td>
+                                    <td> <u>{{ '-' }} </u></td>
+                                    <td> <u>{{ '-' }} </u></td>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                      
+                    </div>
+                </div>
+            </div>
+
+  
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    <div class="card card-body">
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    Number of Employee by Age classification
+                                </tr>
+                                <hr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Age range</th>
+                                    <th scope="col">Male</th>
+                                    <th scope="col">Female</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{-- @foreach ($employmentStatuses as $employmentStatus) --}}
+                                    <tr><td> 1 </td> <td> 18 - 30 </td> <td> - </td> <td> - </td> <td> - </td></tr>
+                                    <tr><td> 2 </td><td> 31 - 40 </td> <td> - </td> <td> - </td> <td> - </td></tr>
+                                    <tr><td> 3 </td><td> {{ '41 -50' }}</td> <td> - </td> <td> - </td> <td> - </td></tr>
+                                    <tr><td> 4 </td><td> {{ ' 51 -60' }} </td> <td> - </td> <td> - </td>  <td> - </td></tr>
+                                  
+                        
+                                {{-- @endforeach --}}
+                        
+                        
+                            </tbody>
+                        
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ///////////////////////////////////////////////// -->
+        <div class="row">
+
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    <div class="card card-body">
+
+
+                        <?php
+                        
+                        $female_category_count = 0;
+                        $male_category_count = 0;
+                        
+                        ?>
+
+                        <table class="table table-sm">
+
+                            <thead>
+                                <tr>
+                                    Number of employee by Employee Category at {{ $name }}
+                                </tr>
+                                <hr>
+                            </thead>
+
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Employee Category</th>
+                                    <th scope="col">Male</th>
+                                    <th scope="col">Female</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($categories as $category)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $category->name ?? '-' }}</td>
+                                        <td>{{ $category->male_category_count }}</td>
+                                        <td>{{ $category->female_category_count }}</td>
+                                        <td>{{ $category->male_category_count + $category->female_category_count }}</td>
+                                    </tr>
+                                    <?php $male_category_count += $category->male_category_count; ?>
+                                    <?php $female_category_count += $category->female_category_count; ?>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color:lightblue;">
+                                    <td colspan="2">&nbsp;&nbsp;&nbsp;Grand Total</td>
+                                    <td><u>{{ $male_category_count }}</u></td>
+                                    <td><u>{{ $female_category_count }}</u></td>
+                                    <td><u>{{ $male_category_count + $female_category_count }}</u></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+
+                    </div>
+                </div>     
+            </div>
+
+
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    <div class="card card-body">
+                    
+                       -
                     </div>
                 </div>
             </div>

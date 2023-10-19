@@ -183,7 +183,7 @@
     </script>
 
 <script>
-  const camera = document.getElementById('camera');
+const camera = document.getElementById('camera');
 const captureButton = document.getElementById('capture');
 const photoCanvas = document.getElementById('photo').getContext('2d');
 const entryId = captureButton.getAttribute('data-entry-id');
