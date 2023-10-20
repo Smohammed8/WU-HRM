@@ -854,7 +854,7 @@
                     @endforeach
                     @if (count($evaluations?? []) == 0)
                     <tr>
-                        <td colspan="3" class="text-center">No Employee Efficiency</td>
+                        <td colspan="7" class="text-left" style="color:red;">No Employee Efficiency</td>
                     </tr>
                     @endif
                 </tbody>
@@ -923,7 +923,7 @@
                             @endforeach
                             @if (count($employeeEducations?? []) == 0)
                             <tr>
-                                <td colspan="3" class="text-center">No Employee education</td>
+                                <td colspan="6" class="text-left" style="color:red;">No Employee education</td>
                             </tr>
                             @endif
                         </tbody>
@@ -983,7 +983,7 @@
                                     @endforeach
                                     @if (count($employeeContacts) == 0)
                                         <tr>
-                                            <td colspan="3" class="text-center">No emergency contacts </td>
+                                            <td colspan="4" class="text-left" style="color:red;">No emergency contact found! </td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1042,7 +1042,7 @@
                                     @endforeach
                                     @if (count($employeeSkills) == 0)
                                         <tr>
-                                            <td colspan="3" class="text-center">No Special skill</td>
+                                            <td colspan="4" class="text-left" style="color:red;">No Special skill found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1100,7 +1100,7 @@
                                     @endforeach
                                     @if (count($employeeLicenses) == 0)
                                         <tr>
-                                            <td colspan="3" class="text-center">No Employee Licence</td>
+                                            <td colspan="3" class="text-left" style="color:red;">No Employee Licence found1</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1165,7 +1165,7 @@
                                     @endforeach
                                     @if (count($employeeCertificates) == 0)
                                         <tr>
-                                            <td colspan="4" class="text-center">No Employee Licence</td>
+                                            <td colspan="6" class="text-left" style="color:red;">No Employee Licence found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1247,7 +1247,7 @@
                                     @endforeach
                                     @if (count($employeeLetters) == 0)
                                         <tr>
-                                            <td colspan="4" class="text-center">No Employee Letter</td>
+                                            <td colspan="5" class="text-left" style="color:red;">No employee letter found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1258,16 +1258,6 @@
                         </div>
                     </div>
                     <!-- /////////////////////////////////////////////////////////////////// -->
-                    
-
-
-
-
-
-
-
-
-
                     <div role="tabpanel" class="tab-pane" id="tab_employee_contact">
                         <h5>Emergency Contact</h5>
                         <div class=" no-padding no-border">
@@ -1315,7 +1305,7 @@
                                     @endforeach
                                     @if (count($employeeContacts) == 0)
                                         <tr>
-                                            <td colspan="3" class="text-center">No Emeregency Contact</td>
+                                            <td colspan="3" class="text-center">No Emeregency Contact found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1376,7 +1366,7 @@
                                     @endforeach
                                     @if (count($employeeLanguages) == 0)
                                         <tr>
-                                            <td colspan="5" class="text-center">No Employee Language</td>
+                                            <td colspan="5" class="text-left" style="color:red;">No Employee Language found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1433,7 +1423,7 @@
                                     @endforeach
                                     @if (count($employeeFamilies) == 0)
                                         <tr>
-                                            <td colspan="5" class="text-center">No Employee Family</td>
+                                            <td colspan="5" class="text-left" style="color:red;">No Employee Family found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1504,7 +1494,7 @@
                                     @endforeach
                                     @if (count($internalExperiences) == 0)
                                         <tr>
-                                            <td colspan="6" class="text-center">No Internal Experience</td>
+                                            <td colspan="6" class="text-left" style="color:red;">No Internal Experience found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1568,7 +1558,7 @@
                                     @endforeach
                                     @if (count($externalExperiences) == 0)
                                         <tr>
-                                            <td colspan="7" class="text-center">No External Experience</td>
+                                            <td colspan="7" class="text-left" style="color:red;">No External Experience found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -1598,7 +1588,7 @@
                                         <th>Name</th>
                                         <th>Education Level</th>
                                         <th>Country</th>
-                                        <th>Inistitution</th>
+                                        <th>Institution</th>
                                         <th>City</th>
                                         <th>Leave date</th>
                                         <th>Study End</th>
@@ -1633,7 +1623,7 @@
                                     @endforeach
                                     @if (count($trainingAndStudies) == 0)
                                         <tr>
-                                            <td colspan="7" class="text-center">No External Experience</td>
+                                            <td colspan="8" class="text-left" style="color:red;">No External Experience found!</td>
                                         </tr>
                                     @endif
                                 </tbody>
