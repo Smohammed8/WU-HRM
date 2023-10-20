@@ -262,156 +262,115 @@ captureButton.addEventListener('click', () => {
                          <div class="col-md-12">
                            
 
-                <input type="button" id="openButton" value="Capture" onClick="take_snapshot()" class="btn  btn-sm btn-outline-primary float-right mr-1">
-                <button  class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-camera" aria-hidden="true"></i> Upload</button>
-                <button  class="btn  btn-sm btn-outline-primary float-right mr-1">Close</button>
-
-               
-
-                <input type="hidden" name="image" class="image-tag">
-                
-                            </div>
-
-                           
-                        <div id="my_camera">  </div>
+                            <button  id="openCamera" onClick="openCamera()" class="btn  btn-sm btn-outline-primary float-left mr-1"> <i class="fa fa-camera" aria-hidden="true"></i> On </button>
+                            <input type="button" id="openButton" value="Capture" onClick="take_snapshot()" class="btn btn-sm btn-outline-primary float-left mr-1">
                         
-                        <div class="container">
-
-                            <form method="POST" action="#">
-                                {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
-                        
-                                @csrf
-                                      <div class="col-md-12">
-                                        <hr>
-                                        <div id="results" > Your captured image will appear here...</div>
-
-                                        
-                        
-                                    </div>
-
-                                  
-                        
-                                </div>
-                        
-                            </form>
-                        
-                        </div>
-                        
-                            
-                        
-                        {{-- <script>
-                            // Configure a few settings and attach camera 250x187
-                            Webcam.set({
-                                width: 200,
-                                height: 300,
-                                image_format: 'jpeg',
-                                jpeg_quality: 90
-                            });
-                            Webcam.attach('#my_camera');
-                        
-                            function take_snapshot() {
-                                // play sound effect
-                                //shutter.play();
-                                // take snapshot and get image data
-                                Webcam.snap(function(data_uri) {
-                                    // display results in page
-                                    document.getElementById('results').innerHTML =
-                                        '<img class="after_capture_frame" src="' + data_uri + '"/>';
-                                    document.getElementById('captured_image_data').value = data_uri;
-                                });
-                            }
-                        
-                            function saveSnap() {
-                                var base64data = document.getElementById('captured_image_data').value;
-                                axios.post('/capture_image_upload', {
-                                    image: base64data
-                                })
-                                .then(function(response) {
-                                    alert(response.data);
-                                })
-                                .catch(function(error) {
-                                    console.error(error);
-                                });
-                            }
-
-
-
-                            document.addEventListener('DOMContentLoaded', function() {
-    const openButton = document.getElementById('openButton');
-    const webcam = document.getElementById('my_camera');
-    let webcamStream = null;
-
-    // Function to open the webcam
-    function openWebcam() {
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function(stream) {
-                webcamStream = stream;
-                webcam.srcObject = stream;
-                openButton.disabled = true;
-            })
-            .catch(function(error) {
-                console.error('Error accessing the webcam:', error);
-            });
-    }
-    // Add a click event listener to the "clinic open" button
-    openButton.addEventListener('click', openWebcam);
-});
-
-
-  
-                        </script> --}}
-
-
-<script>
-    // Initialize Webcam settings
-    Webcam.set({
-        width: 200,
-        height: 300,
-        image_format: 'jpeg',
-        jpeg_quality: 90
-    });
-
-    // Function to attach the camera when the "Upload" button is clicked
-    function attachCamera() {
-        Webcam.attach('#my_camera');
-    }
-
-    // Function to take a snapshot
-    function take_snapshot() {
-        // Check if the camera is attached
-        if (Webcam.loaded) {
-            // Take a snapshot and display it
-            Webcam.snap(function(data_uri) {
-                document.getElementById('results').innerHTML =
-                    '<img class="after_capture_frame" src="' + data_uri + '"/>';
-                document.getElementById('captured_image_data').value = data_uri;
-            });
-        } else {
-            alert('Camera is not attached. Click "Upload" to open the camera.');
-        }
-    }
-
-    // Function to save the snapshot
-    function saveSnap() {
-        var base64data = document.getElementById('captured_image_data').value;
-        axios.post('/capture_image_upload', {
-            image: base64data
-        })
-        .then(function(response) {
-            alert(response.data);
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-    }
-</script>
-
-                      
-         
-
+                       
                           
-
+                        <button  class="btn  btn-sm btn-outline-primary float-left mr-1"> <i class="fa fa-upload" aria-hidden="true"></i> Upload</button>
                      
+                        {{-- <button  class="btn  btn-sm btn-outline-primary float-right mr-1">Close</button> --}}
+                        <input type="hidden" name="image" class="image-tag">
+                       
+                        
+                       </div>
+        
+                      
+                       <div id="my_camera">  </div>   
+                                
+                                <div class="container">
+                                     
+                                    <form method="POST" action="#">
+                                        {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
+                                
+                                        @csrf
+                                              <div class="col-md-12">
+                                                <hr>
+                                                <div id="results" > </div>
+        
+                                                
+                                
+                                            </div>
+        
+                                          
+                                
+                                        </div>
+                                
+                                    </form>
+                                
+                                </div>
+                                
+                                    
+                                
+                    <script>
+                    // Configure a few settings and attach camera 250x187
+                    // Configure a few settings
+                    Webcam.set({
+                    width: 200,
+                    height: 300,
+                    image_format: 'jpeg',
+                    jpeg_quality: 100,
+                    flip_horiz: true
+                    
+                    });
+                      // Create a new Howler object and set its source to the shutter sound file
+                       var shutterSound = new Howl({
+                        src: ['shutter-sound.mp3']
+                        });
+                        
+                    // Toggle the camera on and off when the "Open Camera" button is clicked
+                    function openCamera() {
+                    if (Webcam.loaded) {
+                        // Camera is on, turn it off
+                       // Webcam.detach('#my_camera');
+                        Webcam.reset();
+                        // Change the button text to "On"
+                        document.getElementById('openCamera').innerHTML = '<i class="fa fa-camera" aria-hidden="true"></i> On';
+                    } else {
+                        // Camera is off, turn it on
+                        Webcam.attach('#my_camera');
+                        // Change the button text to "Off"
+                        document.getElementById('openCamera').innerHTML = '<i class="fa fa-camera" aria-hidden="true"></i> Off';
+                    }
+                    }
+                 
+        
+                    // Open the webcam and take a picture when the "Capture" button is clicked
+                    function take_snapshot() {
+                    // Attach the camera to the element with the ID #my_camera
+                    if (Webcam.loaded) {
+                      Webcam.attach('#my_camera');
+                        }
+                    else{
+                       alert('Camera is not attached. Click "On" to open the camera !');
+                        }
+                    // Take snapshot and get image data
+                    Webcam.snap(function(data_uri) {
+                        document.getElementById('results').innerHTML =
+                        '<img class="after_capture_frame" src="' + data_uri + '"/>';
+                        document.getElementById('captured_image_data').value = data_uri;
+                    // Play the shutter sound
+                        shutterSound.play();
+                    });
+                    }
+        
+                    
+        
+                    // Save the captured image to the server
+                    function saveSnap() {
+                    var base64data = document.getElementById('captured_image_data').value;
+                    axios.post('/capture_image_upload', {
+                        image: base64data
+                    })
+                    .then(function(response) {
+                        alert(response.data);
+                    })
+                    .catch(function(error) {
+                        console.error(error);
+                   
+                    });
+                    }
+                    </script>
                      
                        
                         @if ($user_id !== null)
@@ -706,7 +665,7 @@ captureButton.addEventListener('click', () => {
    
         <div class="tab-container mb-2 row">
             <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
-                <div class="col-md-3  p-0 m-0">
+                <div class="col-md-2  p-1 m-1">
                     <ul class="nav nav-tabs nav-stacked flex-column " role="tablist">
          
                         @canany(['employee.emergency-contact.icrud', 'employee.emergency-contact.index'])
