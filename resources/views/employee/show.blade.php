@@ -18,9 +18,9 @@
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/calendar/css/redmond.calendars.picker.css') }}" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
 
 <style type="text/css">
@@ -57,6 +57,13 @@
 
 @section('header')
     <section class="container-fluid d-print-none">
+
+
+        @canany('employee.index')
+        <a href="{{ route('employee.index')}}"
+        class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-search"></i> Search
+        </a>
+        @endcanany
 
         @canany('employee.edit')
         <a href="{{ route('employee.edit', ['id'=>$crud->entry?->id]) }}"
@@ -205,30 +212,30 @@
     </script>
 
 <script>
-const camera = document.getElementById('camera');
-const captureButton = document.getElementById('capture');
-const photoCanvas = document.getElementById('photo').getContext('2d');
-const entryId = captureButton.getAttribute('data-entry-id');
-captureButton.addEventListener('click', () => {
-    Webcam.snap(data_uri => {
-      axios.post('/uploadPhoto', { image: data_uri, employeeId: entryId })
-        .then(response => {
-          // Handle the response from the server
-          if (response.data.success) {
-            successMessage.innerText = "Image uploaded successfully!";
-            errorMessage.innerText = ""; // Clear any previous error message
-          } else {
-            errorMessage.innerText = "Image upload failed. Please try again.";
-            successMessage.innerText = ""; // Clear any previous success message
-          }
-        })
-        .catch(error => {
-          // Handle errors
-          errorMessage.innerText = "An error occurred while uploading the image. Please try again.";
-          successMessage.innerText = ""; // Clear any previous success message
-        });
-    });
-  });
+// const camera = document.getElementById('camera');
+// const captureButton = document.getElementById('capture');
+// const photoCanvas = document.getElementById('photo').getContext('2d');
+// const entryId = captureButton.getAttribute('data-entry-id');
+// captureButton.addEventListener('click', () => {
+//     Webcam.snap(data_uri => {
+//       axios.post('/uploadPhoto', { image: data_uri, employeeId: entryId })
+//         .then(response => {
+//           // Handle the response from the server
+//           if (response.data.success) {
+//             successMessage.innerText = "Image uploaded successfully!";
+//             errorMessage.innerText = ""; // Clear any previous error message
+//           } else {
+//             errorMessage.innerText = "Image upload failed. Please try again.";
+//             successMessage.innerText = ""; // Clear any previous success message
+//           }
+//         })
+//         .catch(error => {
+//           // Handle errors
+//           errorMessage.innerText = "An error occurred while uploading the image. Please try again.";
+//           successMessage.innerText = ""; // Clear any previous success message
+//         });
+//     });
+//   });
 
 </script>
   
@@ -242,10 +249,16 @@ captureButton.addEventListener('click', () => {
             <div class="card-body" style="font-family:inherit; font-size:14px;">
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
-                        <img src="{{ $crud->entry?->photo }}" class="photo" alt="profile Pic" height="220" width="200">
+                      
 
-                   
+   {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
+    @csrf
+                        <div id="results" >
+                            
+                            <img src="{{ $crud->entry?->photo }}" class="after_capture_frame"  alt="profile Pic" height="220" width="200">
 
+                        </div>
+                         </form>
 
                        {{-- <button type="button" class="btn btn-danger btn-sm mr" id="remove" disabled> Remove</button>
                         <button type="button" data-entry-id="{{ $crud->entry->id }}" class="btn btn-primary btn-sm " id="capture">Capture</button>
@@ -262,46 +275,42 @@ captureButton.addEventListener('click', () => {
                          <div class="col-md-12">
                            
 
-                            <button  id="openCamera" onClick="openCamera()" class="btn  btn-sm btn-outline-primary float-left mr-1"> <i class="fa fa-camera" aria-hidden="true"></i> On </button>
-                            <input type="button" id="openButton" value="Capture" onClick="take_snapshot()" class="btn btn-sm btn-outline-primary float-left mr-1">
+                            <button  id="openCamera" onClick="openCamera()" class="btn  btn-sm btn-outline-primary float-left mr-1 mt-0"> <i class="fa fa-camera" aria-hidden="true"></i> On </button>
+                            <input type="button" id="openButton" value="Capture" onClick="take_snapshot()" class="btn btn-sm btn-outline-primary float-left mr-1 mt-0">
                         
-                       
-                          
-                        <button  class="btn  btn-sm btn-outline-primary float-left mr-1"> <i class="fa fa-upload" aria-hidden="true"></i> Upload</button>
+
+                        <button type="button" class="btn  btn-sm btn-outline-primary float-left mr-1 mt-0" onclick="saveSnap()"> <i class="fa fa-upload" aria-hidden="true"></i> Save</button>
                      
-                        {{-- <button  class="btn  btn-sm btn-outline-primary float-right mr-1">Close</button> --}}
-                        <input type="hidden" name="image" class="image-tag">
+                        {{-- <input type="hidden" name="image" class="image-tag"> --}}
+                        <input type="hidden" class="image-tag" name="captured_image_data" id="captured_image_data">
                        
                         
                        </div>
         
                       
-                       <div id="my_camera">  </div>   
+                       <div id="my_camera" class="pre_capture_frame">  </div>   
                                 
-                                <div class="container">
+                                <div class="card">
                                      
                                     <form method="POST" action="#">
                                         {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
                                 
                                         @csrf
-                                              <div class="col-md-12">
+                                              {{-- <div class="col-md-12">
                                                 <hr>
                                                 <div id="results" > </div>
         
                                                 
                                 
                                             </div>
-        
+                                             --}}
                                           
                                 
                                         </div>
                                 
                                     </form>
                                 
-                                </div>
-                                
-                                    
-                                
+                                </div>      
                     <script>
                     // Configure a few settings and attach camera 250x187
                     // Configure a few settings
@@ -318,6 +327,11 @@ captureButton.addEventListener('click', () => {
                         src: ['shutter-sound.mp3']
                         });
                         
+
+
+
+
+
                     // Toggle the camera on and off when the "Open Camera" button is clicked
                     function openCamera() {
                     if (Webcam.loaded) {
@@ -326,6 +340,12 @@ captureButton.addEventListener('click', () => {
                         Webcam.reset();
                         // Change the button text to "On"
                         document.getElementById('openCamera').innerHTML = '<i class="fa fa-camera" aria-hidden="true"></i> On';
+                    
+                          var myDiv = document.getElementById('me');
+                            var myButton = document.getElementById('openCamera');
+                            myButton.addEventListener('click', function() {
+                                myDiv.style.display = 'none';
+                            });
                     } else {
                         // Camera is off, turn it on
                         Webcam.attach('#my_camera');
@@ -333,8 +353,6 @@ captureButton.addEventListener('click', () => {
                         document.getElementById('openCamera').innerHTML = '<i class="fa fa-camera" aria-hidden="true"></i> Off';
                     }
                     }
-                 
-        
                     // Open the webcam and take a picture when the "Capture" button is clicked
                     function take_snapshot() {
                     // Attach the camera to the element with the ID #my_camera
@@ -349,13 +367,9 @@ captureButton.addEventListener('click', () => {
                         document.getElementById('results').innerHTML =
                         '<img class="after_capture_frame" src="' + data_uri + '"/>';
                         document.getElementById('captured_image_data').value = data_uri;
-                    // Play the shutter sound
                         shutterSound.play();
                     });
                     }
-        
-                    
-        
                     // Save the captured image to the server
                     function saveSnap() {
                     var base64data = document.getElementById('captured_image_data').value;
@@ -372,7 +386,7 @@ captureButton.addEventListener('click', () => {
                     }
                     </script>
                      
-                       
+                       <div id="me">
                         @if ($user_id !== null)
                         <hr>
                         <span style="color:green"> <b>UAS Account is Mapped</b> </span><br>
@@ -391,6 +405,7 @@ captureButton.addEventListener('click', () => {
                        <i class='fa fa-caret-right'></i> Experience taken: - 0 times <br>
                        <i class='fa fa-caret-right'></i> Number of families: - {{ $crud->entry->families->count() }} <br>
                        <hr>
+                       </div>
                     </div>
                 
                     <div class="col-md-9">
