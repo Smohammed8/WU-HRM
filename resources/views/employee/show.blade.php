@@ -28,7 +28,6 @@
     #results { 
         padding:2px; 
         border:0px solid; background:white;
-        display: grid;
         width: 50%; 
         height: 50%; 
         object-fit: cover; 
@@ -252,13 +251,13 @@
                       
 
    {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
-    @csrf
+                             @csrf
                         <div id="results" >
                             
                             <img src="{{ $crud->entry?->photo }}" class="after_capture_frame"  alt="profile Pic" height="220" width="200">
 
                         </div>
-                         </form>
+                {{-- </form> --}}
 
                        {{-- <button type="button" class="btn btn-danger btn-sm mr" id="remove" disabled> Remove</button>
                         <button type="button" data-entry-id="{{ $crud->entry->id }}" class="btn btn-primary btn-sm " id="capture">Capture</button>
@@ -356,12 +355,11 @@
                     // Open the webcam and take a picture when the "Capture" button is clicked
                     function take_snapshot() {
                     // Attach the camera to the element with the ID #my_camera
-                    if (Webcam.loaded) {
-                      Webcam.attach('#my_camera');
-                        }
-                    else{
+                    if (!Webcam.loaded) {
+                     
                        alert('Camera is not attached. Click "On" to open the camera !');
-                        }
+                    }
+                        
                     // Take snapshot and get image data
                     Webcam.snap(function(data_uri) {
                         document.getElementById('results').innerHTML =
