@@ -137,7 +137,7 @@
                             <span class="info-box-icon bg-warning"><a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-list"></i> </a> </span>
 
                             <div class="info-box-content">                                <span class="info-box-text">Vacant positions </span>
-                                <span class="info-box-number"> {{ $positions }}</span>
+                                <span class="info-box-number"> {{ $freepositions }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>

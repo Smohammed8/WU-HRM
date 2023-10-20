@@ -650,7 +650,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text"> <a href="{{ backpack_url('position') }}">Avaliable Positions
                                         </a></span>
-                                    <span class="info-box-number"> {{ '-' }} </span>
+                                    <span class="info-box-number"> {{   $freepositions }} </span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>

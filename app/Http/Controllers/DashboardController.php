@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\EmployeeCategory;
 use App\Models\HrBranch;
 use App\Models\Position;
+use App\Models\PositionCode;
 use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
@@ -39,15 +40,18 @@ class DashboardController extends Controller
         $females  = Employee::where('gender', 'Female')->count();
         $units    = Unit::count();
         $offices = HrBranch::all();
-        $positions = Position::count();
+       // $positions = Position::count();
         $active_leaves = Employee::where('employment_status_id','!=',  1)->count();
         $retired       = Employee::whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
         $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
         $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
 
+        $freepositions = PositionCode::where('employee_id', null)->count();
+        $ocuupiedpositions = PositionCode::where('employee_id', '!=', null)->count();
+
         $probations = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->count();
      
-            return view('dashboard', compact('positions','users','permanets', 'contracts','active_leaves', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','retired','probations'));
+            return view('dashboard', compact('users','permanets', 'contracts', 'freepositions','active_leaves', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','retired','probations'));
 
        
 }
