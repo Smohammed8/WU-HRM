@@ -659,13 +659,15 @@ class EmployeeCrudController extends CrudController
         ])->get();
         $males    = Employee::where('gender', '=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
         $females  = Employee::where('gender', '=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
-
+     
+        $freepositions = PositionCode::where('employee_id', null)->count();
+        $ocuupiedpositions = PositionCode::where('employee_id', '!=', null)->count();
         $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
 
 
         return view('employee.employee_list', compact([
             'employees', 'educations',
-            'employmentStatuses', 'categories', 'employements', 'branches', 'total', 'females', 'males'
+            'employmentStatuses', 'categories', 'employements', 'branches','ocuupiedpositions','freepositions', 'total', 'females', 'males'
         ], 'name'));
     }
 
@@ -914,21 +916,6 @@ class EmployeeCrudController extends CrudController
     //$employees = Employee::where('phone_number', $employee1->phone_number)->where('id', '<>', $employee1->id)->get(); // to check duplicated phone
     return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
     }
-
-
-    //      public function ageToDay(){
-
-
-
-    //         $bday = new DateTime('11.4. 1987');
-    //       // Your date of birth 
-    //         $today = new Datetime(date('m.d.y')); 
-    //         $diff = $today->diff($bday);
-    //         printf(' Your age : %d years, %d month, %d days', 
-    //         $diff->y, $diff->m, $diff->d);
-
-    // }
-
 
     public function checkLeave()
     {
@@ -1204,26 +1191,59 @@ class EmployeeCrudController extends CrudController
         // $this->data['evs'] = $evs;
 
     }
+
+
+    // public function index()
+
+    // {
+
+    //     return view('webcam');
+
+    // }
+
+  
+
+
+    public function uploadPhoto2(Request $request)
+
+    {
+        $request->validate([
+            'image' => 'required',
+        ],
+        [
+            'image.required' => 'Please capture an image',
+        ]);
+
+        $img = $request->image;
+        $folderPath = "uploads/";
+        $image_parts = explode(";base64,", $img);
+
+        $image_type_aux = explode("image/", $image_parts[0]);
+
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+
+        $fileName = uniqid() . '.png';
+        $file = $folderPath . $fileName;
+
+        Storage::put($file, $image_base64);
+        dd('Image uploaded successfully: '.$fileName);
+
+    }
+
 /////////////////////////////////////////////////////////////////////
 
 public function uploadPhoto(Request $request)
 {
     // Get the uploaded photo file from the request.
     $imageData = $request->get('image');
-
     // Decode the base64 encoded image data.
     $image = base64_decode($imageData);
-
-    // Save the image file to the server.
     $photoPath = storage_path('app/employee_photos/' . $request->get('employeeId') . '.jpg');
     file_put_contents($photoPath, $image);
-
-    // Update the employee's photo field in the database to point to the saved photo file.
     $employee = Employee::find($request->get('employeeId'));
     $employee->photo = $photoPath;
     $employee->save();
-
-    // Return a success response to the user.
     return response()->json([
         'success' => true,
         'message' => 'Employee photo uploaded successfully.',

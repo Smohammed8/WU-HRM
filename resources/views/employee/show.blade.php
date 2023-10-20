@@ -17,22 +17,44 @@
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/calendar/css/redmond.calendars.picker.css') }}" />
-<style>
-#capture {
-    margin-bottom: 3px;
-    margin-top: 3px;
-}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-#remove {
-    margin-bottom: 3px;
-    margin-top: 3px;
-}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
 
-#photo {
-    width: 30px;
-    height: 30px;
-}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+
+<style type="text/css">
+
+    #results { 
+        padding:2px; 
+        border:0px solid; background:white;
+        display: grid;
+        width: 50%; 
+        height: 50%; 
+        object-fit: cover; 
+    
+    }
+  .after_capture_frame{
+   height:200px;
+   width:200px;
+   border-width: 4px; /* Adjust this value to control the thickness of the border */
+   border-style: double;
+   border-color: #000; /* Adjust the color as needed */
+   padding: 10px; /* Optional padding to create space between the image and the border */
+
+
+    }
+    .photo{
+   border-width: 4px; /* Adjust this value to control the thickness of the border */
+   border-style: double;
+   border-color: #000; /* Adjust the color as needed */
+   padding: 10px; /* Optional padding to create space between the image and the border */
+
+    }
 </style>
+
+
+
 @section('header')
     <section class="container-fluid d-print-none">
 
@@ -183,7 +205,7 @@
     </script>
 
 <script>
-  const camera = document.getElementById('camera');
+const camera = document.getElementById('camera');
 const captureButton = document.getElementById('capture');
 const photoCanvas = document.getElementById('photo').getContext('2d');
 const entryId = captureButton.getAttribute('data-entry-id');
@@ -220,27 +242,180 @@ captureButton.addEventListener('click', () => {
             <div class="card-body" style="font-family:inherit; font-size:14px;">
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
-                        <img src="{{ $crud->entry?->photo }}" alt="profile Pic" height="160" width="150">
+                        <img src="{{ $crud->entry?->photo }}" class="photo" alt="profile Pic" height="220" width="200">
 
                    
 
-                      
-                        <button type="button" class="btn btn-danger btn-sm mr-3" id="remove" disabled> Remove</button>
+
+                       {{-- <button type="button" class="btn btn-danger btn-sm mr" id="remove" disabled> Remove</button>
                         <button type="button" data-entry-id="{{ $crud->entry->id }}" class="btn btn-primary btn-sm " id="capture">Capture</button>
+                        <button type="button" data-entry-id="{{ $crud->entry->id }}" class="btn btn-primary btn-sm " id="capture">Save</button>
 
                         <canvas id="photo" style="display:none;"></canvas>
 
                         <div id="camera">
                             <!-- Webcam stream will be displayed here -->
+                        </div> --}}
+<hr>
+                        <div class="row">
+                        
+                         <div class="col-md-12">
+                           
+
+                <input type="button" id="openButton" value="Capture" onClick="take_snapshot()" class="btn  btn-sm btn-outline-primary float-right mr-1">
+                <button  class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-camera" aria-hidden="true"></i> Upload</button>
+                <button  class="btn  btn-sm btn-outline-primary float-right mr-1">Close</button>
+
+               
+
+                <input type="hidden" name="image" class="image-tag">
+                
+                            </div>
+
+                           
+                        <div id="my_camera">  </div>
+                        
+                        <div class="container">
+
+                            <form method="POST" action="#">
+                                {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
+                        
+                                @csrf
+                                      <div class="col-md-12">
+                                        <hr>
+                                        <div id="results" > Your captured image will appear here...</div>
+
+                                        
+                        
+                                    </div>
+
+                                  
+                        
+                                </div>
+                        
+                            </form>
+                        
                         </div>
-                     
+                        
+                            
+                        
+                        {{-- <script>
+                            // Configure a few settings and attach camera 250x187
+                            Webcam.set({
+                                width: 200,
+                                height: 300,
+                                image_format: 'jpeg',
+                                jpeg_quality: 90
+                            });
+                            Webcam.attach('#my_camera');
+                        
+                            function take_snapshot() {
+                                // play sound effect
+                                //shutter.play();
+                                // take snapshot and get image data
+                                Webcam.snap(function(data_uri) {
+                                    // display results in page
+                                    document.getElementById('results').innerHTML =
+                                        '<img class="after_capture_frame" src="' + data_uri + '"/>';
+                                    document.getElementById('captured_image_data').value = data_uri;
+                                });
+                            }
+                        
+                            function saveSnap() {
+                                var base64data = document.getElementById('captured_image_data').value;
+                                axios.post('/capture_image_upload', {
+                                    image: base64data
+                                })
+                                .then(function(response) {
+                                    alert(response.data);
+                                })
+                                .catch(function(error) {
+                                    console.error(error);
+                                });
+                            }
+
+
+
+                            document.addEventListener('DOMContentLoaded', function() {
+    const openButton = document.getElementById('openButton');
+    const webcam = document.getElementById('my_camera');
+    let webcamStream = null;
+
+    // Function to open the webcam
+    function openWebcam() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                webcamStream = stream;
+                webcam.srcObject = stream;
+                openButton.disabled = true;
+            })
+            .catch(function(error) {
+                console.error('Error accessing the webcam:', error);
+            });
+    }
+    // Add a click event listener to the "clinic open" button
+    openButton.addEventListener('click', openWebcam);
+});
+
+
+  
+                        </script> --}}
+
+
+<script>
+    // Initialize Webcam settings
+    Webcam.set({
+        width: 200,
+        height: 300,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+
+    // Function to attach the camera when the "Upload" button is clicked
+    function attachCamera() {
+        Webcam.attach('#my_camera');
+    }
+
+    // Function to take a snapshot
+    function take_snapshot() {
+        // Check if the camera is attached
+        if (Webcam.loaded) {
+            // Take a snapshot and display it
+            Webcam.snap(function(data_uri) {
+                document.getElementById('results').innerHTML =
+                    '<img class="after_capture_frame" src="' + data_uri + '"/>';
+                document.getElementById('captured_image_data').value = data_uri;
+            });
+        } else {
+            alert('Camera is not attached. Click "Upload" to open the camera.');
+        }
+    }
+
+    // Function to save the snapshot
+    function saveSnap() {
+        var base64data = document.getElementById('captured_image_data').value;
+        axios.post('/capture_image_upload', {
+            image: base64data
+        })
+        .then(function(response) {
+            alert(response.data);
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+    }
+</script>
+
+                      
+         
 
                           
 
-                        <hr>
+                     
                      
                        
                         @if ($user_id !== null)
+                        <hr>
                         <span style="color:green"> <b>UAS Account is Mapped</b> </span><br>
                      
                         <i class='fa fa-caret-right'></i> Username: <u>{{ $username ?? '' }}</u><br>

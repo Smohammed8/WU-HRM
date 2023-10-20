@@ -79,6 +79,10 @@ Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('exp
  Route::get('{new_position_id?}/details', [PlacementChoiceCrudController::class, 'details'])->name('PlacementChoice.details');
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+// Route::get('webcam', [EmployeeCrudController::class, 'index']);
+// Route::post('webcam', [EmployeeCrudController::class, 'uploadPhoto2'])->name('webcam.capture');
+
 // Route::get('/result', [PlacementChoiceController::class, 'index']);
  //Route::get('/result',[PlacementChoiceController::class,'result'])->name('result');
 Route::get('/calculate', [EmployeeController::class, 'calculate'])->middleware('auth');
