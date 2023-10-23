@@ -81,7 +81,7 @@ Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('exp
 
 
 // Route::get('webcam', [EmployeeCrudController::class, 'index']);
-// Route::post('webcam', [EmployeeCrudController::class, 'uploadPhoto2'])->name('webcam.capture');
+Route::post('webcam', [EmployeeCrudController::class, 'uploadPhoto'])->name('webcam.capture');
 
 // Route::get('/result', [PlacementChoiceController::class, 'index']);
  //Route::get('/result',[PlacementChoiceController::class,'result'])->name('result');

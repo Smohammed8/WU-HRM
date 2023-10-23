@@ -110,6 +110,19 @@ class AuthController extends Controller
                 // if ($info[0]['employeetype']['count'] > 0 && $info[0]['employeetype'][0] == 'Student')
                 //     return new UnauthorizedException(403);
 
+
+
+                // $mobile = $ldapEntry->getAttributes()['mobile'][0];
+                // $fullName = $ldapEntry->getAttributes()['gecos'][0];
+                // $username = $ldapEntry->getAttributes()['uid'][0];
+                // $password = $ldapEntry->getAttributes()['userPassword'][0];
+
+        // dd($info );
+        // $fullName = explode(' ', $fullName);
+        // $firstName = $fullName[0];
+        // $middleName = $fullName[1];
+        // $lastName = $fullName[2];
+
                 $first_name = $info[0]['givenname'][0];
                 $middle_name = 'Unknown';
                 $last_name = 'Unknown';
@@ -140,8 +153,8 @@ class AuthController extends Controller
                         $phone = $info[0]['homephone'][0];
                     }
                 }
-                $user = User::where('username', '=', $credentials['username'])->first();
 
+                $user = User::where('username', '=', $credentials['username'])->first();
                 if (!$user) {
 
                     try {
@@ -149,7 +162,8 @@ class AuthController extends Controller
                         $user = User::create([
                             'username' => $uid,
                             'password' => Hash::make($password),
-                            'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
+                            //'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
+                            'name' => ucwords($first_name) . ' ' . ucwords($middle_name) . ' ' . ucwords($last_name),
                             'email' => $email,
 
                         ]);
@@ -159,16 +173,17 @@ class AuthController extends Controller
                         if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
                             return redirect(route('dashboard'));
                         }
-                    } catch (Exception $e) {
+                    } 
+                    catch (Exception $e) {
                         return $e;
                     }
                 } else {
                     // dd($first_name,$middle_name,$last_name,$email,$phone);
-
                     $user->update([
                         'username' => $uid,
                         'password' => Hash::make($password),
-                        'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
+                        //'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
+                        'name' => ucwords($first_name) . ' ' . ucwords($middle_name) . ' ' . ucwords($last_name),
                         'email' => $email,
                     ]);
                     $user->save();

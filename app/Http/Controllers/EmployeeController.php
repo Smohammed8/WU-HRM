@@ -102,7 +102,7 @@ class EmployeeController extends Controller
             Excel::import(new EmployeesImport($college), request()->file('file'));
         }
         // Excel::import(new EmployeesImport, "/abc.xl");
-        dd('IMPORT DONE');
+       // dd('IMPORT DONE');
     }
     public function calculate()
     {

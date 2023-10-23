@@ -44,14 +44,15 @@ class DashboardController extends Controller
         $active_leaves = Employee::where('employment_status_id','!=',  1)->count();
         $retired       = Employee::whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
         $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
-        $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
+       // $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
 
         $freepositions = PositionCode::where('employee_id', null)->count();
         $ocuupiedpositions = PositionCode::where('employee_id', '!=', null)->count();
 
         $probations = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->count();
+        $non_permanets = Employee::whereNotIn('employment_type_id', [1])->where('employment_type_id','!=', null)->count();
      
-            return view('dashboard', compact('users','permanets', 'contracts', 'freepositions','active_leaves', 'offices','units', 'employees', 'employeeTypes', 'males', 'females','retired','probations'));
+            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'employees', 'non_permanets','employeeTypes', 'males', 'females','retired','probations'));
 
        
 }

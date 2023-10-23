@@ -17,11 +17,13 @@
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/calendar/css/redmond.calendars.picker.css') }}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 <style type="text/css">
 
@@ -63,6 +65,13 @@
         class="btn  btn-sm btn-outline-primary float-right mr-1"><i class="la  la-search"></i> Search
         </a>
         @endcanany
+
+
+        <button class="btn  btn-sm btn-outline-primary float-right mr-1 toggle-status" data-employee-id="{{ $crud->entry->rfid }}">
+            {{ $crud->entry->rfid ? 'Active' : 'Toggle' }}
+        </button>
+
+
 
         @canany('employee.edit')
         <a href="{{ route('employee.edit', ['id'=>$crud->entry?->id]) }}"
@@ -250,14 +259,14 @@
                     <div class="col-md-2" style="border-right:1px solid black;">
                       
 
-   {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
-                             @csrf
+            
                         <div id="results" >
                             
-                            <img src="{{ $crud->entry?->photo }}" class="after_capture_frame"  alt="profile Pic" height="220" width="200">
+                            <img src="{{ $crud->entry?->photo }}" id="image" class="after_capture_frame"  alt="profile Pic" height="220" width="200">
 
                         </div>
-                {{-- </form> --}}
+                
+
 
                        {{-- <button type="button" class="btn btn-danger btn-sm mr" id="remove" disabled> Remove</button>
                         <button type="button" data-entry-id="{{ $crud->entry->id }}" class="btn btn-primary btn-sm " id="capture">Capture</button>
@@ -268,20 +277,20 @@
                         <div id="camera">
                             <!-- Webcam stream will be displayed here -->
                         </div> --}}
-<hr>
+                        <hr>
                         <div class="row">
                         
                          <div class="col-md-12">
                            
 
-                            <button  id="openCamera" onClick="openCamera()" class="btn  btn-sm btn-outline-primary float-left mr-1 mt-0"> <i class="fa fa-camera" aria-hidden="true"></i> On </button>
-                            <input type="button" id="openButton" value="Capture" onClick="take_snapshot()" class="btn btn-sm btn-outline-primary float-left mr-1 mt-0">
+         <button  id="openCamera" onClick="openCamera()" class="btn  btn-sm btn-outline-primary float-left mr-1 mt-0"> <i class="fa fa-camera" aria-hidden="true"></i> On </button>
+        <input type="button" id="openButton" value="Capture" onClick="take_snapshot()" class="btn btn-sm btn-outline-primary float-left mr-1 mt-0">
                         
 
-                        <button type="button" class="btn  btn-sm btn-outline-primary float-left mr-1 mt-0" onclick="saveSnap()"> <i class="fa fa-upload" aria-hidden="true"></i> Save</button>
+        <button type="button" data-value="{{ $crud->entry->id }}" id="save" class="btn  btn-sm btn-outline-primary float-left mr-1 mt-0" onclick="saveSnap()"> <i class="fa fa-upload" aria-hidden="true"></i> Save</button>
                      
-                        {{-- <input type="hidden" name="image" class="image-tag"> --}}
-                        <input type="hidden" class="image-tag" name="captured_image_data" id="captured_image_data">
+       
+           
                        
                         
                        </div>
@@ -291,8 +300,8 @@
                                 
                                 <div class="card">
                                      
-                                    <form method="POST" action="#">
-                                        {{-- <form method="POST" action="{{ route('webcam.capture') }}"> --}}
+                                  
+                             <form method="POST"  id="myForm" enctype="multipart/form-data" action="{{ route('webcam.capture') }}">
                                 
                                         @csrf
                                               {{-- <div class="col-md-12">
@@ -301,18 +310,18 @@
         
                                                 
                                 
-                                            </div>
-                                             --}}
-                                          
-                                
+                                            </div> --}}
+                                            
+              
                                         </div>
-                                
+                         <input type="hidden" name="image" accept="image/*"  id="captured_image_data" class="image-tag">
                                     </form>
                                 
                                 </div>      
                     <script>
                     // Configure a few settings and attach camera 250x187
-                    // Configure a few settings
+                    const button = document.getElementById('save');
+                    const entryId = button.getAttribute('data-value');
                     Webcam.set({
                     width: 200,
                     height: 300,
@@ -321,16 +330,7 @@
                     flip_horiz: true
                     
                     });
-                      // Create a new Howler object and set its source to the shutter sound file
-                       var shutterSound = new Howl({
-                        src: ['shutter-sound.mp3']
-                        });
-                        
-
-
-
-
-
+                    
                     // Toggle the camera on and off when the "Open Camera" button is clicked
                     function openCamera() {
                     if (Webcam.loaded) {
@@ -362,26 +362,38 @@
                         
                     // Take snapshot and get image data
                     Webcam.snap(function(data_uri) {
-                        document.getElementById('results').innerHTML =
-                        '<img class="after_capture_frame" src="' + data_uri + '"/>';
-                        document.getElementById('captured_image_data').value = data_uri;
-                        shutterSound.play();
+                    $(".image-tag").val(data_uri);
+document.getElementById('results').innerHTML ='<img class="after_capture_frame" src="' + data_uri + '"/>';
+document.getElementById('captured_image_data').value = data_uri;
+                       // shutterSound.play();
                     });
                     }
+
                     // Save the captured image to the server
                     function saveSnap() {
+                     
+               
                     var base64data = document.getElementById('captured_image_data').value;
-                    axios.post('/capture_image_upload', {
-                        image: base64data
+                
+                    if (base64data) {
+                    
+                
+                     axios.post('/webcam', { image: base64data, employeeId: entryId })
+               
+                    .then(function (response) {
+                        console.log('Image saved successfully:', response.data);
                     })
-                    .then(function(response) {
-                        alert(response.data);
-                    })
-                    .catch(function(error) {
-                        console.error(error);
-                   
+                    .catch(function (error) {
+                        console.error('Error saving image:', error);
                     });
+                    } 
+                    else {
+                        console.error('No base64 data found in given ID element');
                     }
+                          
+                }
+                saveSnap();
+             
                     </script>
                      
                        <div id="me">
@@ -504,13 +516,16 @@
                                         {{ $crud->entry->getEmployementDateRange() }}
                                     </label>
                                 </div>
-
+                                @if($crud->entry->employment_status_id == 1)
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b> Date of retirment: </b></label>
-                                    <label for="">  <span style="color:red;"> <span id="counter" class="text-center"></span>  </label>
+                                    <label for=""><b> Retirement ends after: </b></label>
+                                    <label for=""> 
+                                         <span style="color:red;">
+                                     <span id="counter" class="text-center"></span> 
+                                     </label>
                                 </div>
-
-
+                                 @endif
+                          
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> Under Probation Period: </b></label>
                                     <label for="">  {{     $status       }} </label>
@@ -518,41 +533,48 @@
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> HR Office: </b></label>
-                                    <label for="">  {{  $crud->entry->hrBranch->name ?? '-'      }} </label>
+                                    <label for="">  {{  $crud->entry->hrBranch?->name ?? '-'      }} </label>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
                                 <label for=""><b> National ID: </b></label>
                                 <label for="">  {{  $crud->entry->national_id ?? '-'      }} </label>
                             </div>
-                       
-
-
-                            
                             </div>
                             {{-- {{  $date_of_retire2  }} --}}
-
-                            <script>
-                                var countDownTimer = new Date("<?php echo "$date_of_retire2"; ?>").getTime();
-                                // Update the count down every 1 second
-                                var interval = setInterval(function() {
-                                    var current = new Date().getTime();
-                                    // Find the difference between current and the count down date
-                                    var diff = countDownTimer - current;
-                                    // Countdown Time calculation for days, hours, minutes and seconds
-                                    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                                    var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                        
-                                    document.getElementById("counter").innerHTML = days + "days : " + hours + "h  " +
-                                    minutes + "m  " + seconds + "s ";
-                                    // Display Expired, if the count down is over
-                                    if (diff < 0) {
+                <div id="retirement-date" data-date="<?php echo $date_of_retire2; ?>"></div>
+                                <script>
+                                 var retirementDate = new Date(document.getElementById("retirement-date").dataset.date).getTime();
+                // var retirementDate = new Date("<?php echo "$date_of_retire2"; ?>").getTime();
+                            
+                                // Function to update the countdown timer
+                                function updateCountdown() {
+                                    var currentTime = new Date().getTime();
+                                    var timeDifference = retirementDate - currentTime;
+                            
+                                    if (timeDifference < 0) {
                                         clearInterval(interval);
                                         document.getElementById("counter").innerHTML = "Employee Retired";
+                                        return;
                                     }
-                                }, 1000);
+                            
+                                    var year = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365));
+                                    var month = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30) % 12);
+                                    var days = Math.floor((timeDifference / (1000 * 60 * 60 * 24)) % 30);
+                                    var hours = Math.floor((timeDifference / (1000 * 60 * 60) % 24));
+                                    var minutes = Math.floor((timeDifference / (1000 * 60) % 60));
+                                    var seconds = Math.floor((timeDifference / 1000 % 60));
+                            
+                                    var countdownText = year + " years, " + month + " months, " + days + " days, " + hours + " Hr, " + minutes + " Min, and " + seconds + " s";
+                                    document.getElementById("counter").innerHTML = countdownText;
+                                }
+                                
+                            
+                                // Initial update
+                                updateCountdown();
+                            
+                                // Update the countdown every 1 second
+                                var interval = setInterval(updateCountdown, 1000);
                             </script>
 
 
@@ -573,7 +595,7 @@
                            
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b> Date of employement: </b></label>
+                                    <label for=""><b> Date of Permanent: </b></label>
                                     <label for=""> {{ $crud->entry->employement_date->format('d/m/Y') }} E.C </label>
                                 </div>
 
@@ -638,13 +660,15 @@
                                     <label for=""> {{ $crud->entry->pention_number?? '-' }} </label>
                                 </div>
 
-                             
+                                
 
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Age : </b></label>
+                                    <label for=""><b>Age :</b></label>
                                     <label for=""
                                         title="{{ \Carbon\Carbon::parse($crud->entry->date_of_birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
-                                        {{ $crud->entry->age() }} years old </label>
+
+                                      {{ \Carbon\Carbon::parse($crud->entry->date_of_birth)->format('d/m/Y') ?? '-' }} ({{ $crud->entry->age() }} years old)
+                                    </label>
 
 
                                 </div>
@@ -1672,91 +1696,79 @@
 @section('after_scripts')
     <script src="{{ asset('packages/backpack/crud/js/crud.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
     </script>
-    <script src="{{ asset('packages/backpack/crud/js/show.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
-    </script>
-    <script>
-        $(function() {
-            @if (old('code') != null && $errors->has('new')==false)
-                $('#position_code_edit').modal('show')
-            @endif
-        });
+    <script src="{{ asset('packages/backpack/crud/js/show.js') . '?v=' . config('backpack.base.cachebusting_string') }}">   </script>
+  
+<script>
+$(function() {
+    @if (old('code') != null && $errors->has('new')==false)
+        $('#position_code_edit').modal('show')
+    @endif
+});
 
-        function editEntry(route, value) {
-            $('#position_code_edit_form').attr('action', route);
-            $('#old_job_code').val(value);
-            $('#job_code').val('');
-        }
-        if (typeof deleteEntry != 'function') {
-            $("[data-button-type=delete]").unbind('click');
+function editEntry(route, value) {
+    $('#position_code_edit_form').attr('action', route);
+    $('#old_job_code').val(value);
+    $('#job_code').val('');
+}
+if (typeof deleteEntry != 'function') {
+    $("[data-button-type=delete]").unbind('click');
 
-            function deleteEntry(button) {
-                // ask for confirmation before deleting an item
-                // e.preventDefault();
-                var route = $(button).attr('data-route');
+    function deleteEntry(button) {
+        // ask for confirmation before deleting an item
+        // e.preventDefault();
+        var route = $(button).attr('data-route');
 
-                swal({
-                    title: "{!! trans('backpack::base.warning') !!}",
-                    text: "{!! trans('backpack::crud.delete_confirm') !!}",
-                    icon: "warning",
-                    buttons: ["{!! trans('backpack::crud.cancel') !!}", "{!! trans('backpack::crud.delete') !!}"],
-                    dangerMode: true,
-                }).then((value) => {
-                    if (value) {
-                        $.ajax({
-                            url: route,
-                            type: 'DELETE',
-                            success: function(result) {
+        swal({
+            title: "{!! trans('backpack::base.warning') !!}",
+            text: "{!! trans('backpack::crud.delete_confirm') !!}",
+            icon: "warning",
+            buttons: ["{!! trans('backpack::crud.cancel') !!}", "{!! trans('backpack::crud.delete') !!}"],
+            dangerMode: true,
+        }).then((value) => {
+            if (value) {
+                $.ajax({
+                    url: route,
+                    type: 'DELETE',
+                    success: function(result) {
+                        $(button).parent().parent().remove();
+                        if (result == 1) {
+                            // Redraw the table
+                            if (typeof crud != 'undefined' && typeof crud.table !=
+                                'undefined') {
+                                // Move to previous page in case of deleting the only item in table
+                                if (crud.table.rows().count() === 1) {
+                                    crud.table.page("previous");
+                                }
                                 $(button).parent().parent().remove();
-                                if (result == 1) {
-                                    // Redraw the table
-                                    if (typeof crud != 'undefined' && typeof crud.table !=
-                                        'undefined') {
-                                        // Move to previous page in case of deleting the only item in table
-                                        if (crud.table.rows().count() === 1) {
-                                            crud.table.page("previous");
-                                        }
-                                        $(button).parent().parent().remove();
-                                        crud.table.draw(false);
-                                    }
+                                crud.table.draw(false);
+                            }
 
-                                    // Show a success notification bubble
-                                    new Noty({
-                                        type: "success",
-                                        text: "{!! '<strong>' .
+                            // Show a success notification bubble
+                            new Noty({
+                                type: "success",
+                                text: "{!! '<strong>' .
                                             trans('backpack::crud.delete_confirmation_title') .
                                             '</strong><br>' .
                                             trans('backpack::crud.delete_confirmation_message') !!}"
-                                    }).show();
+                            }).show();
 
-                                    // Hide the modal, if any
-                                    $('.modal').modal('hide');
-                                } else {
-                                    // if the result is an array, it means
-                                    // we have notification bubbles to show
-                                    if (result instanceof Object) {
-                                        // trigger one or more bubble notifications
-                                        Object.entries(result).forEach(function(entry, index) {
-                                            var type = entry[0];
-                                            entry[1].forEach(function(message, i) {
-                                                new Noty({
-                                                    type: type,
-                                                    text: message
-                                                }).show();
-                                            });
-                                        });
-                                    } else { // Show an error alert
-                                        swal({
-                                            title: "{!! trans('backpack::crud.delete_confirmation_not_title') !!}",
-                                            text: "{!! trans('backpack::crud.delete_confirmation_not_message') !!}",
-                                            icon: "error",
-                                            timer: 4000,
-                                            buttons: false,
-                                        });
-                                    }
-                                }
-                            },
-                            error: function(result) {
-                                // Show an alert with the result
+                            // Hide the modal, if any
+                            $('.modal').modal('hide');
+                        } else {
+                            // if the result is an array, it means
+                            // we have notification bubbles to show
+                            if (result instanceof Object) {
+                                // trigger one or more bubble notifications
+                                Object.entries(result).forEach(function(entry, index) {
+                                    var type = entry[0];
+                                    entry[1].forEach(function(message, i) {
+                                        new Noty({
+                                            type: type,
+                                            text: message
+                                        }).show();
+                                    });
+                                });
+                            } else { // Show an error alert
                                 swal({
                                     title: "{!! trans('backpack::crud.delete_confirmation_not_title') !!}",
                                     text: "{!! trans('backpack::crud.delete_confirmation_not_message') !!}",
@@ -1765,19 +1777,40 @@
                                     buttons: false,
                                 });
                             }
+                        }
+                    },
+                    error: function(result) {
+                        // Show an alert with the result
+                        swal({
+                            title: "{!! trans('backpack::crud.delete_confirmation_not_title') !!}",
+                            text: "{!! trans('backpack::crud.delete_confirmation_not_message') !!}",
+                            icon: "error",
+                            timer: 4000,
+                            buttons: false,
                         });
                     }
                 });
-
             }
-        }
+        });
 
+    }
+}
 
-
-
-        // make it so that the function above is run after each DataTable draw event
+   // make it so that the function above is run after each DataTable draw event
         // crud.addFunctionToDataTablesDrawEventQueue('deleteEntry');
-   
+  
+        function createPopupWin(pageURL, pageTitle,
+            popupWinWidth, popupWinHeight) {
+            var left = (screen.width - popupWinWidth) / 2;
+            var top = (screen.height - popupWinHeight) / 4;
+
+            var myWindow = window.open(pageURL, pageTitle,
+                'resizable=yes, width=' + popupWinWidth +
+                ', height=' + popupWinHeight + ', top=' +
+                top + ', left=' + left);
+        }
+    // </script>
+
     // <script src=" {{ asset('assets/calendar/js/jquery.plugin.js') }}"></script>
     // <script src=" {{ asset('assets/calendar/js/jquery.calendars.js') }}"></script>
     // <script src=" {{ asset('assets/calendar/js/jquery.calendars.plus.js') }}"></script>
@@ -1794,6 +1827,7 @@
     //     });
     //     // $('#end').calendarsPicker({calendar: calendar});
     // </script>
-</script>
 
+
+   
 @endsection

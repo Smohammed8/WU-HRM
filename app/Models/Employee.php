@@ -44,10 +44,6 @@ class Employee extends  Model
     {
         return $this->name;
     }
-
-
-
-
     protected $revisionEnabled = true; 
     protected $appends = ['name'];
     /**
@@ -146,6 +142,13 @@ class Employee extends  Model
             Storage::disk('public_folder')->delete($obj->image);
         });
     }
+
+    public function isLocked()
+    {
+        return $this->is_locked;
+    }
+    
+    
     public function setDrivingLicenceAttribute($value)
     {
         $disk = "public";

@@ -10,6 +10,7 @@
 
     }
 </style>
+
 @section('content')
     @cannot('dashboard.content')
         <h3 class="text-center"> Welcome to {{ env('APP_NAME') }}</h3>
@@ -139,7 +140,7 @@
 
 
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr style="background-color:lightblue;">
                                     <td colspan="2"> Grand Total</td>
                                     <td> <u>{{ '-' }} </u></td>
@@ -147,7 +148,7 @@
                                     <td> <u>{{ '-' }} </u></td>
 
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
 
 
@@ -259,7 +260,7 @@
 
 
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr style="background-color:lightblue;">
                                     <td colspan="2"> Grand Total</td>
                                     <td> <u>{{ '-' }} </u></td>
@@ -267,7 +268,7 @@
                                     <td> <u>{{ '-' }} </u></td>
 
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
 
                       
@@ -636,7 +637,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text"> <a href="{{ backpack_url('position') }}"> Total Employees
                                         </a></span>
-                                    <span class="info-box-number">{{ $total }}</span>
+                                    <span class="info-box-number">{{ $males + $females }}</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -648,9 +649,10 @@
                                 <span class="info-box-icon bg-danger"><i class="fa fa-list"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text"> <a href="{{ backpack_url('position') }}">Avaliable Positions
+                                    <span class="info-box-text"> <a href="{{ backpack_url('position') }}">Non-Permanents
                                         </a></span>
-                                    <span class="info-box-number"> {{   $freepositions }} </span>
+                                     
+                                    <span class="info-box-number"> {{   $non_permanets }} </span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -714,7 +716,8 @@
                                     <td> {{ $employee->name ?? '-' }} </td>
                                     <td> {{ $employee->position->name ?? '-' }}</td>
                                     <td> {{ $employee->educationLevel->name ?? '-' }}</td>
-                                    <td> {{ $employee->gender ?? ('-' ?? '-') }}</td>
+                                    <td> {{ $employee->position->unit->name ?? '-' }} 
+                                    </td>
                                     <td> {{ $employee->hrBranch->name ?? '-' }}</td>
                                     <td>
                                         <label for="" style="font-size:17px;"
@@ -782,7 +785,7 @@
             </div>
             <hr>
 
-
+      
 
 
 

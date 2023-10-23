@@ -89,19 +89,18 @@ use Illuminate\Support\Facades\Route;
  */
 class EmployeeCrudController extends CrudController
 {
-    use \Backpack\ReviseOperation\ReviseOperation;
+   
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\ReviseOperation\ReviseOperation;
+   // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation { destroy as traitDestroy; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
-
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
-
-
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+   // use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
@@ -116,18 +115,19 @@ class EmployeeCrudController extends CrudController
      */
     public function setup()
     {
+        
         CRUD::setModel(Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
-
         CRUD::disablePersistentTable();
         CRUD::enableExportButtons(); // check this if the page is not loading
         //CRUD::setDefaultPageLength(10); // No of paginatings
-
         $this->crud->setShowView('employee.show');
         // $this->crud->enableAjaxTable()  ;
         $this->crud->enableDetailsRow();
         $this->setupPermission();
+        //$this->crud->allowAccess(['delete']);
+      
     }
     public function setupPermission()
     {
@@ -657,17 +657,21 @@ class EmployeeCrudController extends CrudController
 
 
         ])->get();
-        $males    = Employee::where('gender', '=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
-        $females  = Employee::where('gender', '=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
+$males    = Employee::where('gender', '=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
+$females  = Employee::where('gender', '=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
      
+$freepositions = PositionCode::where('employee_id', null)->where('employee_id', null)->count();
+                           //->whereNot('employee_id', 'pending');
+
         $freepositions = PositionCode::where('employee_id', null)->count();
         $ocuupiedpositions = PositionCode::where('employee_id', '!=', null)->count();
-        $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
+        //$total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
 
+        $non_permanets = Employee::whereNotIn('employment_type_id', [1])->where('employment_type_id','!=', null)->where('hr_branch_id', '=', $hr_branch_id)->count();
 
         return view('employee.employee_list', compact([
             'employees', 'educations',
-            'employmentStatuses', 'categories', 'employements', 'branches','ocuupiedpositions','freepositions', 'total', 'females', 'males'
+            'employmentStatuses', 'categories', 'employements', 'branches','ocuupiedpositions','freepositions', 'non_permanets','females', 'males'
         ], 'name'));
     }
 
@@ -714,6 +718,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('religion_id')->size(6)->tab($pi);
         CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('title')->size(6)->tab($pi);
+
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
 
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
@@ -730,6 +735,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('ethnicity_id')->size(6)->tab($bio);
         CRUD::field('email')->type('email')->label('Email Address')->size(6)->tab($ci);
         CRUD::field('phone_number')->size(6)->tab($ci);
+        
         CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
         CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
         CRUD::field('user_id')->type('select2')->label('UAS Account')->entity('user')->model(User::class)->attribute('name')->size(6)->tab($ci);
@@ -754,6 +760,15 @@ class EmployeeCrudController extends CrudController
     }
 
     //sCRUD::field('price')->type('number')->label('Price')->prefix('$')->suffix('.00');
+
+
+    protected function setupDeleteOperation()
+    {
+        CRUD::field('photo')->type('upload')->withFiles();
+    
+
+    }
+
 
     public function store()
     {
@@ -1061,20 +1076,45 @@ class EmployeeCrudController extends CrudController
 
         $demotions = Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
-        $dob = Employee::select('date_of_birth')->where('id', '=', $employeeId)->get()->first()->date_of_birth;
-        $dob_ex = explode("-", $dob);
-        $age_diff = date_diff(date_create($dob), date_create('today'))->y;
-        $year_of_retire = 68 - $age_diff;
-        $end = date('Y', strtotime('+' . $year_of_retire . 'years'));
-        $date_of_retire = $end . "-" . $dob_ex[1] . "-" . $dob_ex[2];
-        if ($year_of_retire > 0) {
-            $d = new DateTime($date_of_retire);
-            $date_of_retire2 = $d->format('F d, Y H:i:s');
-            $this->data['date_of_retire2'] = $date_of_retire2;
+    ////////////////////////////////////////////////////////////////////////
+        try {
+            $employee = Employee::where('id', '=', $employeeId)->first();
+            
+            if ($employee) {
+                $dob = $employee->date_of_birth;
+        
+                if ($dob) {
+                    $dob_ex = explode("-", $dob);
+                    $age_diff = date_diff(date_create($dob), date_create('today'))->y;
+                    $year_of_retire = 68 - $age_diff;
+                    
+                    if ($year_of_retire > 0) {
+                        $end = date('Y', strtotime('+' . $year_of_retire . 'years'));
+                        $date_of_retire = $end . "-" . $dob_ex[1] . "-" . $dob_ex[2];
+                        
+                        $d = new DateTime($date_of_retire);
+                        $date_of_retire2 = $d->format('F d, Y H:i:s');
+                        $this->data['date_of_retire2'] = $date_of_retire2;
+                    } else {
+                        $this->data['date_of_retire2'] = now()->format('F d, Y H:i:s');
+                    }
+                } else {
+                    // Handle the case where date_of_birth is null
+                    $this->data['date_of_retire2'] = "Date of birth is missing";
+                }
+            } else {
+                // Handle the case where the employee with the given ID is not found
+                $this->data['date_of_retire2'] = "Employee not found";
+            }
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur during date calculations
+            $this->data['date_of_retire2'] = "Error calculating retirement date: " . $e->getMessage();
         }
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        //     ->whereNot('status', 'pending')
      ///////////////////////////////////////////////////////////////
-        $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])
-        ->where('id', $employeeId)->get();
+    $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])
+     ->where('id', $employeeId)->get();
         if ($prob->isEmpty()) {
             $this->data['status'] = 'No';
            
@@ -1202,8 +1242,7 @@ class EmployeeCrudController extends CrudController
     // }
 
   
-
-
+ 
     public function uploadPhoto2(Request $request)
 
     {
@@ -1231,25 +1270,47 @@ class EmployeeCrudController extends CrudController
 
     }
 
-/////////////////////////////////////////////////////////////////////
-
+////////////////////////////////////////////////////////////////////
 public function uploadPhoto(Request $request)
 {
-    // Get the uploaded photo file from the request.
-    $imageData = $request->get('image');
-    // Decode the base64 encoded image data.
-    $image = base64_decode($imageData);
-    $photoPath = storage_path('app/employee_photos/' . $request->get('employeeId') . '.jpg');
-    file_put_contents($photoPath, $image);
-    $employee = Employee::find($request->get('employeeId'));
-    $employee->photo = $photoPath;
+
+  
+    dd($request->file('image'));
+    try {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        
+    $imagePath  = Storage::disk('public')->put('employee/photo', $request->get('employeeId') . '.jpg');
+
+// $photoPath = storage_path('app/employee_photos/' . $request->get('employeeId') . '.jpg');
+        $employee = Employee::find($request->get('employeeId'));
+        $employee->photo = $imagePath;
+        $employee->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Employee photo uploaded successfully.',
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Error uploading photo. ' . $e->getMessage(),
+        ]);
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////
+public function changeStatus(Request $request, $employeeId)
+{
+    $employee = Employee::find($employeeId);
+    $employee->status = $request->status;
     $employee->save();
+
     return response()->json([
         'success' => true,
-        'message' => 'Employee photo uploaded successfully.',
+        'message' => 'Employee status changed successfully.',
     ]);
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////
     public function getCalculateLeaveDaysForEmployee($employeeId)
 {
@@ -1262,5 +1323,16 @@ public function uploadPhoto(Request $request)
         return "Employee not found";
     }
 }
+
+// public function destroy(Request $request)
+// {
+//     $employee = Employee::find($request->id);
+//     if ($employee->isLocked()) {
+//         return redirect()->back()->with('error', 'The record is locked.');
+//     }
+//     $employee->delete();
+
+//     return redirect()->back()->with('success', 'The record has been deleted.');
+// }
 
 }

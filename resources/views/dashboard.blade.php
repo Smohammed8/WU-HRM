@@ -149,8 +149,8 @@
                             <span class="info-box-icon bg-danger"> <a href="#" title="Click to view details">  <i class="fa fa-users"></i> </a></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Total Contracts </span>
-                                <span class="info-box-number">{{ $contracts }}</span>
+                                <span class="info-box-text">Total Non-permanents </span>
+                                <span class="info-box-number">{{ $non_permanets }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
