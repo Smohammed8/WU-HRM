@@ -1256,15 +1256,11 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         $img = $request->image;
         $folderPath = "uploads/";
         $image_parts = explode(";base64,", $img);
-
         $image_type_aux = explode("image/", $image_parts[0]);
-
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
-
         $fileName = uniqid() . '.png';
         $file = $folderPath . $fileName;
-
         Storage::put($file, $image_base64);
         dd('Image uploaded successfully: '.$fileName);
 
@@ -1273,21 +1269,29 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 ////////////////////////////////////////////////////////////////////
 public function uploadPhoto(Request $request)
 {
-
-  
-    dd($request->file('image'));
+    
+    $base64Data = $request->file('image');
+    $decodedImage = base64_decode($base64Data);
+    $employeeId = $request->get('employeeId');
     try {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
-    $imagePath  = Storage::disk('public')->put('employee/photo', $request->get('employeeId') . '.jpg');
+        // Create the employee directory if it does not exist.
+        if (!Storage::disk('public')->exists('employee/photo')) {
+            Storage::disk('public')->makeDirectory('employee/photo');
+        }
+        // Save the image file to the public disk.
 
-// $photoPath = storage_path('app/employee_photos/' . $request->get('employeeId') . '.jpg');
-        $employee = Employee::find($request->get('employeeId'));
+          // Save the photo file to the storage disk.
+    
+        $imagePath = Storage::disk('local')->put('employee/photo/' . $employeeId . '.jpg', $decodedImage);
+        // Update the employee's photo in the database.
+        $employee = Employee::find($employeeId);
         $employee->photo = $imagePath;
-        $employee->save();
-
+        $employee->update([
+            'photo'=>$imagePath
+        ]);
         return response()->json([
             'success' => true,
             'message' => 'Employee photo uploaded successfully.',

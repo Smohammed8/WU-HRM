@@ -26,6 +26,7 @@ class EmployeeController extends Controller
 
     public function home()
     {
+      //  dd('Hi');
         if ((!backpack_user()->can('employee.home') && backpack_user()->can('dashboard.content')) || backpack_user()->hasRole(Constants::USER_TYPE_SUPER_ADMIN)) {
             return redirect(route('dashboard'));
         }
