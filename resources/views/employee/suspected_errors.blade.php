@@ -183,7 +183,7 @@
         
                                     @foreach ($employees as $employee)
 
-                                    @if ($employee->positionCode?->code === null)
+                                 
                                         <tr>
         
                                             <td> {{ $loop->index + 1 }} </td>
@@ -232,7 +232,7 @@
                                     <td> {{ '-' }}</td>
         
                                     </tr>
-                                    @endif
+                              
                                     @endforeach
                                     @if (count($employees) == 0)
                                         <tr>
@@ -478,12 +478,8 @@
                                             <td> {{ $employee->position->name ?? '-' }}</td>
                                             <td> {{ $employee->gender ?? ('-' ?? '-') }}</td>
                                             <td> {{ $employee->hrBranch->name ?? '-' }}</td>
-                                            <td>
-                                                {{  $employee->internalExperiences->count() }}
-                                            </td>
-                                
+                                            <td>{{  $employee->internalExperiences->count() }}</td>
                                             @foreach ($employee->internalExperiences as $employee_exp )
-                                
                                                 @if($employee_exp->start_date >=   $employee_exp->end_date)
                                                     <?php $count++; ?>
                                                 @endif

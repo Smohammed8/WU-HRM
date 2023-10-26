@@ -135,15 +135,11 @@ class EmployeeController extends Controller
     
     $employee_ages = Employee::where('employment_status_id', 1)->orderBy('id', 'DESC')->paginate(10); 
 
-    $employees = Employee::orderBy('id', 'DESC')->paginate(10);
-
-   //$employees_internal = Employee::orderBy('id', 'DESC')->paginate(10);
+    $employees = Employee::whereNull('position_id')->orderBy('id', 'DESC')->paginate(10);
+   // $employees = Employee::whereDoesntHave('position')->orderBy('id', 'DESC')->paginate(10);
   // $employees_internal = Employee::whereHas('internalExperiences')->get();
    $employees_internal = Employee::whereHas('internalExperiences')->paginate(10);
    $employees_external = Employee::whereHas('externalExperiences')->paginate(10);
-
-
-
     /////////////////////////////////////////////////////////
     $duplicatedPhoneNumbers = Employee::select('phone_number')->groupBy('phone_number')->havingRaw('COUNT(phone_number) > 1')
     ->pluck('phone_number');
