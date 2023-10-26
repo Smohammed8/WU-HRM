@@ -783,65 +783,70 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
     {
         $this->crud->hasAccessOrFail('create');
 
-        // execute the FormRequest authorization and validation, if one is required
-        $request = $this->crud->validateRequest();
-        $data = $this->crud->getStrippedSaveRequest();
-       // $employee_id = $this->crud->entry->id;
-        ///if (Carbon::isYear($data['employement_date'], 1970)) {
-         
-        if (Carbon::parse($data['date_of_birth'])->year == 1970 and Carbon::parse($data['date_of_birth'])->month == 01 and Carbon::parse($data['date_of_birth'])->day == 01 ) {
-
-                throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
-    
-         }
-
-         $cYear =  Constants::gcToEt(Carbon::now());
-         $currentYear  =  Carbon::parse($cYear)->year;
-
-            $result =   $currentYear - Carbon::parse($this->crud->entry->date_of_birth)->year;
-                        if($result < 18 ){
-                            throw ValidationException::withMessages(['date_of_birth' => 'Les than 18 years old cannot be an employee']);
-    
-                }
+          // execute the FormRequest authorization and validation, if one is required
+            $request = $this->crud->validateRequest();
+            $data = $this->crud->getStrippedSaveRequest();
+            $firstName =  $data['first_name'];
+            $fatherName =  $data['father_name'];
+            $lastName =  $data['grand_father_name'];
 
             $cYear =  Constants::gcToEt(Carbon::now());
             $currentYear  =  Carbon::parse($cYear)->year;
-            $dateOfBirth = Carbon::parse($this->crud->entry->date_of_birth);
-            $age = $currentYear - $dateOfBirth->year;
+            $month  =  Carbon::parse($cYear)->month;
+            $day  =  Carbon::parse($cYear)->day;
+            $backyear =$currentYear-40; // 2016 - 1976 = 40
+            /////////////////////////////////////////////////////////////////////////////////////
+            // $employee = Employee::where('first_name', $firstName)->where('father_name', $fatherName)
+            //                     ->where('grand_father_name', $lastName)->first();
 
+            $employee = Employee::where('first_name', 'LIKE', "%$firstName%")->where('father_name', 'LIKE', "%$fatherName%")->where('grand_father_name', 'LIKE', "%$lastName%")->first();
+
+              if ($employee) {
+                throw ValidationException::withMessages(['first_name' => 'It seems that you are trying to register an existing employee as duplicate!']);  
+              } 
+            ///////////////////////////////////////////////////////////////////////
+            if (Carbon::parse($data['date_of_birth'])->year == 1970 and Carbon::parse($data['date_of_birth'])->month == 01 and Carbon::parse($data['date_of_birth'])->day == 01 ) {
+                    throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
+            }
+            $dateOfBirth = Carbon::parse($data['date_of_birth']);
+            $age = $currentYear - $dateOfBirth->year;
             if ($age > 60) {
                 throw ValidationException::withMessages(['date_of_birth' => 'Retirmement age[60] is passed!']);
             }
 
-        // if (Carbon::parse($data['employement_date'])->year == 1970 and Carbon::parse($data['employement_date'])->month == 01 and Carbon::parse($data['employement_date'])->day == 01) {
+            ///////////////////////////////////////////////
+        $result =   $currentYear - Carbon::parse($data['date_of_birth'])->year;
+        if($result < 18 ){
+            throw ValidationException::withMessages(['date_of_birth' => 'Les than 18 years old cannot be an employee']);
+            }
+            
+   
+     if (Carbon::parse($data['employement_date'])->year == 1970 and Carbon::parse($data  ['employement_date'])->month == 01 and Carbon::parse($data['employement_date'])->day == 01) {
     
-        //         throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
-                
-        // }
+                throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);    
+     }
 
-        $cYear =  Constants::gcToEt(Carbon::now());
-        $yr =  Carbon::parse($cYear)->year;
-        $backyear =  $yr-40; // 2016 - 1976 = 40
-        $month =  Carbon::parse($cYear)->month;
 
-     if (Carbon::parse($this->crud->entry->employement_date)->year <   $backyear )  {
-         throw ValidationException::withMessages(['employement_date' => 'Too long time of experience!']);
+     if (Carbon::parse($data['employement_date'])->year <   $backyear )  {
+         throw ValidationException::withMessages(['employement_date' => 'Too long experience!']);
       }
+          //  Check if given month is greater than current month in current year
+          if (Carbon::parse($data['employement_date'])->year > $currentYear and Carbon::parse($data['employement_date'])->month >  $month) {
+            throw ValidationException::withMessages(['employement_date' => 'Invalid  month & year!']);
+            
+         }
 
-      //  Check if given year is greater than current year
-     if (Carbon::parse($this->crud->entry->employement_date)->year >  $yr)  {
-         throw ValidationException::withMessages(['employement_date' => 'Invalid year of an employement!']);
-         
-      }
-    //  Check if given month is greater than current month within current year
-     if (Carbon::parse($this->crud->entry->employement_date)->year =  $yr and Carbon::parse($this->crud->entry->employement_date)->month >  $month ) {
-         throw ValidationException::withMessages(['employement_date' => 'Invalid month of an employement!']); 
-      }
-     //  Check if given month is greater than current month in current year
-      if (Carbon::parse($this->crud->entry->employement_date)->year >  $yr and Carbon::parse($this->crud->entry->employement_date)->month >  $month) {
-         throw ValidationException::withMessages(['employement_date' => 'Invalid date of an employement!']);
-         
-      }
+        //  Check if given year is greater than current year
+        if (Carbon::parse($data['employement_date'])->year > $currentYear)  {
+            throw ValidationException::withMessages(['employement_date' => 'Invalid year!']);
+            
+        }
+        //  Check if given month is greater than current month within current year
+  
+        if (Carbon::parse($data['employement_date'])->year == $currentYear and Carbon::parse($data['employement_date'])->month >  $month ) {
+            throw ValidationException::withMessages(['employement_date' => 'Invalid month!']); 
+        }
+    
       
       if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
             throw ValidationException::withMessages(['position_id' => 'The job position  field is required!']);
@@ -869,24 +874,25 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         $newPosition = Position::where('id', request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
        // $data = $this->crud->getStrippedSaveRequest();
-       
+       ////////////////////////////////////////////////
+       $cYear =  Constants::gcToEt(Carbon::now());
+       $currentYear  =  Carbon::parse($cYear)->year;
+       $cYear =  Constants::gcToEt(Carbon::now());
+       $yr =  Carbon::parse($cYear)->year;
+       $backyear =  $yr-40; // 2016 - 1976 = 40
+       $month =  Carbon::parse($cYear)->month;
+       ///////////////////////////////////////////////////
         if (Carbon::parse($this->crud->entry->date_of_birth)->year == 1970 and Carbon::parse($this->crud->entry->date_of_birth)->month ==01 and Carbon::parse($this->crud->entry->date_of_birth)->day==01 ) {
 
             throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
 
         }
-            $cYear =  Constants::gcToEt(Carbon::now());
-            $currentYear  =  Carbon::parse($cYear)->year;
-             $result = $currentYear - Carbon::parse($this->crud->entry->date_of_birth)->year;
+                $result = $currentYear - Carbon::parse($this->crud->entry->date_of_birth)->year;
                     if($result < 18 ){
                         throw ValidationException::withMessages(['date_of_birth' => 'Less than 18 years old cannot be an employee']);
 
 
-                 }
-
-                $cYear =  Constants::gcToEt(Carbon::now());
-                $currentYear  =  Carbon::parse($cYear)->year;
-
+                    }
                 $dateOfBirth = Carbon::parse($this->crud->entry->date_of_birth);
                 $age = $currentYear - $dateOfBirth->year;
 
@@ -894,32 +900,25 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
                     throw ValidationException::withMessages(['date_of_birth' => 'Retirmement age[60] is passed!']);
                 }
 
-      
-           $cYear =  Constants::gcToEt(Carbon::now());
-           $yr =  Carbon::parse($cYear)->year;
-           $backyear =  $yr-40; // 2016 - 1976 = 40
-           $month =  Carbon::parse($cYear)->month;
-
            if (Carbon::parse($this->crud->entry->employement_date)->year <   $backyear )  {
-            throw ValidationException::withMessages(['employement_date' => 'Too long time of experience!']);
+            throw ValidationException::withMessages(['employement_date' => 'Too long experience!']);
          }
 
+             //  Check if given month is greater than current month in current year
+             if (Carbon::parse($this->crud->entry->employement_date)->year >  $currentYear and Carbon::parse($this->crud->entry->employement_date)->month >  $month) {
+                throw ValidationException::withMessages(['employement_date' => 'Invalid month & Year!']);
+                
+             }
          //  Check if given year is greater than current year
-        if (Carbon::parse($this->crud->entry->employement_date)->year >  $yr)  {
-            throw ValidationException::withMessages(['employement_date' => 'Invalid year of an employement!']);
-            
-         }
+            if (Carbon::parse($this->crud->entry->employement_date)->year >  $currentYear)  {
+                throw ValidationException::withMessages(['employement_date' => 'Invalid year!']);
+                
+            }
        //  Check if given month is greater than current month within current year
-         if (Carbon::parse($this->crud->entry->employement_date)->year =  $yr and Carbon::parse($this->crud->entry->employement_date)->month >  $month ) {
-            throw ValidationException::withMessages(['employement_date' => 'Invalid month of an employement!']);
-            
-         }
-        //  Check if given month is greater than current month in current year
-         if (Carbon::parse($this->crud->entry->employement_date)->year >  $yr and Carbon::parse($this->crud->entry->employement_date)->month >  $month) {
-            throw ValidationException::withMessages(['employement_date' => 'Invalid date of an employement!']);
-            
-         }
-
+            if (Carbon::parse($this->crud->entry->employement_date)->year ==  $currentYear and Carbon::parse($this->crud->entry->employement_date)->month >  $month ) {
+                throw ValidationException::withMessages(['employement_date' => 'Invalid month!']);
+                
+            }
         if ($newPosition !== null) {
             if ($currentPosition->id == $newPosition->id) {
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
