@@ -94,7 +94,7 @@ Route::get( '/hierarchy',
         return view('unit.tree', ['orgs' => $org]);
     }
 )->name('hierarchy')->middleware('auth');
-
+//$org = Unit::where('parent_unit_id')->where('is_active', true)->latest()->get();
 Route::post('employee/placement_round/{placement_round}/choice/store',[EmployeeController::class,'choiceStore'])->name('employee.placement_choice.store');
 
 
