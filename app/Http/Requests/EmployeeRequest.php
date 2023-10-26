@@ -87,7 +87,6 @@ class EmployeeRequest extends FormRequest
         ];
         
     }
-
     /**
      * Get the validation attributes that apply to the request.
      *

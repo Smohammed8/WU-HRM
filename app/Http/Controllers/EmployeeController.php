@@ -120,9 +120,7 @@ class EmployeeController extends Controller
     public function findEmployeesWithDuplicatedPhoneNumbers()
 {
     $duplicatedPhoneNumbers = Employee::select('phone_number')
-        ->groupBy('phone_number')
-        ->havingRaw('COUNT(phone_number) > 1')
-        ->pluck('phone_number');
+        ->groupBy('phone_number')->havingRaw('COUNT(phone_number) > 1')->pluck('phone_number');
 
     $employeesWithDuplicatedPhoneNumbers = Employee::whereIn('phone_number', $duplicatedPhoneNumbers)->get();
 

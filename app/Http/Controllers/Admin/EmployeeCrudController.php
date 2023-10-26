@@ -71,11 +71,13 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\EmployeeAddressRequest;
 use App\Models\EmployeeLetter;
+use App\Rules\AgeRange;
 use Illuminate\Validation\ValidationException;
 use \Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use Illuminate\Support\Facades\Log;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
@@ -127,6 +129,7 @@ class EmployeeCrudController extends CrudController
         $this->crud->enableDetailsRow();
         $this->setupPermission();
         //$this->crud->allowAccess(['delete']);
+
       
     }
     public function setupPermission()
@@ -252,7 +255,7 @@ class EmployeeCrudController extends CrudController
                     $currentYear = date('Y');
                     $birthYear = $currentYear - (int)$searchTerm;
                     $sql = "YEAR(date_of_birth) = ?";
-                    \Log::info("Generated SQL: $sql with parameter $birthYear");
+                    Log::info("Generated SQL: $sql with parameter $birthYear");
                     $query->orWhereRaw($sql, [$birthYear]);
                 } else {
                     $query->orWhere('phone_number', 'like', '%' . $searchTerm . '%');
@@ -728,7 +731,13 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
+
         CRUD::field('date_of_birth')->size(6)->tab($bio);
+
+
+
+   
+
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
@@ -787,6 +796,23 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
                 throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
     
             }
+
+            $currentYear = Carbon::now()->year-8;
+
+            $result =       $currentYear - Carbon::parse($this->crud->entry->date_of_birth)->year;
+                        if($result < 18 ){
+                            throw ValidationException::withMessages(['date_of_birth' => 'Les than 18 years old cannot be an employee']);
+    
+    
+                }
+            $currentYear = Carbon::now()->year-8;
+            $dateOfBirth = Carbon::parse($this->crud->entry->date_of_birth);
+            $age = $currentYear - $dateOfBirth->year;
+
+            if ($age > 60) {
+                throw ValidationException::withMessages(['date_of_birth' => 'Retirmement age[60] is passed!']);
+            }
+
         if (Carbon::parse($data['employement_date'])->year == 1970 and Carbon::parse($data['employement_date'])->month == 01 and Carbon::parse($data['employement_date'])->day == 01) {
     
                 throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
@@ -825,6 +851,22 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
             throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
 
         }
+             $currentYear = Carbon::now()->year-8;
+             $result = $currentYear - Carbon::parse($this->crud->entry->date_of_birth)->year;
+                    if($result < 18 ){
+                        throw ValidationException::withMessages(['date_of_birth' => 'Less than 18 years old cannot be an employee']);
+
+
+                 }
+
+                $currentYear = Carbon::now()->year-8;
+                $dateOfBirth = Carbon::parse($this->crud->entry->date_of_birth);
+                $age = $currentYear - $dateOfBirth->year;
+
+                if ($age > 60) {
+                    throw ValidationException::withMessages(['date_of_birth' => 'Retirmement age[60] is passed!']);
+                }
+
             if (Carbon::parse($this->crud->entry->employement_date)->year == 1970 and Carbon::parse($this->crud->entry->employement_date)->month==01 and Carbon::parse($this->crud->entry->employement_date)->day==01) {
 
             throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
@@ -1232,27 +1274,11 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 
     }
 
-
-    // public function index()
-
-    // {
-
-    //     return view('webcam');
-
-    // }
-
-  
- 
-    public function uploadPhoto2(Request $request)
-
-    {
-        $request->validate([
-            'image' => 'required',
-        ],
+    public function uploadPhoto2(Request $request){
+        $request->validate(['image' => 'required',],
         [
             'image.required' => 'Please capture an image',
         ]);
-
         $img = $request->image;
         $folderPath = "uploads/";
         $image_parts = explode(";base64,", $img);
@@ -1269,7 +1295,6 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 ////////////////////////////////////////////////////////////////////
 public function uploadPhoto(Request $request)
 {
-    
     $base64Data = $request->file('image');
     $decodedImage = base64_decode($base64Data);
     $employeeId = $request->get('employeeId');
@@ -1281,10 +1306,6 @@ public function uploadPhoto(Request $request)
         if (!Storage::disk('public')->exists('employee/photo')) {
             Storage::disk('public')->makeDirectory('employee/photo');
         }
-        // Save the image file to the public disk.
-
-          // Save the photo file to the storage disk.
-    
         $imagePath = Storage::disk('local')->put('employee/photo/' . $employeeId . '.jpg', $decodedImage);
         // Update the employee's photo in the database.
         $employee = Employee::find($employeeId);

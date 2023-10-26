@@ -285,10 +285,6 @@ class Employee extends  Model
         return Carbon::parse($this->attributes['date_of_birth'])->age;
         
     }
-
-
-   
-
     public function employeeCategory()
     {
         return $this->belongsTo(EmployeeCategory::class);
@@ -349,19 +345,12 @@ class Employee extends  Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
-
-
-
     protected function firstName(): Attribute
     {
         return new Attribute(
             set: fn ($value) => strtoupper($value),
         );
     }
-
-
-
 
     protected function fatherName(): Attribute
     {
