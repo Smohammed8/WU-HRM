@@ -137,7 +137,10 @@ class EmployeeController extends Controller
 
     $employees = Employee::orderBy('id', 'DESC')->paginate(10);
 
-   $employees_internal = Employee::orderBy('id', 'DESC')->paginate(10);
+   //$employees_internal = Employee::orderBy('id', 'DESC')->paginate(10);
+  // $employees_internal = Employee::whereHas('internalExperiences')->get();
+   $employees_internal = Employee::whereHas('internalExperiences')->paginate(10);
+   $employees_external = Employee::whereHas('externalExperiences')->paginate(10);
 
 
 
@@ -148,7 +151,7 @@ class EmployeeController extends Controller
    ////////////////////////////////////////////////////////////
 
 
-  return view('employee.suspected_errors', compact('employees','employees_employeds','employees_phone','employees_internal', 'employee_ages'));
+  return view('employee.suspected_errors', compact('employees','employees_employeds','employees_phone','employees_internal', 'employee_ages','employees_external'));
 
 
     }

@@ -15,6 +15,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Exception;
 use Carbon\Carbon;
+use App\Models\InternalExperience;
+use App\Models\ExternalExperience;
 use Illuminate\Support\Facades\DB;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
