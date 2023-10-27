@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\FieldOfStudy;
 use App\Models\EducationalLevel;
 use App\Models\EmployeeEducation;
+use Illuminate\Support\Facades\Route;
 /**
  * Class EmployeeEducationCrudController
  * @package App\Http\Controllers\Admin
@@ -31,7 +32,7 @@ class EmployeeEducationCrudController extends CrudController
     {
         CRUD::setModel(EmployeeEducation::class);
       // CRUD::setRoute(config('backpack.base.route_prefix') . '/employee-education');
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/employee-education');
         CRUD::setEntityNameStrings('employee education', 'employee educations');
         $this->setupBreadcrumb($employeeId);
@@ -88,7 +89,7 @@ class EmployeeEducationCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-       $employeeId = \Route::current()->parameter('employee');
+       $employeeId = Route::current()->parameter('employee');
 
         CRUD::setValidation(EmployeeEducationRequest::class);
       //  CRUD::field('employee_id') ->size(6);

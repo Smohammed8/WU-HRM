@@ -6,7 +6,7 @@ use App\Http\Requests\PensionRequest;
 use App\Models\EmployeeCategory;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Class PensionCrudController
  * @package App\Http\Controllers\Admin

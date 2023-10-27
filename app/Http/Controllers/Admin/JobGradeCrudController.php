@@ -6,6 +6,7 @@ use App\Http\Requests\JobGradeRequest;
 use App\Models\Level;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class JobGradeCrudController
@@ -91,7 +92,7 @@ class JobGradeCrudController extends CrudController
     {
         $this->crud->denyAccess('show');
        //  $this->crud->enableExportButtons();
-        $this->crud->ajax_table = false;
+       // $this->crud->ajax_table = false;
 
         $this->crud->denyAccess('delete');
         $this->crud->setDefaultPageLength(22);

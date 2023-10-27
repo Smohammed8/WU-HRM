@@ -6,6 +6,7 @@ use App\Http\Requests\ComplaintRequest;
 use App\Models\PlacementRound;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class ComplaintCrudController

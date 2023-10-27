@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use NumberFormatter;
+use Illuminate\Support\Facades\Route;
 
 class EmployeeController extends Controller
 {
@@ -25,6 +26,7 @@ class EmployeeController extends Controller
 
     public function home()
     {
+      //  dd('Hi');
         if ((!backpack_user()->can('employee.home') && backpack_user()->can('dashboard.content')) || backpack_user()->hasRole(Constants::USER_TYPE_SUPER_ADMIN)) {
             return redirect(route('dashboard'));
         }
@@ -101,7 +103,7 @@ class EmployeeController extends Controller
             Excel::import(new EmployeesImport($college), request()->file('file'));
         }
         // Excel::import(new EmployeesImport, "/abc.xl");
-        dd('IMPORT DONE');
+       // dd('IMPORT DONE');
     }
     public function calculate()
     {
@@ -113,25 +115,39 @@ class EmployeeController extends Controller
         $employee->calculateEducationalValue($choiceTwo);
     }
 
+
+
+    public function findEmployeesWithDuplicatedPhoneNumbers()
+{
+    $duplicatedPhoneNumbers = Employee::select('phone_number')
+        ->groupBy('phone_number')->havingRaw('COUNT(phone_number) > 1')->pluck('phone_number');
+
+    $employeesWithDuplicatedPhoneNumbers = Employee::whereIn('phone_number', $duplicatedPhoneNumbers)->get();
+
+    return view('employee.index', compact('employeesWithDuplicatedPhoneNumbers'));
+}
+
+
     public function suspectedErrors(){
-//  $employees = Employee::where('employement_date', 3)->orderBy('first_name', 'ASC')->Paginate(10);
- //$employees = Employee::where('date_of_birth', '<', Carbon::now()->subYears(46))->get();
-
-//  $employees1 = Employee::where('employement_date', '<', Carbon::now()->subYears(35))->get();
-
-//  $employees2  = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->get();
-//  $employees_employeds = array_merge($employees1, $employees2)->orderBy('id', 'DESC')->Paginate(10);
-
 
 
     $employees_employeds = Employee::where('employment_status_id', 1)->where('employement_date', '<', Carbon::now()->subYears(35))->union(Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()]))->orderBy('id', 'DESC')->paginate(10);
     
     $employee_ages = Employee::where('employment_status_id', 1)->orderBy('id', 'DESC')->paginate(10); 
 
-    $employees = Employee::orderBy('id', 'DESC')->paginate(10);
+    $employees = Employee::whereNull('position_id')->orderBy('id', 'DESC')->paginate(10);
+   // $employees = Employee::whereDoesntHave('position')->orderBy('id', 'DESC')->paginate(10);
+  // $employees_internal = Employee::whereHas('internalExperiences')->get();
+   $employees_internal = Employee::whereHas('internalExperiences')->paginate(10);
+   $employees_external = Employee::whereHas('externalExperiences')->paginate(10);
+    /////////////////////////////////////////////////////////
+    $duplicatedPhoneNumbers = Employee::select('phone_number')->groupBy('phone_number')->havingRaw('COUNT(phone_number) > 1')
+    ->pluck('phone_number');
+    $employees_phone = Employee::whereIn('phone_number', $duplicatedPhoneNumbers)->paginate(10); 
+   ////////////////////////////////////////////////////////////
 
 
-  return view('employee.suspected_errors', compact('employees','employees_employeds', 'employee_ages'));
+  return view('employee.suspected_errors', compact('employees','employees_employeds','employees_phone','employees_internal', 'employee_ages','employees_external'));
 
 
     }

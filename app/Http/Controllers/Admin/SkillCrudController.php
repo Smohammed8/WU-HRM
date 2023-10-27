@@ -6,7 +6,7 @@ use App\Http\Requests\SkillRequest;
 use App\Models\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Class SkillCrudController
  * @package App\Http\Controllers\Admin
@@ -28,7 +28,7 @@ class SkillCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Skill::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/skill');
         CRUD::setEntityNameStrings('skill', 'skills');
         $this->setupBreadcrumb($employeeId);
@@ -86,7 +86,7 @@ class SkillCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setValidation(SkillRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('skill_type_id')->type('select')->entity('skillType')->model(SkillType::class)->attribute('name')->size(6);
@@ -108,7 +108,7 @@ class SkillCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
 
         $this->setupCreateOperation();
     }

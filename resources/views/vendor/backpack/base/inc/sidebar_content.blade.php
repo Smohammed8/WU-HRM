@@ -48,7 +48,7 @@ color:black;
     @canany(['permission.index', 'permission.icrud'])
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}">
             <i class='nav-icon la la-caret-right'></i> 
-            <span> Permission</span></a></li>
+            <span> Permission </span></a></li>
     @endcanany
 </ul>
 </li>

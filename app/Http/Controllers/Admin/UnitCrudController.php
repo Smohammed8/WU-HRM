@@ -11,7 +11,8 @@ use App\Models\User;
 use App\Models\Unit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 /**
  * Class UnitCrudController
  * @package App\Http\Controllers\Admin
@@ -114,6 +115,9 @@ class UnitCrudController extends CrudController
 
         CRUD::column('hr_branch_id')->type('select')->label('HR Branch')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
 
+        CRUD::column('is_active')->label('Is active?');
+        
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -135,14 +139,11 @@ class UnitCrudController extends CrudController
 
         // CRUD::field('level')->size(6);
          CRUD::field('parent_unit_id')->label('Accountable to')->size(6)->type('select2')->entity('unit')->model(Unit::class)->attribute('name');
-     
-
-
         CRUD::field('chair_man_type_id')->size(6)->label('Office leader')->type('select2')->entity('employee')->model(Employee::class)->attribute('name');
 
         CRUD::field('hr_branch_id')->size(6)->label('HR Branch')->type('select2')->entity('hrBranch')->model(HrBranch::class)->attribute('name');
-
-        CRUD::field('subordinate')->label('Is it subordinate?')->size(4);
+        CRUD::field('subordinate')->label('Is it subordinate?')->size(4)->default(false);
+        CRUD::field('is_active')->label('Is active?')->size(4)->default(true);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

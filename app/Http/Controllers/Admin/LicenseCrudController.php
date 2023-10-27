@@ -7,6 +7,7 @@ use App\Models\EmploymentType;
 use App\Models\LicenseType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class LicenseCrudController
@@ -29,7 +30,7 @@ class LicenseCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\License::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId.'/license');
         CRUD::setEntityNameStrings('license', 'licenses');
         $this->setupBreadcrumb($employeeId);
@@ -81,7 +82,7 @@ class LicenseCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setValidation(LicenseRequest::class);
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('license_type_id')->type('select')->entity('licenseType')->model(LicenseType::class)->attribute('name')->size(6);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ExpiryDate;
 use App\Http\Requests\StoreExpiryDateRequest;
 use App\Http\Requests\UpdateExpiryDateRequest;
+use Illuminate\Support\Facades\Route;
 
 class ExpiryDateController extends Controller
 {

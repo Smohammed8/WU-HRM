@@ -6,7 +6,7 @@ use App\Http\Requests\TrainingAndStudyRequest;
 use App\Models\EducationalLevel;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Class TrainingAndStudyCrudController
  * @package App\Http\Controllers\Admin
@@ -28,7 +28,7 @@ class TrainingAndStudyCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\TrainingAndStudy::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
 
         CRUD::setRoute(config('backpack.base.route_prefix') . '/' . $employeeId . '/training-and-study');
         CRUD::setEntityNameStrings('training and study', 'training and studies');
@@ -38,7 +38,7 @@ class TrainingAndStudyCrudController extends CrudController
 
     public function setupBreadcrumb()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Employees' => route('employee.index'),
@@ -90,7 +90,7 @@ class TrainingAndStudyCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(TrainingAndStudyRequest::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::field('name')->size(6);
         CRUD::field('nationality_id')->size(6);

@@ -7,6 +7,7 @@ use App\Models\CertificationType;
 use App\Models\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeCertificateCrudController
@@ -29,7 +30,7 @@ class EmployeeCertificateCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\EmployeeCertificate::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/employee-certificate');
         CRUD::setEntityNameStrings('employee certificate', 'employee certificates');
         $this->setupBreadcrumb($employeeId);
@@ -86,7 +87,7 @@ class EmployeeCertificateCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EmployeeCertificateRequest::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
 
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
 

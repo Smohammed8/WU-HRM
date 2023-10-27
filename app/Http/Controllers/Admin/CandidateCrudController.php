@@ -12,6 +12,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class CandidateCrudController
@@ -36,7 +37,7 @@ class CandidateCrudController extends CrudController
 
 
         CRUD::setModel(\App\Models\Candidate::class);
-        $this->vacancy = Vacancy::find(\Route::current()->parameter('vacancy'));
+        $this->vacancy = Vacancy::find(Route::current()->parameter('vacancy'));
         CRUD::setRoute(config('backpack.base.route_prefix') . '/vacancy/' . $this->vacancy?->id . '/candidate');
         CRUD::setEntityNameStrings('candidate', 'candidates');
         $this->setupBreadcrumb();

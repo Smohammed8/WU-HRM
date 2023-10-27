@@ -15,6 +15,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use PhpParser\Node\Stmt\Label;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 /**
  * Class JobTitleCrudController
  * @package App\Http\Controllers\Admin
@@ -36,7 +37,7 @@ class JobTitleCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(JobTitle::class);
-        $jobTitleCategory = \Route::current()->parameter('job_title_category');
+        $jobTitleCategory = Route::current()->parameter('job_title_category');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/job-title-category/' . $jobTitleCategory . '/job-title');
         CRUD::setEntityNameStrings('job title', 'job titles');
         $this->setupPermission();
@@ -99,7 +100,7 @@ class JobTitleCrudController extends CrudController
 
         $this->crud->addButtonFromModelFunction('line', 'jobTitlePrerequests', 'prerequestButtonView', 'beginning');
         $this->crud->denyAccess('show');
-        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = Route::current()->parameter('job_title_category');
         $this->crud->setHeading(JobTitleCategory::find($jobTitleCategoryId)->name.' Job titles');
         CRUD::column('name')->label('የስራ መደቡ መጠሪያ');
         // CRUD::column('job_code')->label('የመደብ መታወቂያ ቁጥር');
@@ -239,7 +240,7 @@ class JobTitleCrudController extends CrudController
     {
         
         CRUD::setValidation(JobTitleRequest::class);
-        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = Route::current()->parameter('job_title_category');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Job Title Categories' => route('job-title-category.index'),

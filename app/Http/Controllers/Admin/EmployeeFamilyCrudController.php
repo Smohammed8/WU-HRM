@@ -6,6 +6,7 @@ use App\Http\Requests\EmployeeFamilyRequest;
 use App\Models\FamilyRelationship;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Route;
 /**
  * Class EmployeeFamilyCrudController
  * @package App\Http\Controllers\Admin
@@ -26,7 +27,7 @@ class EmployeeFamilyCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\EmployeeFamily::class);
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/'.$employeeId. '/employee-family');
         CRUD::setEntityNameStrings('employee family', 'employee families');
         $this->setupBreadcrumb();
@@ -36,7 +37,7 @@ class EmployeeFamilyCrudController extends CrudController
 
     public function setupBreadcrumb()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Employees' => route('employee.index'),
@@ -85,7 +86,7 @@ class EmployeeFamilyCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $employeeId = \Route::current()->parameter('employee');
+        $employeeId = Route::current()->parameter('employee');
         CRUD::field('employee_id')->type('hidden')->value($employeeId);
         CRUD::setValidation(EmployeeFamilyRequest::class);
         CRUD::field('family_relationship_id')->type('select')->entity('familyRelationship')->model(FamilyRelationship::class)->attribute('name')->size(6);

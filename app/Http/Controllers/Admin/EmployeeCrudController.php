@@ -71,16 +71,18 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\EmployeeAddressRequest;
 use App\Models\EmployeeLetter;
+use App\Rules\AgeRange;
 use Illuminate\Validation\ValidationException;
 use \Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use Illuminate\Support\Facades\Log;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
-
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeCrudController
@@ -89,19 +91,18 @@ use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
  */
 class EmployeeCrudController extends CrudController
 {
-    use \Backpack\ReviseOperation\ReviseOperation;
+   
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\ReviseOperation\ReviseOperation;
+   // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation { destroy as traitDestroy; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
-
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
-
-
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+   // use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
         update as traitUpdate;
     } //IMPORTANT HERE
@@ -116,18 +117,20 @@ class EmployeeCrudController extends CrudController
      */
     public function setup()
     {
+        
         CRUD::setModel(Employee::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/employee');
         CRUD::setEntityNameStrings('employee', 'employees');
-
         CRUD::disablePersistentTable();
         CRUD::enableExportButtons(); // check this if the page is not loading
         //CRUD::setDefaultPageLength(10); // No of paginatings
-
         $this->crud->setShowView('employee.show');
         // $this->crud->enableAjaxTable()  ;
         $this->crud->enableDetailsRow();
         $this->setupPermission();
+        //$this->crud->allowAccess(['delete']);
+
+      
     }
     public function setupPermission()
     {
@@ -252,7 +255,7 @@ class EmployeeCrudController extends CrudController
                     $currentYear = date('Y');
                     $birthYear = $currentYear - (int)$searchTerm;
                     $sql = "YEAR(date_of_birth) = ?";
-                    \Log::info("Generated SQL: $sql with parameter $birthYear");
+                    Log::info("Generated SQL: $sql with parameter $birthYear");
                     $query->orWhereRaw($sql, [$birthYear]);
                 } else {
                     $query->orWhere('phone_number', 'like', '%' . $searchTerm . '%');
@@ -661,15 +664,21 @@ class EmployeeCrudController extends CrudController
 
 
         ])->get();
-        $males    = Employee::where('gender', '=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
-        $females  = Employee::where('gender', '=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
+$males    = Employee::where('gender', '=', 'Male')->where('hr_branch_id', '=', $hr_branch_id)->count();
+$females  = Employee::where('gender', '=', 'Female')->where('hr_branch_id', '=', $hr_branch_id)->count();
+     
+$freepositions = PositionCode::where('employee_id', null)->where('employee_id', null)->count();
+                           //->whereNot('employee_id', 'pending');
 
-        $total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
+        $freepositions = PositionCode::where('employee_id', null)->count();
+        $ocuupiedpositions = PositionCode::where('employee_id', '!=', null)->count();
+        //$total = Employee::where('hr_branch_id', '=', $hr_branch_id)->count();
 
+        $non_permanets = Employee::whereNotIn('employment_type_id', [1])->where('employment_type_id','!=', null)->where('hr_branch_id', '=', $hr_branch_id)->count();
 
         return view('employee.employee_list', compact([
             'employees', 'educations',
-            'employmentStatuses', 'categories', 'employements', 'branches', 'total', 'females', 'males'
+            'employmentStatuses', 'categories', 'employements', 'branches','ocuupiedpositions','freepositions', 'non_permanets','females', 'males'
         ], 'name'));
     }
 
@@ -716,6 +725,7 @@ class EmployeeCrudController extends CrudController
         CRUD::field('gender')->type('enum')->size(6)->tab($pi);
         CRUD::field('religion_id')->size(6)->tab($pi);
         CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('title')->size(6)->tab($pi);
+
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
 
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
@@ -725,13 +735,20 @@ class EmployeeCrudController extends CrudController
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
+
         CRUD::field('date_of_birth')->size(6)->tab($bio);
+
+
+
+   
+
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
         CRUD::field('ethnicity_id')->size(6)->tab($bio);
         CRUD::field('email')->type('email')->label('Email Address')->size(6)->tab($ci);
         CRUD::field('phone_number')->size(6)->tab($ci);
+        
         CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
         CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
         CRUD::field('user_id')->type('select2')->label('UAS Account')->entity('user')->model(User::class)->attribute('name')->size(6)->tab($ci);
@@ -757,30 +774,85 @@ class EmployeeCrudController extends CrudController
 
     //sCRUD::field('price')->type('number')->label('Price')->prefix('$')->suffix('.00');
 
+
+    protected function setupDeleteOperation()
+    {
+        CRUD::field('photo')->type('upload')->withFiles();
+    
+
+    }
+
+
     public function store()
     {
         $this->crud->hasAccessOrFail('create');
 
-        // execute the FormRequest authorization and validation, if one is required
-        $request = $this->crud->validateRequest();
-        $data = $this->crud->getStrippedSaveRequest();
-       // $employee_id = $this->crud->entry->id;
+          // execute the FormRequest authorization and validation, if one is required
+            $request = $this->crud->validateRequest();
+            $data = $this->crud->getStrippedSaveRequest();
+            $firstName =  $data['first_name'];
+            $fatherName =  $data['father_name'];
+            $lastName =  $data['grand_father_name'];
 
-        ///if (Carbon::isYear($data['employement_date'], 1970)) {
+            $cYear =  Constants::gcToEt(Carbon::now());
+            $currentYear  =  Carbon::parse($cYear)->year;
+            $month  =  Carbon::parse($cYear)->month;
+            $day  =  Carbon::parse($cYear)->day;
+            $backyear =$currentYear-40; // 2016 - 1976 = 40
+            /////////////////////////////////////////////////////////////////////////////////////
+            // $employee = Employee::where('first_name', $firstName)->where('father_name', $fatherName)
+            //                     ->where('grand_father_name', $lastName)->first();
 
-         
-        if (Carbon::parse($data['date_of_birth'])->year == 1970 and Carbon::parse($data['date_of_birth'])->month == 01 and Carbon::parse($data['date_of_birth'])->day == 01 ) {
+            $employee = Employee::where('first_name', 'LIKE', "%$firstName%")->where('father_name', 'LIKE', "%$fatherName%")->where('grand_father_name', 'LIKE', "%$lastName%")->first();
 
-                throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
-    
+              if ($employee) {
+                throw ValidationException::withMessages(['first_name' => 'It seems that you are trying to register an existing employee as duplicate!']);  
+              } 
+            ///////////////////////////////////////////////////////////////////////
+            if (Carbon::parse($data['date_of_birth'])->year == 1970 and Carbon::parse($data['date_of_birth'])->month == 01 and Carbon::parse($data['date_of_birth'])->day == 01 ) {
+                    throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
             }
-        if (Carbon::parse($data['employement_date'])->year == 1970 and Carbon::parse($data['employement_date'])->month == 01 and Carbon::parse($data['employement_date'])->day == 01) {
-    
-                throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
-                
-        }
+            $dateOfBirth = Carbon::parse($data['date_of_birth']);
+            $age = $currentYear - $dateOfBirth->year;
+            if ($age > 60) {
+                throw ValidationException::withMessages(['date_of_birth' => 'Retirmement age[60] is passed!']);
+            }
 
-        if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
+            ///////////////////////////////////////////////
+        $result =   $currentYear - Carbon::parse($data['date_of_birth'])->year;
+        if($result < 18 ){
+            throw ValidationException::withMessages(['date_of_birth' => 'Les than 18 years old cannot be an employee']);
+            }
+            
+   
+     if (Carbon::parse($data['employement_date'])->year == 1970 and Carbon::parse($data  ['employement_date'])->month == 01 and Carbon::parse($data['employement_date'])->day == 01) {
+    
+                throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);    
+     }
+
+
+     if (Carbon::parse($data['employement_date'])->year <   $backyear )  {
+         throw ValidationException::withMessages(['employement_date' => 'Too long experience!']);
+      }
+          //  Check if given month is greater than current month in current year
+          if (Carbon::parse($data['employement_date'])->year > $currentYear and Carbon::parse($data['employement_date'])->month >  $month) {
+            throw ValidationException::withMessages(['employement_date' => 'Invalid  month & year!']);
+            
+         }
+
+        //  Check if given year is greater than current year
+        if (Carbon::parse($data['employement_date'])->year > $currentYear)  {
+            throw ValidationException::withMessages(['employement_date' => 'Invalid year!']);
+            
+        }
+        //  Check if given month is greater than current month within current year
+  
+        if (Carbon::parse($data['employement_date'])->year == $currentYear and Carbon::parse($data['employement_date'])->month >  $month ) {
+            throw ValidationException::withMessages(['employement_date' => 'Invalid month!']); 
+        }
+    
+      
+      if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
             throw ValidationException::withMessages(['position_id' => 'The job position  field is required!']);
         }
         // insert item in the db
@@ -806,18 +878,51 @@ class EmployeeCrudController extends CrudController
         $newPosition = Position::where('id', request()->position_id)->first();
         $employee = $this->crud->getCurrentEntry();
        // $data = $this->crud->getStrippedSaveRequest();
-       
+       ////////////////////////////////////////////////
+       $cYear =  Constants::gcToEt(Carbon::now());
+       $currentYear  =  Carbon::parse($cYear)->year;
+       $cYear =  Constants::gcToEt(Carbon::now());
+       $yr =  Carbon::parse($cYear)->year;
+       $backyear =  $yr-40; // 2016 - 1976 = 40
+       $month =  Carbon::parse($cYear)->month;
+       ///////////////////////////////////////////////////
         if (Carbon::parse($this->crud->entry->date_of_birth)->year == 1970 and Carbon::parse($this->crud->entry->date_of_birth)->month ==01 and Carbon::parse($this->crud->entry->date_of_birth)->day==01 ) {
 
             throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
 
         }
-            if (Carbon::parse($this->crud->entry->employement_date)->year == 1970 and Carbon::parse($this->crud->entry->employement_date)->month==01 and Carbon::parse($this->crud->entry->employement_date)->day==01) {
+                $result = $currentYear - Carbon::parse($this->crud->entry->date_of_birth)->year;
+                    if($result < 18 ){
+                        throw ValidationException::withMessages(['date_of_birth' => 'Less than 18 years old cannot be an employee']);
 
-            throw ValidationException::withMessages(['employement_date' => 'Please,Change default date(1970-01-01) for date of employement!']);
-            
-        }
 
+                    }
+                $dateOfBirth = Carbon::parse($this->crud->entry->date_of_birth);
+                $age = $currentYear - $dateOfBirth->year;
+
+                if ($age > 60) {
+                    throw ValidationException::withMessages(['date_of_birth' => 'Retirmement age[60] is passed!']);
+                }
+
+           if (Carbon::parse($this->crud->entry->employement_date)->year <   $backyear )  {
+            throw ValidationException::withMessages(['employement_date' => 'Too long experience!']);
+         }
+
+             //  Check if given month is greater than current month in current year
+             if (Carbon::parse($this->crud->entry->employement_date)->year >  $currentYear and Carbon::parse($this->crud->entry->employement_date)->month >  $month) {
+                throw ValidationException::withMessages(['employement_date' => 'Invalid month & Year!']);
+                
+             }
+         //  Check if given year is greater than current year
+            if (Carbon::parse($this->crud->entry->employement_date)->year >  $currentYear)  {
+                throw ValidationException::withMessages(['employement_date' => 'Invalid year!']);
+                
+            }
+       //  Check if given month is greater than current month within current year
+            if (Carbon::parse($this->crud->entry->employement_date)->year ==  $currentYear and Carbon::parse($this->crud->entry->employement_date)->month >  $month ) {
+                throw ValidationException::withMessages(['employement_date' => 'Invalid month!']);
+                
+            }
         if ($newPosition !== null) {
             if ($currentPosition->id == $newPosition->id) {
                 if (PositionCode::where('position_id', request()->position_id)->where('employee_id', $employee->id)->count() == 0) {
@@ -918,21 +1023,6 @@ class EmployeeCrudController extends CrudController
     //$employees = Employee::where('phone_number', $employee1->phone_number)->where('id', '<>', $employee1->id)->get(); // to check duplicated phone
     return view('employee.probation', compact('employees', 'females', 'males', 'permanets', 'contracts'));
     }
-
-
-    //      public function ageToDay(){
-
-
-
-    //         $bday = new DateTime('11.4. 1987');
-    //       // Your date of birth 
-    //         $today = new Datetime(date('m.d.y')); 
-    //         $diff = $today->diff($bday);
-    //         printf(' Your age : %d years, %d month, %d days', 
-    //         $diff->y, $diff->m, $diff->d);
-
-    // }
-
 
     public function checkLeave()
     {
@@ -1078,20 +1168,45 @@ class EmployeeCrudController extends CrudController
 
         $demotions = Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
-        $dob = Employee::select('date_of_birth')->where('id', '=', $employeeId)->get()->first()->date_of_birth;
-        $dob_ex = explode("-", $dob);
-        $age_diff = date_diff(date_create($dob), date_create('today'))->y;
-        $year_of_retire = 68 - $age_diff;
-        $end = date('Y', strtotime('+' . $year_of_retire . 'years'));
-        $date_of_retire = $end . "-" . $dob_ex[1] . "-" . $dob_ex[2];
-        if ($year_of_retire > 0) {
-            $d = new DateTime($date_of_retire);
-            $date_of_retire2 = $d->format('F d, Y H:i:s');
-            $this->data['date_of_retire2'] = $date_of_retire2;
+    ////////////////////////////////////////////////////////////////////////
+        try {
+            $employee = Employee::where('id', '=', $employeeId)->first();
+            
+            if ($employee) {
+                $dob = $employee->date_of_birth;
+        
+                if ($dob) {
+                    $dob_ex = explode("-", $dob);
+                    $age_diff = date_diff(date_create($dob), date_create('today'))->y;
+                    $year_of_retire = 68 - $age_diff;
+                    
+                    if ($year_of_retire > 0) {
+                        $end = date('Y', strtotime('+' . $year_of_retire . 'years'));
+                        $date_of_retire = $end . "-" . $dob_ex[1] . "-" . $dob_ex[2];
+                        
+                        $d = new DateTime($date_of_retire);
+                        $date_of_retire2 = $d->format('F d, Y H:i:s');
+                        $this->data['date_of_retire2'] = $date_of_retire2;
+                    } else {
+                        $this->data['date_of_retire2'] = now()->format('F d, Y H:i:s');
+                    }
+                } else {
+                    // Handle the case where date_of_birth is null
+                    $this->data['date_of_retire2'] = "Date of birth is missing";
+                }
+            } else {
+                // Handle the case where the employee with the given ID is not found
+                $this->data['date_of_retire2'] = "Employee not found";
+            }
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur during date calculations
+            $this->data['date_of_retire2'] = "Error calculating retirement date: " . $e->getMessage();
         }
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        //     ->whereNot('status', 'pending')
      ///////////////////////////////////////////////////////////////
-        $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])
-        ->where('id', $employeeId)->get();
+    $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])
+     ->where('id', $employeeId)->get();
         if ($prob->isEmpty()) {
             $this->data['status'] = 'No';
            
@@ -1209,6 +1324,69 @@ class EmployeeCrudController extends CrudController
 
     }
 
+    public function uploadPhoto2(Request $request){
+        $request->validate(['image' => 'required',],
+        [
+            'image.required' => 'Please capture an image',
+        ]);
+        $img = $request->image;
+        $folderPath = "uploads/";
+        $image_parts = explode(";base64,", $img);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $fileName = uniqid() . '.png';
+        $file = $folderPath . $fileName;
+        Storage::put($file, $image_base64);
+        dd('Image uploaded successfully: '.$fileName);
+
+    }
+
+////////////////////////////////////////////////////////////////////
+public function uploadPhoto(Request $request)
+{
+    $base64Data = $request->file('image');
+    $decodedImage = base64_decode($base64Data);
+    $employeeId = $request->get('employeeId');
+    try {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        // Create the employee directory if it does not exist.
+        if (!Storage::disk('public')->exists('employee/photo')) {
+            Storage::disk('public')->makeDirectory('employee/photo');
+        }
+        $imagePath = Storage::disk('local')->put('employee/photo/' . $employeeId . '.jpg', $decodedImage);
+        // Update the employee's photo in the database.
+        $employee = Employee::find($employeeId);
+        $employee->photo = $imagePath;
+        $employee->update([
+            'photo'=>$imagePath
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Employee photo uploaded successfully.',
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Error uploading photo. ' . $e->getMessage(),
+        ]);
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////
+public function changeStatus(Request $request, $employeeId)
+{
+    $employee = Employee::find($employeeId);
+    $employee->status = $request->status;
+    $employee->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Employee status changed successfully.',
+    ]);
+}
+///////////////////////////////////////////////////////////////////////////////////////////
     public function getCalculateLeaveDaysForEmployee($employeeId)
 {
     $employee = Employee::find($employeeId);
@@ -1220,5 +1398,16 @@ class EmployeeCrudController extends CrudController
         return "Employee not found";
     }
 }
+
+// public function destroy(Request $request)
+// {
+//     $employee = Employee::find($request->id);
+//     if ($employee->isLocked()) {
+//         return redirect()->back()->with('error', 'The record is locked.');
+//     }
+//     $employee->delete();
+
+//     return redirect()->back()->with('success', 'The record has been deleted.');
+// }
 
 }

@@ -9,7 +9,7 @@ use App\Models\JobTitleCategory;
 use App\Models\MinimumRequirement;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Class RelatedWorkCrudController
  * @package App\Http\Controllers\Admin
@@ -31,7 +31,7 @@ class RelatedWorkCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\RelatedWork::class);
-        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = Route::current()->parameter('job_title_category');
         CRUD::setRoute(config('backpack.base.route_prefix').'/job-title-category/'.$jobTitleCategoryId . '/related-work');
         CRUD::setEntityNameStrings('related field', 'related fields');
     }
@@ -44,7 +44,7 @@ class RelatedWorkCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = Route::current()->parameter('job_title_category');
         $this->crud->setHeading('List of field of study in');
         $this->crud->setSubHeading(JobTitleCategory::find($jobTitleCategoryId)->name);
         CRUD::column('fieldOfStudy.name')->label("Field of study");
@@ -71,7 +71,7 @@ class RelatedWorkCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $jobTitleCategoryId = \Route::current()->parameter('job_title_category');
+        $jobTitleCategoryId = Route::current()->parameter('job_title_category');
         $breadcrumbs = [
             'Admin' => route('dashboard'),
             'Job Title Categories' => route('job-title-category.index'),

@@ -7,6 +7,7 @@ use App\Models\ExpiryDate;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 
 class IDController extends Controller
 {

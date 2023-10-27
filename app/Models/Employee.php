@@ -15,6 +15,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Exception;
 use Carbon\Carbon;
+use App\Models\InternalExperience;
+use App\Models\ExternalExperience;
 use Illuminate\Support\Facades\DB;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
@@ -29,27 +31,23 @@ use function PHPSTORM_META\map;
 class Employee extends  Model
 {
 
-    use  \Venturecraft\Revisionable\RevisionableTrait;
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    // use  \Venturecraft\Revisionable\RevisionableTrait;
+    // use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     use CrudTrait;
     use HasRoles;
+    use RevisionableTrait;
+
+    // use RevisionableTrait, CrudTrait, HasFactory, HasRoles;
+
+  
+
     public function identifiableName()
     {
         return $this->name;
     }
-
-
-
-    use RevisionableTrait;
-    protected $revisionEnabled = true; //If needed, you can disable the revisioning by setting $revisionEnabled to false in your Model.
-    // protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
-    // protected $historyLimit = 500;   //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
-    // protected $revisionForceDeleteEnabled = false; //If you want to store the Force Delete as a revision you can override this behavior by setting revisionForceDeleteEnabled to true
+    protected $revisionEnabled = true; 
     protected $appends = ['name'];
-
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -146,6 +144,13 @@ class Employee extends  Model
             Storage::disk('public_folder')->delete($obj->image);
         });
     }
+
+    public function isLocked()
+    {
+        return $this->is_locked;
+    }
+    
+    
     public function setDrivingLicenceAttribute($value)
     {
         $disk = "public";
@@ -282,10 +287,6 @@ class Employee extends  Model
         return Carbon::parse($this->attributes['date_of_birth'])->age;
         
     }
-
-
-   
-
     public function employeeCategory()
     {
         return $this->belongsTo(EmployeeCategory::class);
@@ -346,15 +347,6 @@ class Employee extends  Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
-
-    // public function internalExperiences(): HasMany
-    // {
-    //     return $this->hasMany(InternalExperience::class);
-    // }
-
-
-
     protected function firstName(): Attribute
     {
         return new Attribute(
@@ -368,6 +360,9 @@ class Employee extends  Model
             set: fn ($value) => strtoupper($value),
         );
     }
+
+
+
 
     protected function grandFatherName(): Attribute
     {

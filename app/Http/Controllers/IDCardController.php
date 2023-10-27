@@ -10,6 +10,7 @@ use App\Models\IdAttribute;
 use App\Models\IDSignatures;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Route;
 
 class IDCardController extends Controller
 {
