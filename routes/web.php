@@ -104,8 +104,6 @@ Route::get( '/hierarchy',
 
 //$org = Unit::where('parent_unit_id')->where('is_active', true)->latest()->get();
 Route::post('employee/placement_round/{placement_round}/choice/store',[EmployeeController::class,'choiceStore'])->name('employee.placement_choice.store');
-
-
 Route::get('employee-form', function(){
 
     return response()->file(public_path('/employData/employee_detail.xlsx'));

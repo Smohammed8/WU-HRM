@@ -79,7 +79,7 @@ return [
             'tabsType' => 'horizontal', //options: horizontal, vertical
 
             // How would you like the validation errors to be shown?
-            'groupedErrors' => true,
+            'groupedErrors' => false, // Removed goup erros show in red color, changed by seid
             'inlineErrors'  => true,
 
             // when the page loads, put the cursor on the first input?
@@ -115,7 +115,7 @@ return [
             'tabsType' => 'horizontal', //options: horizontal, vertical
 
             // How would you like the validation errors to be shown?
-            'groupedErrors' => true,
+            'groupedErrors' => false, // Show all errors on above in read color
             'inlineErrors'  => true,
 
             // when the page loads, put the cursor on the first input?
