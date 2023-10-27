@@ -93,13 +93,17 @@ class EmployeesExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Job Code',
             'Job Level',
             'Gross Salary',
+
             'First Internal Experience Start Date',
             'Last Internal Experience End Date',
+
             'Internal Experience in Years',
             'Internal Experience in Months',
             'Internal Experience in Days',
-            'First Internal External Start Date',
+
+            'First External External Start Date',
             'Last External Experience End Date',
+            
             'External Experience Years',
             'External Experience Months',
             'External Experience Days',

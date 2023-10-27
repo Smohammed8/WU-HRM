@@ -518,7 +518,11 @@ class EmployeeCrudController extends CrudController
 
             DB::raw('(SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as first_internal_external_start_date'),
             DB::raw('(SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as last_external_experience_end_date'),
+
+            
             DB::raw('(TIMESTAMPDIFF(YEAR, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_years'),
+
+            
             DB::raw('(TIMESTAMPDIFF(MONTH, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_months'),
             DB::raw('(TIMESTAMPDIFF(DAY, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_days')
             )

@@ -17,7 +17,6 @@ class Unit extends Model
     use RevisionableTrait;
     use CrudTrait;
     use HasFactory;
-
     use CrudTrait;
     use HasRoles;
 
@@ -85,6 +84,10 @@ class Unit extends Model
     public function seal()
     {
         return $this->belongsTo(UploadFile::class);
+    }
+    public function getIsActiveAttribute()
+    {
+        return $this->attributes['is_active'] ? '1' : '0';
     }
 
     public function teter()
@@ -175,4 +178,6 @@ class Unit extends Model
 
         return $this->hasMany(Self::class, 'parent_unit_id', 'id');
     }
+
+  
 }
