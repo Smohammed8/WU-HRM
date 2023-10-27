@@ -35,10 +35,10 @@
 
 
                                     @foreach($orgs as $unit)
-
-                                        <li  class="closed">
-
-                                             @if ($unit->parent_unit_id == null)
+                                 
+                                    <li  class="closed">
+                                    
+                                    @if ($unit->parent_unit_id == null)
                                           <div class="card border-primary mb-3 " style="max-width: 20rem; border-radius:1%; border-top-color: #0067b8; border-top-width:1px;   border-bottom-color: #0067b8; border-bottom-width:1px; border-right-color: #0067b8; border-right-width:1px; border-left-color: #0067b8; border-left-width:3px;">
                                           <div class="card-header">  <i class="fa fa-sitemap"> </i><strong title="Click box to view full stracture"> {{ $unit->name }}   </strong>  </div>
             
@@ -48,7 +48,9 @@
 
 
                                               @else
+                                              @if($unit->is_active ==1) 
                                               {{ $unit->name }}
+                                               @endif
                                               @endif 
 
                                             @if(count($unit->childs))
@@ -56,9 +58,9 @@
                                                 @include('manageChild',['childs' => $unit->childs ?? ''])
 
                                             @endif
-
+                                           
                                         </li>
-
+                                
                                     @endforeach
 
                                 </ul>

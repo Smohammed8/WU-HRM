@@ -64,7 +64,8 @@ class Unit extends Model
         'chair_man_type_id',
         'level',
         'subordinate',
-        'hr_branch_id'
+        'hr_branch_id',
+        'is_active'
     ];
 
     /**
@@ -174,5 +175,10 @@ class Unit extends Model
     {
 
         return $this->hasMany(Self::class, 'parent_unit_id', 'id');
+    }
+
+    public function getIsActiveAttribute()
+    {
+        return $this->attributes['is_active'] ? 'Yes' : 'No';
     }
 }
