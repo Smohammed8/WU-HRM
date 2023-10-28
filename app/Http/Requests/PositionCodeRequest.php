@@ -26,7 +26,7 @@ class PositionCodeRequest extends FormRequest
     {
         return [
             'code'=>'required',
-            'old_job_code'=>'nullable'
+            'old_job_code'=>'nullable',
         ];
     }
 

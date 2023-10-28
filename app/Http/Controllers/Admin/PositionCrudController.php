@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants;
 use App\Http\Requests\PositionRequest;
+use App\Models\CollegePositionCode;
 use App\Models\JobTitle;
+use App\Models\Unit;
 use App\Models\MinimumRequirement;
 use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -166,7 +168,7 @@ class PositionCrudController extends CrudController
             'type'  => 'select2',
             'label' => 'Filter by organizational unit'
         ], function () {
-            return \App\Models\Unit::all()->pluck('name', 'id')->toArray();
+            return Unit::all()->pluck('name', 'id')->toArray();
         }, function ($value) {
             $this->crud->addClause('where', 'unit_id', $value);
         });
@@ -189,6 +191,8 @@ class PositionCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
+
+
 
     /**
      * Define what happens when the Create operation is loaded.
@@ -231,6 +235,7 @@ class PositionCrudController extends CrudController
         // unset($data['total_employees']);
         $item = $this->crud->create($data);
         $this->data['entry'] = $this->crud->entry = $item;
+
         $counter = $jobCodeStartingNumber;
         for($currentCodeNumber = $jobCodeStartingNumber; $currentCodeNumber < $jobCodeStartingNumber+$data['total_employees'];) {
             $code = $jobCodePrefix.$counter;
@@ -265,8 +270,17 @@ class PositionCrudController extends CrudController
 
     protected function setupShowOperation()
     {
-
+        $position_id = $this->crud->getCurrentEntryId();
+      
         $minimumRequirements = MinimumRequirement::where('position_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['minimumRequirements'] = $minimumRequirements;
+        
+        $positionCodes = PositionCode::where('position_id',  $position_id)->orderBy('id', 'desc')->Paginate(10);
+        $this->data['positionCodes'] = $positionCodes;
+
+        $prefixes = CollegePositionCode::all();
+        $this->data['prefixes'] = $prefixes;
     }
 }
+
+
