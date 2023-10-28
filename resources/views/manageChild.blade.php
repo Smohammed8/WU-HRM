@@ -3,6 +3,7 @@
 @foreach($childs  as $child)
 
 	<li>
+	
 
 	
 		@if($child->subordinate == true)
@@ -19,12 +20,16 @@
 		@else
 		<i class="fa fa-plus"> </i>  
 		@endif
-		{{ $child->name}}  <br> 
+	
+		{{ $child->name}} 
+	
+		 <br> 
 	
 	   @if(count($child->childs))
 
-        @include('manageChild',['childs' => $child->childs])
 
+        @include('manageChild',['childs' => $child->childs])
+		
 		{{-- @foreach($child->positions as $position)
 
 		@if(count($child->positions ))
@@ -46,8 +51,8 @@
 
 		@endforeach --}}
 
-        @endif
-
+     
+		@endif
 	</li>
 
 @endforeach

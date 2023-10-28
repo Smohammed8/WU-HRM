@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PositionCodeRequest;
+use App\Models\CollegePositionCode;
 use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
 use Illuminate\Support\Facades\Route;
@@ -86,34 +88,36 @@ class PositionCodeCrudController extends CrudController
          */
     }
 
+
     public function store()
     {
-        // $this->crud->hasAccessOrFail('create');
-
-        // execute the FormRequest authorization and validation, if one is required
-        $request = $this->crud->validateRequest();
-
-        // insert item in the db
-        $data = $this->crud->getStrippedSaveRequest();
-        $position_id= Route::current()->parameter('position_id');
        
-        if(PositionCode::where('code', request()->code)->count()>0){
-            throw ValidationException::withMessages(['code' => 'Duplicate position code found!']);
+        $this->crud->hasAccessOrFail('create');
+       
+       // $this->crud->validateRequest(); 
+        $this->crud->getRequest();
+        $jobCodePrefix =  request()->job_code_prefix;
+        $jobCodeStartingNumber = request()->job_code_starting_number;
+        $position_id = request()->position_id;
+        $total = request()->total_codes;
+        
+        if(PositionCode::where('code', $jobCodePrefix.$jobCodeStartingNumber)->exists()){
+            throw ValidationException::withMessages(['code' => 'Duplicate position code found']);
+          
         }
-
-        if(PositionCode::where('code',request()->code)->count()==0){
-            PositionCode::firstOrCreate(['code'=>request()->code],['position_id'=>request()->position_id,'code'=>request()->code]);
-        }
-        $item = $this->crud->create($data);
-        $this->data['entry'] = $this->crud->entry = $item;
-
-        // show a success message
+        $counter = $jobCodeStartingNumber;
+       for($i = $jobCodeStartingNumber; $i < $jobCodeStartingNumber + $total;) {
+            $code = $jobCodePrefix.$counter;
+            $counter++;
+            if (!PositionCode::where('code', $code)->exists()) {
+                $i++;
+                PositionCode::firstOrCreate(['code' => $code], ['position_id' =>$position_id, 'code' => $code]);
+            }
+          
+       }
         Alert::success(trans('backpack::crud.insert_success'))->flash();
-        return redirect()->back();
-        // save the redirect choice for next time
         $this->crud->setSaveAction();
-
-        return $this->crud->performSaveAction($item->getKey());
+        return redirect()->back();
     }
 
     /**
@@ -127,7 +131,11 @@ class PositionCodeCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-
+    protected function setupShowOperation()
+    {
+        $prefixes = CollegePositionCode::all();
+        $this->data['prefixes'] = $prefixes;
+    }
 
     public function update()
     {
@@ -146,11 +154,11 @@ class PositionCodeCrudController extends CrudController
 
         // show a success message
         Alert::success(trans('backpack::crud.update_success'))->flash();
-
-        // save the redirect choice for next time
-        // $this->crud->setSaveAction();
+         $this->crud->setSaveAction();
         return redirect()->back();
 
-        return $this->crud->performSaveAction($item->getKey());
+        //return $this->crud->performSaveAction($item->getKey());
     }
 }
+
+

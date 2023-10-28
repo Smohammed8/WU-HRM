@@ -76,4 +76,10 @@ class PositionCode extends Model
     {
         return $this->belongsTo(Position::class);
     }
+
+    public function getFreePositions()
+    {
+        return PositionCode::where('position_id', $this->attributes['id'])->where('employee_id',null)->count();
+    }
+
 }

@@ -45,14 +45,13 @@ return [
         // 'packages/backpack/base/css/blue-bundle.css', // has primary color blue
 
         // Here's what's inside the bundle:
-        // 'packages/@digitallyhappy/backstrap/css/style.min.css',
-        // 'packages/animate.css/animate.min.css',
-        // 'packages/noty/noty.css',
-
-        // Load the fonts separately (so that you can replace them at will):
-        //Here is one
+         'packages/@digitallyhappy/backstrap/css/style.min.css',
+         //////////////////////////////////////////////
+         'packages/animate.css/animate.min.css',
+         'packages/noty/noty.css',
+        /////////////////////////////////////////////////
+       
         'nassets/css/fontawesome/all.min.css',
-
         // 'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
         'packages/source-sans-pro/source-sans-pro.css',
         'packages/line-awesome/css/line-awesome.min.css',
@@ -60,6 +59,7 @@ return [
         'nassets/css/adminlte.min.css',
         'nassets/css/abdi.css',
         'assets/calendar/css/redmond.calendars.picker.css',
+       // 'assets/toastr/toastr.min.css',
 
 
         // Example (the fonts above, loaded from CDN instead)
@@ -130,7 +130,7 @@ return [
     // JS files that are loaded in all pages, using Laravel's asset() helper
     'scripts' => [
         // Backstrap includes jQuery, Bootstrap, CoreUI, PNotify, Popper
-        'https://canvasjs.com/assets/script/canvasjs.min.js',
+     
         'packages/backpack/base/js/bundle.js',
         'assets/calendar/js/jquery.plugin.js',
         'assets/calendar/js/jquery.calendars.js',
@@ -141,6 +141,8 @@ return [
         'assets/calendar/js/jquery.calendars.picker-am.js',
         'assets/calendar/custom/script.js',
         'assets/js/canvasjs.min.js',
+        'https://canvasjs.com/assets/script/canvasjs.min.js',
+        //'assets/toastr/toastr.min.js',
 
         // examples (everything inside the bundle, loaded from CDN)
         // 'https://code.jquery.com/jquery-3.4.1.min.js',

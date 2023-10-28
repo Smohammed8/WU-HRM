@@ -25,13 +25,13 @@ class EmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name'=>'required',
-            'father_name'=>'required',
-            'grand_father_name' => 'required',
-
-            'first_name_am' => 'required',
-            'father_name_am' => 'required',
-            'grand_father_name_am' => 'required',
+            'first_name' => 'required|min:3|max:30|alpha',
+            'father_name' => 'required|min:3|max:30|alpha',
+            'grand_father_name' => 'required|min:3|max:30|alpha',
+        
+            'first_name_am' => 'required|min:2|max:30',
+            'father_name_am' => 'required|min:2|max:30',
+            'grand_father_name_am' => 'required|min:2|max:30',
         
             'gender'=>'required',
             'date_of_birth' =>'required',
@@ -104,10 +104,11 @@ class EmployeeRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    
+      public function messages()
     {
         return [
-            //
+           
         ];
     }
 }
