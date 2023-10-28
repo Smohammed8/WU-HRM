@@ -187,16 +187,13 @@
                         @endforeach
                     </tbody>
                 </table>
-
-                <div class="m-auto float-right">
-                    {{ $positionCodes->links() }}
-
-
-                </div>
-
+            </div>
+            <div class="m-auto float-right" id="pagi">
+                {{ $positionCodes->links() }}
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" data-backdrop="false" id="position_code_edit" tabindex="-1" role="dialog"
         aria-labelledby="position_code_edit" aria-hidden="true">

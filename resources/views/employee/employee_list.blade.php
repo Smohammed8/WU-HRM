@@ -770,11 +770,11 @@
                         </tbody>
 
                     </table>
-                    <div class="m-auto float-right">
-                        {{ $employees->links() }}
+                  
+                </div>
+                <div class="m-auto float-right">
+                    {{ $employees->links() }}
 
-
-                    </div>
                 </div>
                 <!-- /.container-fluid -->
 
