@@ -113,6 +113,7 @@ class PositionCodeCrudController extends CrudController
             return redirect()->back()->withErrors(['job_code_starting_number' => 'Duplicated position code found!','job_code_prefix'=>'Duplicated position code found!']);
         }}
 
+        
         $counter = $jobCodeStartingNumber;
        for($i = $jobCodeStartingNumber; $i < $jobCodeStartingNumber + $total;) {
             $code = $jobCodePrefix.$counter;
