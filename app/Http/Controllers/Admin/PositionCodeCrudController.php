@@ -100,20 +100,33 @@ class PositionCodeCrudController extends CrudController
         $jobCodeStartingNumber = request()->job_code_starting_number;
         $position_id = request()->position_id;
         $total = request()->total_codes;
-        
-        if(PositionCode::where('code', $jobCodePrefix.$jobCodeStartingNumber)->exists()){
-            throw ValidationException::withMessages(['code' => 'Duplicate position code found']);
-          
+
+        if($total < 1 ){
+                throw ValidationException::withMessages(['total_codes' => 'No of position should be at leeast one!']);
+            }
+        if($total > 700 ){
+                throw ValidationException::withMessages(['total_codes' => 'Not permitted more than 700 at once!']);
         }
+
+        if($total==1){
+        if(PositionCode::where('code', $jobCodePrefix.$jobCodeStartingNumber)->count() >0){
+            return redirect()->back()->withErrors(['job_code_starting_number' => 'Duplicated position code found!','job_code_prefix'=>'Duplicated position code found!']);
+        }}
+
+        
         $counter = $jobCodeStartingNumber;
        for($i = $jobCodeStartingNumber; $i < $jobCodeStartingNumber + $total;) {
             $code = $jobCodePrefix.$counter;
             $counter++;
-            if (!PositionCode::where('code', $code)->exists()) {
+            if (PositionCode::where('code', $code)->count()==0) {
                 $i++;
                 PositionCode::firstOrCreate(['code' => $code], ['position_id' =>$position_id, 'code' => $code]);
             }
-          
+           else {
+               
+                throw ValidationException::withMessages(['job_code_starting_number' => $jobCodePrefix.$i.' has been taken!']);
+                break;
+            }
        }
         Alert::success(trans('backpack::crud.insert_success'))->flash();
         $this->crud->setSaveAction();

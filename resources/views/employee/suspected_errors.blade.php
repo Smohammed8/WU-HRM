@@ -140,12 +140,12 @@
                             </tbody>
     
                         </table>
-                        <div class="m-auto float-right">
-                            {{ $employees_employeds->links() }}
-    
-    
-                        </div>
+                       
                         
+                    </div>
+                    <div class="m-auto float-right">
+                        {{ $employees_employeds->links() }}
+
                     </div>
                 </div>
             </div>
@@ -243,11 +243,11 @@
                                 </tbody>
         
                             </table>
-                            <div class="m-auto float-right">
-                                {{ $employees->links() }}
-        
-        
-                            </div>
+                          
+                        </div>
+                        <div class="m-auto float-right">
+                            {{ $employees->links() }}
+    
                         </div>
                     </div>
                 </div>
@@ -337,14 +337,15 @@
     
                         </table>
 
-                        @foreach ($employee_ages as $employee)
-                        @if($employee->date_of_birth != null)
-                        <div class="m-auto float-right">
-                            {{ $employee_ages->links() }}
-                        </div>
-                        @endif
-                        @endforeach
+                   
                     </div>
+                    @foreach ($employee_ages as $employee)
+                    @if($employee->date_of_birth != null)
+                    <div class="m-auto float-right">
+                        {{ $employee_ages->links() }}
+                    </div>
+                    @endif
+                    @endforeach
                 </div>
             </div>
 
@@ -430,12 +431,13 @@
                             </tbody>
     
                         </table>
-                        {{-- <div class="m-auto float-right">
+                       
+                    </div>
+                     {{-- <div class="m-auto float-right">
                             {{ $employees_phone->links() }}
     
     
                         </div> --}}
-                    </div>
                 </div>
             </div>
 
@@ -514,12 +516,10 @@
                             </tbody>
     
                         </table>
+                    </div>
+                    <div class="m-auto float-right">
+                        {{ $employees_internal->links() }}
 
-                          <div class="m-auto float-right">
-                            {{ $employees_internal->links() }}
-    
-    
-                        </div>
 
                     </div>
                 </div>
@@ -604,11 +604,11 @@
                             </tbody>
     
                         </table>
-                        <div class="m-auto float-right">
-                            {{ $employees_external->links() }}
-    
-    
-                        </div>
+                    </div>
+                    <div class="m-auto float-right">
+                        {{ $employees_external->links() }}
+
+
                     </div>
                 </div>
             </div>

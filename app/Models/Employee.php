@@ -503,6 +503,12 @@ class Employee extends  Model
         return $this->hasMany(Evaluation::class, 'employee_id', 'id');
     }
 
+    public function employeeEducations(): HasMany
+    {
+        return $this->hasMany(EmployeeEducation::class, 'employee_id', 'id');
+    }
+
+
 
     public function families(): HasMany
     {

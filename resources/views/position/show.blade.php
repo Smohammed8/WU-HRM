@@ -88,12 +88,12 @@
                     class="la la-angle-down"></i></button>
         </div>
         <div class="card-body">
-            <div class="row @if($errors->has('new')==null) collapse @endif" id="newJobCodeCollapse">
+            <div class="row @if($errors->has('job_code_starting_number')==null) collapse @endif" id="newJobCodeCollapse">
                 <form method="POST" action="{{ route('position/{position}/position-code.store', ['position'=>$crud->getCurrentEntry()->id]) }}" class="row col-md-12">
                     @csrf
                     <input type="hidden" name="position_id" value="{{ $crud->getCurrentEntry()->id }}">
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label for=""> Prefix </label>
                 
                         <select name="job_code_prefix" class="form-control" required>
@@ -121,14 +121,14 @@
              
                     <div class="form-group col-md-4">
                         <label for="">Total Positions</label>
-                        <input type="number" min="1"  name="total_codes" class="form-control" id="" required>
+                        <input type="number" min="1"  max="700" name="total_codes" class="form-control" id="" required>
                         @error('total_codes')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div> 
 
                     <div class="col-md-12">
-                        <input type="submit" value="Add Job Code" class="float-right btn btn-primary">
+                        <input type="submit" value="Create New Position" class="float-right btn btn-sm btn-primary">
                     </div>
                 </form>
             </div>
@@ -187,16 +187,13 @@
                         @endforeach
                     </tbody>
                 </table>
-
-                <div class="m-auto float-right">
-                    {{ $positionCodes->links() }}
-
-
-                </div>
-
+            </div>
+            <div class="m-auto float-right" id="pagi">
+                {{ $positionCodes->links() }}
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" data-backdrop="false" id="position_code_edit" tabindex="-1" role="dialog"
         aria-labelledby="position_code_edit" aria-hidden="true">

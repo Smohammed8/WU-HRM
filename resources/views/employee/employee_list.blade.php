@@ -741,9 +741,6 @@
                                         </label>
                                     </td>
                             @endif
-
-
-
                             <td> {{ $employee->positionCode?->code ?? ('-' ?? '-') }}</td>
                             <td>
                                 <a href="{{ route('employee.edit', ['id' => $employee->id]) }}" title="Edit"
@@ -754,11 +751,7 @@
                                     class="btn  btn-sm btn-outline-primary float-right mr-1">
                                     <i class="fa fa-user-tie"> </i>
                                 </a>
-
-
-
                             </td>
-
                             </tr>
                             @endforeach
                             @if (count($employees) == 0)
@@ -770,25 +763,15 @@
                         </tbody>
 
                     </table>
-                    <div class="m-auto float-right">
-                        {{ $employees->links() }}
-
-
-                    </div>
+                  
+                </div>
+                <div class="m-auto float-right">
+                    {{ $employees->links() }}
                 </div>
                 <!-- /.container-fluid -->
-
                 <!-- /.content -->
-
-
-
             </div>
             <hr>
-
-      
-
-
-
         </div>
     @endcan
 
