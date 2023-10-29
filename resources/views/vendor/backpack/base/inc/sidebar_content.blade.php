@@ -17,9 +17,11 @@
 @endcan
 
 @can('employee.home')
+@if(Auth::user()->employee)
 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-user-tie nav-icon"></i>
     My Profile </a>
 </li>
+@endif
 @endcan
 <style>
 #dash {

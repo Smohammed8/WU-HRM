@@ -28,28 +28,19 @@ class EmployeeController extends Controller
 
     public function home()
     {
-      // dd('Hi');
-        
-    //   if ((!backpack_user()->can('employee.home') && backpack_user()->can('dashboard.content')) || backpack_user()->hasRole(Constants::USER_TYPE_SUPER_ADMIN)) {
-    //         return redirect(route('dashboard'));
-    //     }
-
-    //     if (!Auth::user()->can('employee.home')) {
-    //         return abort(401);
-    //     }
         //$user = Auth::user();
         $user =  backpack_user();
-        //dd( $user );
-       // $employee = Employee::where('user_id', $user->username)->get();
+        //dd($user->employee->id);
         $employee = Employee::where('user_id', $user->id)->get();
 
-     
-        if ($employee->count() == 0 && backpack_user()->hasRole('employee')) {
+        if($user->employee == null){
             Auth::logout();
-            return abort(401, 'Please you have no employee profile contact admin');
+            return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }
         if ($employee->count() == 0 && !backpack_user()->hasRole('employee')) {
-            return redirect()->back();
+
+            Auth::logout();
+            return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }
         $employee = $employee->first();
         $mark = Evaluation::select('total_mark')->where('employee_id', '=',$employee->id)->get()->first()?->total_mark;
