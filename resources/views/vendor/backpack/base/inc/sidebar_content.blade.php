@@ -16,6 +16,12 @@
 </li>
 @endcan
 
+
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('application') }}'> <i
+    class='nav-icon la la-caret-right'></i> Applications</a></li>
+
+
 @can('employee.home')
 @if(Auth::user()->employee)
 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-user-tie nav-icon"></i>
@@ -98,6 +104,12 @@ color:black;
             <i class='nav-icon la la-caret-right'></i> 
                 <span>All Employees</span></a></li>
     @endcanany
+
+    @canany(['application.index', 'application.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('application') }}'>  <i
+        class='nav-icon la la-caret-right'></i> Active Applications </a></li>
+    @endcanany
+
     @canany('contract.employee.index')
         <li class="nav-item"><a class="nav-link" href="#">
             <i class='nav-icon la la-caret-right'></i> 
@@ -196,7 +208,10 @@ color:black;
     @canany(['certification_type.index', 'certification_type.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('certification-type') }}'><i class='nav-icon la la-caret-right'></i> Certification type </a></li>
     @endcanany
-    
+    @canany(['application_type.index', 'application_type.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('application-type') }}'>  <i
+        class='nav-icon la la-caret-right'></i> Application types</a></li>
+    @endcanany
     @canany(['education_level.index', 'education_level.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('educational-level') }}'><i
                 class='nav-icon la la-caret-right'></i> Educational level</a></li>

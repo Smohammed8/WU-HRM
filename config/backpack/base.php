@@ -141,7 +141,7 @@ return [
         'assets/calendar/js/jquery.calendars.picker-am.js',
         'assets/calendar/custom/script.js',
         'assets/js/canvasjs.min.js',
-        'https://canvasjs.com/assets/script/canvasjs.min.js',
+        //'https://canvasjs.com/assets/script/canvasjs.min.js',
         //'assets/toastr/toastr.min.js',
 
         // examples (everything inside the bundle, loaded from CDN)

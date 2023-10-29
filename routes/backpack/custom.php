@@ -149,4 +149,7 @@ Route::group([
     Route::crud('employee-education', 'EmployeeEducationCrudController');
 
    
+    Route::crud('application', 'ApplicationCrudController');
+    Route::crud('application-type', 'ApplicationTypeCrudController');
+    Route::crud('employee-letter', 'EmployeeLetterCrudController');
 });
