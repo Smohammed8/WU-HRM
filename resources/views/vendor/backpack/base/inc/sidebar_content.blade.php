@@ -17,11 +17,6 @@
 @endcan
 
 
-
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('application') }}'> <i
-    class='nav-icon la la-caret-right'></i> Applications</a></li>
-
-
 @can('employee.home')
 @if(Auth::user()->employee)
 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-user-tie nav-icon"></i>

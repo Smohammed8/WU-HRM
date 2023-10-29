@@ -25,7 +25,8 @@ class ApplicationTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|regex:/^[a-z A-Z]+$/u|min:5|max:50',
+            'description' => 'nullable|regex:/^[a-z A-Z]+$/u|min:5|max:50',
         ];
     }
 

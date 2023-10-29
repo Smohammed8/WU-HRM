@@ -80,9 +80,14 @@
   color: #000;
 }
 </style>
-
+<style>
+    .m-auto float-right{
+        border-bottom: 3px double;
+    }
+</style>
 @section('content')
 <hr>
+<span  class="m-auto float-right"> WELCOME:- {{ Auth::user()->employee->name }} &nbsp; <a class="badge badge badge-info" style="font-size:14px;" href="/logout" class="">Logout</a></span><br>
 <div id="accordion" >
     <div class="card mb-0" style="border-radius:1%; border-left-color: #0067b8 !important; border-left-width:2px;">
       <div class="card-header" id="headingOne">
@@ -464,6 +469,7 @@
                         </tbody>
                     </table>
                     <hr>
+
                     <h6 class="card-title">3) Internal Experience </h6>
                     <table class="table table-bordered table-hover table-responsive-sm">
                         <thead class="thead-light">
@@ -497,6 +503,9 @@
                 </table>
                 <hr>
                 <h6 class="card-title"> 4) External Experience </h6>
+
+              
+                
                 <table class="table table-bordered table-hover table-responsive-sm">
                     <thead class="thead-light">
                     <tr>
@@ -555,13 +564,59 @@
           <h5 class="mb-0">
               <i class="fa fa-envelope"> </i>
             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          <strong> Applications </strong>
+          <strong> Miscellaneous Applications </strong>
             </button>
           </h5>
         </div>
         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
           <div class="card-body">
-        -
+    
+            <h6 class="card-title"> Application History </h6>
+            <div class="">
+
+                @canany(['application.icrud', 'application.create'])
+                    <a href="" class="btn btn-outline-primary btn-sm float-right mb-1">
+                        <i class="fa fa-plus"></i> Send </a>
+                @endcanany
+            </div>
+            <table class="table table-bordered table-hover table-responsive-sm">
+                <thead class="thead-light">
+                <tr>
+                    <th>Employee </th>
+                    <th> Request</th>
+                    <th> Status </th>
+                    <th>Date of submitted </th>
+                    <th> File </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (Auth::user()->applications as $application)
+                    <tr>
+                        <td>{{ $application->user->employee->name }}</td>
+                        <td>{{ $application->applicationType->name }}</td>
+                        <td>{{ $application->status ?? '-' }}</td>
+                        <td>  {{ $application->created_at }} E.C</td>
+                        <td> 
+                            @if( $application->status== 1)
+                            <a href="#"> <span class="fa fa-download"> Download</span> </a>
+                        
+                        @else
+                        -
+                        @endif 
+                        </td>
+                    
+                    </tr>
+                @endforeach
+                @if (Auth::user()->applications->count() == 0)
+                    <tr>
+                        <td colspan="6" class="text-left" style="color:red;"> No application found!</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+        <hr>
+
           </div>
         </div>
       </div>
@@ -572,7 +627,7 @@
     @if ($placementRound != null)
         <div class="row">
             <div class="card col-md-12 mb-2"
-                style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+                style="border-radius:0%; border-top-color:  #0067b8 !important; border-top-width:2px;">
                 <div class="card-body">
                     <h4> Select 2 position of your choice </h4>
                     <div>
@@ -637,8 +692,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary ml-2">Add Position</button>
+                            <div class="col-md-12">
+                                <button class="btn btn-outline-primary btn-sm float-right mb-1">Save Choice</button>
                             </div>
                         </form>
                     </div>
