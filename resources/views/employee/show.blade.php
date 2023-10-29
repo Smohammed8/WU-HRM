@@ -229,32 +229,7 @@
         @endcan
     </script>
 
-    <script>
-        // const camera = document.getElementById('camera');
-        // const captureButton = document.getElementById('capture');
-        // const photoCanvas = document.getElementById('photo').getContext('2d');
-        // const entryId = captureButton.getAttribute('data-entry-id');
-        // captureButton.addEventListener('click', () => {
-        //     Webcam.snap(data_uri => {
-        //       axios.post('/uploadPhoto', { image: data_uri, employeeId: entryId })
-        //         .then(response => {
-        //           // Handle the response from the server
-        //           if (response.data.success) {
-        //             successMessage.innerText = "Image uploaded successfully!";
-        //             errorMessage.innerText = ""; // Clear any previous error message
-        //           } else {
-        //             errorMessage.innerText = "Image upload failed. Please try again.";
-        //             successMessage.innerText = ""; // Clear any previous success message
-        //           }
-        //         })
-        //         .catch(error => {
-        //           // Handle errors
-        //           errorMessage.innerText = "An error occurred while uploading the image. Please try again.";
-        //           successMessage.innerText = ""; // Clear any previous success message
-        //         });
-        //     });
-        //   });
-    </script>
+
 
 @endsection
 

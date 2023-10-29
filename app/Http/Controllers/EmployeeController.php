@@ -11,6 +11,8 @@ use App\Models\EducationalLevel;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
+use App\Models\Evaluation;
+use App\Models\JobGrade;
 use App\Models\PlacementChoice;
 use App\Models\PlacementRound;
 use App\Models\Position;
@@ -26,17 +28,22 @@ class EmployeeController extends Controller
 
     public function home()
     {
-      //  dd('Hi');
-        if ((!backpack_user()->can('employee.home') && backpack_user()->can('dashboard.content')) || backpack_user()->hasRole(Constants::USER_TYPE_SUPER_ADMIN)) {
-            return redirect(route('dashboard'));
-        }
+      // dd('Hi');
+        
+    //   if ((!backpack_user()->can('employee.home') && backpack_user()->can('dashboard.content')) || backpack_user()->hasRole(Constants::USER_TYPE_SUPER_ADMIN)) {
+    //         return redirect(route('dashboard'));
+    //     }
 
-        if (!Auth::user()->can('employee.home')) {
-            return abort(401);
-        }
-        $user = Auth::user();
+    //     if (!Auth::user()->can('employee.home')) {
+    //         return abort(401);
+    //     }
+        //$user = Auth::user();
+        $user =  backpack_user();
+        //dd( $user );
        // $employee = Employee::where('user_id', $user->username)->get();
         $employee = Employee::where('user_id', $user->id)->get();
+
+     
         if ($employee->count() == 0 && backpack_user()->hasRole('employee')) {
             Auth::logout();
             return abort(401, 'Please you have no employee profile contact admin');
@@ -45,6 +52,50 @@ class EmployeeController extends Controller
             return redirect()->back();
         }
         $employee = $employee->first();
+        $mark = Evaluation::select('total_mark')->where('employee_id', '=',$employee->id)->get()->first()?->total_mark;
+      
+        $level  =    Employee::where('id',$employee->id)->first()?->position?->jobTitle?->level_id;
+        $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
+        $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
+        $step  =    Employee::where('id',  $employee->id)->first()?->horizontal_level;
+      //////////////////// Warining: Don't change this code  //////////////////////////////////////
+      if($step =='Start'){
+        $startSalary = JobGrade::getSalarySheet($level_id, 'start_salary');
+      }
+      elseif($step =='1'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'one');
+      }
+      elseif($step =='2'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'two');
+      }
+      elseif($step =='3'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'three');
+      }
+      elseif($step =='4'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'four');
+      }
+      elseif($step =='5'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'five');
+      }
+      elseif($step =='6'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'six');
+      }
+      elseif($step =='7'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'seven');
+      }
+      elseif($step =='8'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'eight');
+      }
+      elseif($step =='9'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'nine');
+      }
+      elseif($step =='Ceil'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'ceil_salary');
+      }
+      else{
+          $startSalar = JobGrade::getSalarySheet($level_id, 'start_salary');
+      }
+
         $employee->totalExperiences();
         // $positions = Position::all();
         $placementRound = PlacementRound::where('is_open', true)->first();
@@ -60,7 +111,7 @@ class EmployeeController extends Controller
             }
         }
         $placementChoice = PlacementChoice::where('employee_id',$employee->id)->where('placement_round_id',$placementRound->id)->first();
-        return view('home', compact('user', 'employee', 'positions', 'placementRound','placementChoice'));
+        return view('home', compact('user', 'employee','startSalary','mark','positions', 'placementRound','placementChoice'));
     }
 
     public function choiceStore(Request $request, PlacementRound $placementRound)
