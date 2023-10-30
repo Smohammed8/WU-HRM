@@ -40,11 +40,18 @@ Route::get('/', function () {
     if (!backpack_user()) {
         return redirect('logout');
     }
-    if (!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
-        return redirect(route('dashboard'));
+    // if (!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
+    //     return redirect(route('dashboard'));
+        
+    // }
+    // return redirect(route('home'));
+    if (backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
+     
+        return redirect(route('home'));  
     }
-    dd('sd');
-    return redirect(route('home'));
+    return redirect(route('dashboard'));
+    
+
 });
 
 Route::redirect('/admin/login', '/home');
@@ -81,23 +88,22 @@ Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('exp
 
 
 // Route::get('webcam', [EmployeeCrudController::class, 'index']);
-// Route::post('webcam', [EmployeeCrudController::class, 'uploadPhoto2'])->name('webcam.capture');
+Route::post('webcam', [EmployeeCrudController::class, 'uploadPhoto'])->name('webcam.capture');
 
 // Route::get('/result', [PlacementChoiceController::class, 'index']);
- //Route::get('/result',[PlacementChoiceController::class,'result'])->name('result');
+ //Route::get('/resultP',[PlacementChoiceController::class,'result'])->name('result');
 Route::get('/calculate', [EmployeeController::class, 'calculate'])->middleware('auth');
 Route::resource('employeeEvaluation', EmployeeEvaluationCrudController::class)->middleware('auth');
 // Route::resource('leave', LeaveCrudController::class);
 Route::get( '/hierarchy',
     function () {
-        $org = Unit::where('parent_unit_id')->latest()->get();
-        return view('unit.tree', ['orgs' => $org]);
+    $org = Unit::where('parent_unit_id')->latest()->get();
+    return view('unit.tree', ['orgs' => $org]);
     }
 )->name('hierarchy')->middleware('auth');
 
+//$org = Unit::where('parent_unit_id')->where('is_active', true)->latest()->get();
 Route::post('employee/placement_round/{placement_round}/choice/store',[EmployeeController::class,'choiceStore'])->name('employee.placement_choice.store');
-
-
 Route::get('employee-form', function(){
 
     return response()->file(public_path('/employData/employee_detail.xlsx'));

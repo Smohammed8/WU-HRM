@@ -15,6 +15,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Exception;
 use Carbon\Carbon;
+use App\Models\InternalExperience;
+use App\Models\ExternalExperience;
 use Illuminate\Support\Facades\DB;
 ////////////// for permission /////////////
 use \Venturecraft\Revisionable\RevisionableTrait;
@@ -44,10 +46,6 @@ class Employee extends  Model
     {
         return $this->name;
     }
-
-
-
-
     protected $revisionEnabled = true; 
     protected $appends = ['name'];
     /**
@@ -146,6 +144,13 @@ class Employee extends  Model
             Storage::disk('public_folder')->delete($obj->image);
         });
     }
+
+    public function isLocked()
+    {
+        return $this->is_locked;
+    }
+    
+    
     public function setDrivingLicenceAttribute($value)
     {
         $disk = "public";
@@ -282,10 +287,6 @@ class Employee extends  Model
         return Carbon::parse($this->attributes['date_of_birth'])->age;
         
     }
-
-
-   
-
     public function employeeCategory()
     {
         return $this->belongsTo(EmployeeCategory::class);
@@ -346,19 +347,12 @@ class Employee extends  Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
-
-
-
     protected function firstName(): Attribute
     {
         return new Attribute(
             set: fn ($value) => strtoupper($value),
         );
     }
-
-
-
 
     protected function fatherName(): Attribute
     {
@@ -488,7 +482,7 @@ class Employee extends  Model
     }
     public function account() : HasOne {
         
-            return $this->hasOne(User::class);
+    return $this->hasOne(User::class);
             
     }
     
@@ -508,6 +502,12 @@ class Employee extends  Model
     {
         return $this->hasMany(Evaluation::class, 'employee_id', 'id');
     }
+
+    public function employeeEducations(): HasMany
+    {
+        return $this->hasMany(EmployeeEducation::class, 'employee_id', 'id');
+    }
+
 
 
     public function families(): HasMany

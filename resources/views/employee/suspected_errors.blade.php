@@ -140,12 +140,12 @@
                             </tbody>
     
                         </table>
-                        <div class="m-auto float-right">
-                            {{ $employees_employeds->links() }}
-    
-    
-                        </div>
+                       
                         
+                    </div>
+                    <div class="m-auto float-right">
+                        {{ $employees_employeds->links() }}
+
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
         
                                     @foreach ($employees as $employee)
 
-                                    @if ($employee->positionCode?->code === null)
+                                 
                                         <tr>
         
                                             <td> {{ $loop->index + 1 }} </td>
@@ -232,7 +232,7 @@
                                     <td> {{ '-' }}</td>
         
                                     </tr>
-                                    @endif
+                              
                                     @endforeach
                                     @if (count($employees) == 0)
                                         <tr>
@@ -243,11 +243,11 @@
                                 </tbody>
         
                             </table>
-                            <div class="m-auto float-right">
-                                {{ $employees->links() }}
-        
-        
-                            </div>
+                          
+                        </div>
+                        <div class="m-auto float-right">
+                            {{ $employees->links() }}
+    
                         </div>
                     </div>
                 </div>
@@ -271,7 +271,6 @@
                                     <th> HR Branch </th>
                                     <th> Invalid age </th>
                                     <th> Issues found </th>
-    
                                     <th> Action</th>
                                 </tr>
                             </thead>
@@ -280,6 +279,7 @@
     
                                 @foreach ($employee_ages as $employee)
 
+                                 @if($employee->date_of_birth != null)
                                 @if ($employee->age() >= 61 or $employee->age() < 19)
                                     <tr>
     
@@ -290,12 +290,8 @@
                                         <td> {{ $employee->gender ?? ('-' ?? '-') }}</td>
                                         <td> {{ $employee->hrBranch->name ?? '-' }}</td>
                                         <td>
-                                            <label for="" style="font-size:17px;"
-                                                title=" GC: {{ \Carbon\Carbon::parse($employee->date_of_birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days') }} ">
-    
-    
-    
-                                            <span title="Inavide age! Less than 18 can be an employee" style="color:red;"
+                                            <label for="" style="font-size:17px;" title="">
+                                           <span title="Inavide age! Less than 18 can be an employee" style="color:red;"
                                                 class="badge badge-pill badge-defualt"> 
                                                 {{ $employee->age() }}
                                             </span>
@@ -329,6 +325,7 @@
     
                                 </tr>
                                 @endif
+                                @endif
                                 @endforeach
                                 @if (count($employee_ages) == 0)
                                     <tr>
@@ -339,12 +336,16 @@
                             </tbody>
     
                         </table>
-                        <div class="m-auto float-right">
-                            {{ $employee_ages->links() }}
-    
-    
-                        </div>
+
+                   
                     </div>
+                    @foreach ($employee_ages as $employee)
+                    @if($employee->date_of_birth != null)
+                    <div class="m-auto float-right">
+                        {{ $employee_ages->links() }}
+                    </div>
+                    @endif
+                    @endforeach
                 </div>
             </div>
 
@@ -430,12 +431,13 @@
                             </tbody>
     
                         </table>
-                        {{-- <div class="m-auto float-right">
+                       
+                    </div>
+                     {{-- <div class="m-auto float-right">
                             {{ $employees_phone->links() }}
     
     
                         </div> --}}
-                    </div>
                 </div>
             </div>
 
@@ -470,8 +472,7 @@
 
                                 @foreach ($employees_internal as $employee)
                                 
-                                    @if($employee->internalExperiences->count() > 0 )
-                                
+                              
                                         <tr>
                                 
                                             <td> {{ $loop->index + 1 }} </td>
@@ -479,12 +480,8 @@
                                             <td> {{ $employee->position->name ?? '-' }}</td>
                                             <td> {{ $employee->gender ?? ('-' ?? '-') }}</td>
                                             <td> {{ $employee->hrBranch->name ?? '-' }}</td>
-                                            <td>
-                                                {{  $employee->internalExperiences->count() }}
-                                            </td>
-                                
+                                            <td>{{  $employee->internalExperiences->count() }}</td>
                                             @foreach ($employee->internalExperiences as $employee_exp )
-                                
                                                 @if($employee_exp->start_date >=   $employee_exp->end_date)
                                                     <?php $count++; ?>
                                                 @endif
@@ -506,7 +503,7 @@
                                 
                                         </tr>
                                 
-                                    @endif
+                               
                                 
                                 @endforeach
 
@@ -519,6 +516,11 @@
                             </tbody>
     
                         </table>
+                    </div>
+                    <div class="m-auto float-right">
+                        {{ $employees_internal->links() }}
+
+
                     </div>
                 </div>
             </div>
@@ -549,10 +551,9 @@
                             <tbody>
     
     
-                                @foreach ($employees as $employee)
+                                @foreach ($employees_external as $employee)
 
-                            @if($employee->externalExperiences->count() > 0)
-                                    <tr>
+                                        <tr>
     
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $employee->name ?? '-' }} </td>
@@ -568,7 +569,7 @@
                                         <?php $count = 0; ?>
                                 @foreach ($employee->externalExperiences as $employee_exp)
 
-                                @if($employee_exp->start_date > $employee_exp->end_date)
+                                @if($employee_exp->start_date >= $employee_exp->end_date)
                                         <?php $count++ ; ?>
                                         @endif
                                         @endforeach
@@ -592,7 +593,7 @@
                                 </td>
     
                                 </tr>
-                                @endif
+                            
                                 @endforeach
                                 @if (count($employees) == 0)
                                     <tr>
@@ -603,11 +604,11 @@
                             </tbody>
     
                         </table>
-                        {{-- <div class="m-auto float-right">
-                            {{ $employees->links() }}
-    
-    
-                        </div> --}}
+                    </div>
+                    <div class="m-auto float-right">
+                        {{ $employees_external->links() }}
+
+
                     </div>
                 </div>
             </div>

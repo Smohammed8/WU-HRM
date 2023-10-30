@@ -11,6 +11,8 @@ use App\Models\EducationalLevel;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
+use App\Models\Evaluation;
+use App\Models\JobGrade;
 use App\Models\PlacementChoice;
 use App\Models\PlacementRound;
 use App\Models\Position;
@@ -26,24 +28,65 @@ class EmployeeController extends Controller
 
     public function home()
     {
-        if ((!backpack_user()->can('employee.home') && backpack_user()->can('dashboard.content')) || backpack_user()->hasRole(Constants::USER_TYPE_SUPER_ADMIN)) {
-            return redirect(route('dashboard'));
-        }
-
-        if (!Auth::user()->can('employee.home')) {
-            return abort(401);
-        }
-        $user = Auth::user();
-       // $employee = Employee::where('user_id', $user->username)->get();
+        //$user = Auth::user();
+        $user =  backpack_user();
+        //dd($user->employee->id);
         $employee = Employee::where('user_id', $user->id)->get();
-        if ($employee->count() == 0 && backpack_user()->hasRole('employee')) {
+
+        if($user->employee == null){
             Auth::logout();
-            return abort(401, 'Please you have no employee profile contact admin');
+            return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }
         if ($employee->count() == 0 && !backpack_user()->hasRole('employee')) {
-            return redirect()->back();
+
+            Auth::logout();
+            return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }
         $employee = $employee->first();
+        $mark = Evaluation::select('total_mark')->where('employee_id', '=',$employee->id)->get()->first()?->total_mark;
+      
+        $level  =    Employee::where('id',$employee->id)->first()?->position?->jobTitle?->level_id;
+        $startSalary  =    JobGrade::where('level_id', $level)->first()?->start_salary;
+        $level_id  =    JobGrade::where('level_id', $level)->first()?->id;
+        $step  =    Employee::where('id',  $employee->id)->first()?->horizontal_level;
+      //////////////////// Warining: Don't change this code  //////////////////////////////////////
+      if($step =='Start'){
+        $startSalary = JobGrade::getSalarySheet($level_id, 'start_salary');
+      }
+      elseif($step =='1'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'one');
+      }
+      elseif($step =='2'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'two');
+      }
+      elseif($step =='3'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'three');
+      }
+      elseif($step =='4'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'four');
+      }
+      elseif($step =='5'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'five');
+      }
+      elseif($step =='6'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'six');
+      }
+      elseif($step =='7'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'seven');
+      }
+      elseif($step =='8'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'eight');
+      }
+      elseif($step =='9'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'nine');
+      }
+      elseif($step =='Ceil'){
+          $startSalary = JobGrade::getSalarySheet($level_id, 'ceil_salary');
+      }
+      else{
+          $startSalar = JobGrade::getSalarySheet($level_id, 'start_salary');
+      }
+
         $employee->totalExperiences();
         // $positions = Position::all();
         $placementRound = PlacementRound::where('is_open', true)->first();
@@ -59,7 +102,7 @@ class EmployeeController extends Controller
             }
         }
         $placementChoice = PlacementChoice::where('employee_id',$employee->id)->where('placement_round_id',$placementRound->id)->first();
-        return view('home', compact('user', 'employee', 'positions', 'placementRound','placementChoice'));
+        return view('home', compact('user', 'employee','startSalary','mark','positions', 'placementRound','placementChoice'));
     }
 
     public function choiceStore(Request $request, PlacementRound $placementRound)
@@ -102,7 +145,7 @@ class EmployeeController extends Controller
             Excel::import(new EmployeesImport($college), request()->file('file'));
         }
         // Excel::import(new EmployeesImport, "/abc.xl");
-        dd('IMPORT DONE');
+       // dd('IMPORT DONE');
     }
     public function calculate()
     {
@@ -119,9 +162,7 @@ class EmployeeController extends Controller
     public function findEmployeesWithDuplicatedPhoneNumbers()
 {
     $duplicatedPhoneNumbers = Employee::select('phone_number')
-        ->groupBy('phone_number')
-        ->havingRaw('COUNT(phone_number) > 1')
-        ->pluck('phone_number');
+        ->groupBy('phone_number')->havingRaw('COUNT(phone_number) > 1')->pluck('phone_number');
 
     $employeesWithDuplicatedPhoneNumbers = Employee::whereIn('phone_number', $duplicatedPhoneNumbers)->get();
 
@@ -136,12 +177,11 @@ class EmployeeController extends Controller
     
     $employee_ages = Employee::where('employment_status_id', 1)->orderBy('id', 'DESC')->paginate(10); 
 
-    $employees = Employee::orderBy('id', 'DESC')->paginate(10);
-
-   $employees_internal = Employee::orderBy('id', 'DESC')->paginate(10);
-
-
-
+    $employees = Employee::whereNull('position_id')->orderBy('id', 'DESC')->paginate(10);
+   // $employees = Employee::whereDoesntHave('position')->orderBy('id', 'DESC')->paginate(10);
+  // $employees_internal = Employee::whereHas('internalExperiences')->get();
+   $employees_internal = Employee::whereHas('internalExperiences')->paginate(10);
+   $employees_external = Employee::whereHas('externalExperiences')->paginate(10);
     /////////////////////////////////////////////////////////
     $duplicatedPhoneNumbers = Employee::select('phone_number')->groupBy('phone_number')->havingRaw('COUNT(phone_number) > 1')
     ->pluck('phone_number');
@@ -149,7 +189,7 @@ class EmployeeController extends Controller
    ////////////////////////////////////////////////////////////
 
 
-  return view('employee.suspected_errors', compact('employees','employees_employeds','employees_phone','employees_internal', 'employee_ages'));
+  return view('employee.suspected_errors', compact('employees','employees_employeds','employees_phone','employees_internal', 'employee_ages','employees_external'));
 
 
     }

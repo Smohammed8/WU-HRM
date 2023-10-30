@@ -1,16 +1,10 @@
 created:
-    - database/factories/CertificationTypeFactory.php
-    - database/factories/CollegePositionCodeFactory.php
-    - database/factories/EmployeeEducationFactory.php
-    - database/factories/EmployeeLetterFactory.php
-    - database/migrations/2023_09_07_182049_create_certification_types_table.php
-    - database/migrations/2023_09_07_182050_create_college_position_codes_table.php
-    - database/migrations/2023_09_07_182051_create_employee_education_table.php
-    - database/migrations/2023_09_07_182052_create_employee_letters_table.php
-    - app/Models/CertificationType.php
-    - app/Models/CollegePositionCode.php
-    - app/Models/EmployeeEducation.php
-    - app/Models/EmployeeLetter.php
+    - database/factories/ApplicationTypeFactory.php
+    - database/factories/ApplicationFactory.php
+    - database/migrations/2023_10_29_201135_create_application_types_table.php
+    - database/migrations/2023_10_29_201136_create_applications_table.php
+    - app/Models/ApplicationType.php
+    - app/Models/Application.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -91,3 +85,5 @@ models:
     CollegePositionCode: { college: 'foreign:hr_branches.id nullable', prefix: 'string nullable', start: 'integer nullable', description: 'text nullable' }
     EmployeeEducation: { employee_id: 'id foreign', institution: 'string nullable', field_of_study_id: 'id foreign:field_of_studies.id', educational_level_id: 'id foreign', training_start_date: date, training_end_date: date, upload: 'string:255' }
     EmployeeLetter: { employee_id: 'id foreign', title: 'string nullable', body: 'text nullable', written_date: date, upload: 'string:255' }
+    ApplicationType: { name: string, description: 'text nullable' }
+    Application: { user_id: 'id foreign', application_type_id: 'id foreign foreign:application_types.id', status: 'boolean nullable', description: 'text nullable' }

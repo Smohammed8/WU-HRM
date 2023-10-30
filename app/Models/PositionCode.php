@@ -57,6 +57,16 @@ class PositionCode extends Model
         'position_id' => 'integer',
     ];
 
+
+    public function getHrIdFromPositionCode($positionCode)
+    {
+        $position = PositionCode::find($positionCode)->position;
+        $unit = $position->unit;
+        $hrId = $unit->hr_id;
+
+      return  $hrId;
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);
@@ -66,4 +76,10 @@ class PositionCode extends Model
     {
         return $this->belongsTo(Position::class);
     }
+
+    public function getFreePositions()
+    {
+        return PositionCode::where('position_id', $this->attributes['id'])->where('employee_id',null)->count();
+    }
+
 }

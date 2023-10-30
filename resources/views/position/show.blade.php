@@ -30,7 +30,7 @@
 
 @section('content')
     <div class="row">
-        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: #0067b8 !important; border-top-width:2px;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -38,8 +38,8 @@
                         <div class="row justify-content-between">
                             <div class="col-md-6">
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Organization : </b> </label>
-                                    <label for="">{{ $crud->entry->unit?->organization?->name }}</label>
+                                    <label for=""><b>Total Permitted Positions: </b> </label>
+                                    <label for="">  <span class="badge badge-pill badge-danger border">{{  $crud->entry->positions->count() }} </span></label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Unit Name : </b> </label>
@@ -50,23 +50,29 @@
                                     <label for="">{{ $crud->entry->jobTitle->name }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Position Available for placement : </b></label>
+                                    <label for=""><b>Open positions : </b></label>
                                     <label for="">{{ $crud->entry->available_for_placement }}</label>
                                 </div>
                             </div>
+                            <?php $count = 0; ?>
+                            @foreach ($positionCodes as $positionCode)
+                             @if($positionCode->employee == null)
+                             <?php  $count ++ ?>
+                             @endif
+                            @endforeach
                             <div class="col-md-6" style="border-left:1px solid black;">
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Total Employees : </b></label>
-                                    <label for="">{{ $crud->entry->total_employees }}</label>
+                                    <label for=""><b>Free Positions : </b></label>
+                                    <label for=""> <span class="badge badge-pill badge-info border">{{  $count }} </span></label>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b>Position Type: </b></label>
                                     <label for="">{{ $crud->entry->jobTitle->positionType?->title }}</label>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <label for=""><b>Is it available for placement : </b></label>
+                                    <label for=""><b>Locked Positions : </b></label>
                                     <label
-                                        for="">{{ $crud->entry->available_for_placement ? 'Yes' : 'No' }}</label>
+                                        for="">{{ $crud->entry->available_for_placement ? '0' : '0' }}</label>
                                 </div>
                             </div>
                         </div>
@@ -77,44 +83,58 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <label for="">Add Job Code</label>
+            <label for="">Add New Position</label>
             <button class="btn float-right" data-toggle="collapse" data-target="#newJobCodeCollapse"><i
                     class="la la-angle-down"></i></button>
         </div>
         <div class="card-body">
-            <div class="row @if($errors->has('new')==null) collapse @endif " id="newJobCodeCollapse">
+            <div class="row @if($errors->has('job_code_starting_number')==null) collapse @endif" id="newJobCodeCollapse">
                 <form method="POST" action="{{ route('position/{position}/position-code.store', ['position'=>$crud->getCurrentEntry()->id]) }}" class="row col-md-12">
                     @csrf
                     <input type="hidden" name="position_id" value="{{ $crud->getCurrentEntry()->id }}">
-                    <div class="form-group col-md-12">
-                        <label for="">Job Code</label>
-                        <input type="text" value="{{ old('code') }}" name="code" class="form-control" id="">
-                        @error('code')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    {{-- <div class="form-group col-md-4">
-                        <label for="">Starting Number</label>
-                        <input type="text" name="job_starting_number" class="form-control" id="">
-                        @error('job_starting_number')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+
                     <div class="form-group col-md-4">
-                        <label for="">Total codes</label>
-                        <input type="text" name="total_codes" class="form-control" id="">
+                        <label for=""> Prefix </label>
+                
+                        <select name="job_code_prefix" class="form-control" required>
+                            <option value=""> --------Select prefix----------- </option>
+                            @foreach ($prefixes as $college)
+                                <option value="{{ $college->prefix }}">{{ $college->prefix  }}</option>
+                            @endforeach
+                        </select>
+
+                        @error('job_code_prefix')
+                        <span class="{{ 'text-danger' }}">{{ $message }}</span>
+                    @enderror
+                     
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for=""> Start Job Code</label>
+                        <input type="number" min="1" name="job_code_starting_number" class="form-control" id="" required>
+                       
+                        @error('job_code_starting_number')
+                        <span class="{{ 'text-danger' }}">{{ $message }}</span>
+                    @enderror
+                     
+                    </div>
+             
+                    <div class="form-group col-md-4">
+                        <label for="">Total Positions</label>
+                        <input type="number" min="1"  max="700" name="total_codes" class="form-control" id="" required>
                         @error('total_codes')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
-                    </div> --}}
+                    </div> 
+
                     <div class="col-md-12">
-                        <input type="submit" value="Add Job Code" class="float-right btn btn-primary">
+                        <input type="submit" value="Create New Position" class="float-right btn btn-sm btn-primary">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: blue !important; border-top-width:2px;">
+    <div class="card col-md-12 mb-2" style="border-radius:0%; border-top-color: #0067b8 !important; border-top-width:2px;">
         <div class="card-body">
             <div class="row">
                 {{-- <label for=""></label> --}}
@@ -123,18 +143,33 @@
                     cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Job code</th>
-                            <th>Employee Name</th>
+                            <th>#</th>
+                            <th>አሁን የስራ መደቡን የያዘዉ ሰራትኛ</th>
+                            <th>የስራ መደቡ መለያ</th>
+                          
+                            <th>የስራ መደብ </th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($crud->entry->positionCodes as $positionCode)
+                        @foreach ($positionCodes as $positionCode)
                             <tr>
-                                <td>{{ $positionCode->code }}</td>
-                                <td><a
-                                        href="{{ $positionCode?->employee != null ? route('employee.show', ['id' => $positionCode?->employee?->id]) : '#' }}">{{ $positionCode?->employee?->name ?? 'Not assigned' }}</a>
+                          
+                              
+                                    <td> {{ $loop->index + 1 }} </td>
+                                <td>
+                                    <a
+                                        href="{{ $positionCode?->employee != null ? route('employee.show', ['id' => $positionCode?->employee?->id]) : '#' }}">{{ $positionCode?->employee?->name ?? '-' }}</a>
                                 </td>
+                                <td>{{ $positionCode->code }}</td>
+                            <td>
+                                @if($positionCode->employee_id != null)
+                                {{  $positionCode->position->jobTitle->name }}
+                                @else
+                                {{  '-' }}
+                                @endif
+                              </td>
+                              
                                 <td>
                                     <a href="#"
                                         onclick="editEntry('{{ route('position/{position}/position-code.update', ['position' => $crud->entry->id, 'id' => $positionCode->id]) }}','{{ $positionCode->code }}')"
@@ -153,8 +188,12 @@
                     </tbody>
                 </table>
             </div>
+            <div class="m-auto float-right" id="pagi">
+                {{ $positionCodes->links() }}
+            </div>
         </div>
     </div>
+
 
     <div class="modal fade" data-backdrop="false" id="position_code_edit" tabindex="-1" role="dialog"
         aria-labelledby="position_code_edit" aria-hidden="true">
@@ -180,7 +219,7 @@
                                     disabled name="old_job_code" id="old_job_code" class="form-control disabled">
                             </div>
                             <div class="form-group">
-                                <label for="">Job Code</label>
+                                <label for="">New Job Code</label>
                                 <input type="text" value="{{ old('code') }}" name="code" id="job_code"
                                     class="form-control">
                                 @error('code')
@@ -203,7 +242,6 @@
     <link rel="stylesheet"
         href="{{ asset('packages/backpack/crud/css/show.css') . '?v=' . config('backpack.base.cachebusting_string') }}">
 @endsection
-
 @section('after_scripts')
     <script src="{{ asset('packages/backpack/crud/js/crud.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
     </script>
