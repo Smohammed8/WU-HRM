@@ -581,7 +581,22 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('application_type.show');
         Permission::findOrCreate('application_type.edit');
         Permission::findOrCreate('application_type.delete');
-   
+
+        Permission::findOrCreate('report_view');
+        // clearance
+        Permission::findOrCreate('clearance.icrud');
+        Permission::findOrCreate('clearance.index');
+        Permission::findOrCreate('clearance.create');
+        Permission::findOrCreate('clearance.show');
+        Permission::findOrCreate('clearance.edit');
+         //  check-point
+        Permission::findOrCreate('check_point.icrud');
+        Permission::findOrCreate('check_point.index');
+        Permission::findOrCreate('check_point.create');
+        Permission::findOrCreate('check_point.show');
+        Permission::findOrCreate('check_point.edit');
+        Permission::findOrCreate('check_point.delete');
+      
         // Hr Branch
         Permission::findOrCreate('HR-all.manage');
         Permission::findOrCreate('HR-jit.manage');

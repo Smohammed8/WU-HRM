@@ -122,20 +122,23 @@ class AuthController extends Controller
         // $firstName = $fullName[0];
         // $middleName = $fullName[1];
         // $lastName = $fullName[2];
+        // dd();
+                $name = explode(' ',$info[0]['cn'][0]);
+                $first_name = $name[0];
+                $middle_name = $name[1];
+                $last_name = $name[2];
 
-                $first_name = $info[0]['givenname'][0];
-                $middle_name = 'Unknown';
-                $last_name = 'Unknown';
-                if (isset($info[0]['sn'])) {
-                    if ($info[0]['sn']['count'] > 0) {
-                        $middle_name = $info[0]['sn'][0];
-                    }
-                }
-                if (isset($info[0]['sn'])) {
-                    if ($info[0]['sn']['count'] > 1) {
-                        $last_name = $info[0]['sn'][1];
-                    }
-                }
+            //     if (isset($info[0]['sn'])) {
+            //         if ($info[0]['sn']['count'] > 0) {
+            //             $middle_name = $info[0]['sn'][0];
+            //         }
+            //     }
+            //   //  ,$names[2]
+            //     if (isset($info[0]['sn'])) {
+            //         if ($info[0]['sn']['count'] > 1) {
+            //             $last_name = $info[0]['sn'][0];
+            //         }
+            //     }
                 $email = 'Unknown';
                 if (isset($info[0]['mail'])) {
                     if ($info[0]['mail']['count'] > 0) {
