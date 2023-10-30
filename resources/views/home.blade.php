@@ -620,10 +620,7 @@
           </div>
         </div>
       </div>
-
   </div>
-
-    
     @if ($placementRound != null)
         <div class="row">
             <div class="card col-md-12 mb-2"
