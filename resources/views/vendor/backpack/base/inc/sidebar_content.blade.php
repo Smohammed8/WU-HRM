@@ -3,8 +3,8 @@
 
 @if(Auth::user()->hasRole('employee'))
 
-<li class="nav-item"><a class="nav-link" href="#"><i class="la la-home nav-icon"></i>
-    Home </a>
+<li class="nav-item"><a class="nav-link" href="#"><i class="la la-clipboard nav-icon"></i>
+    Noticeboard</a>
 </li>
 
  @endif
