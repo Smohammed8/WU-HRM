@@ -40,12 +40,9 @@ class UnitCrudController extends CrudController
         CRUD::setModel(Unit::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/unit');
         CRUD::setEntityNameStrings('unit', 'units');
-
         CRUD::disablePersistentTable();
-        CRUD::enableExportButtons();
-        
+        CRUD::enableExportButtons(); // check this if the page is not loading
         $this->setupPermission();
-        $this->crud->enableExportButtons();
     }
     public function setupPermission()
     {
@@ -100,6 +97,54 @@ class UnitCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+        $this->crud->addFilter([
+            'name'  => 'hr_branch_id',
+            'type'  => 'select2',
+            'label' => 'Filter by HR Branch'
+        ], function () {
+            return HrBranch::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'hr_branch_id', json_decode($values));
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'parent_unit_id',
+            'type'  => 'select2',
+            'label' => 'Filter  Sub-units'
+        ], function () {
+            return Unit::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'parent_unit_id', json_decode($values));
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'chair_man_type_id',
+            'type'  => 'select2',
+            'label' => 'Filter by Chairman'
+        ], function () {
+            return Employee::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'chair_man_type_id', json_decode($values));
+        });
+
+
+               /////////////////////////////////////////////////////////////
+               CRUD::filter('genders')
+               ->type('select2')->label('Filter by Status')
+               ->values(function () {
+                   return [
+                       '1' => 'Active',
+                       '0' => 'Closed',
+   
+                   ];
+               })
+               ->whenActive(function ($value) {
+                   CRUD::addClause('where', 'is_active', $value);
+               });
+   
+           ////////////////////////////////////////////////////////
+
 
        // $this->crud->denyAccess('delete');
         $this->crud->denyAccess('show');
