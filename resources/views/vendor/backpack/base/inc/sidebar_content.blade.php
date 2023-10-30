@@ -1,12 +1,13 @@
 
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
-
+@if(Auth::user()->hasRole('employee'))
 
 <li class="nav-item"><a class="nav-link" href="#"><i class="la la-home nav-icon"></i>
     Home </a>
 </li>
 
+ @endif
 
 @can('dashboard.content')
 <li class="nav-item">
@@ -177,16 +178,21 @@ color:black;
 </li>
 @endcanany
 
+@canany(['clearance.icrud', 'clearance.index','check_point.icrud','check_point.index'])
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-minus"></i> Clearance </a>
 <ul class="nav-dropdown-items">
+
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('check-point') }}'><i class='nav-icon la la-caret-right'></i> Check points</a></li>
+
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('clearance') }}'><i class='nav-icon la la-caret-right'></i> </i> Clearances</a></li>
+
 <li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Employee Approvals </a></li>
 <li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Order Policy</a></li>
 
 </ul>
 </li>
+@endcanany
 
 
 @canany(['setting.index', 'setting.icrud'])
@@ -418,6 +424,7 @@ color:black;
 
 
 @canany(['payroll.icrud', 'payroll.index', 'payroll_sheet.icrud', 'payroll_sheet.index','payroll_history.icrud', 'payroll_history.index'])
+
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i>  Payroll
     managment
@@ -509,9 +516,7 @@ color:black;
 </li>
 @endcanany
 
-
-
-
+@canany('report_view')
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-print"></i> Report </a>
 <ul class="nav-dropdown-items">
@@ -525,5 +530,6 @@ color:black;
         Recruitments</a></li>
 </ul>
 </li>
+@endcanany
 
 {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-code') }}'><i class='nav-icon la la-question'></i> Position codes</a></li> --}}

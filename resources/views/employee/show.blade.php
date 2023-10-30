@@ -373,7 +373,7 @@ if (base64data) {
                 alert('Image saved successfully!');
                 console.log('Image saved successfully:', response.data);
 
-                  window.location.href = `https://hrm.ju.edu.et/employee/{entryId}/show`;
+                  window.location.href = `https://hrm.ju.edu.et/employee/{entryId}/show`; 
                  // window.location.href = `http://127.0.0.1:8000/employee/${entryId}/show`;
                   Webcam.reset();              
             }
