@@ -236,6 +236,13 @@ class PositionCrudController extends CrudController
         $jobCodeStartingNumber = $data['job_code_starting_number'];
         $jobTitle =  $data['job_title_id'];
         $unit =  $data['unit_id'];
+
+        if($data['total_employees']==0){
+
+            throw ValidationException::withMessages(['total_employees' => 'Empty position is not allowed to create! at least it should be one.']);
+
+        }
+
         if(PositionCode::where('code', $jobCodePrefix . $jobCodeStartingNumber)->count()>0){
             throw ValidationException::withMessages(['job_code_prefix' => 'Duplicate position code found','job_code_starting_number' => 'Duplicate position code found']);
         }

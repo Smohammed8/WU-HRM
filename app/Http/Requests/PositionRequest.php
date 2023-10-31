@@ -31,9 +31,6 @@ class PositionRequest extends FormRequest
     {
         $jobTitleId = $this->input('job_title_id');
          $unitId = $this->input('unit_id');
-
-         
-        // $name = Unit::where('id', $unitId)->get()->name;
         if (Position::where('job_title_id', $jobTitleId)->where('unit_id', $unitId)->count() > 0) {
             if (in_array($this->method(), ['POST'])) {
               
