@@ -275,7 +275,7 @@ class PositionCrudController extends CrudController
         $minimumRequirements = MinimumRequirement::where('position_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['minimumRequirements'] = $minimumRequirements;
         
-        $positionCodes = PositionCode::where('position_id',  $position_id)->orderBy('id', 'desc')->Paginate(10);
+        $positionCodes = PositionCode::where('position_id',  $position_id)->orderBy('id', 'desc')->paginate(20);
         $this->data['positionCodes'] = $positionCodes;
 
         $prefixes = CollegePositionCode::all();

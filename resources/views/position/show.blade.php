@@ -134,12 +134,15 @@
             </div>
         </div>
     </div>
+    <input type="text" class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search job position...">
+
+   
     <div class="card col-md-12 mb-2" style="border-radius:0%; border-top-color: #0067b8 !important; border-top-width:2px;">
         <div class="card-body">
             <div class="row">
                 {{-- <label for=""></label> --}}
 
-                <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
+                <table id="myTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
                     cellspacing="0">
                     <thead>
                         <tr>
@@ -345,7 +348,28 @@
             }
         }
 
-        // make it so that the function above is run after each DataTable draw event
-        // crud.addFunctionToDataTablesDrawEventQueue('deleteEntry');
-    </script>
+    
+function myFunction() {
+  // Declare variables 
+var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Make an AJAX request to the Laravel controller
+    $.ajax({
+        url: '/search',
+        data: {q: filter},
+        dataType: 'json',
+        success: function(data) {
+            // Update the table with the results of the filter
+            $('#myTable tbody').html(data);
+            
+        }
+    });
+}
+
+</script>
+
 @endsection

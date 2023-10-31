@@ -130,12 +130,12 @@ class UnitCrudController extends CrudController
 
 
                /////////////////////////////////////////////////////////////
-               CRUD::filter('genders')
-               ->type('select2')->label('Filter by Status')
+               CRUD::filter('status')
+               ->type('select2')->label('Filter by office status')
                ->values(function () {
                    return [
-                       '1' => 'Active',
-                       '0' => 'Closed',
+                       '1' => 'Active unit',
+                       '0' => 'Closed unit',
    
                    ];
                })
