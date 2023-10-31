@@ -39,7 +39,7 @@ class PositionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Position::class);
+        CRUD::setModel(Position::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/position');
         CRUD::setEntityNameStrings('position', 'positions');
         CRUD::disablePersistentTable();

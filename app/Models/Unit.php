@@ -65,7 +65,7 @@ class Unit extends Model
         'level',
         'subordinate',
         'hr_branch_id',
-        'is_active'
+        'is_active '
     ];
 
     /**
@@ -80,7 +80,7 @@ class Unit extends Model
         'parent_unit_id' => 'integer',
         'reports_to_id' => 'integer',
         'organization_id' => 'integer',
-       // 'organization_id' => 'integer',
+        'is_active' => 'integer',
     ];
 
     public function seal()
@@ -177,8 +177,11 @@ class Unit extends Model
         return $this->hasMany(Self::class, 'parent_unit_id', 'id');
     }
 
-    public function getIsActiveAttribute()
-    {
-        return $this->attributes['is_active'] ? 'Yes' : 'No';
-    }
+    public function getIsActiveAttribute() {
+        if (isset($this->attributes['is_active']) && $this->attributes['is_active'] !== 0 && !empty($this->attributes['is_active'])) {
+            return 'Yes';
+        }
+        return 'No';
+    
+}
 }
