@@ -1,10 +1,10 @@
 created:
-    - database/factories/ApplicationTypeFactory.php
-    - database/factories/ApplicationFactory.php
-    - database/migrations/2023_10_29_201135_create_application_types_table.php
-    - database/migrations/2023_10_29_201136_create_applications_table.php
-    - app/Models/ApplicationType.php
-    - app/Models/Application.php
+    - database/factories/NoticeTypeFactory.php
+    - database/factories/NoticeFactory.php
+    - database/migrations/2023_10_31_162521_create_notice_types_table.php
+    - database/migrations/2023_10_31_162522_create_notices_table.php
+    - app/Models/NoticeType.php
+    - app/Models/Notice.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -87,3 +87,5 @@ models:
     EmployeeLetter: { employee_id: 'id foreign', title: 'string nullable', body: 'text nullable', written_date: date, upload: 'string:255' }
     ApplicationType: { name: string, description: 'text nullable' }
     Application: { user_id: 'id foreign', application_type_id: 'id foreign foreign:application_types.id', status: 'boolean nullable', description: 'text nullable' }
+    NoticeType: { name: string, description: 'text nullable' }
+    Notice: { user_id: 'id foreign', notice_type_id: 'id foreign', body: 'text nullable', visitor_count: 'integer nullable' }

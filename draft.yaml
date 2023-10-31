@@ -417,6 +417,14 @@ models:
           #   application_type_id: id foreign foreign:application_types.id
           #   status: boolean nullable
           #   description: text nullable
+          # NoticeType:
+          #    name: string
+          #    description: text nullable
+          # Notice:
+          #   user_id: id foreign
+          #   notice_type_id: id foreign
+          #   body: text nullable
+          #   visitor_count: integer nullable
 
     #php artisan blueprint:build
     #php artisan backpack:build

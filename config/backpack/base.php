@@ -40,6 +40,8 @@ return [
     // STYLES
     // ------
 
+ 
+
     // CSS files that are loaded in all pages, using Laravel's asset() helper
     'styles' => [
         // 'packages/backpack/base/css/blue-bundle.css', // has primary color blue

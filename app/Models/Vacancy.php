@@ -63,6 +63,12 @@ class Vacancy extends Model
         return $this->belongsTo(Position::class);
     }
 
+    public function getDescriptionAttribute($value)
+    {
+        return strip_tags($value);
+    }
+
+
 
     public function candidatesButtonView($crud = false)
     {

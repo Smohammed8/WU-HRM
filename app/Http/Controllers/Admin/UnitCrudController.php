@@ -99,7 +99,6 @@ class UnitCrudController extends CrudController
     {
        // $this->crud->denyAccess('delete');
         $this->crud->denyAccess('show');
-
         $this->crud->addButtonFromModelFunction('line', 'view_office', 'viewOffice', 'end');
         $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
         CRUD::column('name')->label('Organizational unit');
@@ -156,9 +155,6 @@ class UnitCrudController extends CrudController
                });
    
            ////////////////////////////////////////////////////////
-
-
-
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

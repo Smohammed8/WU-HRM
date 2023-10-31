@@ -80,7 +80,7 @@ class Unit extends Model
         'parent_unit_id' => 'integer',
         'reports_to_id' => 'integer',
         'organization_id' => 'integer',
-        'is_active' => 'integer',
+        'is_active' => 'boolean',
     ];
 
     public function seal()
