@@ -177,6 +177,11 @@ class Unit extends Model
         return $this->hasMany(Self::class, 'parent_unit_id', 'id');
     }
 
+    public function setIsActiveAttribute($value)
+    {
+        $this->attributes['is_active'] = $value === 'Yes' ? 1 : 0;
+    }
+    
     public function getIsActiveAttribute() {
         if (isset($this->attributes['is_active']) && $this->attributes['is_active'] !== 0 && !empty($this->attributes['is_active'])) {
             return 'Yes';

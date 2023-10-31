@@ -106,7 +106,7 @@ class UnitCrudController extends CrudController
         CRUD::column('name')->label('Organizational unit');
         CRUD::column('parentUnit.name')->label('Accountable to');
         CRUD::column('chairManType.name')->label('Officee Leader');
-        CRUD::column('hr_branch_id')->type('select')->label('HR Branch')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
+        CRUD::column('hr_branch_id')->type('select')->label('HR Branch')->entity('hrBranch')->model(HrBranch::class)->attribute('name');
         CRUD::column('is_active')->label('Is active?');
         
 
@@ -157,7 +157,7 @@ class UnitCrudController extends CrudController
    
            ////////////////////////////////////////////////////////
 
-           
+
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -184,7 +184,7 @@ class UnitCrudController extends CrudController
 
         CRUD::field('hr_branch_id')->size(6)->label('HR Branch')->type('select2')->entity('hrBranch')->model(HrBranch::class)->attribute('name');
         CRUD::field('subordinate')->label('Is it subordinate?')->size(4)->default(false);
-        CRUD::field('is_active')->label('Is active?')->size(4);
+        CRUD::field('is_active')->label('Is active?');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
