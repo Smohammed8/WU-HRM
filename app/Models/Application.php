@@ -52,8 +52,18 @@ class Application extends Model
     {
         return $this->belongsTo(ApplicationType::class);
     }
+    public function getDescriptionAttribute($value)
+    {
+        return strip_tags($value);
+    }
+
+    // public function setStatusAttribute()
+    // {
+    //     return $this->attributes['status'] ? '1' : '0';
+    // }
+
     public function getStatusAttribute()
     {
-        return $this->attributes['status'] ? 'Closed' : 'Pending';
+        return $this->attributes['status'] ? 'Accepted' : 'Pending';
     }
 }

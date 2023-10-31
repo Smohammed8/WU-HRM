@@ -29,8 +29,8 @@ class ApplicationRequest extends FormRequest
                'user_id' =>'required',
                //'employee_id'=>'required',
                'application_type_id'=>'required',
-               'status'=>'required',
-               'description' => 'required|regex:/^[a-z A-Z]+$/u|min:10|max:255',
+               //'status'=>'required',
+               'description' => 'required',
         ];
     }
 
