@@ -30,50 +30,72 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: #0067b8 !important; border-top-width:2px;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Position Detail</h3>
-                        <div class="row justify-content-between">
-                            <div class="col-md-6">
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Total Permitted Positions: </b> </label>
-                                    <label for="">  <span class="badge badge-pill badge-danger border">{{  $crud->entry->positions->count() }} </span></label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Unit Name : </b> </label>
-                                    <label for="">{{ $crud->entry->unit->name }}</label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Job Title : </b></label>
-                                    <label for="">{{ $crud->entry->jobTitle->name }}</label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Open positions : </b></label>
-                                    <label for="">{{ $crud->entry->available_for_placement }}</label>
-                                </div>
-                            </div>
-                            <?php $count = 0; ?>
-                            @foreach ($positionCodes as $positionCode)
-                             @if($positionCode->employee == null)
-                             <?php  $count ++ ?>
-                             @endif
-                            @endforeach
-                            <div class="col-md-6" style="border-left:1px solid black;">
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Free Positions : </b></label>
-                                    <label for=""> <span class="badge badge-pill badge-info border">{{  $count }} </span></label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Position Type: </b></label>
-                                    <label for="">{{ $crud->entry->jobTitle->positionType?->title }}</label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Locked Positions : </b></label>
-                                    <label
-                                        for="">{{ $crud->entry->available_for_placement ? '0' : '0' }}</label>
+
+<div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+       
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="font-size: 23px;">
+              <i class="fa fa-list"> </i>   {{ $crud->entry->unit->name }} Unit - {{ $crud->entry->jobTitle->name }} [{{  $crud->entry->positions->count() }} ]
+            </button>
+
+         
+                <button class="btn float-right" data-toggle="collapse" data-target="#collapseOne"><i
+                        class="la la-angle-down"></i></button>
+         
+            
+        </h5>
+      </div>
+  
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <div class="row">
+                <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: #0067b8 !important; border-top-width:2px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Position Detail</h3>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-6">
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Total Permitted Positions: </b> </label>
+                                            <label for="">  <span class="badge badge-pill badge-danger border">{{  $crud->entry->positions->count() }} </span></label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Unit Name : </b> </label>
+                                            <label for="">{{ $crud->entry->unit->name }}</label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Job Title : </b></label>
+                                            <label for="">{{ $crud->entry->jobTitle->name }}</label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Open positions : </b></label>
+                                            <label for="">{{ $crud->entry->available_for_placement }}</label>
+                                        </div>
+                                    </div>
+                                    <?php $count = 0; ?>
+                                    @foreach ($positionCodes as $positionCode)
+                                     @if($positionCode->employee == null)
+                                     <?php  $count ++ ?>
+                                     @endif
+                                    @endforeach
+                                    <div class="col-md-6" style="border-left:1px solid black;">
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Free Positions : </b></label>
+                                            <label for=""> <span class="badge badge-pill badge-info border">{{  $count }} </span></label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Position Type: </b></label>
+                                            <label for="">{{ $crud->entry->jobTitle->positionType?->title }}</label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Locked Positions : </b></label>
+                                            <label
+                                                for="">{{ $crud->entry->available_for_placement ? '0' : '0' }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +103,13 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
+  
+  
+  </div>
+
+ 
     <div class="card">
         <div class="card-header">
             <label for="">Add New Position</label>
