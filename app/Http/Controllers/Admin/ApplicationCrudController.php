@@ -93,8 +93,48 @@ class ApplicationCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-     
-        $entry = $this->crud->entry;
+      
+       // $this->crud->addClause('where', 'user_id', '=', backpack_user()->id);
+    
+        CRUD::column('user.employee.name')->label('Sender employee')->type('select')->entity('user.employee')->model(Employee::class);
+
+        CRUD::column('application_type_id')->type('select')->label('Application type')->entity('applicationType')->model(ApplicationType::class)->attribute('name');
+            CRUD::column('status')->label('Application status')->wrapper([
+                'element' => 'span',
+                'class' => function ($crud, $column, $entry) {
+                    switch ($entry->status) {
+                        case '1':
+                            return 'badge badge-pill badge-danger';
+                        case '0':
+                            return 'badge badge-pill badge-success';
+                        default:
+                            return 'badge badge-pill badge-warning';
+                    }
+                }
+            ]);
+        CRUD::column('description');
+
+        CRUD::column('created_at')->type('closure')->function(function ($entry) {
+            return $entry-> getCreatedAtAttribute();
+        })->label('Recieved at')->wrapper([
+            'element' => 'span',
+            'title' => 'Employee age in years',
+            'class' => function ($crud, $column, $entry) {
+                switch ($entry-> getCreatedAtAttribute()) {
+                case '1':
+                    return 'badge badge-pill badge-danger';
+                case '0':
+                    return 'badge badge-pill badge-success';
+                default:
+                    return 'badge badge-pill badge-info';
+                }
+            }
+        ]);
+
+        
+
+
+        //$entry = $this->crud->entry;
 
         $this->crud->addFilter([
             'name'  => 'user_id',
@@ -142,53 +182,6 @@ class ApplicationCrudController extends CrudController
             }
         );
 
-    
-        CRUD::column('user.employee.name')->label('Sender employee')->type('select')->entity('user.employee')->model(Employee::class);
-
-
-        // CRUD::column('user.employee.name')->label('Sender employee')->type('select')->entity('user.employee')->model(Employee::class)->link('view-employee', ['id' =>$entry->user->employee->id]);
-
-        
-        // CRUD::column('employee_id')->type('select')->label('Employee')->entity('employee')->model(Employee::class)->attribute('name');
-
-        CRUD::column('application_type_id')->type('select')->label('Application type')->entity('applicationType')->model(ApplicationType::class)->attribute('name');
-
-        
-            CRUD::column('status')->label('Application status')->wrapper([
-                'element' => 'span',
-                'class' => function ($crud, $column, $entry) {
-                    switch ($entry->status) {
-                        case '1':
-                            return 'badge badge-pill badge-danger';
-                        case '0':
-                            return 'badge badge-pill badge-success';
-                        default:
-                            return 'badge badge-pill badge-warning';
-                    }
-                }
-            ]);
-        CRUD::column('description');
-
-       
-
-        CRUD::column('created_at')->type('closure')->function(function ($entry) {
-            return $entry-> getCreatedAtAttribute();
-        })->label('Recieved at')->wrapper([
-            'element' => 'span',
-            'title' => 'Employee age in years',
-            'class' => function ($crud, $column, $entry) {
-                switch ($entry-> getCreatedAtAttribute()) {
-                case '1':
-                    return 'badge badge-pill badge-danger';
-                case '0':
-                    return 'badge badge-pill badge-success';
-                default:
-                    return 'badge badge-pill badge-info';
-                }
-            }
-        ]);
-
-        
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -206,14 +199,30 @@ class ApplicationCrudController extends CrudController
     protected function setupCreateOperation()
     {
      
+
+
+      //  if ($this->crud->getRequest()->method() === 'GET') {}
+
         CRUD::setValidation(ApplicationRequest::class);
         // CRUD::field('employee_id')->type('hidden')->value(backpack_user()->employee->id);
         CRUD::field('user_id')->type('hidden')->value(backpack_user()->id);
 
         CRUD::field('application_type_id')->type('select2')->entity('applicationType')->model(ApplicationType::class)->attribute('name')->label('Select application type');
+     
+    
+        CRUD::field('description')->type('summernote')->label('Write your description below');
+      //  CRUD::field('status')->type('checkbox')->default(false)->label('Application Status');
 
-        CRUD::field('status')->type('hidden')->value(0);
-        CRUD::field('description')->label('Write your description below');
+
+        $this->crud->addField([
+            'name'        => 'status',
+            'label'       => 'Application Status',
+            'type'        => 'radio',
+            'options'     => [
+                0 => 'Pending',
+                1 => 'Accepted'
+            ]
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

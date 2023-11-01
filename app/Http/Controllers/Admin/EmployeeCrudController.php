@@ -214,6 +214,9 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+         // $this->crud->setDefaultFilter('user_id', backpack_user()->id); // set for filer to user ID
+         //$this->crud->addClause('where', 'user_id', '=', backpack_user()->id); // for list own record
+
          //change default order key
     if (!$this->crud->getRequest()->has('order')) {
           // $this->crud->orderBy('updated_at', 'desc');
@@ -277,27 +280,7 @@ class EmployeeCrudController extends CrudController
         CRUD::column('phone_number')->label('ስልክ ቁጥር');
 
         CRUD::column('employee_category_id')->type('select')->label('የሰራተኛው አይነት')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(4);
-        // ->wrapper([
-        //     'element' => 'span',
-        //     'class' => function ($crud, $column, $entry) {
-        //         switch ($entry->employee_category_id) {
-        //             case '1':
-        //                 return 'badge badge-pill badge-info';
-        //             case '2':
-        //                 return 'badge badge-pill badge-success';
-        //             case '3':
-        //                 return ' badge badge-pill badge-warning';
-
-        //             default:
-        //                 return 'badge badge-pill badge-defualt';
-
-        //         }
-        //     }
-        // ]);
-
-       // CRUD::column('salary')->type('closure')->function(function($entry){
-         //   return $entry->getSalary(1)?? '-';})->label('salary');
-
+   
 
         CRUD::column('date_of_birth')->type('closure')->function(function ($entry) {
             return $entry->age() ?? '-';
@@ -434,9 +417,23 @@ class EmployeeCrudController extends CrudController
             ->whenActive(function ($value) {
                 CRUD::addClause('where', 'gender', $value);
             });
+        ///////////////////////////////////////////////////////
+        // $this->crud->addFilter([
+        //     'name' => 'user_id',
+        //     'type' => 'select',
+        //     'label' => 'User',
+        //     'entity' => 'user',
+        //     'attribute' => 'name',
+        //     'model' => 'App\Models\User',
+        // ], function($query, $value) {
+        //     $query->where('user_id', $value);
+        // });
+    
+        // $this->crud->setDefaultFilter('user_id', backpack_user()->id);
+    
+        // $this->crud->addClause('where', 'user_id', '=', backpack_user()->id);
 
         ////////////////////////////////////////////////////////
-
         $this->crud->addFilter(
             [
                 'type'  => 'date_range',

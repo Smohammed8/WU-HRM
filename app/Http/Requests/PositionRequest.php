@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Position;
+use App\Models\Unit;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -29,10 +30,11 @@ class PositionRequest extends FormRequest
     public function rules()
     {
         $jobTitleId = $this->input('job_title_id');
-        $unitId = $this->input('unit_id');
+         $unitId = $this->input('unit_id');
         if (Position::where('job_title_id', $jobTitleId)->where('unit_id', $unitId)->count() > 0) {
             if (in_array($this->method(), ['POST'])) {
-                throw ValidationException::withMessages(['unit' => 'Existing job within current organizational unit']);
+              
+                throw ValidationException::withMessages(['unit_id' => 'The Job title you selected is already exist in this Office! Only You can add number of positions!']);
             }
         }
         return [

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
 use App\Http\Controllers\Admin\FieldOfStudyCrudController;
 use App\Http\Controllers\Admin\LeaveCrudController;
 use App\Http\Controllers\Admin\PlacementChoiceCrudController;
+use App\Http\Controllers\Admin\PositionCodeCrudController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
@@ -153,6 +154,8 @@ Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.
 Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id')->middleware('auth');
 Route::resource('signature', IDSignaturesController::class)->middleware('auth');
 Route::get('field_of_study/sync',[ FieldOfStudyCrudController::class,'syncFieldOfStudy'])->name('field_of_study.sync')->middleware('auth');
+
+Route::get('/search', [PositionCodeCrudController::class, 'search']);
 
 //Route::resource('round/{placement_round}/placement-choice', PlacementChoiceController::class);
 Route::post('choice-based-employee', [PlacementChoiceController::class, 'choiceBasedEmployee']);

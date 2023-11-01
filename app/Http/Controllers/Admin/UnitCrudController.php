@@ -40,12 +40,9 @@ class UnitCrudController extends CrudController
         CRUD::setModel(Unit::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/unit');
         CRUD::setEntityNameStrings('unit', 'units');
-
         CRUD::disablePersistentTable();
-        CRUD::enableExportButtons();
-        
+        CRUD::enableExportButtons(); // check this if the page is not loading
         $this->setupPermission();
-        $this->crud->enableExportButtons();
     }
     public function setupPermission()
     {
@@ -100,24 +97,64 @@ class UnitCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
        // $this->crud->denyAccess('delete');
         $this->crud->denyAccess('show');
-
         $this->crud->addButtonFromModelFunction('line', 'view_office', 'viewOffice', 'end');
         $this->crud->addButtonFromModelFunction('line', 'view_employee', 'viewEmployee', 'end');
-
         CRUD::column('name')->label('Organizational unit');
-      //  CRUD::column('level');
         CRUD::column('name')->label('Organizational unit');
         CRUD::column('parentUnit.name')->label('Accountable to');
         CRUD::column('chairManType.name')->label('Officee Leader');
-
-        CRUD::column('hr_branch_id')->type('select')->label('HR Branch')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(4);
-
+        CRUD::column('hr_branch_id')->type('select')->label('HR Branch')->entity('hrBranch')->model(HrBranch::class)->attribute('name');
         CRUD::column('is_active')->label('Is active?');
         
 
+        $this->crud->addFilter([
+            'name'  => 'hr_branch_id',
+            'type'  => 'select2',
+            'label' => 'Filter by HR Branch'
+        ], function () {
+            return HrBranch::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'hr_branch_id', json_decode($values));
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'parent_unit_id',
+            'type'  => 'select2',
+            'label' => 'Filter  Sub-units'
+        ], function () {
+            return Unit::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'parent_unit_id', json_decode($values));
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'chair_man_type_id',
+            'type'  => 'select2',
+            'label' => 'Filter by Chairman'
+        ], function () {
+            return Employee::all()->pluck('name', 'id')->toArray();
+        }, function ($values) {
+            $this->crud->addClause('where', 'chair_man_type_id', json_decode($values));
+        });
+
+
+               /////////////////////////////////////////////////////////////
+               CRUD::filter('status')
+               ->type('select2')->label('Filter by office status')
+               ->values(function () {
+                   return [
+                       '1' => 'Active unit',
+                       '0' => 'Closed unit',
+   
+                   ];
+               })
+               ->whenActive(function ($value) {
+                   CRUD::addClause('where', 'is_active', $value);
+               });
+   
+           ////////////////////////////////////////////////////////
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -143,7 +180,7 @@ class UnitCrudController extends CrudController
 
         CRUD::field('hr_branch_id')->size(6)->label('HR Branch')->type('select2')->entity('hrBranch')->model(HrBranch::class)->attribute('name');
         CRUD::field('subordinate')->label('Is it subordinate?')->size(4)->default(false);
-        CRUD::field('is_active')->label('Is active?')->size(4)->default(true);
+        CRUD::field('is_active')->label('Is active?');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

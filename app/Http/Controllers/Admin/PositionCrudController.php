@@ -8,6 +8,7 @@ use App\Models\CollegePositionCode;
 use App\Models\JobTitle;
 use App\Models\Unit;
 use App\Models\MinimumRequirement;
+use App\Models\Position;
 use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -38,7 +39,7 @@ class PositionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Position::class);
+        CRUD::setModel(Position::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/position');
         CRUD::setEntityNameStrings('position', 'positions');
         CRUD::disablePersistentTable();
@@ -222,22 +223,35 @@ class PositionCrudController extends CrudController
          */
     }
 
+
     public function store()
     {
+
+    
         $this->crud->hasAccessOrFail('create');
         $request = $this->crud->validateRequest();
+       // $this->crud->getRequest();
         $data = $this->crud->getStrippedSaveRequest();
         $jobCodePrefix = $data['job_code_prefix'];
         $jobCodeStartingNumber = $data['job_code_starting_number'];
+        $jobTitle =  $data['job_title_id'];
+        $unit =  $data['unit_id'];
+
+        if($data['total_employees']==0){
+
+            throw ValidationException::withMessages(['total_employees' => 'Empty position is not allowed to create! at least it should be one.']);
+
+        }
+
         if(PositionCode::where('code', $jobCodePrefix . $jobCodeStartingNumber)->count()>0){
             throw ValidationException::withMessages(['job_code_prefix' => 'Duplicate position code found','job_code_starting_number' => 'Duplicate position code found']);
         }
+    
         // unset($data['total_employees']);
         $item = $this->crud->create($data);
         $this->data['entry'] = $this->crud->entry = $item;
-
         $counter = $jobCodeStartingNumber;
-        for($currentCodeNumber = $jobCodeStartingNumber; $currentCodeNumber < $jobCodeStartingNumber+$data['total_employees'];) {
+        for($currentCodeNumber = $jobCodeStartingNumber;$currentCodeNumber<$jobCodeStartingNumber+$data['total_employees'];) {
             $code = $jobCodePrefix.$counter;
             $counter++;
             if(PositionCode::where('code',$code)->count()==0){
@@ -249,6 +263,9 @@ class PositionCrudController extends CrudController
         $this->crud->setSaveAction();
         return $this->crud->performSaveAction($item->getKey());
     }
+
+
+
 
     /**
      * Define what happens when the Update operation is loaded.
@@ -275,7 +292,7 @@ class PositionCrudController extends CrudController
         $minimumRequirements = MinimumRequirement::where('position_id', $this->crud->getCurrentEntryId())->paginate(10);
         $this->data['minimumRequirements'] = $minimumRequirements;
         
-        $positionCodes = PositionCode::where('position_id',  $position_id)->orderBy('id', 'desc')->Paginate(10);
+        $positionCodes = PositionCode::where('position_id',  $position_id)->orderBy('id', 'desc')->paginate(20);
         $this->data['positionCodes'] = $positionCodes;
 
         $prefixes = CollegePositionCode::all();
