@@ -215,31 +215,30 @@
             </div>
         </div>
     </div>
-    <script>
-        // Get the input field and the table
-        var input = document.getElementById('myInput');
-        var table = document.getElementById('myTable');
-    
-        input.addEventListener('keyup', function() {
-            var filter = input.value.toUpperCase();
-            var rows = table.getElementsByTagName('tr');
-    
-            for (var i = 1; i < rows.length; i++) {
-                var data = rows[i].getElementsByTagName('td')[2]; // Adjust the index for the column to search
-    
-                if (data) {
-                    var textValue = data.textContent || data.innerText;
-                    if (textValue.toUpperCase().indexOf(filter) > -1) {
-                        rows[i].style.display = '';
-                    } else {
-                        rows[i].style.display = 'none';
-                    }
+   <script>
+    // Get the input field and the table
+    var input = document.getElementById('myInput');
+    var table = document.getElementById('myTable');
+
+    input.addEventListener('keyup', function() {
+        var filter = input.value.toUpperCase();
+        var rows = table.getElementsByTagName('tr');
+
+        for (var i = 1; i < rows.length; i++) {
+            var data = rows[i].getElementsByTagName('td')[2]; // Adjust the index for the column to search
+
+            if (data) {
+                var textValue = data.textContent || data.innerText;
+                if (textValue.toUpperCase().indexOf(filter) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
                 }
             }
-        });
-    </script>
-    
-''
+        }
+    });
+</script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const checkboxes = document.querySelectorAll('input[name="selected_items[]"]');
