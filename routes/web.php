@@ -156,6 +156,7 @@ Route::resource('signature', IDSignaturesController::class)->middleware('auth');
 Route::get('field_of_study/sync',[ FieldOfStudyCrudController::class,'syncFieldOfStudy'])->name('field_of_study.sync')->middleware('auth');
 
 Route::get('/search', [PositionCodeCrudController::class, 'search']);
+Route::delete('items/bulkDelete', [PositionCodeCrudController::class,'bulkDelete'])->name('items.bulkDelete');
 
 //Route::resource('round/{placement_round}/placement-choice', PlacementChoiceController::class);
 Route::post('choice-based-employee', [PlacementChoiceController::class, 'choiceBasedEmployee']);

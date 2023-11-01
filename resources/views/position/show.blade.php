@@ -13,6 +13,7 @@
 
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Include DataTables CSS and JavaScript files -->
 
 @section('header')
     <section class="container-fluid d-print-none">
@@ -134,32 +135,45 @@
             </div>
         </div>
     </div>
-    <input type="text" class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search job position...">
-
+ 
    
     <div class="card col-md-12 mb-2" style="border-radius:0%; border-top-color: #0067b8 !important; border-top-width:2px;">
         <div class="card-body">
             <div class="row">
                 {{-- <label for=""></label> --}}
+                <div class="col-12">
+                    <div class="col-3 float-right"> 
+                    <input type="search"  class="form-control float-sm-right"  id="myInput"  placeholder="Search by job code...">
+                    </div>
 
-                <table id="myTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
-                    cellspacing="0">
+                <form method="POST" action="{{ route('items.bulkDelete') }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class=" btn  btn-sm btn-outline-danger float-left mr-1 " id="delete-selected-rows" style="display: none"><i class="la la-trash"></i>  Delete Selected Rows</button>
+                    <table id="myTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>አሁን የስራ መደቡን የያዘዉ ሰራትኛ</th>
-                            <th>የስራ መደቡ መለያ</th>
-                          
-                            <th>የስራ መደብ </th>
+                            <th><input type="checkbox" id="select-all"> All</th>
+                            <th data-searchable="true">አሁን የስራ መደቡን የያዘዉ ሰራትኛ</th>
+                            <th data-searchable="true">የስራ መደቡ መለያ</th>
+                            <th data-searchable="true">የስራ መደብ</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($positionCodes as $positionCode)
                             <tr>
-                          
+                                 
+                                <td>
+                                    @if($positionCode?->employee == null )
+                                     <input type="checkbox" name="selected_items[]" value="{{ $positionCode->id }}">
+                                     @else
+                                     <input type="checkbox" name="selected_items[]" value="{{ $positionCode->id }}"  disabled>
+                                     
+                                     @endif
+                                    </td>
                               
-                                    <td> {{ $loop->index + 1 }} </td>
+                                  
                                 <td>
                                     <a
                                         href="{{ $positionCode?->employee != null ? route('employee.show', ['id' => $positionCode?->employee?->id]) : '#' }}">{{ $positionCode?->employee?->name ?? '-' }}</a>
@@ -190,14 +204,75 @@
                         @endforeach
                     </tbody>
                 </table>
+              
+      
+            </form>
+    
+        </div>
             </div>
             <div class="m-auto float-right" id="pagi">
                 {{ $positionCodes->links() }}
             </div>
         </div>
     </div>
+    <script>
+        // Get the input field and the table
+        var input = document.getElementById('myInput');
+        var table = document.getElementById('myTable');
+    
+        input.addEventListener('keyup', function() {
+            var filter = input.value.toUpperCase();
+            var rows = table.getElementsByTagName('tr');
+    
+            for (var i = 1; i < rows.length; i++) {
+                var data = rows[i].getElementsByTagName('td')[2]; // Adjust the index for the column to search
+    
+                if (data) {
+                    var textValue = data.textContent || data.innerText;
+                    if (textValue.toUpperCase().indexOf(filter) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        });
+    </script>
+    
+''
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const checkboxes = document.querySelectorAll('input[name="selected_items[]"]');
+            const deleteButton = document.getElementById('delete-selected-rows');
+            const selectAllCheckbox = document.getElementById('select-all');
+    
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateDeleteButtonVisibility);
+            });
+    
+            selectAllCheckbox.addEventListener('change', function () {
+                checkboxes.forEach((checkbox) => {
+                    if (!checkbox.disabled) {
+                        checkbox.checked = selectAllCheckbox.checked;
+                    }
+                });
+                updateDeleteButtonVisibility();
+            });
+            // Function to update the visibility of the "Delete Selected Rows" button
+            function updateDeleteButtonVisibility() {
+                const atLeastOneChecked = [...checkboxes].some(checkbox => checkbox.checked);
+                deleteButton.style.display = atLeastOneChecked ? 'block' : 'none';
+            }
+            // Call the function to set the initial state
+            updateDeleteButtonVisibility();
+        });
+    </script>
+    
+    
 
 
+
+    
     <div class="modal fade" data-backdrop="false" id="position_code_edit" tabindex="-1" role="dialog"
         aria-labelledby="position_code_edit" aria-hidden="true">
         <div class="modal-dialog modal-full" role="document">
@@ -349,27 +424,8 @@
         }
 
     
-function myFunction() {
-  // Declare variables 
-var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-    // Make an AJAX request to the Laravel controller
-    $.ajax({
-        url: '/search',
-        data: {q: filter},
-        dataType: 'json',
-        success: function(data) {
-            // Update the table with the results of the filter
-            $('#myTable tbody').html(data);
-            
-        }
-    });
-}
 
 </script>
+
 
 @endsection
