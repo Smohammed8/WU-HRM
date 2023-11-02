@@ -613,8 +613,11 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('notice_type.edit');
         Permission::findOrCreate('notice_type.delete');
 
+        Permission::findOrCreate('log.index');
+        Permission::findOrCreate('log.trancate');
+        Permission::findOrCreate('log.delete');
         
-
+       
         // Hr Branch
         Permission::findOrCreate('HR-all.manage');
         Permission::findOrCreate('HR-jit.manage');
