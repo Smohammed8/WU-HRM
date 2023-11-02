@@ -12,7 +12,7 @@ class AccessLogController extends Controller
 {
     public function index()
 {
-    $logs = AccessLog::latest()->paginate(15); // Fetch and paginate access logs
+    $logs = AccessLog::latest()->paginate(15); // Fetch and paginate access logs decending order
 
      // Add browser name and version to each log entry
     //  $logs->each(function ($log) {

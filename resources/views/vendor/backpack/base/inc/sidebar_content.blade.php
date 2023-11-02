@@ -213,9 +213,16 @@ color:black;
                 class='nav-icon la la-caret-right'></i> Chairman type</a></li> --}}
 
 
-
+  @if(Auth::user()->hasRole('super-admin'))
+<li class="nav-item"><a class="nav-link" href="{{ route('sync') }}"><i class="nav-icon la la-caret-right"></i>
+    Sync Data </a>
+</li>
+ @endif
+ 
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'>
-            <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
+    <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
+
+
     @canany(['certification_type.index', 'certification_type.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('certification-type') }}'><i class='nav-icon la la-caret-right'></i> Certification type </a></li>
     @endcanany
@@ -342,7 +349,8 @@ color:black;
 @endcanany
 @canany(['notice.icrud', 'notice.index', 'notice_type.icrud', 'notice_type.index'])
 <li class="nav-item nav-dropdown">
-<a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-bullhorn" aria-hidden="true"></i>
+<a class="nav-link nav-dropdown-toggle" href="#">
+    <i class="nav-icon la la-bullhorn" aria-hidden="true"></i>
     Announcement</a>
 <ul class="nav-dropdown-items">
     @canany(['notice.index', 'notice.icrud'])

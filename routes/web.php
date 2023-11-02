@@ -20,11 +20,14 @@ use App\Http\Controllers\IDSignaturesController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PlacementChoiceController;
 use App\Http\Controllers\UnitController;
+use App\Http\Connectors\SyncController;
+
 use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
 use App\Models\Unit as ModelsUnit;
 use App\Score\ExperienceScore;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -156,6 +159,10 @@ Route::get('/access-logs/{id}', [AccessLogController::class,'destroy'])->name('d
 Route::get('/truncate', [AccessLogController::class,'truncateTable'])->name('truncate');
 Route::delete('logs/bulkDelete', [AccessLogController::class,'bulkDelete'])->name('logs.bulkDelete');
 
+/////////////////////////////////////////////////////////////////////
+Route::get('/api/employees', [EmployeeController::class, 'index']);
+Route::get('/api/home', [App\Http\Controllers\SyncController::class, 'insert'])->name('sync');
+//////////////////////////////////////////////////////////////////////
 
 Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.list')->middleware('auth');
 Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id')->middleware('auth');

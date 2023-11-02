@@ -8,7 +8,7 @@
     @can('dashboard.content')
 
             <!-- /.row -->
-
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 
 .bg-blue{
@@ -40,126 +40,121 @@
             @endcanany
 
         </div> <!-- /.card-body -->
-        <div class="card-body">
-            <div class="container-fluid animated fadeIn">
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                           <span class="info-box-icon bg-info"> <a href="{{ route('employee.index', []) }}" title="Click to view details">  <i class="fa fa-users"></i></a></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Employees</span>
-                                <span class="info-box-number">{{ number_format($employees, 0, '.', ',') }}
-                               
-                                 , M:{{ $males }}, F:{{ $females }}
-                                </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
+        <div class="container-fluid" style="padding: 0;">
+        <div class="row">
+        <div class="col-md-9">
+         
+                 <div class="card card d-none d-md-block">
+                    <div class="card-header">
+                      <h4 class="card-title">
+                        <i class="fa fa-users"></i> Employee Classification by Pie Chart</h4>
+    
+                      <div class="card-tools">
+    
+                      </div>
                     </div>
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.checkRetirment', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
+                    <div class="card-body">
+    
+                        <div id="piechart" style="height: 370px; width: 100%;"></div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                    
+        </div>
+        
+        <div class="col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-info"> <a href="{{ route('employee.index', []) }}" title="Click to view details">  <i class="fa fa-users"></i></a></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Retirements </span>
-                                <span class="info-box-number">{{ $retired }} </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-warning"> <a href="{{ route('employee.checkLeave') }}" title="Click to view details"> <i class="fa fa-user-plus"></i> </a></span>
+                 <div class="info-box-content">
+                     <span class="info-box-text">Employees</span>
+                     <span class="info-box-number">{{ number_format($employees, 0, '.', ',') }}
+                    
+                      , M:{{ $males }}, F:{{ $females }}
+                     </span>
+                 </div>
+                 <!-- /.info-box-content -->
+             </div>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text"> Emloyee Leaves</span>
-                                <span class="info-box-number">{{ $active_leaves}} </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-danger"> <a href="#" title="Click to view details"> <i class="fa fa-users"></i> </a> </span>
+             <div class="info-box">
+                <span class="info-box-icon bg-success"> <a href="{{ route('employee.checkRetirment', []) }}" title="Click to view details"> <i class="fa fa-user-minus"></i> </a> </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text"> Total Permanet</span>
-                                <span class="info-box-number">{{ $permanets }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+                <div class="info-box-content">
+                    <span class="info-box-text">Retirements </span>
+                    <span class="info-box-number">{{ $retired }} </span>
                 </div>
-                <!-- /.row -->
+                <!-- /.info-box-content -->
+            </div>
 
-                <!-- =========================================================== -->
+            <div class="info-box">
+                <span class="info-box-icon bg-warning"> <a href="{{ route('employee.checkLeave') }}" title="Click to view details"> <i class="fa fa-user-plus"></i> </a></span>
 
-               <hr>
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box"> <!--    <div class="info-box shadow"> -->
-                            <span class="info-box-icon bg-info"> <a href="{{ route('unit.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a> </span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Organizational units</span>
-                                <span class="info-box-number">{{ $units }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-success"> <a href="{{ route('employee.probation', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">In probation Period  </span>
-                                <span class="info-box-number">{{  $probations }} </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                 
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-warning"><a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-list"></i> </a> </span>
-
-                            <div class="info-box-content">                                <span class="info-box-text">Vacant positions </span>
-                                <span class="info-box-number"> {{ $freepositions }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-danger"> <a href="#" title="Click to view details">  <i class="fa fa-users"></i> </a></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Non-permanents </span>
-                                <span class="info-box-number">{{ $non_permanets }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+                <div class="info-box-content">
+                    <span class="info-box-text"> Emloyee Leaves</span>
+                    <span class="info-box-number">{{ $active_leaves}} </span>
                 </div>
-        </div><!-- /.card-body -->
-      </div>
+                <!-- /.info-box-content -->
+            </div>
+
+
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"> <a href="#" title="Click to view details"> <i class="fa fa-users"></i> </a> </span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text"> Total Permanet</span>
+                    <span class="info-box-number">{{ $permanets }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <div class="info-box"> <!--    <div class="info-box shadow"> -->
+                <span class="info-box-icon bg-info"> <a href="{{ route('unit.index', []) }}" title="Click to view details">  <i class="fa fa-sitemap"></i> </a> </span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Organizational units</span>
+                    <span class="info-box-number">{{ $units }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+
+            <div class="info-box">
+                <span class="info-box-icon bg-success"> <a href="{{ route('employee.probation', []) }}" title="Click to view details"> <i class="fa fa-user-tie"></i> </a> </span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">In probation Period  </span>
+                    <span class="info-box-number">{{  $probations }} </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <div class="info-box">
+                <span class="info-box-icon bg-warning"><a href="{{ route('position.index', []) }}" title="Click to view details">  <i class="fa fa-list"></i> </a> </span>
+
+                <div class="info-box-content">                                <span class="info-box-text">Vacant positions </span>
+                    <span class="info-box-number"> {{ $freepositions }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"> <a href="#" title="Click to view details">  <i class="fa fa-users"></i> </a></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Non-permanents </span>
+                    <span class="info-box-number">{{ $non_permanets }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+
+
+        </div>
+    </div>
+</div>
+
+      
 
       <div class="card card-body">
         <div class="row">
