@@ -55,6 +55,13 @@ color:black;
             <i class='nav-icon la la-caret-right'></i> 
             <span> Permission </span></a></li>
     @endcanany
+
+    @canany('access.logs')
+    <li class="nav-item"><a class="nav-link" href="{{ route('access-logs.index') }}">
+        <i class='nav-icon la la-caret-right'></i> 
+        <span> Access logs </span></a></li>
+@endcanany
+
 </ul>
 </li>
 @endcanany

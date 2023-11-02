@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants;
+use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
 use App\Http\Controllers\Admin\FieldOfStudyCrudController;
@@ -148,6 +149,12 @@ Route::resource('idcard', IDCardController::class)->middleware('auth');
 Route::get('idcard/{idcard}/show', [IDCardController::class, 'design'])->middleware('auth')->name('idcard.design');
 Route::resource('attribute', IdAttributeController::class)->middleware('auth');
 Route::post('{idcard}/save/design', [IDCardController::class, 'saveDesign'])->name('save.design')->middleware('auth');
+
+
+Route::get('/access-logs', [AccessLogController::class,'index'])->name('access-logs.index');
+Route::get('/access-logs/{id}', [AccessLogController::class,'destroy'])->name('destroy');
+Route::get('/truncate', [AccessLogController::class,'truncateTable'])->name('truncate');
+Route::delete('logs/bulkDelete', [AccessLogController::class,'bulkDelete'])->name('logs.bulkDelete');
 
 
 Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.list')->middleware('auth');
