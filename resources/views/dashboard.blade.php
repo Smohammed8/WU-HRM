@@ -16,6 +16,12 @@
     background-color: #0067b8 !important;
 
 }
+.vertical-separator {
+    border-left: 1px solid #ccc; /* Add a vertical line with the desired color and thickness */
+    height: 100%; /* Match the height of the columns */
+    margin-left: 10px; /* Adjust the margin as needed to control the spacing between the charts and the separator */
+    margin-right: 10px;
+}
 </style>
 <br><br>
 
@@ -56,8 +62,26 @@
                     </div>
                     <div class="card-body">
     
-                        <div id="piechart" style="height: 370px; width: 100%;"></div>
+                        {{-- <div id="piechart" style="height: 370px; width: 100%;"></div> --}}
+
+                        <div id="chartContainer1"  style="height: 370px; width: 100%;"></div>
+                       
                     </div>
+<hr>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+                                </div>
+                                <div class="col-md-1 vertical-separator"></div>
+                                <div class="col-md-5">
+                                    <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- /.card-body -->
                   </div>
                     
@@ -303,44 +327,154 @@
 
     <?php
 
-    $dataPoints = array(
-        array("label"=>"Administrative staff", "y"=>99),
-        array("label"=>"Academics 	 staff", "y"=>0.3),
-        array("label"=>"Health staff", "y"=>0.3),
-        array("label"=>"Research", "y"=>0.4),
+    // $dataPoints = array(
+    //     array("label"=>"Administrative staff", "y"=>99),
+    //     array("label"=>"Academics 	 staff", "y"=>0.3),
+    //     array("label"=>"Health staff", "y"=>0.3),
+    //     array("label"=>"Research", "y"=>0.4),
 
 
-    )
+    // )
 
     ?>
  <script src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
-
-
-        <script>
-
-        window.onload = function() {
-        var chart = new CanvasJS.Chart("piechart", {
-        animationEnabled: true,
+ {{-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> --}}
+ <script type="text/javascript">
+     // Chart 1
+     var chart1 = new CanvasJS.Chart("chartContainer1", {
         exportEnabled: true,
-        // title: {
-        //     text: "Jimma University"
-        // },
-        // subtitles: [{
-        //     text: " Employee Classification"
-        // }],
-        data: [{
-            type: "pie",
-            //yValueFormatString: "#,##0.00\"%\"",
-            yValueFormatString: "#,##0\"%\"",
-            indexLabel: "{label} ({y})",
-            dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-        }]
-        });
-        chart.render();
+        animationEnabled: true,  
+	title:{
+		text: "Employee performance index per"
+	},
+    subtitles: [{
+		text: "Consecutive Fiscal Year",
+		fontSize: 16
+	}],
 
-        }
+	axisY: {
+		title: "Obtained marks",
+		valueFormatString: "#0,,.",
+		suffix: "%",
+		stripLines: [{
+			value: 3366500,
+			label: "Average"
+		}]
+	},
+	data: [{
+		yValueFormatString: "#,### Units",
+		xValueFormatString: "YYYY",
+		type: "spline",
+		dataPoints: [
+			{x: new Date(2002, 0), y: 2506000},
+			{x: new Date(2003, 0), y: 2798000},
 
+			{x: new Date(2004, 0), y: 3386000},
+			{x: new Date(2005, 0), y: 6944000},
 
-        </script>
+			{x: new Date(2006, 0), y: 6026000},
+			{x: new Date(2007, 0), y: 2394000},
+
+			{x: new Date(2008, 0), y: 1872000},
+			{x: new Date(2009, 0), y: 2140000},
+
+			{x: new Date(2010, 0), y: 7289000},
+			{x: new Date(2011, 0), y: 4830000},
+
+			{x: new Date(2012, 0), y: 2009000},
+			{x: new Date(2013, 0), y: 2840000},
+
+			{x: new Date(2014, 0), y: 2396000},
+			{x: new Date(2015, 0), y: 1613000},
+
+			{x: new Date(2016, 0), y: 2821000},
+			{x: new Date(2017, 0), y: 2000000}
+		]
+	}]
+});
+ 
+     // Chart 2
+     var chart2 = new CanvasJS.Chart("chartContainer2", {
+    theme: "light2",  // "light1", "light2", "dark1", "dark2"
+    exportEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Employee Classification by"
+	},
+	subtitles: [{
+		text: "by Category",
+		fontSize: 16
+	}],
+	data: [{
+		type: "pie",
+		indexLabelFontSize: 13,
+		radius: 90,
+		indexLabel: "{label} - {y}",
+		yValueFormatString: "###0.0\"%\"",
+		click: explodePie,
+		dataPoints: [
+			{ y: 42, label: "Academic Staff" },
+			{ y: 21, label: "Adminstrative staff"},
+			{ y: 24.5, label: "Health Staff" },
+			{ y: 9, label: "Technical Staff" },
+			{ y: 3.1, label: "Other Staff" }
+		],
+      
+        
+	}]
+});
+
+var chart3 = new CanvasJS.Chart("chartContainer3", {
+        theme: "light2",
+        exportEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Employee Performance"
+	},
+	subtitles: [{
+		text: "Measeurement",
+		fontSize: 16
+	}],
+	data: [{
+		type: "pie",
+		indexLabelFontSize: 13,
+		radius: 90,
+		indexLabel: "{label} - {y}",
+		yValueFormatString: "###0.0\"%\"",
+		click: explodePie,
+		dataPoints: [
+			{ y: 42, label: "95-100" },
+			{ y: 21, label: "90-94"},
+			{ y: 24.5, label: "80-89" },
+			{ y: 9, label: "70-79" },
+			{ y: 3.1, label: "Less than 70" }
+		]
+	}]
+});
+ 
+     // Render the charts
+     chart1.render();
+     chart2.render();
+     chart3.render();
+
+     function explodePie(e) {
+	for(var i = 0; i < e.dataSeries.dataPoints.length; i++) {
+		if(i !== e.dataPointIndex)
+			e.dataSeries.dataPoints[i].exploded = false;
+	}
+}
+
+function toggleDataSeries(e) {
+	if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	} else {
+		e.dataSeries.visible = true;
+	}
+	e.chart.render();
+}
+     
+ </script>
+ 
+    
 
 @endsection

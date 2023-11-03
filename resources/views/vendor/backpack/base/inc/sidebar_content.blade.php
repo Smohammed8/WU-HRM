@@ -3,7 +3,7 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
 @if(Auth::user()->hasRole('employee'))
-<li class="nav-item"><a class="nav-link" href="#"><i class="la la-home nav-icon"></i>
+<li class="nav-item"><a class="nav-link" href="{{ route('notice') }}"><i class="la la-home nav-icon"></i>
     Home </a>
 </li>
  @endif

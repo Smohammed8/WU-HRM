@@ -164,6 +164,8 @@ Route::get('/api/employees', [EmployeeController::class, 'index']);
 Route::get('/api/home', [App\Http\Controllers\SyncController::class, 'insert'])->name('sync');
 //////////////////////////////////////////////////////////////////////
 
+Route::get('/notice', [DashboardController::class, 'notice'])->name('notice');
+
 Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.list')->middleware('auth');
 Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id')->middleware('auth');
 Route::resource('signature', IDSignaturesController::class)->middleware('auth');

@@ -23,6 +23,9 @@ class DashboardController extends Controller
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
 
-        return view('home', compact('users','employees'));
+        return view('home', compact(['users','employees']));
     }
+
+   
+  
 }
