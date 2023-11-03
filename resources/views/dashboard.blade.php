@@ -345,7 +345,8 @@
         exportEnabled: true,
         animationEnabled: true,  
 	title:{
-		text: "Employee performance index per"
+		text: "Employee performance index per",
+        fontSize: 18 // Set the desired font size for the main title
 	},
     subtitles: [{
 		text: "Consecutive Fiscal Year",
@@ -362,7 +363,7 @@
 		}]
 	},
 	data: [{
-		yValueFormatString: "#,### Units",
+		yValueFormatString: "#,### Staff",
 		xValueFormatString: "YYYY",
 		type: "spline",
 		dataPoints: [
@@ -399,7 +400,8 @@
     exportEnabled: true,
 	animationEnabled: true,
 	title: {
-		text: "Employee Classification by"
+		text: "Employee Classification by",
+        fontSize: 18 // Set the desired font size for the main title
 	},
 	subtitles: [{
 		text: "by Category",
@@ -429,10 +431,11 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
         exportEnabled: true,
 	animationEnabled: true,
 	title: {
-		text: "Employee Performance"
+		text: "Number of Employees per",
+        fontSize: 18 // Set the desired font size for the main title
 	},
 	subtitles: [{
-		text: "Measeurement",
+		text: "College or Institute",
 		fontSize: 16
 	}],
 	data: [{
@@ -443,11 +446,15 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
 		yValueFormatString: "###0.0\"%\"",
 		click: explodePie,
 		dataPoints: [
-			{ y: 42, label: "95-100" },
-			{ y: 21, label: "90-94"},
-			{ y: 24.5, label: "80-89" },
-			{ y: 9, label: "70-79" },
-			{ y: 3.1, label: "Less than 70" }
+			{ y: 10, label: "JiT" },
+			{ y: 10, label: "CNS"},
+			{ y: 10, label: "CSS" },
+			{ y: 10, label: "CLG" },
+			{ y: 10, label: "CAVM" },
+            { y: 10, label: "JMC & PH"},
+            { y: 20, label: "Main" },
+            { y: 10, label: "BECO" },
+            { y: 10, label: "BEBS" }
 		]
 	}]
 });
