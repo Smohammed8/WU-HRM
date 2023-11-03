@@ -1,5 +1,7 @@
 @if (backpack_user()->can('dashboard.sidebar'))
     <!-- Left side column. contains the sidebar -->
+   
+
     <aside class="main-sidebar sidebar-light-primary elevation-1" style="background-color: #0067b8;">
         <a href="#" class="brand-link">
             <img src="{{ asset(\App\Constants::LOGO_PATH) }}" alt="HRM" class="brand-image  elevation-4"
@@ -8,14 +10,15 @@
         </a>
         <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition"
             style="background-color: #fff;">
+         
             <nav class="mt-2">
-                <ul class="nav sidebar-nav overflow-hidden nav-pills nav-sidebar flex-column m-0 w-100"
-                    data-widget="treeview" role="menu" data-accordion="false">
+                <ul class="nav sidebar-nav overflow-hidden nav-pills nav-sidebar flex-column m-0 w-100" data-widget="treeview" role="menu" data-accordion="false">
                     @include(backpack_view('inc.sidebar_content'))
                 </ul>
             </nav>
         </div>
     </aside>
+    
     {{-- <div class="{{ config('backpack.base.sidebar_class') }}">
         <!-- sidebar: style can be found in sidebar.less -->
         <nav class="sidebar-nav overflow-hidden">
@@ -84,6 +87,8 @@
 
 @push('after_scripts')
     <script>
+        //    <span class="navbar-toggler-icon"></span>
+
         // Store sidebar state
         document.querySelectorAll('.sidebar-toggler').forEach(function(toggler) {
             toggler.addEventListener('click', function() {

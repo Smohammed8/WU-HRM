@@ -1,12 +1,12 @@
 
+
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
-
-
-<li class="nav-item"><a class="nav-link" href="#"><i class="la la-home nav-icon"></i>
+@if(Auth::user()->hasRole('employee'))
+<li class="nav-item"><a class="nav-link" href="{{ route('notice') }}"><i class="la la-home nav-icon"></i>
     Home </a>
 </li>
-
+ @endif
 
 @can('dashboard.content')
 <li class="nav-item">
@@ -15,7 +15,6 @@
 </a>
 </li>
 @endcan
-
 @can('employee.home')
 @if(Auth::user()->employee)
 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-user-tie nav-icon"></i>
@@ -23,14 +22,18 @@
 </li>
 @endif
 @endcan
-<style>
+{{-- <style>
 #dash {
 
 background-color: white !important;
 color:black;
 
 }
-</style>
+</style> --}}
+
+
+
+
 
 
 
@@ -52,41 +55,16 @@ color:black;
             <i class='nav-icon la la-caret-right'></i> 
             <span> Permission </span></a></li>
     @endcanany
+
+    @canany('access.logs')
+    <li class="nav-item"><a class="nav-link" href="{{ route('access-logs.index') }}">
+        <i class='nav-icon la la-caret-right'></i> 
+        <span> Access logs </span></a></li>
+@endcanany
+
 </ul>
 </li>
 @endcanany
-<!-- Users, Roles, Permissions -->
-
-@canany(['id.design.icrud', 'id.design.index'])
-<li class="nav-item nav-dropdown">
-<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-id-card"></i>ID Managment</a>
-<ul class="nav-dropdown-items">
-    @canany(['id.design.icrud', 'id.design.index'])
-        <li class="nav-item"><a class="nav-link" href="{{ route('idcard.index') }}">
-            <i class='nav-icon la la-caret-right'></i> 
-                <span>ID Design</span></a></li>
-    @endcanany
-    @canany(['id.setting.icrud', 'id.setting.index'])
-        <li class="nav-item"><a class="nav-link" href="{{ route('attribute.index') }}">
-            <i class='nav-icon la la-caret-right'></i> 
-                <span>ID Setting</span></a>
-        </li>
-    @endcanany
-    @canany(['signature.icrud', 'signature.index'])
-        <li class="nav-item"><a class="nav-link" href="{{ route('signature.index') }}">
-            <i class='nav-icon la la-caret-right'></i> 
-                <span>Signature</span></a>
-        </li>
-    @endcanany
-</ul>
-</li>
-@endcanany
-
-{{-- @can('employee.index')
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'>
-    <i style="color:black;"  class='nav-icon la la-user-tie'></i>
-    Employee Managment </a></li>
-@endcan --}}
 
 @can('employee.index')
 <li class="nav-item nav-dropdown">
@@ -98,6 +76,12 @@ color:black;
             <i class='nav-icon la la-caret-right'></i> 
                 <span>All Employees</span></a></li>
     @endcanany
+
+    @canany(['application.index', 'application.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('application') }}'>  <i
+        class='nav-icon la la-caret-right'></i> Active Applications </a></li>
+    @endcanany
+
     @canany('contract.employee.index')
         <li class="nav-item"><a class="nav-link" href="#">
             <i class='nav-icon la la-caret-right'></i> 
@@ -142,6 +126,55 @@ color:black;
 </li>
 @endcanany
 
+
+@canany(['job_title_category.icrud', 'job_title_category.index', 'job_level.icrud', 'job_level.index',
+'job_grade.icrud', 'job_grade.index', 'salary_scale.icrud', 'salary_scale.index', 'employement_type.icrud',
+'employement_type.index', 'position.icrud', 'position.index'])
+<li class="nav-item nav-dropdown">
+<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-flag"></i>Job Information </a>
+<ul class="nav-dropdown-items">
+
+    @canany(['position.icrud', 'position.index'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
+                class='nav-icon la la-caret-right'></i> Position</a></li>
+@endcanany
+
+    @canany(['job_title_category.icrud', 'job_title_category.index'])
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'>
+                <i class='nav-icon la la-caret-right'></i>Job title category</a></li>
+    @endcanany
+    @canany(['job_level.icrud', 'job_level.index'])
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'>
+                <i class='nav-icon la la-caret-right'></i>Job Level</a></li>
+    @endcanany
+    @canany(['job_grade.icrud', 'job_grade.index'])
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-grade') }}'>
+                <i class='nav-icon la la-caret-right'></i> Job grade</a></li>
+    @endcanany
+    @canany(['collegePositionCode.icrud', 'collegePositionCode.index'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('college-position-code') }}'><i class='nav-icon la la-caret-right'></i> College Position Code</a></li>
+    @endcanany
+
+    @canany(['employment_statuse.icrud', 'employment_statuse.index'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-status') }}'>
+    <i class='nav-icon la la-caret-right'></i> Employement Status</a></li>
+    @endcanany
+        
+
+    @canany(['salary_scale.icrud', 'salary_scale.index'])
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-scale') }}'>
+                <i class='nav-icon la la-caret-right'></i> Salary scale</a></li>
+    @endcanany
+    @canany(['employement_type.icrud', 'employement_type.index'])
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'>
+                <i class='nav-icon la la-caret-right'></i>Employment type</a></li>
+    @endcanany
+  
+ 
+</ul>
+</li>
+@endcanany
+
 @canany(['organization.index', 'organization.icrud', 'unit.index', 'unit.icrud'])
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-institution"></i> Organization   </a>
@@ -170,16 +203,6 @@ color:black;
 </li>
 @endcanany
 
-<li class="nav-item nav-dropdown">
-<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-minus"></i> Clearance </a>
-<ul class="nav-dropdown-items">
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('check-point') }}'><i class='nav-icon la la-caret-right'></i> Check points</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('clearance') }}'><i class='nav-icon la la-caret-right'></i> </i> Clearances</a></li>
-<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Employee Approvals </a></li>
-<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Order Policy</a></li>
-
-</ul>
-</li>
 
 
 @canany(['setting.index', 'setting.icrud'])
@@ -190,13 +213,23 @@ color:black;
                 class='nav-icon la la-caret-right'></i> Chairman type</a></li> --}}
 
 
-
+  @if(Auth::user()->hasRole('super-admin'))
+<li class="nav-item"><a class="nav-link" href="{{ route('sync') }}"><i class="nav-icon la la-caret-right"></i>
+    Sync Data </a>
+</li>
+ @endif
+ 
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'>
-            <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
+    <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
+
+
     @canany(['certification_type.index', 'certification_type.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('certification-type') }}'><i class='nav-icon la la-caret-right'></i> Certification type </a></li>
     @endcanany
-    
+    @canany(['application_type.index', 'application_type.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('application-type') }}'>  <i
+        class='nav-icon la la-caret-right'></i> Application types</a></li>
+    @endcanany
     @canany(['education_level.index', 'education_level.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('educational-level') }}'><i
                 class='nav-icon la la-caret-right'></i> Educational level</a></li>
@@ -288,49 +321,74 @@ color:black;
 </ul>
 </li>
 @endcanany
-@canany(['job_title_category.icrud', 'job_title_category.index', 'job_level.icrud', 'job_level.index',
-'job_grade.icrud', 'job_grade.index', 'salary_scale.icrud', 'salary_scale.index', 'employement_type.icrud',
-'employement_type.index', 'position.icrud', 'position.index'])
+<!-- Users, Roles, Permissions -->
+
+@canany(['id.design.icrud', 'id.design.index'])
 <li class="nav-item nav-dropdown">
-<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-flag"></i>Job Information </a>
+<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-id-card"></i>ID Managment</a>
 <ul class="nav-dropdown-items">
-    @canany(['job_title_category.icrud', 'job_title_category.index'])
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-title-category') }}'>
-                <i class='nav-icon la la-caret-right'></i>Job title category</a></li>
+    @canany(['id.design.icrud', 'id.design.index'])
+        <li class="nav-item"><a class="nav-link" href="{{ route('idcard.index') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+                <span>ID Design</span></a></li>
     @endcanany
-    @canany(['job_level.icrud', 'job_level.index'])
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'>
-                <i class='nav-icon la la-caret-right'></i>Job Level</a></li>
+    @canany(['id.setting.icrud', 'id.setting.index'])
+        <li class="nav-item"><a class="nav-link" href="{{ route('attribute.index') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+                <span>ID Setting</span></a>
+        </li>
     @endcanany
-    @canany(['job_grade.icrud', 'job_grade.index'])
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('job-grade') }}'>
-                <i class='nav-icon la la-caret-right'></i> Job grade</a></li>
-    @endcanany
-    @canany(['collegePositionCode.icrud', 'collegePositionCode.index'])
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('college-position-code') }}'><i class='nav-icon la la-caret-right'></i> College Position Code</a></li>
-    @endcanany
-
-    @canany(['employment_statuse.icrud', 'employment_statuse.index'])
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-status') }}'>
-    <i class='nav-icon la la-caret-right'></i> Employement Status</a></li>
-    @endcanany
-        
-
-    @canany(['salary_scale.icrud', 'salary_scale.index'])
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('salary-scale') }}'>
-                <i class='nav-icon la la-caret-right'></i> Salary scale</a></li>
-    @endcanany
-    @canany(['employement_type.icrud', 'employement_type.index'])
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employment-type') }}'>
-                <i class='nav-icon la la-caret-right'></i>Employment type</a></li>
-    @endcanany
-    @canany(['position.icrud', 'position.index'])
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i
-                    class='nav-icon la la-caret-right'></i> Position</a></li>
+    @canany(['signature.icrud', 'signature.index'])
+        <li class="nav-item"><a class="nav-link" href="{{ route('signature.index') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+                <span>Signature</span></a>
+        </li>
     @endcanany
 </ul>
 </li>
 @endcanany
+@canany(['notice.icrud', 'notice.index', 'notice_type.icrud', 'notice_type.index'])
+<li class="nav-item nav-dropdown">
+<a class="nav-link nav-dropdown-toggle" href="#">
+    <i class="nav-icon la la-bullhorn" aria-hidden="true"></i>
+    Announcement</a>
+<ul class="nav-dropdown-items">
+    @canany(['notice.index', 'notice.icrud'])
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('notice') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+             <span> Notice </span></a></li>
+    @endcanany
+    <li class="nav-item"><a class="nav-link" href="#">  
+        <i class='nav-icon la la-caret-right'></i> 
+           <span> Noticeboard</span></a>
+       </li>
+
+    @canany(['notice_type.index', 'notice_type.icrud'])
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('notice-type') }}">
+            <i class='nav-icon la la-caret-right'></i> 
+            <span> Notice type </span></a></li>
+    @endcanany
+</ul>
+</li>
+@endcanany
+
+@canany(['clearance.icrud', 'clearance.index','check_point.icrud','check_point.index'])
+<li class="nav-item nav-dropdown">
+<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user-minus"></i> Clearance </a>
+<ul class="nav-dropdown-items">
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('check-point') }}'><i class='nav-icon la la-caret-right'></i> Check points</a></li>
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('clearance') }}'><i class='nav-icon la la-caret-right'></i> </i> Clearances</a></li>
+
+<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Employee Approvals </a></li>
+<li class='nav-item'><a class='nav-link' href='#'> <i class='nav-icon la la-caret-right'></i> Order Policy</a></li>
+
+</ul>
+</li>
+@endcanany
+
+
 @canany(['evaluation_category.icrud', 'evaluation_category.index', 'evaluation_level.icrud', 'evaluation_level.index',
 'criteria.icrud', 'criteria.index', 'evaluation.index', 'evaluation.icrud'])
 <li class="nav-item nav-dropdown">
@@ -408,6 +466,7 @@ color:black;
 
 
 @canany(['payroll.icrud', 'payroll.index', 'payroll_sheet.icrud', 'payroll_sheet.index','payroll_history.icrud', 'payroll_history.index'])
+
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-balance-scale"></i>  Payroll
     managment
@@ -499,9 +558,7 @@ color:black;
 </li>
 @endcanany
 
-
-
-
+@canany('report_view')
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-print"></i> Report </a>
 <ul class="nav-dropdown-items">
@@ -515,5 +572,6 @@ color:black;
         Recruitments</a></li>
 </ul>
 </li>
+@endcanany
 
 {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position-code') }}'><i class='nav-icon la la-question'></i> Position codes</a></li> --}}

@@ -566,6 +566,58 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('signature.edit');
         Permission::findOrCreate('signature.delete');
 
+        // Application 
+        Permission::findOrCreate('application.icrud');
+        Permission::findOrCreate('application.index');
+        Permission::findOrCreate('application.create');
+        Permission::findOrCreate('application.show');
+        Permission::findOrCreate('application.edit');
+        Permission::findOrCreate('application.delete');
+
+        // Application type
+        Permission::findOrCreate('application_type.icrud');
+        Permission::findOrCreate('application_type.index');
+        Permission::findOrCreate('application_type.create');
+        Permission::findOrCreate('application_type.show');
+        Permission::findOrCreate('application_type.edit');
+        Permission::findOrCreate('application_type.delete');
+
+        Permission::findOrCreate('report_view');
+        // clearance
+        Permission::findOrCreate('clearance.icrud');
+        Permission::findOrCreate('clearance.index');
+        Permission::findOrCreate('clearance.create');
+        Permission::findOrCreate('clearance.show');
+        Permission::findOrCreate('clearance.edit');
+         //  check-point
+        Permission::findOrCreate('check_point.icrud');
+        Permission::findOrCreate('check_point.index');
+        Permission::findOrCreate('check_point.create');
+        Permission::findOrCreate('check_point.show');
+        Permission::findOrCreate('check_point.edit');
+        Permission::findOrCreate('check_point.delete');
+    
+         /// Notice board
+        Permission::findOrCreate('notice.icrud');
+        Permission::findOrCreate('notice.index');
+        Permission::findOrCreate('notice.create');
+        Permission::findOrCreate('notice.show');
+        Permission::findOrCreate('notice.edit');
+        Permission::findOrCreate('notice.delete');
+
+         //Notice type
+        Permission::findOrCreate('notice_type.icrud');
+        Permission::findOrCreate('notice_type.index');
+        Permission::findOrCreate('notice_type.create');
+        Permission::findOrCreate('notice_type.show');
+        Permission::findOrCreate('notice_type.edit');
+        Permission::findOrCreate('notice_type.delete');
+
+        Permission::findOrCreate('log.index');
+        Permission::findOrCreate('log.trancate');
+        Permission::findOrCreate('log.delete');
+        
+       
         // Hr Branch
         Permission::findOrCreate('HR-all.manage');
         Permission::findOrCreate('HR-jit.manage');

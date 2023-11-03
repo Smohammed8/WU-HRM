@@ -13,7 +13,7 @@
 
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/calendar/css/redmond.calendars.picker.css') }}" />
@@ -373,8 +373,8 @@ if (base64data) {
                 alert('Image saved successfully!');
                 console.log('Image saved successfully:', response.data);
 
-                 // window.location.href = `https://hrm.ju.edu.et/employee/{entryId}/show`;
-                  window.location.href = `http://127.0.0.1:8000/employee/${entryId}/show`;
+                  window.location.href = `https://hrm.ju.edu.et/employee/{entryId}/show`; 
+                 // window.location.href = `http://127.0.0.1:8000/employee/${entryId}/show`;
                   Webcam.reset();              
             }
              else {
@@ -1211,16 +1211,6 @@ saveSnap();
                     </div>
                 </div>
                 <!-- /////////////////////////////////////////////////////////////////// -->
-
-
-
-
-
-
-
-
-
-
 
 
                 <!-- //////////////////////////////////////////////////////////////// -->

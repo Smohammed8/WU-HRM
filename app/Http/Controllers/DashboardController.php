@@ -57,5 +57,9 @@ class DashboardController extends Controller
        
 }
 
+public function notice()
+{
+    return view('notice');
+}
 
 }

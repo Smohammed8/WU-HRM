@@ -408,7 +408,24 @@ models:
         #     body: text nullable
         #     written_date: date
         #     upload: string:255
-           
+
+          # ApplicationType:
+          #    name: string
+          #    description: text nullable
+          # Application:
+          #   user_id: id foreign
+          #   application_type_id: id foreign foreign:application_types.id
+          #   status: boolean nullable
+          #   description: text nullable
+          # NoticeType:
+          #    name: string
+          #    description: text nullable
+          # Notice:
+          #   user_id: id foreign
+          #   notice_type_id: id foreign
+          #   body: text nullable
+          #   visitor_count: integer nullable
+
     #php artisan blueprint:build
     #php artisan backpack:build
 

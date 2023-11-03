@@ -7,10 +7,11 @@ use App\Models\CollegePositionCode;
 use App\Models\PositionCode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use GuzzleHttp\Psr7\Request;
+//use GuzzleHttp\Psr7\Request;
 use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /**
  * Class PositionCodeCrudController
@@ -47,6 +48,24 @@ class PositionCodeCrudController extends CrudController
     
 
     }
+
+    /**
+ * Class PositionCodeCrudController
+ * @package App\Http\Controllers\Admin
+ * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ */
+    public function search(Request $request)
+{
+    $query = addcslashes($request->input('q'), '%');
+    $positionCodes = PositionCode::where('code', 'like', "%{$query}%")->get();
+
+    // return response()->json([
+    //     'positionCodes' => $positionCodes
+    // ]);
+
+ return view('position.show', ['positionCodes' => $positionCodes]);
+}
+
 
     /**
      * Define what happens when the List operation is loaded.
@@ -172,6 +191,21 @@ class PositionCodeCrudController extends CrudController
 
         //return $this->crud->performSaveAction($item->getKey());
     }
+
+    public function bulkDelete(Request $request)
+{
+    $selectedItems = $request->input('selected_items');
+
+    if ($selectedItems) {
+        PositionCode::whereIn('id', $selectedItems)->delete();
+        Alert::success(trans('backpack::crud.update_success'))->flash();
+     
+      
+    }
+
+    return redirect()->back();
+}
+
 }
 
 

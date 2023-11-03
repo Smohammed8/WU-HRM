@@ -84,9 +84,9 @@ class User extends Authenticatable
         return $this->belongsTo(HrBranch::class);
     }
     
-    // public function approvalby():HasMany
-    // {
+    public function applications ():HasMany
+    {
        
-    //     return $this->hasMany(Evaluation::class);
-    // }
+        return $this->hasMany(Application::class);
+    }
 }

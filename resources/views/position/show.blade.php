@@ -13,6 +13,7 @@
 
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Include DataTables CSS and JavaScript files -->
 
 @section('header')
     <section class="container-fluid d-print-none">
@@ -29,50 +30,72 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: #0067b8 !important; border-top-width:2px;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Position Detail</h3>
-                        <div class="row justify-content-between">
-                            <div class="col-md-6">
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Total Permitted Positions: </b> </label>
-                                    <label for="">  <span class="badge badge-pill badge-danger border">{{  $crud->entry->positions->count() }} </span></label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Unit Name : </b> </label>
-                                    <label for="">{{ $crud->entry->unit->name }}</label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Job Title : </b></label>
-                                    <label for="">{{ $crud->entry->jobTitle->name }}</label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Open positions : </b></label>
-                                    <label for="">{{ $crud->entry->available_for_placement }}</label>
-                                </div>
-                            </div>
-                            <?php $count = 0; ?>
-                            @foreach ($positionCodes as $positionCode)
-                             @if($positionCode->employee == null)
-                             <?php  $count ++ ?>
-                             @endif
-                            @endforeach
-                            <div class="col-md-6" style="border-left:1px solid black;">
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Free Positions : </b></label>
-                                    <label for=""> <span class="badge badge-pill badge-info border">{{  $count }} </span></label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Position Type: </b></label>
-                                    <label for="">{{ $crud->entry->jobTitle->positionType?->title }}</label>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label for=""><b>Locked Positions : </b></label>
-                                    <label
-                                        for="">{{ $crud->entry->available_for_placement ? '0' : '0' }}</label>
+
+<div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+       
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="font-size: 23px;">
+              <i class="fa fa-list"> </i>   {{ $crud->entry->unit->name }} Unit - {{ $crud->entry->jobTitle->name }} [{{  $crud->entry->positions->count() }} ]
+            </button>
+
+         
+                <button class="btn float-right" data-toggle="collapse" data-target="#collapseOne"><i
+                        class="la la-angle-down"></i></button>
+         
+            
+        </h5>
+      </div>
+  
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <div class="row">
+                <div class="card col-md-12 mb-2" style="border-radius:1%; border-top-color: #0067b8 !important; border-top-width:2px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Position Detail</h3>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-6">
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Total Permitted Positions: </b> </label>
+                                            <label for="">  <span class="badge badge-pill badge-danger border">{{  $crud->entry->positions->count() }} </span></label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Unit Name : </b> </label>
+                                            <label for="">{{ $crud->entry->unit->name }}</label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Job Title : </b></label>
+                                            <label for="">{{ $crud->entry->jobTitle->name }}</label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Open positions : </b></label>
+                                            <label for="">{{ $crud->entry->available_for_placement }}</label>
+                                        </div>
+                                    </div>
+                                    <?php $count = 0; ?>
+                                    @foreach ($positionCodes as $positionCode)
+                                     @if($positionCode->employee == null)
+                                     <?php  $count ++ ?>
+                                     @endif
+                                    @endforeach
+                                    <div class="col-md-6" style="border-left:1px solid black;">
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Free Positions : </b></label>
+                                            <label for=""> <span class="badge badge-pill badge-info border">{{  $count }} </span></label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Position Type: </b></label>
+                                            <label for="">{{ $crud->entry->jobTitle->positionType?->title }}</label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for=""><b>Locked Positions : </b></label>
+                                            <label
+                                                for="">{{ $crud->entry->available_for_placement ? '0' : '0' }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +103,13 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
+  
+  
+  </div>
+
+ 
     <div class="card">
         <div class="card-header">
             <label for="">Add New Position</label>
@@ -134,29 +163,45 @@
             </div>
         </div>
     </div>
+ 
+   
     <div class="card col-md-12 mb-2" style="border-radius:0%; border-top-color: #0067b8 !important; border-top-width:2px;">
         <div class="card-body">
             <div class="row">
                 {{-- <label for=""></label> --}}
+                <div class="col-12">
+                    <div class="col-3 float-right"> 
+                    <input type="search"  class="form-control float-sm-right"  id="myInput"  placeholder="Search by job code...">
+                    </div>
 
-                <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
-                    cellspacing="0">
+                <form method="POST" action="{{ route('items.bulkDelete') }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class=" btn  btn-sm btn-outline-danger float-left mr-1 " id="delete-selected-rows" style="display: none"><i class="la la-trash"></i>  Delete Selected Rows</button>
+                    <table id="myTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>አሁን የስራ መደቡን የያዘዉ ሰራትኛ</th>
-                            <th>የስራ መደቡ መለያ</th>
-                          
-                            <th>የስራ መደብ </th>
+                            <th><input type="checkbox" id="select-all"> All</th>
+                            <th data-searchable="true">አሁን የስራ መደቡን የያዘዉ ሰራትኛ</th>
+                            <th data-searchable="true">የስራ መደቡ መለያ</th>
+                            <th data-searchable="true">የስራ መደብ</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($positionCodes as $positionCode)
                             <tr>
-                          
+                                 
+                                <td>
+                                    @if($positionCode?->employee == null )
+                                     <input type="checkbox" name="selected_items[]" value="{{ $positionCode->id }}">
+                                     @else
+                                     <input type="checkbox" name="selected_items[]" value="{{ $positionCode->id }}"  disabled>
+                                     
+                                     @endif
+                                    </td>
                               
-                                    <td> {{ $loop->index + 1 }} </td>
+                                  
                                 <td>
                                     <a
                                         href="{{ $positionCode?->employee != null ? route('employee.show', ['id' => $positionCode?->employee?->id]) : '#' }}">{{ $positionCode?->employee?->name ?? '-' }}</a>
@@ -187,14 +232,74 @@
                         @endforeach
                     </tbody>
                 </table>
+              
+      
+            </form>
+    
+        </div>
             </div>
             <div class="m-auto float-right" id="pagi">
                 {{ $positionCodes->links() }}
             </div>
         </div>
     </div>
+    <script>
+        var input = document.getElementById('myInput');
+        var table = document.getElementById('myTable');
+    
+        input.addEventListener('keyup', function() {
+            var filter = input.value.trim().toUpperCase(); // Trim and convert to uppercase
+            var rows = table.getElementsByTagName('tr');
+    
+            for (var i = 1; i < rows.length; i++) {
+                var data = rows[i].getElementsByTagName('td')[2];
+    
+                if (data) {
+                    var textValue = data.textContent || data.innerText;
+                    if (textValue.trim().toUpperCase().indexOf(filter) > -1) { // Trim and convert to uppercase
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        });
+    </script>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const checkboxes = document.querySelectorAll('input[name="selected_items[]"]');
+            const deleteButton = document.getElementById('delete-selected-rows');
+            const selectAllCheckbox = document.getElementById('select-all');
+    
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateDeleteButtonVisibility);
+            });
+    
+            selectAllCheckbox.addEventListener('change', function () {
+                checkboxes.forEach((checkbox) => {
+                    if (!checkbox.disabled) {
+                        checkbox.checked = selectAllCheckbox.checked;
+                    }
+                });
+                updateDeleteButtonVisibility();
+            });
+            // Function to update the visibility of the "Delete Selected Rows" button
+            function updateDeleteButtonVisibility() {
+                const atLeastOneChecked = [...checkboxes].some(checkbox => checkbox.checked);
+                deleteButton.style.display = atLeastOneChecked ? 'block' : 'none';
+            }
+            // Call the function to set the initial state
+            updateDeleteButtonVisibility();
+        });
+    </script>
+    
+    
 
 
+
+    
     <div class="modal fade" data-backdrop="false" id="position_code_edit" tabindex="-1" role="dialog"
         aria-labelledby="position_code_edit" aria-hidden="true">
         <div class="modal-dialog modal-full" role="document">
@@ -345,7 +450,9 @@
             }
         }
 
-        // make it so that the function above is run after each DataTable draw event
-        // crud.addFunctionToDataTablesDrawEventQueue('deleteEntry');
-    </script>
+    
+
+</script>
+
+
 @endsection

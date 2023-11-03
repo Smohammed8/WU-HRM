@@ -63,6 +63,15 @@ return [
             ]) : [],
         ],
 
+        'mysql_MoH'=>[
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('MOH_DB_HOST', env('MOH_DB_HOST')),
+            'port' => env('MOH_DB_PORT', '3306'),
+            'database' => env('MOH_DB_DATABASE', 'forge'),
+            'username' => env('MOH_DB_USERNAME', 'forge'),
+            'password' => env('MOH_DB_PASSWORD', ''),
+        ],
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
