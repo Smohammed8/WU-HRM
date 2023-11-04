@@ -52,14 +52,7 @@
         <div class="col-md-9">
          
                  <div class="card card d-none d-md-block">
-                    <div class="card-header">
-                      <h4 class="card-title">
-                        <i class="fa fa-users"></i> Employee Classification by Pie Chart</h4>
-    
-                      <div class="card-tools">
-    
-                      </div>
-                    </div>
+                 
                     <div class="card-body">
     
                         {{-- <div id="piechart" style="height: 370px; width: 100%;"></div> --}}
@@ -341,106 +334,94 @@
  {{-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> --}}
  <script type="text/javascript">
      // Chart 1
-     var chart1 = new CanvasJS.Chart("chartContainer1", {
-        exportEnabled: true,
-        animationEnabled: true,  
-	title:{
-		text: "Employee performance index per",
-        fontSize: 18 // Set the desired font size for the main title
-	},
-    subtitles: [{
-		text: "Consecutive Fiscal Year",
-		fontSize: 16
-	}],
 
-	axisY: {
-		title: "Obtained marks",
-		valueFormatString: "#0,,.",
-		suffix: "%",
-		stripLines: [{
-			value: 3366500,
-			label: "Average"
-		}]
-	},
-	data: [{
-		yValueFormatString: "#,### Staff",
-		xValueFormatString: "YYYY",
-		type: "spline",
-		dataPoints: [
-			{x: new Date(2002, 0), y: 2506000},
-			{x: new Date(2003, 0), y: 2798000},
-
-			{x: new Date(2004, 0), y: 3386000},
-			{x: new Date(2005, 0), y: 6944000},
-
-			{x: new Date(2006, 0), y: 6026000},
-			{x: new Date(2007, 0), y: 2394000},
-
-			{x: new Date(2008, 0), y: 1872000},
-			{x: new Date(2009, 0), y: 2140000},
-
-			{x: new Date(2010, 0), y: 7289000},
-			{x: new Date(2011, 0), y: 4830000},
-
-			{x: new Date(2012, 0), y: 2009000},
-			{x: new Date(2013, 0), y: 2840000},
-
-			{x: new Date(2014, 0), y: 2396000},
-			{x: new Date(2015, 0), y: 1613000},
-
-			{x: new Date(2016, 0), y: 2821000},
-			{x: new Date(2017, 0), y: 2000000}
-		]
-	}]
-});
  
-     // Chart 2
+
+            
+            var employeeData = @json($employeeData); // Convert PHP array to JavaScript object
+            var totalItemCount = {{ $totalEmployeeCount }};
+            var dataPoints = [];
+            @foreach($employeeData as $data)
+                dataPoints.push({ x: {{ $data['year'] }}, y: {{ $data['value'] }} });
+            @endforeach
+
+    
+            var chart1 = new CanvasJS.Chart("chartContainer1", {
+                // Your other chart settings
+                title: {
+            text: "Average Employee performace index for Every 6 Months (Ethiopian Calendar)",
+            fontSize: 16 // Set the desired font size for the main title
+	},
+    axisY: {
+        
+            title: "Obtained point by percentage",
+            suffix: "%",
+            viewportMinimum: 0, // Set the minimum y-value to 0%
+            viewportMaximum: 100, // Set the maximum y-value to 100%
+            interval: 20
+    },
+                data: [{
+                    type: "spline",
+                    yValueFormatString: "##.#",
+                    dataPoints: dataPoints
+                }]
+            });
+        chart1.render();
+
+ 
+
+ window.onload = function () {
+     var employeeTypes = @json($percentage);
+  
      var chart2 = new CanvasJS.Chart("chartContainer2", {
     theme: "light2",  // "light1", "light2", "dark1", "dark2"
     exportEnabled: true,
 	animationEnabled: true,
 	title: {
-		text: "Employee Classification by",
-        fontSize: 18 // Set the desired font size for the main title
+		text: "Employee Classification by by Category",
+        fontSize: 16 // Set the desired font size for the main title
 	},
-	subtitles: [{
-		text: "by Category",
-		fontSize: 16
-	}],
-	data: [{
-		type: "pie",
-		indexLabelFontSize: 13,
-		radius: 90,
-		indexLabel: "{label} - {y}",
-		yValueFormatString: "###0.0\"%\"",
-		click: explodePie,
-		dataPoints: [
-			{ y: 42, label: "Academic Staff" },
-			{ y: 21, label: "Adminstrative staff"},
-			{ y: 24.5, label: "Health Staff" },
-			{ y: 9, label: "Technical Staff" },
-			{ y: 3.1, label: "Other Staff" }
-		],
-      
-        
-	}]
+	// subtitles: [{
+	// 	text: "by Category",
+	// 	fontSize: 16
+	// }],
+    data: [{
+        type: "pie",
+        indexLabelFontSize: 14,
+        radius: 90,
+       // yValueFormatString: "###0.0\"%",
+        click: explodePie,
+      //  showInLegend: true,
+        dataPoints:employeeTypes.map(item => ({
+            y: item.value,
+           
+            indexLabel: item.category + " - " + item.percentage.toFixed(2) + "%",
+            legendText: item.category
+        }))
+    }]
+
+
 });
+
+chart2.render();
+ }
+
 
 var chart3 = new CanvasJS.Chart("chartContainer3", {
         theme: "light2",
         exportEnabled: true,
 	animationEnabled: true,
 	title: {
-		text: "Number of Employees per",
-        fontSize: 18 // Set the desired font size for the main title
+		text: "Number of Employees per ollege or Institute",
+        fontSize: 16 // Set the desired font size for the main title
 	},
-	subtitles: [{
-		text: "College or Institute",
-		fontSize: 16
-	}],
+	// subtitles: [{
+	// 	text: "College or Institute",
+	// 	fontSize: 16
+	// }],
 	data: [{
 		type: "pie",
-		indexLabelFontSize: 13,
+		indexLabelFontSize: 14,
 		radius: 90,
 		indexLabel: "{label} - {y}",
 		yValueFormatString: "###0.0\"%\"",
@@ -460,9 +441,10 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
 });
  
      // Render the charts
-     chart1.render();
-     chart2.render();
+   
+    
      chart3.render();
+
 
      function explodePie(e) {
 	for(var i = 0; i < e.dataSeries.dataPoints.length; i++) {

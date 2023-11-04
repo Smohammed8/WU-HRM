@@ -49,13 +49,61 @@ class DashboardController extends Controller
         $freepositions = PositionCode::where('employee_id', null)->count();
         $ocuupiedpositions = PositionCode::where('employee_id', '!=', null)->count();
 
-        $probations = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->count();
+        $probations = Employee::whereBetween('employement_date', [Carbon::now()->subyears(6), Carbon::now()])->count();
         $non_permanets = Employee::whereNotIn('employment_type_id', [1])->where('employment_type_id','!=', null)->count();
-     
-            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'employees', 'non_permanets','employeeTypes', 'males', 'females','retired','probations'));
 
+        $employeeData = [
+            ['year' => 2016, 'value' => 77.9],
+            ['year' => 2017, 'value' => 28],
+            ['year' => 2018, 'value' => 65.5],
+            ['year' => 2019, 'value' => 28],
+            ['year' => 2020, 'value' => 0],
+            ['year' => 2021, 'value' => 100],
+            ['year' => 2022, 'value' => 0],
+            ['year' => 2023, 'value' => 0],
+            ['year' => 2024, 'value' => 0],
+            ['year' => 2025, 'value' => 0],
+            ['year' => 2026, 'value' => 0],
+            ['year' => 2027, 'value' => 0]
+        ];
+    
+    $employeeCategories = EmployeeCategory::all();
+    $percentage = [];
+    $totalEmployeeCount = 0;
+    foreach ($employeeCategories as $category) {
+        $employeeCount = Employee::where('employee_category_id','=', $category->id)->count();
+        $percentage[] = [
+            'category' => $category->name,
+            'value' => $employeeCount,
+        ];
+        $totalEmployeeCount += $employeeCount;
+    }
+    foreach ($percentage as &$dataPoint) {
+        $dataPoint['percentage'] = ($dataPoint['value'] / $totalEmployeeCount)*100;
+     
+    }
+    
+    
+        $colleges = HrBranch::all();
+    $bycollege = [];
+    $totalEmployeeCounts = 0;
+    foreach ($colleges as $hr) {
+        $totalCount = Employee::where('hr_branch_id','=', $hr->id)->count();
+        $bycollege [] = ['college' => $hr->name,'value' =>$totalCount];
+        $totalEmployeeCounts += $totalCount;
+    }
+        foreach ($bycollege as &$dataPoint) {
+            $dataPoint['bycollege'] = ($dataPoint['value'] / $totalEmployeeCounts)*100;
+        
+    
+        }
+
+            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','employees','totalEmployeeCount','totalCount' ,'non_permanets','employeeTypes', 'males','employeeData','bycollege','females','retired','probations'));
        
 }
+
+
+
 
 public function notice()
 {
