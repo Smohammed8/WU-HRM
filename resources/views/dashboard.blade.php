@@ -348,9 +348,9 @@
     
             var chart1 = new CanvasJS.Chart("chartContainer1", {
 
-    theme: "light2",  // "light1", "light2", "dark1", "dark2"
-    exportEnabled: true,
-	animationEnabled: true,
+            theme: "light2",  // "light1", "light2", "dark1", "dark2"
+            exportEnabled: true,
+            animationEnabled: true,
                 // Your other chart settings
                 title: {
             text: "Average Employee performace index for Every 6 Months (Ethiopian Calendar)",
@@ -358,8 +358,6 @@
 	},
 
     axisY: {
-        
-          
             title: "Obtained point by percentage",
             suffix: "%",
             viewportMinimum: 0, // Set the minimum y-value to 0%
@@ -397,7 +395,7 @@
         radius: 90,
        // yValueFormatString: "###0.0\"%",
         click: explodePie,
-      //  showInLegend: true,
+      showInLegend: true,
         dataPoints:employeeTypes.map(item => ({
             y: item.value,
            
@@ -434,7 +432,7 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
         radius: 90,
        // yValueFormatString: "###0.0\"%",
         click: explodePie,
-      //  showInLegend: true,
+        showInLegend: true,
         dataPoints:colleges.map(item => ({
             y: item.value,
            
