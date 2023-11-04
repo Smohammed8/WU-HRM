@@ -347,6 +347,10 @@
 
     
             var chart1 = new CanvasJS.Chart("chartContainer1", {
+
+    theme: "light2",  // "light1", "light2", "dark1", "dark2"
+    exportEnabled: true,
+	animationEnabled: true,
                 // Your other chart settings
                 title: {
             text: "Average Employee performace index for Every 6 Months (Ethiopian Calendar)",
@@ -358,7 +362,7 @@
             suffix: "%",
             viewportMinimum: 0, // Set the minimum y-value to 0%
             viewportMaximum: 100, // Set the maximum y-value to 100%
-            interval: 20
+            interval: 5
     },
                 data: [{
                     type: "spline",
@@ -432,7 +436,7 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
         dataPoints:colleges.map(item => ({
             y: item.value,
            
-            indexLabel: item.college + " - " + item.bycollege.toFixed(2) + "%",
+            indexLabel: item.college + " - " + item.bycollege.toFixed(1) + "%",
             legendText: item.college
         }))
     }]
