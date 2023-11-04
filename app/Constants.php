@@ -84,6 +84,17 @@ class Constants
     {
         return DateTimeFactory::fromDateTime(Carbon::createFromDate($date))->format('Y-m-d');
     }
+
+    public static function getYearEt($date)
+    {
+        return DateTimeFactory::fromDateTime(Carbon::createFromDate($date))->format('Y');
+    }
+
+    public static function getEtMonth($date)
+    {
+        return DateTimeFactory::fromDateTime(Carbon::createFromDate($date))->format('m');
+    }
+
     public static function etToGc($date)
     {
         $date = Carbon::createFromFormat('Y-m-d', $date);

@@ -362,7 +362,7 @@
             suffix: "%",
             viewportMinimum: 0, // Set the minimum y-value to 0%
             viewportMaximum: 100, // Set the maximum y-value to 100%
-            interval: 5
+            interval: 10
     },
                 data: [{
                     type: "spline",
@@ -373,8 +373,6 @@
         chart1.render();
 
  
-
- window.onload = function () {
      var employeeTypes = @json($percentage);
   
      var chart2 = new CanvasJS.Chart("chartContainer2", {
@@ -408,7 +406,7 @@
 });
 
 chart2.render();
- }
+
 
  var colleges = @json($bycollege);
 var chart3 = new CanvasJS.Chart("chartContainer3", {

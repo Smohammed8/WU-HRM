@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Constants;
 use App\Models\Employee;
 use App\Models\EmployeeCategory;
+use App\Models\Evaluation;
 use App\Models\HrBranch;
 use App\Models\Position;
 use App\Models\PositionCode;
@@ -45,28 +47,67 @@ class DashboardController extends Controller
         $retired       = Employee::whereRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) >= 60')->count();
         $permanets = DB::table('employees')->where('employment_type_id', 1)->count();
        // $contracts = DB::table('employees')->where('employment_type_id', 2)->count();
+    
+       ////////////////////////////////////////////////////
+     $year =  $this->getEtYear(Carbon::now());
+     $month =  $this->getEtMonth(Carbon::now());
+    $gyear = Carbon::now()->year;
+
 
         $freepositions = PositionCode::where('employee_id', null)->count();
         $ocuupiedpositions = PositionCode::where('employee_id', '!=', null)->count();
 
         $probations = Employee::whereBetween('employement_date', [Carbon::now()->subyears(6), Carbon::now()])->count();
         $non_permanets = Employee::whereNotIn('employment_type_id', [1])->where('employment_type_id','!=', null)->count();
+/////////////////////////////////////////////////////////////////
 
-        $employeeData = [
-            ['year' => 2016, 'value' => 77.9],
-            ['year' => 2017, 'value' => 28],
-            ['year' => 2018, 'value' => 65.5],
-            ['year' => 2019, 'value' => 28],
-            ['year' => 2020, 'value' => 0],
-            ['year' => 2021, 'value' => 100],
-            ['year' => 2022, 'value' => 0],
-            ['year' => 2023, 'value' => 0],
-            ['year' => 2024, 'value' => 0],
-            ['year' => 2025, 'value' => 0],
-            ['year' => 2026, 'value' => 0],
-            ['year' => 2027, 'value' => 0]
-        ];
-    
+
+
+$employeeData = [];
+
+
+for ($i = 0; $i < 12; $i++) {
+    $firstHalfTotalMarks = 0;
+    $firstHalfEmployeeCount = 0;
+    $secondHalfTotalMarks = 0;
+    $secondHalfEmployeeCount = 0;
+
+    $emps = Employee::all();
+
+    foreach ($emps as $employee) {
+        foreach ($employee->evaluations as $evaluation) {
+
+            $startMonth = $evaluation->quarter->start_date->month;
+            $endMonth = $evaluation->quarter->end_date->month;
+
+            $evaluationYear = Carbon::parse($evaluation->created_at)->year;
+            $evaluationMonth = Carbon::parse($evaluation->created_at)->month;
+
+            if ($evaluationYear == ($gyear + $i)) {
+                             // First half
+                if ($evaluationMonth >=  4 && $evaluationMonth <=11) {
+                    $firstHalfTotalMarks += $evaluation->total_mark;
+                    $firstHalfEmployeeCount++;
+
+                } 
+                             // second half
+                elseif ($evaluationMonth >=  $startMonth && $evaluationMonth <= $endMonth ) {
+                    $secondHalfTotalMarks += $evaluation->total_mark;
+                    $secondHalfEmployeeCount++;
+                }
+            }
+        }
+    }
+    $firstHalfAverage = $firstHalfEmployeeCount > 0 ? $firstHalfTotalMarks / $firstHalfEmployeeCount : 0;
+    $secondHalfAverage = $secondHalfEmployeeCount > 0 ? $secondHalfTotalMarks / $secondHalfEmployeeCount : 0;
+
+    $employeeData[] = [
+        'year' => $year + $i,
+        'value' => ($firstHalfAverage + $secondHalfAverage),
+    ];
+}
+   
+    ///////////////////////////////////////////////////////////////
     $employeeCategories = EmployeeCategory::all();
     $percentage = [];
     $totalEmployeeCount = 0;
@@ -82,9 +123,10 @@ class DashboardController extends Controller
         $dataPoint['percentage'] = ($dataPoint['value'] / $totalEmployeeCount)*100;
      
     }
-    
-    
-        $colleges = HrBranch::all();
+
+ 
+   ///////////////////////////////////////////////////////////////////////// 
+    $colleges = HrBranch::all();
     $bycollege = [];
     $totalEmployeeCounts = 0;
     foreach ($colleges as $hr) {
@@ -94,17 +136,23 @@ class DashboardController extends Controller
     }
         foreach ($bycollege as &$dataPoint) {
             $dataPoint['bycollege'] = ($dataPoint['value'] / $totalEmployeeCounts)*100;
-        
-    
-        }
-
-            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','employees','totalEmployeeCount','totalCount' ,'non_permanets','employeeTypes', 'males','employeeData','bycollege','females','retired','probations'));
+     }
+    //////////////////////////////////////////////////////////////////////
+            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','employees','totalEmployeeCount','totalCount', 'year','non_permanets','employeeTypes', 'males','employeeData','bycollege','females','retired','probations'));
        
 }
 
 
 
 
+public function getEtYear($year)
+{
+    return Constants::getYearEt($year);
+}
+public function getEtMonth($date)
+{
+    return Constants::getEtMonth($date);
+}
 public function notice()
 {
     return view('notice');

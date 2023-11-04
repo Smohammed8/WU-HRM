@@ -325,7 +325,7 @@ class Employee extends  Model
 
     public function setEmployementDateAttribute($employementDate)
     {
-        $this->attributes['employement_date'] = Constants::etToGc($employementDate);
+        return   $this->attributes['employement_date'] = Constants::etToGc($employementDate);
     }
 
     public function getTotalInternalExperience()
