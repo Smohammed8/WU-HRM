@@ -406,38 +406,37 @@
 chart2.render();
  }
 
-
+ var colleges = @json($bycollege);
 var chart3 = new CanvasJS.Chart("chartContainer3", {
         theme: "light2",
         exportEnabled: true,
 	animationEnabled: true,
 	title: {
-		text: "Number of Employees per ollege or Institute",
+		text: "Number of Employees by HR Branch",
         fontSize: 16 // Set the desired font size for the main title
 	},
 	// subtitles: [{
 	// 	text: "College or Institute",
 	// 	fontSize: 16
 	// }],
-	data: [{
-		type: "pie",
-		indexLabelFontSize: 14,
-		radius: 90,
-		indexLabel: "{label} - {y}",
-		yValueFormatString: "###0.0\"%\"",
-		click: explodePie,
-		dataPoints: [
-			{ y: 10, label: "JiT" },
-			{ y: 10, label: "CNS"},
-			{ y: 10, label: "CSS" },
-			{ y: 10, label: "CLG" },
-			{ y: 10, label: "CAVM" },
-            { y: 10, label: "JMC & PH"},
-            { y: 20, label: "Main" },
-            { y: 10, label: "BECO" },
-            { y: 10, label: "BEBS" }
-		]
-	}]
+
+
+
+    data: [{
+        type: "pie",
+        indexLabelFontSize: 14,
+        radius: 90,
+       // yValueFormatString: "###0.0\"%",
+        click: explodePie,
+      //  showInLegend: true,
+        dataPoints:colleges.map(item => ({
+            y: item.value,
+           
+            indexLabel: item.college + " - " + item.bycollege.toFixed(2) + "%",
+            legendText: item.college
+        }))
+    }]
+
 });
  
      // Render the charts
