@@ -356,8 +356,10 @@
             text: "Average Employee performace index for Every 6 Months (Ethiopian Calendar)",
             fontSize: 16 // Set the desired font size for the main title
 	},
+
     axisY: {
         
+          
             title: "Obtained point by percentage",
             suffix: "%",
             viewportMinimum: 0, // Set the minimum y-value to 0%
