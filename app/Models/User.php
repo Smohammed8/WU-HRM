@@ -43,7 +43,8 @@ class User extends Authenticatable
         'username',
         'password',
         'hr_branch_id',
-        'is_online'
+        'is_online',
+        'last_login'
     ];
 
     /**
@@ -66,13 +67,36 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'hr_branch_id'  => 'integer',
         'is_online' =>'boolean',
+        'last_login' => 'datetime',
 
     ];
+    
+
+    // public function getIsOnlineAttribute($value)
+    // {
+    
+
+    // return $value === 1 ? 'Online' : 'Offline';
+
+        
+    // }
 
     public function getIsOnlineAttribute($value)
-    {
-        return $value === 1 ? 'Online' : 'Offline';
+{
+    $lastLogin = $this->last_login;
+
+    if ($value === 1) {
+        return 'Online';
+    } 
+    else if ($lastLogin and $value == false) {
+        
+        return 'Last logged in ' . $lastLogin->diffForHumans();
     }
+    else {
+            return 'Never logged in';
+    }
+    
+}
 
     public function employee()
     {

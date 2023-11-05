@@ -32,6 +32,7 @@ class AuthController extends Controller
         $username = 'username';
         if (Auth::check() || backpack_auth()->check()) {
             backpack_user()->update(['is_online' => true]);
+            backpack_user()->update(['last_login' => now()]);
             return redirect()->route('home');
         }
 
@@ -83,6 +84,7 @@ class AuthController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $user->update(['is_online' => true]);
+                $user->update(['last_login' => now()]);
                 return redirect(route('dashboard'));
             } else {
 
@@ -170,6 +172,8 @@ class AuthController extends Controller
                         $user->assignRole('employee');
 
                         if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
+                            $user->update(['is_online' => true]); //
+                            $user->update(['last_login' => now()]);
                             return redirect(route('dashboard'));
                         }
                     } 
@@ -188,7 +192,8 @@ class AuthController extends Controller
                     $user->save();
 
                     if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
-                        backpack_user()->update(['is_online' => true]);
+                        $user->update(['is_online' => true]); //
+                        $user->update(['last_login' => now()]);
                         return redirect(route('dashboard'));
                     }
                 }

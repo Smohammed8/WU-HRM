@@ -32,3 +32,5 @@ public function handle($request, Closure $next)
     }
 
 }
+
+ backpack_user()->update(['last_login' => now()]);

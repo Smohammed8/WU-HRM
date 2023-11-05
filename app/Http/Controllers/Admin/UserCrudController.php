@@ -101,8 +101,8 @@ class UserCrudController extends CrudController
                 'type'      => 'select',
                 'model' => 'App\Models\HrBranch', 
                ],
-             
 
+          
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
@@ -116,7 +116,6 @@ class UserCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model'     => config('permission.models.role'), // foreign key model
             ],
-
             'switch_case_column' => [
                 'name' => 'is_online',
                 'label' => 'Online Status',
@@ -127,7 +126,7 @@ class UserCrudController extends CrudController
                     'class' => function ($crud, $column, $entry) {
                         // Access the 'is_online' value from $entry
                         $isOnline = $entry->is_online;
-                     if ($isOnline == 'Online') {
+                      if ($isOnline == 'Online') {
                             return 'badge badge-pill badge-success border';
                         } 
                       else {
@@ -136,7 +135,7 @@ class UserCrudController extends CrudController
                     },
                 ],
             ],
-               
+            
             [ // n-n relationship (with pivot table)
                 'label'     => trans('backpack::permissionmanager.extra_permissions'), // Table column heading
                 'type'      => 'select_multiple',

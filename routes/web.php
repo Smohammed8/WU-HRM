@@ -44,7 +44,6 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     if (!backpack_user()) {
             // Update user's status to offline
-         backpack_user()->update(['is_online' => false]);
         return redirect('logout');
     }
     // if (!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
@@ -54,8 +53,12 @@ Route::get('/', function () {
     // return redirect(route('home'));
     if (backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
      
+        backpack_user()->update(['is_online' => true]);
+        backpack_user()->update(['last_login' => now()]);
         return redirect(route('home'));  
     }
+    backpack_user()->update(['is_online' => true]);
+    backpack_user()->update(['last_login' => now()]);
     return redirect(route('dashboard'));
     
 
