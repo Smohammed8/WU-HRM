@@ -27,7 +27,7 @@ class AccessLogController extends Controller
 
 public function truncateTable()
 {
-    DB::table('access_logs')->truncate();
+DB::table('access_logs')->truncate();
 $rowsAffected = DB::affectingStatement('TRUNCATE TABLE access_logs');
 if ($rowsAffected === 0) {
     Alert::success(trans('backpack::crud.update_success'))->flash();

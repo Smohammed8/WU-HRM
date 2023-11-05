@@ -31,8 +31,10 @@ class AuthController extends Controller
     {
         $username = 'username';
         if (Auth::check() || backpack_auth()->check()) {
+            backpack_user()->update(['is_online' => true]);
             return redirect()->route('home');
         }
+
         return view('auth.login', compact('username'));
 
         // $this->data['title'] = trans('backpack::base.login'); // set the page title
@@ -73,23 +75,17 @@ class AuthController extends Controller
     {
         $uid = $credentials->input('username');
         $password = $credentials->input('password');
-
-        // Check if the user exists in the local database
         $user = User::where('username', '=', $uid)->first();
-        // dd($user);
-
-        // Check if the username is "super" (or any other specific condition)
-
+    
         if ($uid == "super") {
             $credentials = ["username" => $uid, "password" => $password];
 
 
             if (Auth::attempt($credentials)) {
+                $user->update(['is_online' => true]);
                 return redirect(route('dashboard'));
             } else {
 
-                // $credentials['password'] = Hash::make($credentials['password']);
-                // dd($credentials['password']);// $2y$10$y8P.GE19nXgZP8dJtiVyv.tS2UfZRYoep7L6SkplMd8oVLAxLA8SC
                 return Redirect::back()->withErrors(['msg' => 'Invalid Credentials']);
             }
         }
@@ -192,6 +188,7 @@ class AuthController extends Controller
                     $user->save();
 
                     if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
+                        backpack_user()->update(['is_online' => true]);
                         return redirect(route('dashboard'));
                     }
                 }

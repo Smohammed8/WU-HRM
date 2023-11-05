@@ -30,15 +30,19 @@ class EmployeeController extends Controller
     {
         //$user = Auth::user();
         $user =  backpack_user();
-        //dd($user->employee->id);
         $employee = Employee::where('user_id', $user->id)->get();
-
         if($user->employee == null){
+
+            if ($user) {
+                $user->update(['is_online' => false]);
+            }
             Auth::logout();
             return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }
         if ($employee->count() == 0 && !backpack_user()->hasRole('employee')) {
-
+            if ($user) {
+                $user->update(['is_online' => false]);
+            }
             Auth::logout();
             return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }

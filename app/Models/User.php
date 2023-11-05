@@ -42,7 +42,8 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-        'hr_branch_id'
+        'hr_branch_id',
+        'is_online'
     ];
 
     /**
@@ -64,7 +65,14 @@ class User extends Authenticatable
         'id' => 'integer',
         'email_verified_at' => 'datetime',
         'hr_branch_id'  => 'integer',
+        'is_online' =>'boolean',
+
     ];
+
+    public function getIsOnlineAttribute($value)
+    {
+        return $value === 1 ? 'Online' : 'Offline';
+    }
 
     public function employee()
     {
@@ -89,4 +97,12 @@ class User extends Authenticatable
        
         return $this->hasMany(Application::class);
     }
+
+    // public function getIsOnlineAttribute($value)
+    // {
+    //     return $this->attributes['is_online'] = $value === 1 ? 'Online' : 'Offline';
+    // }
+
+
+
 }

@@ -287,6 +287,7 @@ class EmployeeCrudController extends CrudController
         })->label('ዕድሜ')->wrapper([
             'element' => 'span',
             'title' => 'Employee age in years',
+            
             'class' => function ($crud, $column, $entry) {
                 switch ($entry->age()) {
                     case '61':

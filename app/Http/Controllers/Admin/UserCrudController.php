@@ -101,6 +101,7 @@ class UserCrudController extends CrudController
                 'type'      => 'select',
                 'model' => 'App\Models\HrBranch', 
                ],
+             
 
             [
                 'name'  => 'email',
@@ -115,6 +116,27 @@ class UserCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model'     => config('permission.models.role'), // foreign key model
             ],
+
+            'switch_case_column' => [
+                'name' => 'is_online',
+                'label' => 'Online Status',
+                'type' => 'custom_online_status',
+                'wrapper' => [
+                    'element' => 'span',
+                    'title' => 'Employee age in years',
+                    'class' => function ($crud, $column, $entry) {
+                        // Access the 'is_online' value from $entry
+                        $isOnline = $entry->is_online;
+                     if ($isOnline == 'Online') {
+                            return 'badge badge-pill badge-success border';
+                        } 
+                      else {
+                            return 'badge badge-pill badge-defualt border';
+                        }
+                    },
+                ],
+            ],
+               
             [ // n-n relationship (with pivot table)
                 'label'     => trans('backpack::permissionmanager.extra_permissions'), // Table column heading
                 'type'      => 'select_multiple',
@@ -282,6 +304,14 @@ class UserCrudController extends CrudController
                   
                 ],
                ],
+
+            //    [
+            //     'name' => 'is_online',
+            //     'label' => 'Online Status',
+            //     'type' => 'online_status',
+            //    ],
+
+
             [
                 // two interconnected entities
                 'label'             => trans('backpack::permissionmanager.user_role_permission'),

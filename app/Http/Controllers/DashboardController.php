@@ -147,11 +147,7 @@ for ($i = 0; $i < 12; $i++) {
     }])->get();
 
     /////////////////////////////////////////////////////////////////////
-    // In your Laravel controller
-$educationalLevels = EducationalLevel::withCount('employees')->get();
-
-
-
+    $educationalLevels = EducationalLevel::withCount('employees')->get();
 
     /////////////////////////////////////////////////////////////////////
             return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','educationalLevels','employees','totalEmployeeCount','totalCount', 'year','non_permanets','employeeTypes', 'hrBranches','males','employeeData','bycollege','females','retired','probations'));

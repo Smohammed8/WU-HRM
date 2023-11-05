@@ -43,6 +43,8 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if (!backpack_user()) {
+            // Update user's status to offline
+         backpack_user()->update(['is_online' => false]);
         return redirect('logout');
     }
     // if (!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
@@ -75,10 +77,11 @@ Route::get('/login', [AuthController::class, 'userLoginView'])->name('login')->m
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->middleware('guest');
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::get('/export-employees', [EmployeeCrudController::class, 'exportEmployees'])->name('export-employees');
+Route::middleware(['web', 'update.user.status'])->group(function () {
+    // Your web routes here
+});
 
 Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('export-form');
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
  Route::get('{hr_branch_id}/getEmployee', [EmployeeCrudController::class, 'getEmployee'])->name('getEmployee');

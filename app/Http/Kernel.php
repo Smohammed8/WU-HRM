@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-
+use Illuminate\Console\Scheduling\Schedule;
 class Kernel extends HttpKernel
 {
     /**
@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LogAccess::class,
             
+            
         ],
 
         'api' => [
@@ -47,6 +48,12 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
+
+
+    protected function schedule(Schedule $schedule)
+{
+    $schedule->command('users:update-offline')->hourly();
+}
 
     /**
      * The application's route middleware.
@@ -65,5 +72,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'update.user.status' => \App\Http\Middleware\UpdateUserStatus::class,
     ];
 }
