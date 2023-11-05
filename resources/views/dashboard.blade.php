@@ -60,7 +60,7 @@
                         <div id="chartContainer1"  style="height: 370px; width: 100%;"></div>
                        
                     </div>
-<hr>
+              <hr>
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -74,6 +74,19 @@
                             </div>
                         </div>
                     </div>
+
+                   <hr>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="chartContainer5" style="height: 300px; width: 100%;">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div> 
                     
                     <!-- /.card-body -->
                   </div>
@@ -166,6 +179,18 @@
             </div>
             <!-- /.info-box -->
 
+        
+            <div class="card">
+                <div class="card-body">
+                 
+                        <div class="col-md-12">
+                          
+                            <div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+                        </div>
+                  
+                </div>
+            </div>
+            <hr>
 
         </div>
     </div>
@@ -334,29 +359,23 @@
  {{-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> --}}
  <script type="text/javascript">
      // Chart 1
+        var employeeData = @json($employeeData); // Convert PHP array to JavaScript object
+        var totalItemCount = {{ $totalEmployeeCount }};
+        var dataPoints = [];
+        @foreach($employeeData as $data)
+            dataPoints.push({ x: {{ $data['year'] }}, y: {{ $data['value'] }} });
+        @endforeach
+        var chart1 = new CanvasJS.Chart("chartContainer1", {
+        theme: "light2",  // "light1", "light2", "dark1", "dark2"
+        exportEnabled: true,
+        animationEnabled: true,
+            // Your other chart settings
+     title: {
+        text: "Average of employees performace index for Every 6 Months (Ethiopian Calendar)",
+        fontSize: 16 // Set the desired font size for the main title
+	    },
 
- 
-
-            
-            var employeeData = @json($employeeData); // Convert PHP array to JavaScript object
-            var totalItemCount = {{ $totalEmployeeCount }};
-            var dataPoints = [];
-            @foreach($employeeData as $data)
-                dataPoints.push({ x: {{ $data['year'] }}, y: {{ $data['value'] }} });
-            @endforeach
-
-    
-            var chart1 = new CanvasJS.Chart("chartContainer1", {
-
-            theme: "light2",  // "light1", "light2", "dark1", "dark2"
-            exportEnabled: true,
-            animationEnabled: true,
-                // Your other chart settings
-                title: {
-            text: "Average Employee performace index for Every 6 Months (Ethiopian Calendar)",
-            fontSize: 16 // Set the desired font size for the main title
-	},
-
+        
     axisY: {
             title: "Obtained point by percentage",
             suffix: "%",
@@ -412,11 +431,11 @@ chart2.render();
 var chart3 = new CanvasJS.Chart("chartContainer3", {
         theme: "light2",
         exportEnabled: true,
-	animationEnabled: true,
-	title: {
+    	animationEnabled: true,
+	    title: {
 		text: "Number of Employees by HR Branch",
         fontSize: 16 // Set the desired font size for the main title
-	},
+	    },
 	// subtitles: [{
 	// 	text: "College or Institute",
 	// 	fontSize: 16
@@ -441,13 +460,109 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
 
 });
  
-     // Render the charts
-   
-    
-     chart3.render();
+chart3.render();
+var chart4 = new CanvasJS.Chart("chartContainer4", {
 
+    theme: "light2", //dark2
+    exportEnabled: true,
+    exportFileName: "Doughnut Chart",
+	animationEnabled: true,
+	title:{
+		text: "Classification by Educational level",
+        fontSize: 14, // Set the desired font size for the main title
+        horizontalAlign: "left"
+	},
+	legend:{
+		cursor: "pointer",
+		itemclick: explodePie
+	},
+	data: [{
+		type: "doughnut",
+        radius: 80,
+		innerRadius: 50,
+        indexLabelFontSize: 12,
+		showInLegend: true,
+		toolTipContent: "<b>{name}</b>: {y}",
+		indexLabel: "{name} -{y}",
+		dataPoints: [
+			{ y: 450, name: "Kelem" },
+			{ y: 120, name: "Diploma" },
+			{ y: 300, name: "Degree" },
+			{ y: 800, name: "Masers" },
+			{ y: 150, name: "PhD" },
+		
+		]
+	}]
+});
 
-     function explodePie(e) {
+chart4.render();
+
+var chart5 = new CanvasJS.Chart("chartContainer5", {
+    exportFileName: "Column graph",
+    exportEnabled: true,
+	animationEnabled: true,
+	title:{
+		text: "Gedner Classification by College/Institue",
+        fontSize: 14, // Set the desired font size for the main title
+        horizontalAlign: "left"
+	},
+	axisY: {
+		title: "Number of Male by College",
+		titleFontColor: "#4F81BC",
+        fontSize: 12,
+		lineColor: "#4F81BC",
+		labelFontColor: "#4F81BC",
+		tickColor: "#4F81BC"
+	},
+	axisY2: {
+		title: "Number of Female by College",
+        fontSize: 12,
+		titleFontColor: "#C0504E",
+		lineColor: "#C0504E",
+		labelFontColor: "#C0504E",
+		tickColor: "#C0504E"
+	},	
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		itemclick: toggleDataSeries
+	},
+	data: [{
+		type: "column",
+		name: "Male",
+		legendText: "Male",
+		showInLegend: true, 
+		dataPoints:[
+			{ label: "Main", y: 266.21 },
+			{ label: "JMC", y: 302.25 },
+			{ label: "CNS", y: 157.20 },
+			{ label: "CSS", y: 148.77 },
+			{ label: "CLG", y: 101.50 },
+			{ label: "CBE", y: 97.8 }
+		]
+	},
+	{
+		type: "column",	
+		name: "Female",
+		legendText: "Female",
+		axisYType: "secondary",
+		showInLegend: true,
+		dataPoints:[
+			{ label: "Main", y: 10.46 },
+			{ label: "JMC", y: 2.27 },
+			{ label: "CNS", y: 3.99 },
+			{ label: "CSS", y: 4.45 },
+			{ label: "CLG", y: 2.92 },
+			{ label: "CBE", y: 3.1 }
+		]
+	}]
+});
+chart5.render();
+
+     
+ function explodePie(e) {
 	for(var i = 0; i < e.dataSeries.dataPoints.length; i++) {
 		if(i !== e.dataPointIndex)
 			e.dataSeries.dataPoints[i].exploded = false;
