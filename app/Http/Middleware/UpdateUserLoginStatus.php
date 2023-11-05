@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateUserStatus
+class UpdateUserLoginStatus
 {
     /**
      * Handle an incoming request.
@@ -16,21 +16,18 @@ class UpdateUserStatus
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    // public function handle(Request $request, Closure $next)
-    // {
-    //     return $next($request);
-    // }
 
-public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        $response = $next($request);
+        
+           // Check if the user is authenticated
 
-        if (Auth::check() || backpack_auth()->check()) {
-            backpack_user()->update(['is_online' => true]);
-        }
-        return $response;
+           if(Auth::check() || backpack_auth()->check()){
+
+            backpack_user()->update(['is_online' => false]);
+
+       }
+
+        return $next($request);
     }
-
 }
-
- backpack_user()->update(['last_login' => now()]);

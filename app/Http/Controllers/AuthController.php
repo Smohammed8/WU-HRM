@@ -17,22 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 class AuthController extends Controller
 {
-    //
-
-    public function registerForm()
-    {
-    }
-
-    public function register()
-    {
-    }
-
+    
     public function userLoginView()
     {
         $username = 'username';
         if (Auth::check() || backpack_auth()->check()) {
-            backpack_user()->update(['is_online' => true]);
-            backpack_user()->update(['last_login' => now()]);
+
             return redirect()->route('home');
         }
 
@@ -72,23 +62,31 @@ class AuthController extends Controller
     //     }
     //     throw ValidationException::withMessages(['username'=>'Incorrect credential']);
     // }
+    // backpack_user()->update(['is_online' => true]);
+    // backpack_user()->update(['last_login' => now()]);
+
+
     public static function login(Request $credentials)
     {
         $uid = $credentials->input('username');
         $password = $credentials->input('password');
         $user = User::where('username', '=', $uid)->first();
-    
         if ($uid == "super") {
             $credentials = ["username" => $uid, "password" => $password];
-
-
-            if (Auth::attempt($credentials)) {
-                $user->update(['is_online' => true]);
-                $user->update(['last_login' => now()]);
+            if (Auth::attempt($credentials)) { // Check if the user is disabled
+                //$request->session()->regenerate();
+                if ($user->isDisabled()) {
+                    Auth::logout();
+                    return Redirect::back()->withErrors(['username' => 'Your account is disabled. Contact an administrator for assistance']);
+                }
+                // $user->update(['is_online' => true]);
+                // $user->update(['last_login' => now()]);
                 return redirect(route('dashboard'));
-            } else {
+            }
+            
+            else {
 
-                return Redirect::back()->withErrors(['msg' => 'Invalid Credentials']);
+                return Redirect::back()->withErrors(['username' => 'Invalid Credentials']);
             }
         }
 
@@ -104,23 +102,6 @@ class AuthController extends Controller
                 $search = ldap_search($ldapconn, 'dc=ju,dc=edu,dc=et', "uid=$uid");
                 $info = ldap_get_entries($ldapconn, $search);
 
-
-                // if ($info[0]['employeetype']['count'] > 0 && $info[0]['employeetype'][0] == 'Student')
-                //     return new UnauthorizedException(403);
-
-
-
-                // $mobile = $ldapEntry->getAttributes()['mobile'][0];
-                // $fullName = $ldapEntry->getAttributes()['gecos'][0];
-                // $username = $ldapEntry->getAttributes()['uid'][0];
-                // $password = $ldapEntry->getAttributes()['userPassword'][0];
-
-        // dd($info );
-        // $fullName = explode(' ', $fullName);
-        // $firstName = $fullName[0];
-        // $middleName = $fullName[1];
-        // $lastName = $fullName[2];
-        // dd();
                 $name = explode(' ',$info[0]['cn'][0]);
                 $first_name = $name[0];
                 $middle_name = $name[1];
@@ -154,46 +135,48 @@ class AuthController extends Controller
                         $phone = $info[0]['homephone'][0];
                     }
                 }
-
                 $user = User::where('username', '=', $credentials['username'])->first();
                 if (!$user) {
-
                     try {
-
                         $user = User::create([
                             'username' => $uid,
                             'password' => Hash::make($password),
-                            //'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
                             'name' => ucwords($first_name) . ' ' . ucwords($middle_name) . ' ' . ucwords($last_name),
                             'email' => $email,
+                            'is_disabled'=>1,
+                            'is_online'=>0,
+                            'last_login'=>null
 
                         ]);
 
                         $user->assignRole('employee');
 
                         if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
-                            $user->update(['is_online' => true]); //
-                            $user->update(['last_login' => now()]);
+                            // $user->update(['is_online' => true]); //
+                            // $user->update(['last_login' => now()]);
                             return redirect(route('dashboard'));
                         }
                     } 
                     catch (Exception $e) {
                         return $e;
                     }
-                } else {
-                    // dd($first_name,$middle_name,$last_name,$email,$phone);
+                } 
+                else {
+
+                    if ($user->isDisabled()) {
+                        Auth::logout();
+                        return Redirect::back()->withErrors(['username' => 'Your account is disabled. Contact an administrator for assistance']);
+                    }
                     $user->update([
                         'username' => $uid,
                         'password' => Hash::make($password),
-                        //'name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
                         'name' => ucwords($first_name) . ' ' . ucwords($middle_name) . ' ' . ucwords($last_name),
                         'email' => $email,
                     ]);
                     $user->save();
-
                     if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
-                        $user->update(['is_online' => true]); //
-                        $user->update(['last_login' => now()]);
+                        // $user->update(['is_online' => true]); //
+                        // $user->update(['last_login' => now()]);
                         return redirect(route('dashboard'));
                     }
                 }

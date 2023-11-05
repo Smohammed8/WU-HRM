@@ -52,13 +52,8 @@ Route::get('/', function () {
     // }
     // return redirect(route('home'));
     if (backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
-     
-        backpack_user()->update(['is_online' => true]);
-        backpack_user()->update(['last_login' => now()]);
         return redirect(route('home'));  
     }
-    backpack_user()->update(['is_online' => true]);
-    backpack_user()->update(['last_login' => now()]);
     return redirect(route('dashboard'));
     
 
@@ -76,14 +71,13 @@ Route::get('/import', [ImportController::class, 'import'])->middleware('auth');
 Route::get('/home', [EmployeeController::class, 'home'])->name('home')->middleware(['admin']);
 Route::get('import_page', [EmployeeController::class, 'importPage'])->middleware('auth');
 Route::post('import', [EmployeeController::class, 'import'])->middleware('auth');
+
+Route::group(['middleware' => ['web', 'update.logout.status']], function () {
 Route::get('/login', [AuthController::class, 'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->middleware('guest');
+});
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::get('/export-employees', [EmployeeCrudController::class, 'exportEmployees'])->name('export-employees');
-Route::middleware(['web', 'update.user.status'])->group(function () {
-    // Your web routes here
-});
-
 Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('export-form');
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');

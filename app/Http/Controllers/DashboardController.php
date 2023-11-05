@@ -36,6 +36,8 @@ class DashboardController extends Controller
 
     
     public function index(){
+
+
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
         $employeeTypes = EmployeeCategory::all();

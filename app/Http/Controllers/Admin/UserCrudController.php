@@ -119,22 +119,31 @@ class UserCrudController extends CrudController
             'switch_case_column' => [
                 'name' => 'is_online',
                 'label' => 'Online Status',
-                'type' => 'custom_online_status',
+                'type' => 'custom',
                 'wrapper' => [
                     'element' => 'span',
-                    'title' => 'Employee age in years',
+                    'title' => 'User status',
                     'class' => function ($crud, $column, $entry) {
                         // Access the 'is_online' value from $entry
                         $isOnline = $entry->is_online;
-                      if ($isOnline == 'Online') {
+                        if ($isOnline == 'Online') {
                             return 'badge badge-pill badge-success border';
-                        } 
-                      else {
-                            return 'badge badge-pill badge-defualt border';
+                        } else {
+                            return 'badge badge-pill badge-info border';
+                            
                         }
                     },
                 ],
             ],
+
+        
+          [
+                'name' => 'is_disabled',
+                'label' => 'Is active?',
+                'type' => 'boolean',
+          
+          ],
+
             
             [ // n-n relationship (with pivot table)
                 'label'     => trans('backpack::permissionmanager.extra_permissions'), // Table column heading
@@ -271,6 +280,13 @@ class UserCrudController extends CrudController
                   
                 ],
             ],
+            [
+                'name' => 'is_disabled',
+                'label' => 'Account status',
+                'type' => 'boolean',
+          
+          ],
+
             [
                 'name'  => 'password',
                 'label' => trans('backpack::permissionmanager.password'),

@@ -44,7 +44,8 @@ class User extends Authenticatable
         'password',
         'hr_branch_id',
         'is_online',
-        'last_login'
+        'last_login',
+        'is_disabled',
     ];
 
     /**
@@ -68,38 +69,41 @@ class User extends Authenticatable
         'hr_branch_id'  => 'integer',
         'is_online' =>'boolean',
         'last_login' => 'datetime',
+        'is_disabled' =>'boolean',
 
     ];
     
 
-    // public function getIsOnlineAttribute($value)
+    // public function setIsOnlineAttribute($value)
     // {
-    
-
-    // return $value === 1 ? 'Online' : 'Offline';
-
-        
+    //     $this->attributes['is_online'] = $value ? 1 : 0;
     // }
-
-    public function getIsOnlineAttribute($value)
-{
-    $lastLogin = $this->last_login;
-
-    if ($value === 1) {
-        return 'Online';
-    } 
-    else if ($lastLogin and $value == false) {
-        
-        return 'Last logged in ' . $lastLogin->diffForHumans();
-    }
-    else {
-            return 'Never logged in';
-    }
+    public function getIsOnlineAttribute()
+    {
+        $lastLogin = $this->last_login;
+        $isOnline = $this->attributes['is_online'];
     
+        if ($isOnline == true) {
+            return 'Online';
+        } else {
+            if ($lastLogin && $isOnline == false) {
+                return 'Active ' . $lastLogin->diffForHumans();
+            } else {
+                return '-';
+            }
+        }
+    }
+
+
+
+public function isDisabled()
+{
+    return $this->is_disabled;
 }
 
     public function employee()
     {
+ 
         return $this->hasOne(Employee::class, 'user_id', 'id');
     }
 
