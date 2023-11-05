@@ -371,7 +371,7 @@
         animationEnabled: true,
             // Your other chart settings
      title: {
-        text: "Average of employees performace index for Every 6 Months (Ethiopian Calendar)",
+        text: "Yearly average employees performace index for Every 6 months (Ethiopian Calendar)",
         fontSize: 16 // Set the desired font size for the main title
 	    },
 
@@ -461,8 +461,9 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
 });
  
 chart3.render();
-var chart4 = new CanvasJS.Chart("chartContainer4", {
 
+var educationalLevelsData = @json($educationalLevels);
+var chart4 = new CanvasJS.Chart("chartContainer4", {
     theme: "light2", //dark2
     exportEnabled: true,
     exportFileName: "Doughnut Chart",
@@ -484,26 +485,21 @@ var chart4 = new CanvasJS.Chart("chartContainer4", {
 		showInLegend: true,
 		toolTipContent: "<b>{name}</b>: {y}",
 		indexLabel: "{name} -{y}",
-		dataPoints: [
-			{ y: 450, name: "Kelem" },
-			{ y: 120, name: "Diploma" },
-			{ y: 300, name: "Degree" },
-			{ y: 800, name: "Masers" },
-			{ y: 150, name: "PhD" },
-		
-		]
+        dataPoints: educationalLevelsData.map(function (level) {
+            return { y: level.employees_count, name: level.name };
+        })
 	}]
 });
 
 chart4.render();
-
+var hrBranchesData = @json($hrBranches);
 var chart5 = new CanvasJS.Chart("chartContainer5", {
     exportFileName: "Column graph",
     exportEnabled: true,
 	animationEnabled: true,
 	title:{
-		text: "Gedner Classification by College/Institue",
-        fontSize: 14, // Set the desired font size for the main title
+		text: "Gender Classification by College/Institue",
+        fontSize: 14, 
         horizontalAlign: "left"
 	},
 	axisY: {
@@ -534,14 +530,23 @@ var chart5 = new CanvasJS.Chart("chartContainer5", {
 		name: "Male",
 		legendText: "Male",
 		showInLegend: true, 
-		dataPoints:[
-			{ label: "Main", y: 266.21 },
-			{ label: "JMC", y: 302.25 },
-			{ label: "CNS", y: 157.20 },
-			{ label: "CSS", y: 148.77 },
-			{ label: "CLG", y: 101.50 },
-			{ label: "CBE", y: 97.8 }
-		]
+		// dataPoints:[
+		// 	{ label: "Main Campus", y: 266.21 },
+		// 	{ label: "Health Institute", y: 302.25 },
+		// 	{ label: "Natural Science", y: 157.20 },
+		// 	{ label: "Social Science", y: 148.77 },
+		// 	{ label: "Law & Governance", y: 101.50 },
+		// 	{ label: "Business & Economics", y: 97.8 },
+        //     { label: "Public Health", y: 17.8 },
+        //     { label: "Technology Institue", y: 27.8 },
+        //     { label: "Agri & veternary Medecine", y: 30.8 },
+        //     { label: "Agaro Campus", y: 213.8 }
+            
+		// ]
+
+        dataPoints: hrBranchesData.map(function (branch) {
+                return { label: branch.name, y: branch.male_count };
+            })
 	},
 	{
 		type: "column",	
@@ -549,14 +554,24 @@ var chart5 = new CanvasJS.Chart("chartContainer5", {
 		legendText: "Female",
 		axisYType: "secondary",
 		showInLegend: true,
-		dataPoints:[
-			{ label: "Main", y: 10.46 },
-			{ label: "JMC", y: 2.27 },
-			{ label: "CNS", y: 3.99 },
-			{ label: "CSS", y: 4.45 },
-			{ label: "CLG", y: 2.92 },
-			{ label: "CBE", y: 3.1 }
-		]
+
+        dataPoints: hrBranchesData.map(function (branch) {
+                return { label: branch.name, y: branch.female_count };
+            })
+
+		// dataPoints:[
+		// 	{ label: "Main campus", y: 10.46 },
+		// 	{ label: "Health Institute", y: 2.27 },
+		// 	{ label: "Natural Science", y: 3.99 },
+		// 	{ label: "Social Science", y: 4.45 },
+		// 	{ label: "Law & Governance", y: 2.92 },
+		// 	{ label: "Business & Economics", y: 3.1 },
+        //     { label: "Public Health", y: 7.8 },
+        //     { label: "Technology Institue", y: 29.8 },
+        //     { label: "Agri & veternary Medecine", y: 10.8 },
+        //     { label: "Agaro Campus", y: 13.8 }
+
+		// ]
 	}]
 });
 chart5.render();

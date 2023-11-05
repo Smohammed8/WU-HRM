@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Constants;
+use App\Models\EducationalLevel;
 use App\Models\Employee;
 use App\Models\EmployeeCategory;
 use App\Models\Evaluation;
@@ -138,7 +139,22 @@ for ($i = 0; $i < 12; $i++) {
             $dataPoint['bycollege'] = ($dataPoint['value'] / $totalEmployeeCounts)*100;
      }
     //////////////////////////////////////////////////////////////////////
-            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','employees','totalEmployeeCount','totalCount', 'year','non_permanets','employeeTypes', 'males','employeeData','bycollege','females','retired','probations'));
+
+    $hrBranches = HrBranch::withCount(['employees as male_count' => function ($query) {
+        $query->where('gender', 'Male');
+    }])->withCount(['employees as female_count' => function ($query) {
+        $query->where('gender', 'Female');
+    }])->get();
+
+    /////////////////////////////////////////////////////////////////////
+    // In your Laravel controller
+$educationalLevels = EducationalLevel::withCount('employees')->get();
+
+
+
+
+    /////////////////////////////////////////////////////////////////////
+            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','educationalLevels','employees','totalEmployeeCount','totalCount', 'year','non_permanets','employeeTypes', 'hrBranches','males','employeeData','bycollege','females','retired','probations'));
        
 }
 
