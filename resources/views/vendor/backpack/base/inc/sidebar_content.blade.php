@@ -1,9 +1,8 @@
 
 
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
-
 @if(Auth::user()->hasRole('employee'))
-<li class="nav-item"><a class="nav-link" href="{{ route('notice') }}"><i class="la la-home nav-icon"></i>
+<li class="nav-item"><a class="nav-link inactive" href="{{ route('notice') }}"><i class="la la-home nav-icon"></i>
     Home </a>
 </li>
  @endif
@@ -354,7 +353,7 @@ color:black;
     Announcement</a>
 <ul class="nav-dropdown-items">
     @canany(['notice.index', 'notice.icrud'])
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('notice') }}">
+        <li class="nav-item"><a class="nav-link" href="#">
             <i class='nav-icon la la-caret-right'></i> 
              <span> Notice </span></a></li>
     @endcanany

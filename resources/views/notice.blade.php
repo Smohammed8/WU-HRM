@@ -1,3 +1,4 @@
+
 @extends(backpack_view('blank'))
 
 @push('after_styles')
@@ -22,13 +23,28 @@
 
 
                 </div>
+                <style>
+
+.slide-in-horizontal {
+    animation: slideInHorizontal 2s; /* You can adjust the animation duration as needed */
+}
+
+@keyframes slideInHorizontal {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+</style>
 
                 <div class="card-body">
-                    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    {{-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                     <br><br><br><br><br><br>  <br><br><br><br><br><br>
-            
+             --}}
                      
-                   
+                    <img src="{{ asset('hrm2.jpg') }}"  width="100%" class="slide-in-horizontal" alt="Example Image">
 
                
 
