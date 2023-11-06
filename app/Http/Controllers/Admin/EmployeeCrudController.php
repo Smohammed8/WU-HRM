@@ -282,7 +282,7 @@ class EmployeeCrudController extends CrudController
 
         CRUD::column('employee_category_id')->type('select')->label('የሰራተኛው አይነት')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(4);
        
-        CRUD::column('employee_sub_category_id')->type('select')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub-category');
+        CRUD::column('employee_sub_category_id')->type('select')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('ንዑስ ምድብ');
      
         CRUD::column('date_of_birth')->type('closure')->function(function ($entry) {
             return $entry->age() ?? '-';

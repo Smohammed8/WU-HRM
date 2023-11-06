@@ -233,24 +233,27 @@
 
 @endsection
 
+<style>
+
+#image {
+    max-width: 200%; /* Make the image responsive */
+    height: auto; /* Allow the image to scale proportionally */
+    display: block; /* Remove any extra spacing or borders around the image */
+}
+</style>
 @section('content')
     <div class="row">
-
         <div class=" card col-md-12 mb-2 card card-primary card-outline">
 
             <div class="card-body" style="font-family:inherit; font-size:14px;">
                 <div class="row">
                     <div class="col-md-2" style="border-right:1px solid black;">
-
-
-
                         <div id="results">
 
                             <img src="{{ $crud->entry?->photo }}" id="image" class="after_capture_frame"
                                 alt="profile Pic" height="220" width="200">
 
                         </div>
-
                         <hr>
                         <div class="row">
                             <div class="col-md-12">
@@ -630,7 +633,14 @@ saveSnap();
 
                                 <div class="d-flex justify-content-between">
                                     <label for=""><b> Employee type : </b></label>
-                                    <label for=""> {{ $crud->entry->employeeCategory->name ?? '-' }} staff
+                                    <label for=""> 
+                                        @if( $crud->entry->employee_sub_category_id ==null)
+
+                                        {{ $crud->entry->employeeCategory->name ?? '-' }}  
+                                        @else
+                                        {{ $crud->entry->employeeCategory->name ?? '-' }}   - {{ $crud->entry->employeeSubCategory->name ?? '-' }} 
+                                        @endif
+                                    
                                     </label>
                                 </div>
 
