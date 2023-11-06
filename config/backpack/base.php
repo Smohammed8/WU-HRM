@@ -143,6 +143,7 @@ return [
         'assets/calendar/js/jquery.calendars.picker-am.js',
         'assets/calendar/custom/script.js',
         'assets/js/canvasjs.min.js',
+        'js/custom.js',
         //'https://canvasjs.com/assets/script/canvasjs.min.js',
         //'assets/toastr/toastr.min.js',
 

@@ -10,7 +10,8 @@
     // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
     $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 @endphp
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/dist/bootstrap4-modal-fullscreen.min.css') }}" rel="stylesheet" type="text/css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +24,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
 <style type="text/css">
     #results {
         padding: 2px;
@@ -67,7 +66,7 @@
 @section('header')
     <section class="container-fluid d-print-none">
 
-
+        <div class="d-none d-md-block">
         @canany('employee.index')
             <a href="{{ route('employee.index') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"><i
                     class="la  la-search"></i> Search
@@ -163,8 +162,7 @@
                 </a>
             @endcanany
         @endif
-
-
+        </div>
         {{-- @endcan --}}
         {{-- <a href="javascript: window.print();" class="btn  btn-sm btn-outline-primary float-right"><i
             class="la la-print"></i></a> --}}
@@ -175,7 +173,8 @@
             @if ($crud->hasAccess('list'))
                 <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i
                             class="la la-angle-double-left"></i> {{ trans('backpack::crud.back_to_all') }}
-                        <span>{{ $crud->entity_name_plural }}</span></a></small>
+                        <span>{{ $crud->entity_name_plural }}</span></a>
+                </small>
             @endif
         </h2>
     </section>
@@ -250,7 +249,7 @@
                     <div class="col-md-2" style="border-right:1px solid black;">
                         <div id="results">
 
-                            <img src="{{ $crud->entry?->photo }}" id="image" class="after_capture_frame"
+                            <img src="{{ $crud->entry?->photo }}" id="image" class="after_capture_frame img-fluid" 
                                 alt="profile Pic" height="220" width="200">
 
                         </div>
@@ -710,7 +709,7 @@ saveSnap();
 
     </div>
 
-
+    <div class="d-none d-md-block"> <!-- hide on mobile device -->
 
     <div class="tab-container mb-2 row">
         <div class="nav-tabs-custom p-0 d-flex  col-md-12" id="form_tabs">
@@ -1689,7 +1688,7 @@ saveSnap();
             </div>
         </div>
     </div>
-
+</div> <!-- the end of hidden on mobile device -->
 @endsection
 @canany(['employee.promotion.icrud', 'employee.promotion.index'])
     @include('/employee.promtion')
@@ -1835,7 +1834,7 @@ saveSnap();
                 ', height=' + popupWinHeight + ', top=' +
                 top + ', left=' + left);
         }
-        // 
+    
     </script>
 
     //
@@ -1854,13 +1853,5 @@ saveSnap();
     <script src=" {{ asset('assets/calendar/js/jquery.calendars.picker-am.js') }}"></script>
 
 
-    //
-    <script>
-        //     var calendar = $.calendars.instance('ethiopian', 'am');
-        //     $('#start').calendarsPicker({
-        //         calendar: calendar
-        //     });
-        //     // $('#end').calendarsPicker({calendar: calendar});
-        // 
-    </script>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 @endsection

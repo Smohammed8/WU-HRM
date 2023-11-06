@@ -732,11 +732,31 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
 
-        CRUD::field('employee_sub_category_id')->type('select2')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub-category')->size(6)->tab($job);
+
+        // CRUD::addField([
+        //     'name' => 'employee_category_id',
+        //     'type' => 'select2',
+        //     'entity' => 'employeeCategory',
+        //     'model' => EmployeeCategory::class,
+        //     'attribute' => 'name',
+        //     'label' => 'Employee Category',
+        //     'size' => 6, // Adjust the size as needed
+        //     'tab' => $job, // Assuming $job is defined earlier
+        // ]);
+        
+        // CRUD::addField([
+        //     'name' => 'employee_sub_category_id',
+        //     'type' => 'select2',
+        //     'entity' => 'employeeSubCategory',
+        //     'model' => EmployeeSubCategory::class,
+        //     'attribute' => 'name',
+        //     'label' => 'Sub-category (Academic Rank)',
+        //     'size' => 6, // Adjust the size as needed
+        //     'tab' => $job, // Assuming $job is defined earlier
+        // ]);
 
 
-
-  
+        CRUD::field('employee_sub_category_id')->type('select2')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub-category[academic aank]')->size(6)->tab($job);
 
         CRUD::field('employmeent_identity')->type('hidden')->value($this->getEmployeeID());
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
@@ -744,10 +764,6 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
 
         CRUD::field('date_of_birth')->size(6)->tab($bio);
-
-
-
-   
 
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
@@ -775,36 +791,7 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
 
-
-
-    // CRUD::addField([
-    //     'name' => 'employee_category_id',
-    //     'type' => 'select2',
-    //     'label' => 'Employee Category',
-    //     'entity' => 'employeeCategory',
-    //     'attribute' => 'name',
-    //     'model' => 'App\Models\EmployeeCategory',
-    //     'size' => 'col-md-6', 
-    //     'tab' => $job, 
-    // ]);
-
-    // CRUD::addField([
-    //     'name' => 'employee_sub_category_id',
-    //     'type' => 'select2_from_ajax',
-    //     'label' => 'Subcategory',
-    //     'entity' => 'employeeSubCategory',
-    //     'attribute' => 'name',
-    //     'model' => 'App\Models\EmployeeSubCategory',
-    //     'data_source' => url('admin/employee/dynamic-subcategories'),
-    //     'placeholder' => 'Select a subcategory',
-    //     'size' => 'col-md-6',
-    //     'tab' => $job, 
-    //     'minimum_input_length' => 3
-    //    ]);
-
-
-
-
+ 
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 

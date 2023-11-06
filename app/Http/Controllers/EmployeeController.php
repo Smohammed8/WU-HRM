@@ -111,13 +111,11 @@ class EmployeeController extends Controller
     }
 
 
-    public function fetchDynamicSubcategories(Request $request)
+public function fetchSubCategories($category)
 {
-    $categoryId = $request->input('q');
+    $subCategories = EmployeeSubCategory::where('employee_category_id', $category)->pluck('name', 'id');
 
-    $subcategories = EmployeeSubCategory::where('employee_category_id', $categoryId)->get(['id', 'name']);
-
-    return $subcategories;
+    return response()->json($subCategories);
 }
 
 
