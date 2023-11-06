@@ -1,11 +1,13 @@
 
 
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
-@if(Auth::user()->hasRole('employee'))
+{{-- @if(Auth::user()->hasRole('employee')) --}}
 <li class="nav-item"><a class="nav-link inactive" href="{{ route('notice') }}"><i class="la la-home nav-icon"></i>
     Home </a>
 </li>
- @endif
+ {{-- @endif --}}
+ 
+
 
 @can('dashboard.content')
 <li class="nav-item">
@@ -29,12 +31,6 @@ color:black;
 
 }
 </style> --}}
-
-
-
-
-
-
 
 @canany(['user.icrud', 'user.index', 'role.icrud', 'role.index', 'permission.icrud', 'permission.index'])
 <li class="nav-item nav-dropdown">
@@ -247,6 +243,11 @@ color:black;
     @canany(['employee_category.index', 'employee_category.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-category') }}'><i
                 class='nav-icon la la-caret-right'></i> Employee category </a></li>
+     @endcanany
+
+    @canany(['employee_sub_category.index', 'employee_sub_category.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-sub-category') }}'>
+        <i class='nav-icon la la-caret-right'></i>  Employee sub-category</a></li>
     @endcanany
 
     @canany(['field_of_study.index', 'field_of_study.icrud'])

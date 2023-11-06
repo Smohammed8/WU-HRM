@@ -11,6 +11,7 @@ use App\Models\EducationalLevel;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
+use App\Models\EmployeeSubCategory;
 use App\Models\Evaluation;
 use App\Models\JobGrade;
 use App\Models\PlacementChoice;
@@ -108,6 +109,17 @@ class EmployeeController extends Controller
         $placementChoice = PlacementChoice::where('employee_id',$employee->id)->where('placement_round_id',$placementRound->id)->first();
         return view('home', compact('user', 'employee','startSalary','mark','positions', 'placementRound','placementChoice'));
     }
+
+
+    public function fetchDynamicSubcategories(Request $request)
+{
+    $categoryId = $request->input('q');
+
+    $subcategories = EmployeeSubCategory::where('employee_category_id', $categoryId)->get(['id', 'name']);
+
+    return $subcategories;
+}
+
 
     public function choiceStore(Request $request, PlacementRound $placementRound)
     {

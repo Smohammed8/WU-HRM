@@ -158,6 +158,9 @@ Route::get('/access-logs/{id}', [AccessLogController::class,'destroy'])->name('d
 Route::get('/truncate', [AccessLogController::class,'truncateTable'])->name('truncate');
 Route::delete('logs/bulkDelete', [AccessLogController::class,'bulkDelete'])->name('logs.bulkDelete');
 
+Route::get('admin/employee/dynamic-subcategories', [EmployeeController::class,'fetchDynamicSubcategories'])->name('');
+
+
 /////////////////////////////////////////////////////////////////////
 Route::get('/api/employees', [EmployeeController::class, 'index']);
 Route::get('/api/home', [App\Http\Controllers\SyncController::class, 'insert'])->name('sync');

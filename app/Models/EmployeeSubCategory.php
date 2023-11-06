@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class EmployeeCategory extends Model
+class EmployeeSubCategory extends Model
 {
+  
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
@@ -18,9 +18,9 @@ class EmployeeCategory extends Model
      */
     protected $fillable = [
         'name',
-        'expir_date'
+        'employee_category_id',
+        'description',
     ];
-
 
     /**
      * The attributes that should be cast to native types.
@@ -29,21 +29,15 @@ class EmployeeCategory extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'expir_date' => 'integer'
+        'employee_category_id' => 'integer',
     ];
-    /**
-     * Get all of the employees for the EmployeeCategory
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function employees(): HasMany
-    {
-        return $this->hasMany(Employee::class);
-    }
 
-    public function employeeSubcategories(): HasMany
+    public function employeeCategory()
     {
-        return $this->hasMany(EmployeeSubCategory::class);
+        return $this->belongsTo(EmployeeCategory::class);
     }
-
+    public function employees()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }
