@@ -410,7 +410,8 @@ saveSnap();
                             @else
                             @endif
                             <hr>
-                            <i class='fa fa-caret-right'></i> Total Leave days: - 22 days <br>
+                            <i class='fa fa-caret-right'></i> Total Leave days: - {{ $remainingLeaveDays }}  days <br>
+                            <i class='fa fa-caret-right'></i> Remaining Leave days: - {{ $remainingLeaveDays }}  days <br>
                             <i class='fa fa-caret-right'></i> Experience taken: - 0 times <br>
                             <i class='fa fa-caret-right'></i> Number of families: - {{ $crud->entry->families->count() }}
                             <br>

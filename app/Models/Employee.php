@@ -40,6 +40,8 @@ class Employee extends  Model
 
     // use RevisionableTrait, CrudTrait, HasFactory, HasRoles;
 
+
+  
   
 
     public function identifiableName()
@@ -152,6 +154,8 @@ class Employee extends  Model
         return $this->is_locked;
     }
     
+
+
     
     public function setDrivingLicenceAttribute($value)
     {

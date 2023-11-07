@@ -1066,6 +1066,11 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
     }
 
     ///////////////////////////////////////////////////////////////////////
+
+
+
+
+    ////////////////////////////////////////////////////////////////
     public function checkProbation()
     {
 
@@ -1225,6 +1230,25 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 
         $demotions = Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
+
+  /////////////////////////////////////////////////////////////////////////////////
+    $employement_date = Employee::select('employement_date')->where('id', $employeeId)->get()->first()?->employement_date ;
+    $cYear =  Constants::gcToEt(Carbon::now());
+    $currentYear  =  Carbon::parse($cYear)->year;
+    $serviceYears = $currentYear - $employement_date->year;
+    $accrualRates = Constants::ACCRUAL_RATES;  // Access the ACCRUAL_RATES constant
+    $maxAccrualRate = Constants::MAX_ACCRUAL_RATE;
+    $totalLeaveDays = 0;
+    for ($i = 0; $i <= min($serviceYears, count($accrualRates) - 1); $i++) {
+        $totalLeaveDays += $accrualRates[$i];
+    }
+    if ($serviceYears >= 10) {
+        $totalLeaveDays = $maxAccrualRate;
+    }
+
+   $this->data['remainingLeaveDays'] = $totalLeaveDays;
+        
+
     ////////////////////////////////////////////////////////////////////////
         try {
             $employee = Employee::where('id', '=', $employeeId)->first();

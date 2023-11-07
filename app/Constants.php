@@ -76,6 +76,23 @@ class Constants
      const USER_TYPE_TEAM_LEADER = 'Team-Leader';
      const USER_TYPE_TOP_MANAGMENT = 'Top-Managment';
 
+
+     const MAX_ACCRUAL_RATE = 30;
+     const ACCRUAL_RATES = [
+         0,  // Less than 1 year
+         21, // 1 year
+         22, // 2 years
+         23, // 3 years
+         24, // 4 years
+         25, // 5 years
+         26, // 6 years
+         27, // 7 years
+         28, // 8 years
+         29, // 9 years
+         30, // 10+ years
+     ];
+
+
     const PERMISSION_DASHBOARD = 'DASHBOARD';
 
     const PROBATION_HIRE_LETTER = 'Probation Hire Letter';
