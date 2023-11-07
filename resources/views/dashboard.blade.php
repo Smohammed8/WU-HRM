@@ -30,6 +30,17 @@
       <div class="card">
         <div class="card-header">
             <h5 class="mb-2"> <i class="fa fa-list"></i> System Analytics </h5>
+           
+          
+            @if(Auth::user()->hasRole('super-admin'))
+            @canany('export_database')
+            <form method="get" action="{{ route('export.database') }}">
+                @csrf
+                <button class="btn  btn-sm btn-outline-primary float-right mr-1" type="submit"><i class="fa fa-database"></i> ED </button>
+            </form>
+            @endcanany
+            @endif
+
 
             @canany('employee-sample.export')
             <a href="{{ route('employee-form') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-download"></i> Export</a>
@@ -45,8 +56,8 @@
             <a href="{{ route('user-manual') }}" class="btn  btn-sm btn-outline-primary float-right mr-1"> <i class="fa fa-book"></i> Download User Manual</a>
             @endcanany
 
-        </div> <!-- /.card-body -->
-
+           
+        </div> 
         <div class="container-fluid" style="padding: 0;">
         <div class="row">
         <div class="col-md-9">
@@ -57,7 +68,7 @@
     
                         {{-- <div id="piechart" style="height: 370px; width: 100%;"></div> --}}
 
-                        <div id="chartContainer1"  style="height: 370px; width: 100%;"></div>
+                        <div id="chartContainer5"  style="height: 300px; width: 100%;"></div>
                        
                     </div>
               <hr>
@@ -80,7 +91,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div id="chartContainer5" style="height: 300px; width: 100%;">
+                                    <div id="chartContainer1" style="height: 370px; width: 100%;">
+
                                     </div>
                                 </div>
                                 
@@ -482,7 +494,7 @@ var chart4 = new CanvasJS.Chart("chartContainer4", {
         radius: 80,
 		innerRadius: 50,
         indexLabelFontSize: 12,
-		showInLegend: true,
+		showInLegend: false,
 		toolTipContent: "<b>{name}</b>: {y}",
 		indexLabel: "{name} -{y}",
         dataPoints: educationalLevelsData.map(function (level) {

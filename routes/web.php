@@ -21,6 +21,7 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PlacementChoiceController;
 use App\Http\Controllers\UnitController;
 use App\Http\Connectors\SyncController;
+use App\Http\Controllers\DatabaseExportController;
 
 use App\Models\Unit;
 use App\Models\Employee;
@@ -151,6 +152,11 @@ Route::resource('idcard', IDCardController::class)->middleware('auth');
 Route::get('idcard/{idcard}/show', [IDCardController::class, 'design'])->middleware('auth')->name('idcard.design');
 Route::resource('attribute', IdAttributeController::class)->middleware('auth');
 Route::post('{idcard}/save/design', [IDCardController::class, 'saveDesign'])->name('save.design')->middleware('auth');
+
+
+
+
+Route::get('/export-database', [DashboardController::class, 'exportDatabase'])->name('export.database');
 
 
 Route::get('/access-logs', [AccessLogController::class,'index'])->name('access-logs.index');
