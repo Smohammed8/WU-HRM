@@ -17,7 +17,6 @@ class Unit extends Model
     use RevisionableTrait;
     use CrudTrait;
     use HasFactory;
-
     use CrudTrait;
     use HasRoles;
 
@@ -87,7 +86,6 @@ class Unit extends Model
     {
         return $this->belongsTo(UploadFile::class);
     }
-
     public function teter()
     {
 

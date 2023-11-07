@@ -40,4 +40,10 @@ class EmployeeCategory extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    public function employeeSubcategories(): HasMany
+    {
+        return $this->hasMany(EmployeeSubCategory::class);
+    }
+
 }

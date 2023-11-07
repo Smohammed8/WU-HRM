@@ -1,12 +1,13 @@
 
 
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
-
-@if(Auth::user()->hasRole('employee'))
-<li class="nav-item"><a class="nav-link" href="#"><i class="la la-home nav-icon"></i>
+{{-- @if(Auth::user()->hasRole('employee')) --}}
+<li class="nav-item"><a class="nav-link inactive" href="{{ route('notice') }}"><i class="la la-home nav-icon"></i>
     Home </a>
 </li>
- @endif
+ {{-- @endif --}}
+ 
+
 
 @can('dashboard.content')
 <li class="nav-item">
@@ -31,12 +32,6 @@ color:black;
 }
 </style> --}}
 
-
-
-
-
-
-
 @canany(['user.icrud', 'user.index', 'role.icrud', 'role.index', 'permission.icrud', 'permission.index'])
 <li class="nav-item nav-dropdown">
 <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-user"></i> User Managment</a>
@@ -55,6 +50,13 @@ color:black;
             <i class='nav-icon la la-caret-right'></i> 
             <span> Permission </span></a></li>
     @endcanany
+
+    @canany('access.logs')
+    <li class="nav-item"><a class="nav-link" href="{{ route('access-logs.index') }}">
+        <i class='nav-icon la la-caret-right'></i> 
+        <span> Access logs </span></a></li>
+@endcanany
+
 </ul>
 </li>
 @endcanany
@@ -206,9 +208,16 @@ color:black;
                 class='nav-icon la la-caret-right'></i> Chairman type</a></li> --}}
 
 
-
+  @if(Auth::user()->hasRole('super-admin'))
+<li class="nav-item"><a class="nav-link" href="{{ route('sync') }}"><i class="nav-icon la la-caret-right"></i>
+    Sync Data </a>
+</li>
+ @endif
+ 
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pension') }}'>
-            <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
+    <i class='nav-icon la la-caret-right'></i>Set  pension</a></li>
+
+
     @canany(['certification_type.index', 'certification_type.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('certification-type') }}'><i class='nav-icon la la-caret-right'></i> Certification type </a></li>
     @endcanany
@@ -234,6 +243,11 @@ color:black;
     @canany(['employee_category.index', 'employee_category.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-category') }}'><i
                 class='nav-icon la la-caret-right'></i> Employee category </a></li>
+     @endcanany
+
+    @canany(['employee_sub_category.index', 'employee_sub_category.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee-sub-category') }}'>
+        <i class='nav-icon la la-caret-right'></i>  Employee sub-category</a></li>
     @endcanany
 
     @canany(['field_of_study.index', 'field_of_study.icrud'])
@@ -335,11 +349,12 @@ color:black;
 @endcanany
 @canany(['notice.icrud', 'notice.index', 'notice_type.icrud', 'notice_type.index'])
 <li class="nav-item nav-dropdown">
-<a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-bullhorn" aria-hidden="true"></i>
+<a class="nav-link nav-dropdown-toggle" href="#">
+    <i class="nav-icon la la-bullhorn" aria-hidden="true"></i>
     Announcement</a>
 <ul class="nav-dropdown-items">
     @canany(['notice.index', 'notice.icrud'])
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('notice') }}">
+        <li class="nav-item"><a class="nav-link" href="#">
             <i class='nav-icon la la-caret-right'></i> 
              <span> Notice </span></a></li>
     @endcanany

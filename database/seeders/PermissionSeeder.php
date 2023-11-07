@@ -613,8 +613,19 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('notice_type.edit');
         Permission::findOrCreate('notice_type.delete');
 
-        
+        //employee_sub_category
+        Permission::findOrCreate('employee_sub_category.index.icrud');
+        Permission::findOrCreate('employee_sub_category.index.index');
+        Permission::findOrCreate('employee_sub_category.index.create');
+        Permission::findOrCreate('employee_sub_category.index.show');
+        Permission::findOrCreate('employee_sub_category.index.edit');
+        Permission::findOrCreate('employee_sub_category.index.delete');
 
+        Permission::findOrCreate('log.index');
+        Permission::findOrCreate('log.trancate');
+        Permission::findOrCreate('log.delete');
+        
+       
         // Hr Branch
         Permission::findOrCreate('HR-all.manage');
         Permission::findOrCreate('HR-jit.manage');

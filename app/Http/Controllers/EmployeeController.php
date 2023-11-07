@@ -11,6 +11,7 @@ use App\Models\EducationalLevel;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Employee;
+use App\Models\EmployeeSubCategory;
 use App\Models\Evaluation;
 use App\Models\JobGrade;
 use App\Models\PlacementChoice;
@@ -30,15 +31,19 @@ class EmployeeController extends Controller
     {
         //$user = Auth::user();
         $user =  backpack_user();
-        //dd($user->employee->id);
         $employee = Employee::where('user_id', $user->id)->get();
-
         if($user->employee == null){
+
+            if ($user) {
+                $user->update(['is_online' => false]);
+            }
             Auth::logout();
             return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }
         if ($employee->count() == 0 && !backpack_user()->hasRole('employee')) {
-
+            if ($user) {
+                $user->update(['is_online' => false]);
+            }
             Auth::logout();
             return redirect()->route('login')->with('error', 'Please you have no employee profile contact admin.');
         }
@@ -104,6 +109,15 @@ class EmployeeController extends Controller
         $placementChoice = PlacementChoice::where('employee_id',$employee->id)->where('placement_round_id',$placementRound->id)->first();
         return view('home', compact('user', 'employee','startSalary','mark','positions', 'placementRound','placementChoice'));
     }
+
+
+public function fetchSubCategories($category)
+{
+    $subCategories = EmployeeSubCategory::where('employee_category_id', $category)->pluck('name', 'id');
+
+    return response()->json($subCategories);
+}
+
 
     public function choiceStore(Request $request, PlacementRound $placementRound)
     {

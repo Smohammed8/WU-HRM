@@ -154,4 +154,6 @@ Route::group([
     Route::crud('employee-letter', 'EmployeeLetterCrudController');
     Route::crud('notice', 'NoticeCrudController');
     Route::crud('notice-type', 'NoticeTypeCrudController');
+    Route::crud('access-log', 'AccessLogCrudController');
+    Route::crud('employee-sub-category', 'EmployeeSubCategoryCrudController');
 });

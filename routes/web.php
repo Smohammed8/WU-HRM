@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants;
+use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\Admin\EmployeeCrudController;
 use App\Http\Controllers\Admin\EmployeeEvaluationCrudController;
 use App\Http\Controllers\Admin\FieldOfStudyCrudController;
@@ -19,11 +20,14 @@ use App\Http\Controllers\IDSignaturesController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PlacementChoiceController;
 use App\Http\Controllers\UnitController;
+use App\Http\Connectors\SyncController;
+
 use App\Models\Unit;
 use App\Models\Employee;
 use App\Models\EmployeeEvaluation;
 use App\Models\Unit as ModelsUnit;
 use App\Score\ExperienceScore;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -39,6 +43,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if (!backpack_user()) {
+            // Update user's status to offline
         return redirect('logout');
     }
     // if (!backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
@@ -47,7 +52,6 @@ Route::get('/', function () {
     // }
     // return redirect(route('home'));
     if (backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
-     
         return redirect(route('home'));  
     }
     return redirect(route('dashboard'));
@@ -67,14 +71,14 @@ Route::get('/import', [ImportController::class, 'import'])->middleware('auth');
 Route::get('/home', [EmployeeController::class, 'home'])->name('home')->middleware(['admin']);
 Route::get('import_page', [EmployeeController::class, 'importPage'])->middleware('auth');
 Route::post('import', [EmployeeController::class, 'import'])->middleware('auth');
+
+Route::group(['middleware' => ['web', 'update.logout.status']], function () {
 Route::get('/login', [AuthController::class, 'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->middleware('guest');
+});
 //Route::post('insertbatch', [EmployeeCrudController::class, 'insertbatch'])->name('insertbatch');
 Route::get('/export-employees', [EmployeeCrudController::class, 'exportEmployees'])->name('export-employees');
-
 Route::get('/export', [EmployeeCrudController::class, 'export-form'])->name('export-form');
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////
  Route::get('/result', [PlacementChoiceCrudController::class, 'result'])->name('result');
  Route::get('{hr_branch_id}/getEmployee', [EmployeeCrudController::class, 'getEmployee'])->name('getEmployee');
@@ -102,7 +106,6 @@ Route::get( '/hierarchy',
     return view('unit.tree', ['orgs' => $org]);
     }
 )->name('hierarchy')->middleware('auth');
-
 //$org = Unit::where('parent_unit_id')->where('is_active', true)->latest()->get();
 Route::post('employee/placement_round/{placement_round}/choice/store',[EmployeeController::class,'choiceStore'])->name('employee.placement_choice.store');
 Route::get('employee-form', function(){
@@ -150,12 +153,28 @@ Route::resource('attribute', IdAttributeController::class)->middleware('auth');
 Route::post('{idcard}/save/design', [IDCardController::class, 'saveDesign'])->name('save.design')->middleware('auth');
 
 
+Route::get('/access-logs', [AccessLogController::class,'index'])->name('access-logs.index');
+Route::get('/access-logs/{id}', [AccessLogController::class,'destroy'])->name('destroy');
+Route::get('/truncate', [AccessLogController::class,'truncateTable'])->name('truncate');
+Route::delete('logs/bulkDelete', [AccessLogController::class,'bulkDelete'])->name('logs.bulkDelete');
+
+
+Route::get('/admin/employee/fetch-subcategories/{category}',[EmployeeController::class,'fetchSubCategories'])->name('');
+
+/////////////////////////////////////////////////////////////////////
+Route::get('/api/employees', [EmployeeController::class, 'index']);
+Route::get('/api/home', [App\Http\Controllers\SyncController::class, 'insert'])->name('sync');
+//////////////////////////////////////////////////////////////////////
+
+Route::get('/notice', [DashboardController::class, 'notice'])->name('notice');
+
 Route::get('/employee/list', [IDCardController::class, 'printList'])->name('emp.list')->middleware('auth');
 Route::get('{employee}/print/ID', [IDCardController::class, 'printID'])->name('print.id')->middleware('auth');
 Route::resource('signature', IDSignaturesController::class)->middleware('auth');
 Route::get('field_of_study/sync',[ FieldOfStudyCrudController::class,'syncFieldOfStudy'])->name('field_of_study.sync')->middleware('auth');
 
 Route::get('/search', [PositionCodeCrudController::class, 'search']);
+Route::delete('items/bulkDelete', [PositionCodeCrudController::class,'bulkDelete'])->name('items.bulkDelete');
 
 //Route::resource('round/{placement_round}/placement-choice', PlacementChoiceController::class);
 Route::post('choice-based-employee', [PlacementChoiceController::class, 'choiceBasedEmployee']);

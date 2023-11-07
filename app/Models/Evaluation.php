@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Constants;
 
 class Evaluation extends Model
 {
@@ -41,6 +42,7 @@ class Evaluation extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
 
 
     public function employeeEvaluations()

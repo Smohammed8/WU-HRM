@@ -52,7 +52,10 @@ class EmployeeRequest extends FormRequest
             'salary_step' =>'nullable',
             'nationality_id' =>'required',
             'employment_type_id' =>'required',
-            'employee_category_id'=>'required',
+
+            'employee_category_id' => 'required',
+            'employee_sub_category_id' => 'nullable',
+
             'pention_number'  => 'nullable|unique:employees,pention_number,'.request()->id,
             'static_salary'=>'nullable',
             'uas_user_id' =>'nullable',
@@ -82,6 +85,9 @@ class EmployeeRequest extends FormRequest
             ],
             'phone_number' => 'nullable|numeric|digits:10|unique:employees,phone_number,'.request()->id,
             'email' => 'nullable|email|unique:employees,email,'.request()->id,
+
+
+      
        
            
         ];

@@ -7,6 +7,7 @@ use App\Constants;
 use Carbon\Carbon;
 use EmployeeExport;
 use App\Models\Unit;
+use App\Models\User;
 use NumberFormatter;
 use App\Models\Leave;
 use App\Models\Level;
@@ -14,6 +15,7 @@ use App\Models\Skill;
 use App\Models\License;
 use App\Models\Pension;
 use App\Models\Quarter;
+use App\Rules\AgeRange;
 use App\Models\Demotion;
 use App\Models\Employee;
 use App\Models\HrBranch;
@@ -31,13 +33,13 @@ use App\Models\TypeOfLeave;
 use App\Models\FieldOfStudy;
 use App\Models\PositionCode;
 use App\Models\TemplateType;
-use App\Models\User;
-use Illuminate\Http\Request;
 //use PDF;
+use Illuminate\Http\Request;
 use App\Models\EmployeeTitle;
 use App\Models\MaritalStatus;
 use App\Models\EducationLevel;
 use App\Models\EmployeeFamily;
+use App\Models\EmployeeLetter;
 use App\Models\EmploymentType;
 use App\Models\EmployeeAddress;
 use App\Models\EmployeeContact;
@@ -63,26 +65,25 @@ use App\Models\InternalExperience;
 use Illuminate\Support\Facades\DB;
 use Prologue\Alerts\Facades\Alert;
 use App\Models\EmployeeCertificate;
+use App\Models\EmployeeSubCategory;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use \Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Route;
 use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\EmployeeAddressRequest;
-use App\Models\EmployeeLetter;
-use App\Rules\AgeRange;
 use Illuminate\Validation\ValidationException;
 use \Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
-use Illuminate\Support\Facades\Log;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedListOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedCreateOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedDeleteOperation;
 use \Onkbear\NestedCrud\app\Http\Controllers\Operations\NestedUpdateOperation;
-use Illuminate\Support\Facades\Route;
 
 /**
  * Class EmployeeCrudController
@@ -268,7 +269,7 @@ class EmployeeCrudController extends CrudController
 
 
 
-
+     
 
         CRUD::column('name')->label('የሰራተኛዉ ሙሉ ስም')->type('closure')->function(function ($entry) {
             return $entry->first_name . ' ' . $entry->father_name . ' ' . $entry->grand_father_name;
@@ -280,13 +281,15 @@ class EmployeeCrudController extends CrudController
         CRUD::column('phone_number')->label('ስልክ ቁጥር');
 
         CRUD::column('employee_category_id')->type('select')->label('የሰራተኛው አይነት')->entity('employeeCategory')->model(EmployeeCategory::class)->attribute('name')->size(4);
-   
-
+       
+        CRUD::column('employee_sub_category_id')->type('select')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('ንዑስ ምድብ');
+     
         CRUD::column('date_of_birth')->type('closure')->function(function ($entry) {
             return $entry->age() ?? '-';
         })->label('ዕድሜ')->wrapper([
             'element' => 'span',
             'title' => 'Employee age in years',
+            
             'class' => function ($crud, $column, $entry) {
                 switch ($entry->age()) {
                     case '61':
@@ -320,8 +323,7 @@ class EmployeeCrudController extends CrudController
 
         CRUD::column('field_of_study_id')->type('select')->label('Field of study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name');
 
-
-
+    
         CRUD::column('employement_date')->label('Employment date')->display(function ($date) {
             return Carbon::parse($date)->format('Y-m-d');
         });
@@ -518,7 +520,11 @@ class EmployeeCrudController extends CrudController
 
             DB::raw('(SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as first_internal_external_start_date'),
             DB::raw('(SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id) as last_external_experience_end_date'),
+
+            
             DB::raw('(TIMESTAMPDIFF(YEAR, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_years'),
+
+            
             DB::raw('(TIMESTAMPDIFF(MONTH, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_months'),
             DB::raw('(TIMESTAMPDIFF(DAY, (SELECT MIN(start_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id), (SELECT MAX(end_date) FROM external_experiences WHERE external_experiences.employee_id = employees.id))) as external_experience_days')
             )
@@ -721,8 +727,36 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
 
-        CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
+    
+        CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
+
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
+
+
+        // CRUD::addField([
+        //     'name' => 'employee_category_id',
+        //     'type' => 'select2',
+        //     'entity' => 'employeeCategory',
+        //     'model' => EmployeeCategory::class,
+        //     'attribute' => 'name',
+        //     'label' => 'Employee Category',
+        //     'size' => 6, // Adjust the size as needed
+        //     'tab' => $job, // Assuming $job is defined earlier
+        // ]);
+        
+        // CRUD::addField([
+        //     'name' => 'employee_sub_category_id',
+        //     'type' => 'select2',
+        //     'entity' => 'employeeSubCategory',
+        //     'model' => EmployeeSubCategory::class,
+        //     'attribute' => 'name',
+        //     'label' => 'Sub-category (Academic Rank)',
+        //     'size' => 6, // Adjust the size as needed
+        //     'tab' => $job, // Assuming $job is defined earlier
+        // ]);
+
+
+        CRUD::field('employee_sub_category_id')->type('select2')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub-category[academic aank]')->size(6)->tab($job);
 
         CRUD::field('employmeent_identity')->type('hidden')->value($this->getEmployeeID());
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
@@ -730,10 +764,6 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
 
         CRUD::field('date_of_birth')->size(6)->tab($bio);
-
-
-
-   
 
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
@@ -759,7 +789,9 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
-        CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
+
+ 
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 

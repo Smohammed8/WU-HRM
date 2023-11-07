@@ -28,6 +28,11 @@
 
                     </small>
                 </div>
+                @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                 @endif
 
                     {{-- Username: admin   and Password: 1213/06 --}}
 

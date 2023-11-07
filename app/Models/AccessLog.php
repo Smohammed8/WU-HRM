@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AccessLog extends Model
+{
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    use HasFactory;
+
+
+    protected $fillable = [
+        'ip_address',
+        'user_agent',
+        'operating_system',
+        'access_time',
+        'status',
+    ];
+
+    
+    
+}

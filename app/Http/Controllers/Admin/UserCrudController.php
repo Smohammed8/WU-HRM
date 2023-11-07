@@ -102,6 +102,7 @@ class UserCrudController extends CrudController
                 'model' => 'App\Models\HrBranch', 
                ],
 
+          
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
@@ -115,6 +116,35 @@ class UserCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model'     => config('permission.models.role'), // foreign key model
             ],
+            'switch_case_column' => [
+                'name' => 'is_online',
+                'label' => 'Online Status',
+                'type' => 'custom',
+                'wrapper' => [
+                    'element' => 'span',
+                    'title' => 'User status',
+                    'class' => function ($crud, $column, $entry) {
+                        // Access the 'is_online' value from $entry
+                        $isOnline = $entry->is_online;
+                        if ($isOnline == 'Online') {
+                            return 'badge badge-pill badge-success border';
+                        } else {
+                            return 'badge badge-pill badge-info border';
+                            
+                        }
+                    },
+                ],
+            ],
+
+        
+          [
+                'name' => 'is_disabled',
+                'label' => 'Is active?',
+                'type' => 'boolean',
+          
+          ],
+
+            
             [ // n-n relationship (with pivot table)
                 'label'     => trans('backpack::permissionmanager.extra_permissions'), // Table column heading
                 'type'      => 'select_multiple',
@@ -251,6 +281,13 @@ class UserCrudController extends CrudController
                 ],
             ],
             [
+                'name' => 'is_disabled',
+                'label' => 'Account status',
+                'type' => 'boolean',
+          
+          ],
+
+            [
                 'name'  => 'password',
                 'label' => trans('backpack::permissionmanager.password'),
                 'type'  => 'password',
@@ -282,6 +319,14 @@ class UserCrudController extends CrudController
                   
                 ],
                ],
+
+            //    [
+            //     'name' => 'is_online',
+            //     'label' => 'Online Status',
+            //     'type' => 'online_status',
+            //    ],
+
+
             [
                 // two interconnected entities
                 'label'             => trans('backpack::permissionmanager.user_role_permission'),

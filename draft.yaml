@@ -101,6 +101,7 @@ models:
 #     description: text nullable
 #   EmployeeCategory:
 #     name: string:255 unique
+
 #   Pension:
 #     name: string:255 unqique
 #     gender: enum:Male,Female
@@ -425,6 +426,11 @@ models:
           #   notice_type_id: id foreign
           #   body: text nullable
           #   visitor_count: integer nullable
+
+          # EmployeeSubCategory:
+          #   name: string nullable
+          #   employee_category_id: id foreign nullable
+          #   description: text nullable
 
     #php artisan blueprint:build
     #php artisan backpack:build

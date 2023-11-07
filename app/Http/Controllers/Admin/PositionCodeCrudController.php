@@ -191,6 +191,21 @@ class PositionCodeCrudController extends CrudController
 
         //return $this->crud->performSaveAction($item->getKey());
     }
+
+    public function bulkDelete(Request $request)
+{
+    $selectedItems = $request->input('selected_items');
+
+    if ($selectedItems) {
+        PositionCode::whereIn('id', $selectedItems)->delete();
+        Alert::success(trans('backpack::crud.update_success'))->flash();
+     
+      
+    }
+
+    return redirect()->back();
+}
+
 }
 
 

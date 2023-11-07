@@ -94,6 +94,8 @@ class Employee extends  Model
         'national_id',
         'cbe_account',
         'user_id',
+        'employee_category_id',
+        'employee_sub_category_id'
 
     ];
 
@@ -186,6 +188,7 @@ class Employee extends  Model
         'employee_title_id' =>'integer',
         'educational_level_id' =>'integer',
         'user_id'=>'integer',
+        'employee_category_id'=>'integer'
     ];
 
     public function getDateOfBirthAttribute()
@@ -292,6 +295,12 @@ class Employee extends  Model
         return $this->belongsTo(EmployeeCategory::class);
     }
 
+
+    public function employeeSubCategory()
+    {
+        return $this->belongsTo(EmployeeSubCategory::class, 'employee_sub_category_id');
+    }
+///$employees = Employee::with('employeeSubCategory')->get();
     public function employmentType()
     {
         return $this->belongsTo(EmploymentType::class);
@@ -325,7 +334,7 @@ class Employee extends  Model
 
     public function setEmployementDateAttribute($employementDate)
     {
-        $this->attributes['employement_date'] = Constants::etToGc($employementDate);
+        return   $this->attributes['employement_date'] = Constants::etToGc($employementDate);
     }
 
     public function getTotalInternalExperience()
