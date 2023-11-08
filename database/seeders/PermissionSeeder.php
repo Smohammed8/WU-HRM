@@ -624,7 +624,8 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('log.index');
         Permission::findOrCreate('log.trancate');
         Permission::findOrCreate('log.delete');
-        
+        Permission::findOrCreate('export_database');
+      
        
         // Hr Branch
         Permission::findOrCreate('HR-all.manage');

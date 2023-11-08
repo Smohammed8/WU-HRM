@@ -77,7 +77,7 @@ class AuthController extends Controller
                 //$request->session()->regenerate();
                 if ($user->isDisabled()) {
                     Auth::logout();
-                    return Redirect::back()->withErrors(['username' => 'Your account is disabled. Contact an administrator for assistance']);
+                    return Redirect::back()->withErrors(['username' => 'Your account is not active. Contact an admin for assistance']);
                 }
                 // $user->update(['is_online' => true]);
                 // $user->update(['last_login' => now()]);

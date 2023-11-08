@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 class EmployeeRequest extends FormRequest
 {
     /**
@@ -53,13 +55,23 @@ class EmployeeRequest extends FormRequest
             'nationality_id' =>'required',
             'employment_type_id' =>'required',
 
-            'employee_category_id' => 'required',
-            'employee_sub_category_id' => 'nullable',
+    
 
             'pention_number'  => 'nullable|unique:employees,pention_number,'.request()->id,
             'static_salary'=>'nullable',
             'uas_user_id' =>'nullable',
-            'position_id'=> 'nullable',
+          
+            'employee_category_id' => 'required',
+
+
+            // 'employee_sub_category_id' => 'nullable',
+            // 'position_id'=> 'required_if:employee_sub_category_id,null', 
+
+            'position_id' => 'required_without_all:employee_sub_category_id',
+            'employee_sub_category_id' => 'required_without_all:position_id',
+
+
+
             'educational_level_id' => 'required',
             'field_of_study_id' => 'required',
             'horizontal_level' => 'required',
@@ -87,6 +99,8 @@ class EmployeeRequest extends FormRequest
             'email' => 'nullable|email|unique:employees,email,'.request()->id,
 
 
+
+        
       
        
            
@@ -111,10 +125,13 @@ class EmployeeRequest extends FormRequest
      * @return array
      */
     
-      public function messages()
-    {
-        return [
-           
-        ];
-    }
+     public function messages()
+     {
+         return [
+             'position_id.required_without_all' => 'Either Job Position or sub category must be selected.',
+             'employee_sub_category_id.required_without_all' => 'Sub category must be empty when Employee job position is selected.',
+         ];
+     }
+
+     
 }

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 //use Illuminate\Support\Facades\Auth;
 
@@ -34,9 +35,18 @@ class DashboardController extends Controller
 //     return $count;
 // }
 
-    
-    public function index(){
+ public function exportDatabase()
+{
+    $databaseName = config('database.connections.mysql.database');
+    $backupFileName = storage_path('app/' . date('Y-m-d-His') . '.sql');
 
+    // Use mysqldump to export the database to an SQL file
+    exec("mysqldump --user=".env('DB_USERNAME')." --password=".env('DB_PASSWORD')." --host=".env('DB_HOST')." $databaseName > $backupFileName");
+
+    return response()->download($backupFileName);
+}
+
+    public function index(){
 
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();

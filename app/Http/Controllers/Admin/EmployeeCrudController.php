@@ -756,11 +756,11 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         // ]);
 
 
-        CRUD::field('employee_sub_category_id')->type('select2')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub-category[academic aank]')->size(6)->tab($job);
+        CRUD::field('employee_sub_category_id')->type('select2')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub category')->size(6)->tab($job);
 
         CRUD::field('employmeent_identity')->type('hidden')->value($this->getEmployeeID());
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
-        CRUD::field('field_of_study_id')->type('select2')->label('Field od study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
+        CRUD::field('field_of_study_id')->type('select2')->label('Field of study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
 
         CRUD::field('date_of_birth')->size(6)->tab($bio);
@@ -806,7 +806,6 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
     
 
     }
-
 
     public function store()
     {
@@ -876,14 +875,37 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
             throw ValidationException::withMessages(['employement_date' => 'Invalid month!']); 
         }
     
-      
-      if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() == 0) {
-            throw ValidationException::withMessages(['position_id' => 'The job position  field is required!']);
+    
+
+      if (isset($data['employee_sub_category_id']) && isset($data['position_id'])) {
+    
+
+         throw ValidationException::withMessages(['position_id' => 'Either Job Position or sub category must be selected!',
+         'employee_sub_category_id'=>'Sub category must be empty when Employee job position is selected']);
         }
+
+    
+
+    //   if (isset($data['employee_sub_category_id']) && $data['employee_sub_category_id'] === null) {
+           if (PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->count() === 0) {
+
+            throw ValidationException::withMessages(['position_id' => 'The job position  field is required!']);
+           }
+
+           if ($data['employee_sub_category_id'] !== null && $data['position_id'] !== null) {
+            throw ValidationException::withMessages([
+                'position_id' => 'Either Job Position or sub category must be selected!',
+                'employee_sub_category_id' => 'Sub category must be empty when Employee job position is selected',
+            ]);
+        }
+
+      //  }
         // insert item in the db
         $item = $this->crud->create($data);
         $this->data['entry'] = $this->crud->entry = $item;
+        if($data['position_id']){
         PositionCode::where('position_id', $data['position_id'])->where('employee_id', null)->first()->update(['employee_id' => $item->id]);
+           }
         // show a success message
         Alert::success(trans('backpack::crud.insert_success'))->flash();
 
@@ -911,6 +933,16 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
        $backyear =  $yr-40; // 2016 - 1976 = 40
        $month =  Carbon::parse($cYear)->month;
        ///////////////////////////////////////////////////
+
+
+    if ($this->crud->entry->employee_sub_category_id !== null && $this->crud->entry->position_id !== null) {
+        throw ValidationException::withMessages([
+            'position_id' => 'Either Job Position or sub category must be selected!',
+            'employee_sub_category_id' => 'Sub category must be empty when Employee job position is selected',
+        ]);
+    }
+
+       /////////////////////////////////////////////////////////////////
         if (Carbon::parse($this->crud->entry->date_of_birth)->year == 1970 and Carbon::parse($this->crud->entry->date_of_birth)->month ==01 and Carbon::parse($this->crud->entry->date_of_birth)->day==01 ) {
 
             throw ValidationException::withMessages(['date_of_birth' => 'Please,Change default date(1970-01-01) for date of birth']);
@@ -1034,6 +1066,11 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
     }
 
     ///////////////////////////////////////////////////////////////////////
+
+
+
+
+    ////////////////////////////////////////////////////////////////
     public function checkProbation()
     {
 
@@ -1193,6 +1230,25 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
 
         $demotions = Demotion::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['demotions'] = $demotions;
+
+  /////////////////////////////////////////////////////////////////////////////////
+    $employement_date = Employee::select('employement_date')->where('id', $employeeId)->get()->first()?->employement_date ;
+    $cYear =  Constants::gcToEt(Carbon::now());
+    $currentYear  =  Carbon::parse($cYear)->year;
+    $serviceYears = $currentYear - $employement_date->year;
+    $accrualRates = Constants::ACCRUAL_RATES;  // Access the ACCRUAL_RATES constant
+    $maxAccrualRate = Constants::MAX_ACCRUAL_RATE;
+    $totalLeaveDays = 0;
+    for ($i = 0; $i <= min($serviceYears, count($accrualRates) - 1); $i++) {
+        $totalLeaveDays += $accrualRates[$i];
+    }
+    if ($serviceYears >= 10) {
+        $totalLeaveDays = $maxAccrualRate;
+    }
+
+   $this->data['remainingLeaveDays'] = $totalLeaveDays;
+        
+
     ////////////////////////////////////////////////////////////////////////
         try {
             $employee = Employee::where('id', '=', $employeeId)->first();
