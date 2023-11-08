@@ -23,7 +23,7 @@ class AuthController extends Controller
         $username = 'username';
         if (Auth::check() || backpack_auth()->check()) {
 
-            return redirect()->route('home');
+            return redirect()->route('notice');
         }
 
         return view('auth.login', compact('username'));
@@ -81,7 +81,7 @@ class AuthController extends Controller
                 }
                 // $user->update(['is_online' => true]);
                 // $user->update(['last_login' => now()]);
-                return redirect(route('dashboard'));
+                return redirect(route('notice'));
             }
             
             else {
@@ -154,7 +154,7 @@ class AuthController extends Controller
                         if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
                             // $user->update(['is_online' => true]); //
                             // $user->update(['last_login' => now()]);
-                            return redirect(route('dashboard'));
+                            return redirect(route('notice'));
                         }
                     } 
                     catch (Exception $e) {
@@ -177,7 +177,7 @@ class AuthController extends Controller
                     if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
                         // $user->update(['is_online' => true]); //
                         // $user->update(['last_login' => now()]);
-                        return redirect(route('dashboard'));
+                        return redirect(route('notice'));
                     }
                 }
             } else {
@@ -190,7 +190,7 @@ class AuthController extends Controller
                 if (Config::get('app.env') == 'local') {
                     // dd($e->getMessage());
                     return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
-                        redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => 'Invalid credenatial'])->withInput();
+                        redirect(route('notice')) :  redirect()->back()->withErrors(['username' => 'Invalid credenatial'])->withInput();
                 }
                 //return new ModelNotFoundException();
                 return redirect()->back()->withErrors(['username' => 'It seems you do not have UAS account! Contact Your System Adminstrator'])->withInput();
@@ -198,7 +198,7 @@ class AuthController extends Controller
                 return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
                     redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();
                 if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
-                    return redirect(route('dashboard'));
+                    return redirect(route('notice'));
                 } else {
                     return redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();
                 }

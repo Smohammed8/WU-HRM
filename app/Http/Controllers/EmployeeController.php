@@ -111,11 +111,28 @@ class EmployeeController extends Controller
     }
 
 
-public function fetchSubCategories($category)
-{
-    $subCategories = EmployeeSubCategory::where('employee_category_id', $category)->pluck('name', 'id');
+// public function fetchSubCategories($category)
+// {
+//     $subCategories = EmployeeSubCategory::where('employee_category_id', $category)->pluck('name', 'id');
 
-    return response()->json($subCategories);
+//     return response()->json($subCategories);
+// }
+
+
+
+public function fetchSubCategories(Request $request)
+{
+  
+    $employeeCategoryId = $request->input('employee_category_id'); 
+    $options = EmployeeSubCategory::query();
+    if (! $employeeCategoryId) {
+        return [];
+    }
+    if ($employeeCategoryId) {
+        $options = $options->where('employee_category_id', $employeeCategoryId);
+    }
+
+    return $options;
 }
 
 

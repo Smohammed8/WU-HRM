@@ -12,6 +12,10 @@ use NumberFormatter;
 use App\Models\Leave;
 use App\Models\Level;
 use App\Models\Skill;
+use App\Models\Region;
+use App\Models\Zone;
+use App\Models\Woreda;
+use App\Models\Kebele;
 use App\Models\License;
 use App\Models\Pension;
 use App\Models\Quarter;
@@ -31,9 +35,9 @@ use App\Models\LicenseType;
 use App\Models\Nationality;
 use App\Models\TypeOfLeave;
 use App\Models\FieldOfStudy;
+//use PDF;
 use App\Models\PositionCode;
 use App\Models\TemplateType;
-//use PDF;
 use Illuminate\Http\Request;
 use App\Models\EmployeeTitle;
 use App\Models\MaritalStatus;
@@ -475,7 +479,7 @@ class EmployeeCrudController extends CrudController
             ///////////////////////Wrong column
             DB::raw("DATE_FORMAT(employees.employement_date, '%Y-%m-%d') AS formatted_employement_date"),
             DB::raw("CONCAT(TIMESTAMPDIFF(YEAR, employees.employement_date, CURDATE()), ' Years ',
-            TIMESTAMPDIFF(MONTH, employees.employement_date, CURDATE()) % 12, ' Months') AS experience_years_format"),
+            TIMESTAMPDIFF(MONTH, employees.employement_date, CURDATE()) % 6, ' Months') AS experience_years_format"),
           
             'marital_statuses.name as marital_status',
             DB::raw('(SELECT COUNT(*) FROM employee_families WHERE employee_families.employee_id = employees.id AND employee_families.family_relationship_id = 1) as number_of_children'), //number of children where family_relationship_id=1(child)
@@ -700,16 +704,16 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EmployeeRequest::class);
-        $this->crud->setCreateContentClass('col-md-12');
+        $this->crud->setCreateContentClass('col-md-6');
         $this->crud->enableTabs();
         //$this->crud->enableVerticalTabs();
         $this->crud->enableHorizontalTabs();
         ////////////////////// Tabs //////////////////////
         $pi       = '[1] Personal Information';
-        $ci       = '[4] Contact Information';
+        $job      = '[2] Job Information';
         $bio      = '[3] Bio Information';
         $address  = '[4] Address Information';
-        $job      = '[2] Job Information';
+        $ci       = '[5] Contact Information';
         $edu      = '[6] Employee Credentials';
         $other    = '[7] Other Information';
 
@@ -725,73 +729,58 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         CRUD::field('religion_id')->size(6)->tab($pi);
         CRUD::field('employee_title_id')->label('Employee title')->type('select2')->entity('employeeTitle')->model(EmployeeTitle::class)->attribute('title')->size(6)->tab($pi);
 
+///////////////////////////////////////////////// 2nd tab ////////////////////////////////////////////
         CRUD::field('position_id')->label('Job Position')->type('select2')->entity('position')->model(Position::class)->attribute('position_info')->size(6)->tab($job);
-
-    
         CRUD::field('employee_category_id')->type('select2')->entity('employmentCategory')->model(EmployeeCategory::class)->attribute('name')->size(6)->tab($job);
-
         CRUD::field('educational_level_id')->type('select2')->entity('educationalLevel')->model(EducationalLevel::class)->attribute('name')->size(6)->tab($job);
-
-
-        // CRUD::addField([
-        //     'name' => 'employee_category_id',
-        //     'type' => 'select2',
-        //     'entity' => 'employeeCategory',
-        //     'model' => EmployeeCategory::class,
-        //     'attribute' => 'name',
-        //     'label' => 'Employee Category',
-        //     'size' => 6, // Adjust the size as needed
-        //     'tab' => $job, // Assuming $job is defined earlier
-        // ]);
-        
-        // CRUD::addField([
-        //     'name' => 'employee_sub_category_id',
-        //     'type' => 'select2',
-        //     'entity' => 'employeeSubCategory',
-        //     'model' => EmployeeSubCategory::class,
-        //     'attribute' => 'name',
-        //     'label' => 'Sub-category (Academic Rank)',
-        //     'size' => 6, // Adjust the size as needed
-        //     'tab' => $job, // Assuming $job is defined earlier
-        // ]);
-
-
-        CRUD::field('employee_sub_category_id')->type('select2')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub category')->size(6)->tab($job);
-
-        CRUD::field('employmeent_identity')->type('hidden')->value($this->getEmployeeID());
         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('field_of_study_id')->type('select2')->label('Field of study')->entity('fieldOfStudy')->model(FieldOfStudy::class)->attribute('name')->size(6)->tab($job);
+/////////////////////////////////////////////////////// Bio tab //////////////////////////////////////////////////
         CRUD::field('birth_city')->size(6)->label('Place of birth')->tab($bio);
-
         CRUD::field('date_of_birth')->size(6)->tab($bio);
-
         CRUD::field('blood_group')->type('enum')->size(6)->tab($bio);
         CRUD::field('eye_color')->type('enum')->size(6)->tab($bio);
         CRUD::field('marital_status_id')->type('select2')->entity('maritalStatus')->model(MaritalStatus::class)->attribute('name')->size(6)->tab($bio);
         CRUD::field('ethnicity_id')->size(6)->tab($bio);
-        CRUD::field('email')->type('email')->label('Email Address')->size(6)->tab($ci);
-        CRUD::field('phone_number')->size(6)->tab($ci);
-        
-        CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
-        CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
-        CRUD::field('user_id')->type('select2')->label('UAS Account')->entity('user')->model(User::class)->attribute('name')->size(6)->tab($ci);
+       
 
+        CRUD::field('employee_sub_category_id')->type('select2')->entity('employeeSubCategory')->model(EmployeeSubCategory::class)->attribute('name')->label('Sub category')->size(6)->tab($job);
 
-        //CRUD::field('uas_user_id')->tab($ci)->size(3);
         CRUD::field('employment_status_id')->label('Current status')->size(6)->tab($job);
         CRUD::field('horizontal_level')->type('enum')->label('Horizontal Level')->size(6)->tab($job);
         CRUD::field('employment_status_id')->type('select2')->label('Current status')->entity('employmentStatus')->model(EmploymentStatus::class)->attribute('name')->size(6)->tab($job);
         CRUD::field('employement_date')->size(6)->tab($job);
         CRUD::field('pention_number')->label('Pension number')->size(6)->tab($job);
         CRUD::field('nationality_id')->type('select2')->label('Nationality')->entity('nationality')->model(Nationality::class)->attribute('nation')->size(6)->tab($bio);
-        // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         CRUD::field('hr_branch_id')->type('select2')->label('HR Office')->entity('hrBranch')->model(HrBranch::class)->attribute('name')->size(6)->tab($job);
-        // CRUD::field('rfid')->size(4)->type('number')->tab($other);
-        // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
+         CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
+      
+//////////////////////////////////////// Address  info tab ///////////////////////
 
-        CRUD::field('employment_type_id')->type('select2')->entity('employmentType')->model(EmploymentType::class)->attribute('name')->size(6)->tab($job);
 
- 
+///////////////////////////////////////////// 3rd tab ////////////////////////////////////////////////////////////////////////////////
+CRUD::field('region_id')->type('select2')->entity('region')->model(Region::class)->attribute('name')->size(6)->tab($address);
+CRUD::field('zone_id')->type('select2')->entity('zone')->model(Zone::class)->attribute('name')->size(6)->tab($address);
+CRUD::field('woreda_id')->type('select2')->entity('woreda')->model(Woreda::class)->attribute('name')->size(6)->tab($address);
+CRUD::field('kebele_id')->type('select2')->entity('kebele')->model(Kebele::class)->attribute('name')->size(6)->tab($address);
+
+
+//////////////////////////////////////// 4th tab ///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// Last tab //////////////////////////////////////////////
+
+        CRUD::field('employmeent_identity')->type('hidden')->value($this->getEmployeeID());
+        CRUD::field('email')->type('email')->label('Email Address')->size(6)->tab($ci);
+        CRUD::field('phone_number')->size(6)->tab($ci);
+        CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
+        CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
+        CRUD::field('user_id')->type('select2')->label('UAS Account')->entity('user')->model(User::class)->attribute('name')->size(6)->tab($ci);
+
+
+  
+
+
+
+
         // CRUD::field('rfid')->size(4)->type('number')->tab($other);
         // CRUD::field('pention_number')->type('number')->size(6)->tab($other);
 
@@ -1286,8 +1275,7 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         /////////////////////////////////////////////////////////////////////////////////////////////
         //     ->whereNot('status', 'pending')
      ///////////////////////////////////////////////////////////////
-    $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])
-     ->where('id', $employeeId)->get();
+     $prob = Employee::whereBetween('employement_date', [Carbon::now()->subMonths(6), Carbon::now()])->where('id', $employeeId)->get();
         if ($prob->isEmpty()) {
             $this->data['status'] = 'No';
            

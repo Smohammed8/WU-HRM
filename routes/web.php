@@ -167,6 +167,8 @@ Route::delete('logs/bulkDelete', [AccessLogController::class,'bulkDelete'])->nam
 
 Route::get('/admin/employee/fetch-subcategories/{category}',[EmployeeController::class,'fetchSubCategories'])->name('');
 
+Route::post('fetch/employeeSubCategory',[EmployeeController::class,'fetchSubCategories'])->name('search');
+
 /////////////////////////////////////////////////////////////////////
 Route::get('/api/employees', [EmployeeController::class, 'index']);
 Route::get('/api/home', [App\Http\Controllers\SyncController::class, 'insert'])->name('sync');

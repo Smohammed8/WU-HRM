@@ -156,4 +156,7 @@ Route::group([
     Route::crud('notice-type', 'NoticeTypeCrudController');
     Route::crud('access-log', 'AccessLogCrudController');
     Route::crud('employee-sub-category', 'EmployeeSubCategoryCrudController');
+    Route::crud('kebele', 'KebeleCrudController');
+    Route::crud('woreda', 'WoredaCrudController');
+    Route::crud('zone', 'ZoneCrudController');
 });

@@ -542,6 +542,17 @@ saveSnap();
                                     <label for=""><b> National ID: </b></label>
                                     <label for=""> {{ $crud->entry->national_id ?? '-' }} </label>
                                 </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <label for=""><b> Address[RZWK]: </b></label>
+                                    <label for="">
+                                         {{ $crud->entry->region->name ??  '-'  }} / 
+                                         {{ $crud->entry->zone->name ?? '-' }}  /
+                                         {{ $crud->entry->woreda->name ?? '-' }} / 
+                                         {{ $crud->entry->kebele->name ?? '-' }} </label>
+                                </div>
+
+
                             </div>
                             {{-- {{  $date_of_retire2  }} --}}
                             <div id="retirement-date" data-date="<?php echo $date_of_retire2; ?>"></div>

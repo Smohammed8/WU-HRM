@@ -324,13 +324,35 @@ class PermissionSeeder extends Seeder
         Permission::findOrCreate('nationality.edit');
         Permission::findOrCreate('nationality.delete');
 
-        //////////////// Permission for region in G setting
+        ///Permission for region ,zone,woreda and kebele in G setting
         Permission::findOrCreate('region.icrud');
         Permission::findOrCreate('region.index');
         Permission::findOrCreate('region.create');
         Permission::findOrCreate('region.show');
         Permission::findOrCreate('region.edit');
         Permission::findOrCreate('region.delete');
+
+
+        Permission::findOrCreate('zone.icrud');
+        Permission::findOrCreate('zone.index');
+        Permission::findOrCreate('zone.create');
+        Permission::findOrCreate('zone.show');
+        Permission::findOrCreate('zone.edit');
+        Permission::findOrCreate('zone.delete');
+
+        Permission::findOrCreate('woreda.icrud');
+        Permission::findOrCreate('woreda.index');
+        Permission::findOrCreate('woreda.create');
+        Permission::findOrCreate('woreda.show');
+        Permission::findOrCreate('woreda.edit');
+        Permission::findOrCreate('woreda.delete');
+
+        Permission::findOrCreate('kebele.icrud');
+        Permission::findOrCreate('kebele.index');
+        Permission::findOrCreate('kebele.create');
+        Permission::findOrCreate('kebele.show');
+        Permission::findOrCreate('kebele.edit');
+        Permission::findOrCreate('kebele.delete');
 
         //////////////// Permission for religion in G setting
         Permission::findOrCreate('religion.icrud');

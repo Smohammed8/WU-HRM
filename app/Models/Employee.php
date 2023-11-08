@@ -2,31 +2,35 @@
 
 namespace App\Models;
 
-use App\Constants;
-use App\Http\Requests\PositionRequest;
-use App\Models\HrBranch;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Exception;
+use App\Constants;
 use Carbon\Carbon;
-use App\Models\InternalExperience;
-use App\Models\ExternalExperience;
-use Illuminate\Support\Facades\DB;
-////////////// for permission /////////////
-use \Venturecraft\Revisionable\RevisionableTrait;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Spatie\Permission\Traits\HasRoles;
+use App\Models\User;
+use App\Models\Zone;
+use App\Models\Kebele;
+use App\Models\Region;
+use App\Models\Woreda;
+use App\Models\HrBranch;
+use Illuminate\Support\Str;
 use function PHPSTORM_META\map;
+use App\Models\ExternalExperience;
+use App\Models\InternalExperience;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\PositionRequest;
+use Spatie\Permission\Traits\HasRoles;
+////////////// for permission /////////////
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use \Venturecraft\Revisionable\RevisionableTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 
 class Employee extends  Model
 {
@@ -97,7 +101,12 @@ class Employee extends  Model
         'cbe_account',
         'user_id',
         'employee_category_id',
-        'employee_sub_category_id'
+        'employee_sub_category_id',
+
+        'region_id',
+        'zone_id',
+        'woreda_id',
+        'kebele_id'
 
     ];
 
@@ -466,6 +475,26 @@ class Employee extends  Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class,'region_id','id');
+    }
+
+    public function zone(): BelongsTo
+    {
+        return $this->belongsTo(Zone::class,'zone_id','id');
+    }
+    public function woreda(): BelongsTo
+    {
+        return $this->belongsTo(Woreda::class,'woreda_id','id');
+    }
+    public function kebele(): BelongsTo
+    {
+        return $this->belongsTo(Kebele::class,'kebele_id','id');
+    }
+
+
+
     public function educationLevel(): BelongsTo
     {
         return $this->belongsTo(EducationalLevel::class,'educational_level_id','id');

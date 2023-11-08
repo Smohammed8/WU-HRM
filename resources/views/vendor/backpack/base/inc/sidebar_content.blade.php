@@ -16,6 +16,9 @@
 </a>
 </li>
 @endcan
+
+
+
 @can('employee.home')
 @if(Auth::user()->employee)
 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="la la-user-tie nav-icon"></i>
@@ -278,9 +281,20 @@ color:black;
                 class='nav-icon la la-caret-right'></i> Nationality</a></li>
     @endcanany
     @canany(['region.index', 'region.icrud'])
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('region') }}'><i
-                class='nav-icon la la-caret-right'></i> Regions</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('region') }}'><i class='nav-icon la la-caret-right'></i> Regions</a></li>
     @endcanany
+
+    @canany(['zone.index', 'zone.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('zone') }}'><i class='nav-icon la la-caret-right'></i> Zone</a></li>
+    @endcanany
+    @canany(['woreda.index', 'woreda.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('woreda') }}'><i class='nav-icon la la-caret-right'></i> Woreda</a></li>
+    @endcanany
+    @canany(['kebele.index', 'kebele.icrud'])
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('kebele') }}'><i class='nav-icon la la-caret-right'></i> Kebele</a></li>
+    @endcanany
+
+
     @canany(['religion.index', 'religion.icrud'])
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('religion') }}'><i
                 class='nav-icon la la-caret-right'></i> Religion</a></li>

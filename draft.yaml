@@ -432,6 +432,16 @@ models:
           #   employee_category_id: id foreign nullable
           #   description: text nullable
 
+          # Zone:
+          #    name: string nullable
+          #    region_id: id foreign nullable 
+          # Woreda:
+          #    name: string nullable
+          #    zone_id: id foreign nullable
+          # Kebele:
+          #    name: string nullable
+          #    woreda_id: id foreign nullable
+
     #php artisan blueprint:build
     #php artisan backpack:build
 
