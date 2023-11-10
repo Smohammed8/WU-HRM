@@ -25,7 +25,6 @@ Route::group([
     ),
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
     Route::crud('chair-man-type', 'ChairManTypeCrudController');
     Route::crud('educational-level', 'EducationalLevelCrudController');
     Route::crud('employee', 'EmployeeCrudController');

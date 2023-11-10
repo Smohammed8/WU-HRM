@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 class AuthController extends Controller
 {
     
+
+    protected $redirectTo = '/notice';
+
     public function userLoginView()
     {
         $username = 'username';
@@ -66,7 +69,17 @@ class AuthController extends Controller
     // backpack_user()->update(['last_login' => now()]);
 
 
-    public static function login(Request $credentials)
+    // public function loginProgress(Request $request)
+    // {
+    //     if (Auth::check()) {
+    //         return response()->json(['progress' => 100]); // User is authenticated
+    //     } else {
+    //         return response()->json(['progress' => 0]); // User is not authenticated
+    //     }
+    // }
+
+    public  function login(Request $credentials)
+ //   public static function login(Request $credentials)
     {
         $uid = $credentials->input('username');
         $password = $credentials->input('password');
@@ -79,9 +92,17 @@ class AuthController extends Controller
                     Auth::logout();
                     return Redirect::back()->withErrors(['username' => 'Your account is not active. Contact an admin for assistance']);
                 }
-                // $user->update(['is_online' => true]);
-                // $user->update(['last_login' => now()]);
-                return redirect(route('notice'));
+          
+               if ($uid == 'super') {
+      
+                return view('auth.progress');
+                 }
+    
+    
+            return redirect()->intended($this->redirectPath());
+
+
+              //  return redirect(route('notice'));
             }
             
             else {
@@ -154,6 +175,9 @@ class AuthController extends Controller
                         if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
                             // $user->update(['is_online' => true]); //
                             // $user->update(['last_login' => now()]);
+
+                       
+
                             return redirect(route('notice'));
                         }
                     } 
@@ -196,7 +220,7 @@ class AuthController extends Controller
                 return redirect()->back()->withErrors(['username' => 'It seems you do not have UAS account! Contact Your System Adminstrator'])->withInput();
             } else {
                 return backpack_auth()->attempt(['username' => $uid, 'password' => $password]) ?
-                    redirect(route('dashboard')) :  redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();
+                    redirect(route('notice')) :  redirect()->back()->withErrors(['username' => $e->getMessage()])->withInput();
                 if (backpack_auth()->attempt(['username' => $uid, 'password' => $password])) {
                     return redirect(route('notice'));
                 } else {

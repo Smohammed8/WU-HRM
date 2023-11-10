@@ -76,11 +76,6 @@ class SyncController extends Controller
         return view('srs_data.dashboard', compact('data'));
     }
 
-
-    public function unit()
-    {
-    }
-
     public function insert()
     {
 
@@ -139,26 +134,7 @@ class SyncController extends Controller
 
         return redirect()->back();
 
-        // if ($result) {
-        //     // Insertion complete
-        //     return redirect()->route('dashboard')->with('success', 'Data Successfully Synchronized');
-        // }
 
     }
-    //////////////////////////////////////////////////////////////////////////////
-
-    
-    public function syncDepartment()
-    {
-    }
-    public function syncProgram()
-    {
-    }
-
-    public function syncProgramType()
-    {
-    }
-    public function syncProgramLevel()
-    {
-    }
+ 
 }
