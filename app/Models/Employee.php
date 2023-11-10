@@ -102,7 +102,7 @@ class Employee extends  Model
         'user_id',
         'employee_category_id',
         'employee_sub_category_id',
-
+        'file_number',
         'region_id',
         'zone_id',
         'woreda_id',
