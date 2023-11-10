@@ -353,22 +353,7 @@
     </div>
   </div>
 
-
-
-    <?php
-
-    // $dataPoints = array(
-    //     array("label"=>"Administrative staff", "y"=>99),
-    //     array("label"=>"Academics 	 staff", "y"=>0.3),
-    //     array("label"=>"Health staff", "y"=>0.3),
-    //     array("label"=>"Research", "y"=>0.4),
-
-
-    // )
-
-    ?>
  <script src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
- {{-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> --}}
  <script type="text/javascript">
      // Chart 1
         var employeeData = @json($employeeData); // Convert PHP array to JavaScript object
@@ -580,7 +565,7 @@ function toggleDataSeries(e) {
      
  </script>
  
-    
+
 
 @endsection
 
