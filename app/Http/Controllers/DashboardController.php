@@ -46,7 +46,8 @@ class DashboardController extends Controller
     return response()->download($backupFileName);
 }
 
-    public function index(){
+    public function dashboard(){
+        
 
         $users = DB::table('users')->count();
         $employees = DB::table('employees')->count();
@@ -78,18 +79,17 @@ class DashboardController extends Controller
 
 $employeeData = [];
 
-
 for ($i = 0; $i < 12; $i++) {
     $firstHalfTotalMarks = 0;
     $firstHalfEmployeeCount = 0;
     $secondHalfTotalMarks = 0;
     $secondHalfEmployeeCount = 0;
 
-    $emps = Employee::all();
+    // Adjust your Employee model relationship names accordingly
+    $emps = Employee::with(['evaluations.quarter'])->get();
 
     foreach ($emps as $employee) {
         foreach ($employee->evaluations as $evaluation) {
-
             $startMonth = $evaluation->quarter->start_date->month;
             $endMonth = $evaluation->quarter->end_date->month;
 
@@ -97,20 +97,20 @@ for ($i = 0; $i < 12; $i++) {
             $evaluationMonth = Carbon::parse($evaluation->created_at)->month;
 
             if ($evaluationYear == ($gyear + $i)) {
-                             // First half
-                if ($evaluationMonth >=  4 && $evaluationMonth <=11) {
+                // First half
+                if ($evaluationMonth >= 4 && $evaluationMonth <= 11) {
                     $firstHalfTotalMarks += $evaluation->total_mark;
                     $firstHalfEmployeeCount++;
-
                 } 
-                             // second half
-                elseif ($evaluationMonth >=  $startMonth && $evaluationMonth <= $endMonth ) {
+                // Second half
+                elseif ($evaluationMonth >= $startMonth && $evaluationMonth <= $endMonth) {
                     $secondHalfTotalMarks += $evaluation->total_mark;
                     $secondHalfEmployeeCount++;
                 }
             }
         }
     }
+
     $firstHalfAverage = $firstHalfEmployeeCount > 0 ? $firstHalfTotalMarks / $firstHalfEmployeeCount : 0;
     $secondHalfAverage = $secondHalfEmployeeCount > 0 ? $secondHalfTotalMarks / $secondHalfEmployeeCount : 0;
 
@@ -162,7 +162,7 @@ for ($i = 0; $i < 12; $i++) {
     $educationalLevels = EducationalLevel::withCount('employees')->get();
 
     /////////////////////////////////////////////////////////////////////
-            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','educationalLevels','employees','totalEmployeeCount','totalCount', 'year','non_permanets','employeeTypes', 'hrBranches','males','employeeData','bycollege','females','retired','probations'));
+            return view('dashboard', compact('users','permanets', 'freepositions','active_leaves', 'offices','units', 'percentage','educationalLevels','employees','totalEmployeeCount','totalCount','non_permanets','employeeTypes', 'hrBranches','males','employeeData','bycollege','females','retired','probations'));
        
 }
 

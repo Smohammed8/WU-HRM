@@ -353,22 +353,7 @@
     </div>
   </div>
 
-
-
-    <?php
-
-    // $dataPoints = array(
-    //     array("label"=>"Administrative staff", "y"=>99),
-    //     array("label"=>"Academics 	 staff", "y"=>0.3),
-    //     array("label"=>"Health staff", "y"=>0.3),
-    //     array("label"=>"Research", "y"=>0.4),
-
-
-    // )
-
-    ?>
  <script src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
- {{-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> --}}
  <script type="text/javascript">
      // Chart 1
         var employeeData = @json($employeeData); // Convert PHP array to JavaScript object
@@ -542,20 +527,6 @@ var chart5 = new CanvasJS.Chart("chartContainer5", {
 		name: "Male",
 		legendText: "Male",
 		showInLegend: true, 
-		// dataPoints:[
-		// 	{ label: "Main Campus", y: 266.21 },
-		// 	{ label: "Health Institute", y: 302.25 },
-		// 	{ label: "Natural Science", y: 157.20 },
-		// 	{ label: "Social Science", y: 148.77 },
-		// 	{ label: "Law & Governance", y: 101.50 },
-		// 	{ label: "Business & Economics", y: 97.8 },
-        //     { label: "Public Health", y: 17.8 },
-        //     { label: "Technology Institue", y: 27.8 },
-        //     { label: "Agri & veternary Medecine", y: 30.8 },
-        //     { label: "Agaro Campus", y: 213.8 }
-            
-		// ]
-
         dataPoints: hrBranchesData.map(function (branch) {
                 return { label: branch.name, y: branch.male_count };
             })
@@ -571,19 +542,6 @@ var chart5 = new CanvasJS.Chart("chartContainer5", {
                 return { label: branch.name, y: branch.female_count };
             })
 
-		// dataPoints:[
-		// 	{ label: "Main campus", y: 10.46 },
-		// 	{ label: "Health Institute", y: 2.27 },
-		// 	{ label: "Natural Science", y: 3.99 },
-		// 	{ label: "Social Science", y: 4.45 },
-		// 	{ label: "Law & Governance", y: 2.92 },
-		// 	{ label: "Business & Economics", y: 3.1 },
-        //     { label: "Public Health", y: 7.8 },
-        //     { label: "Technology Institue", y: 29.8 },
-        //     { label: "Agri & veternary Medecine", y: 10.8 },
-        //     { label: "Agaro Campus", y: 13.8 }
-
-		// ]
 	}]
 });
 chart5.render();
@@ -607,7 +565,7 @@ function toggleDataSeries(e) {
      
  </script>
  
-    
+
 
 @endsection
 

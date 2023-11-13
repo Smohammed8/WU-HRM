@@ -1,7 +1,13 @@
 created:
-    - database/factories/EmployeeSubCategoryFactory.php
-    - database/migrations/2023_11_06_200546_create_employee_sub_categories_table.php
-    - app/Models/EmployeeSubCategory.php
+    - database/factories/ZoneFactory.php
+    - database/factories/WoredaFactory.php
+    - database/factories/KebeleFactory.php
+    - database/migrations/2023_11_08_165646_create_zones_table.php
+    - database/migrations/2023_11_08_165647_create_woredas_table.php
+    - database/migrations/2023_11_08_165648_create_kebeles_table.php
+    - app/Models/Zone.php
+    - app/Models/Woreda.php
+    - app/Models/Kebele.php
 models:
     UploadFile: { name: 'string:255', path: 'string:255' }
     EmployeeTitle: { title: 'string:50 unique', accronomy: 'string:40 unique' }
@@ -87,3 +93,6 @@ models:
     NoticeType: { name: string, description: 'text nullable' }
     Notice: { user_id: 'id foreign', notice_type_id: 'id foreign', body: 'text nullable', visitor_count: 'integer nullable' }
     EmployeeSubCategory: { name: 'string nullable', employee_category_id: 'id foreign nullable', description: 'text nullable' }
+    Zone: { name: 'string nullable', region_id: 'id foreign nullable' }
+    Woreda: { name: 'string nullable', zone_id: 'id foreign nullable' }
+    Kebele: { name: 'string nullable', woreda_id: 'id foreign nullable' }

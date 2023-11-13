@@ -55,13 +55,13 @@ Route::get('/', function () {
     if (backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
         return redirect(route('home'));  
     }
-    return redirect(route('dashboard'));
+    return redirect(route('notice'));
     
 
 });
 
 Route::redirect('/admin/login', '/home');
-// Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+
 // Route::redirect('/admin/login','/login');
 // Route::get('/', function () {
 //     return redirect(route('backpack.dashboard'));
@@ -72,7 +72,7 @@ Route::get('/import', [ImportController::class, 'import'])->middleware('auth');
 Route::get('/home', [EmployeeController::class, 'home'])->name('home')->middleware(['admin']);
 Route::get('import_page', [EmployeeController::class, 'importPage'])->middleware('auth');
 Route::post('import', [EmployeeController::class, 'import'])->middleware('auth');
-
+Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 Route::group(['middleware' => ['web', 'update.logout.status']], function () {
 Route::get('/login', [AuthController::class, 'userLoginView'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth')->middleware('guest');
@@ -166,6 +166,8 @@ Route::delete('logs/bulkDelete', [AccessLogController::class,'bulkDelete'])->nam
 
 
 Route::get('/admin/employee/fetch-subcategories/{category}',[EmployeeController::class,'fetchSubCategories'])->name('');
+
+Route::post('fetch/employeeSubCategory',[EmployeeController::class,'fetchSubCategories'])->name('search');
 
 /////////////////////////////////////////////////////////////////////
 Route::get('/api/employees', [EmployeeController::class, 'index']);

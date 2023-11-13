@@ -6,7 +6,9 @@
             {{-- <form action="{{ route('login.auth') }}" method="POST"> --}}
             @csrf
             <br><br>
-
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
             <style>
                 #top {
 
@@ -28,6 +30,9 @@
 
                     </small>
                 </div>
+          
+
+
                 @if(session('error'))
                 <div class="alert alert-danger">
                     {{ session('error') }}
@@ -96,16 +101,38 @@
                     </form>
                 </div>
             </div>
-            {{-- @if (backpack_users_have_email() && config('backpack.base.setup_password_recovery_routes', true))
-            <div class="text-center"><a href="{{ route('backpack.auth.password.reset') }}">{{
-                    trans('backpack::base.forgot_your_password') }}</a>
+
+
+
+{{-- <div class="container mt-5">
+
+    <div class="progress">
+        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    @endif --}}
-            {{-- @if (config('backpack.base.registration_open'))
-            <div class="text-center"><a href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register')
-                    }}</a>
 </div>
-@endif --}}
+
+<script>
+    function checkLoginProgress() {
+        axios.get('/login')
+            .then(function (response) {
+                const progress = response.data.progress;
+                $('#progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
+                if (progress < 100) {
+                    setTimeout(checkLoginProgress, 1000); // Check progress again after 1 second
+                } else {
+                    window.location.href = '/notice'; // Redirect to the dashboard when authenticated
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
+    $(document).ready(function () {
+        checkLoginProgress(); // Start checking progress when the document is ready
+    }); --}}
+</script>
+
             <br><br>
             {{-- </form> --}}
         </div>
