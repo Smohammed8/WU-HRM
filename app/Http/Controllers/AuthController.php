@@ -84,7 +84,7 @@ class AuthController extends Controller
         $uid = $credentials->input('username');
         $password = $credentials->input('password');
         $user = User::where('username', '=', $uid)->first();
-        if ($uid == "super") {
+        if ($uid == "super" or $uid == "admin" or $uid == "seid" ) {
             $credentials = ["username" => $uid, "password" => $password];
             if (Auth::attempt($credentials)) { // Check if the user is disabled
                 //$request->session()->regenerate();
@@ -92,17 +92,12 @@ class AuthController extends Controller
                     Auth::logout();
                     return Redirect::back()->withErrors(['username' => 'Your account is not active. Contact an admin for assistance']);
                 }
-          
-               if ($uid == 'super') {
+                if (Auth::attempt($credentials)) {
       
-                return view('auth.progress');
-                 }
-    
-    
-            return redirect()->intended($this->redirectPath());
-
-
-              //  return redirect(route('notice'));
+                    return view('auth.progress');
+                   }
+                 //  return redirect()->intended($this->redirectPath());
+                //  return redirect(route('notice'));
             }
             
             else {
