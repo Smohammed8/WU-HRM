@@ -19,10 +19,10 @@ class CreatePensionsTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->enum('gender', ["Male","Female"]);
-            $table->integer('year')->default(60);
-            $table->integer('notify')->default(365);
-            $table->integer('extend_year')->default(60);
-            $table->foreignId('employee_category_id')->constrained();
+            $table->integer('year')->nullable();
+            $table->integer('notify')->nullable();
+            $table->integer('extend_year')->nullable();
+            $table->foreignId('employee_category_id')->constrained()->nullable();
             $table->timestamps();
         });
 
