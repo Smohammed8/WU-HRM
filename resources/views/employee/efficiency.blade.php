@@ -173,7 +173,7 @@
                                 </td>
 
 
-                                <td>{{ $evaluation->createdBy->name }}</td>
+                                <td>{{ $evaluation->createdBy?->name }}</td>
                                 <td>{{ $evaluation->created_at->format('d, F Y') }} </td>
                                 <td> From {{ $evaluation->quarter->start_date->format('d, F Y') }} to
                                     {{ $evaluation->quarter->end_date->format('d, F Y') }} </td>

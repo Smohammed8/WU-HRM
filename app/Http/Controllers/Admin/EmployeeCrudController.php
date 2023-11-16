@@ -704,7 +704,7 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EmployeeRequest::class);
-        $this->crud->setCreateContentClass('col-md-6');
+        $this->crud->setCreateContentClass('col-md-12');
         $this->crud->enableTabs();
         //$this->crud->enableVerticalTabs();
         $this->crud->enableHorizontalTabs();
@@ -712,10 +712,9 @@ $freepositions = PositionCode::where('employee_id', null)->where('employee_id', 
         $pi       = '[1] Personal Information';
         $job      = '[2] Job Information';
         $bio      = '[3] Bio Information';
-        $address  = '[4] Address Information';
-        $ci       = '[5] Contact Information';
-        $edu      = '[6] Employee Credentials';
-        $other    = '[7] Other Information';
+        $address  = '[4] Demographic Information';
+        $ci       = '[5] Other Information';
+      
 
         ////////////////////////////////////////////////
         CRUD::field('photo')->label('Employee photo(4x4)')->size(8)->type('image')->aspect_ratio(1)->crop(true)->upload(true)->tab($pi);
@@ -774,8 +773,8 @@ CRUD::field('kebele_id')->type('select2')->entity('kebele')->model(Kebele::class
         CRUD::field('national_id')->label('National ID')->size(6)->tab($ci);
         CRUD::field('cbe_account')->label('CBE Account')->size(6)->tab($ci);
         CRUD::field('user_id')->type('select2')->label('UAS Account')->entity('user')->model(User::class)->attribute('name')->size(6)->tab($ci);
-
-
+        CRUD::field('file_number')->size(6)->tab($ci);
+     
   
 
 
