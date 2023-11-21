@@ -532,9 +532,9 @@
                                      
                                       @if($crud->entry->internalExperiences->count() > 0 or $crud->entry->externalExperiences->count() > 0)
 
-                                        {{ $crud->entry->getTotalExperience()['years'] }} years
-                                        {{ $crud->entry->getTotalExperience()['months'] }} months
-                                        {{ $crud->entry->getTotalExperience()['days'] }} days
+                                        {{ $crud->entry->totalExperiences()['years'] }} years
+                                        {{ $crud->entry->totalExperiences()['months'] }} months
+                                        {{ $crud->entry->totalExperiences()['days'] }} days
                                         @else
                                         {{ $crud->entry->getEmployementDateRange() }}
 

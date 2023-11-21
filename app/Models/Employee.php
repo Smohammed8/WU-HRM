@@ -536,7 +536,7 @@ class Employee extends  Model
 
 
 
-public function getTotalExperience()
+public function totalExperiences()
 {
     $totalSumInternal = $this->calculateTotalSum();
     $totalSumExternal = $this->calculateExTotalSum();
