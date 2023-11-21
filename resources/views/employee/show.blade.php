@@ -530,11 +530,15 @@
                                         {{-- {{ $crud->entry->getEmployementDateRange() }} --}}
 
                                      
+                                      @if($crud->entry->internalExperiences->count() > 0 or $crud->entry->externalExperiences->count() > 0)
 
                                         {{ $crud->entry->getTotalExperience()['years'] }} years
                                         {{ $crud->entry->getTotalExperience()['months'] }} months
                                         {{ $crud->entry->getTotalExperience()['days'] }} days
+                                        @else
+                                        {{ $crud->entry->getEmployementDateRange() }}
 
+                                        @endif
                                   
                                     </label>
                                 </div>
