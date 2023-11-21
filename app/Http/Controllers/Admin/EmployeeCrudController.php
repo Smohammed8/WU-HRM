@@ -1201,7 +1201,7 @@ CRUD::field('kebele_id')->type('select2')->entity('kebele')->model(Kebele::class
         $this->data['evaluation_levels'] = $evaluation_levels;
 
 
-        $leaves = Leave::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(1);
+        $leaves = Leave::where('employee_id', $employeeId)->orderBy('id', 'desc')->Paginate(10);
         $this->data['leaves'] = $leaves;
         $type_of_leaves = TypeOfLeave::orderBy('id', 'desc')->Paginate(10);
         $this->data['type_of_leaves'] = $type_of_leaves;

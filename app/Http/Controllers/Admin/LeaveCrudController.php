@@ -49,7 +49,7 @@ class LeaveCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Leave::class);
+        CRUD::setModel(Leave::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/leave');
         CRUD::setEntityNameStrings('leave', 'leaves');
         $this->crud->orderBy('id', 'DESC');
