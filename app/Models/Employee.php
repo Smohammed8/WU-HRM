@@ -212,6 +212,8 @@ class Employee extends  Model
     public function setDateOfBirthAttribute($dateOfBirth)
     {
         $this->attributes['date_of_birth'] = Constants::etToGc($dateOfBirth);
+
+       
     }
 
     public function getNameAttribute()
@@ -415,23 +417,147 @@ class Employee extends  Model
         return $this->hasMany(ExternalExperience::class, 'employee_id', 'id');
     }
 
+       // Add a method to calculate total experience for each internal experience
+   public function totalInternalExperiences()
+   {
+       $totalExperiences = [];
 
-    public function totalExperiences()
-    {
-        $internalExperiences = $this->externalExperiences;
-        $extrnalExperiences = $this->internalExperiences;
-        $total = 0;
-        foreach ($internalExperiences as $internalExperience) {
-            $dump = $internalExperience->end_date->diff($internalExperience->start_date);
-            // dump($dump);
-        }
+       // Sort internal experiences by start date
+       $sortedExperiences = $this->internalExperiences->sortBy('start_date');
 
-        foreach ($extrnalExperiences as $extrnalExperience) {
-            // dump($extrnalExperience);
-        }
-        // dd("Total experience is $total");
-        // dd('sd');
+       foreach ($sortedExperiences as $key => $internalExperience) {
+           $startDate = $internalExperience->start_date;
+           $endDate = $internalExperience->end_date ?? Constants::gcToEt(now()); // Use current date if end_date is null
+           if ($key > 0) {
+               $previousExperience = $sortedExperiences[$key - 1];
+
+               if ($startDate < $previousExperience->end_date) {
+                   $startDate = $previousExperience->end_date;
+               }
+           }
+           $years = $startDate->diff($endDate)->y;
+           $months = $startDate->diff($endDate)->m;
+           $days = $startDate->diff($endDate)->d;
+
+           // Adjust for cases where months > 12
+           $years += intdiv($months, 12);
+           $months = $months % 12;
+
+           // Adjust for cases where days > 29
+           if ($days > 29) {
+               $months += intdiv($days, 30);
+               $days = $days % 30;
+           }
+
+           $totalExperiences[] = $years . ' years ' . $months . ' months ' . $days . ' days';
+       }
+
+       return $totalExperiences;
+   }
+
+   // Add a method to calculate the total sum of durations
+   public function calculateTotalSum()
+   {
+       $totalSum = [
+           'years' => 0,
+           'months' => 0,
+           'days' => 0,
+       ];
+
+       foreach ($this->totalInternalExperiences() as $experience) {
+           preg_match('/(\d+) years (\d+) months (\d+) days/', $experience, $matches);
+
+           $totalSum['years'] += (int)$matches[1];
+           $totalSum['months'] += (int)$matches[2];
+           $totalSum['days'] += (int)$matches[3];
+       }
+
+       return $totalSum;
+   }
+  ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+       // Add a method to calculate total experience for each internal experience
+       public function totalExeternalExperiences()
+       {
+           $totalExperiences = [];
+    
+           // Sort internal experiences by start date
+           $sortedExperiences = $this->externalExperiences->sortBy('start_date');
+    
+           foreach ($sortedExperiences as $key => $externalExperiences) {
+               $startDate = $externalExperiences->start_date;
+               $endDate   = $externalExperiences->end_date ?? Constants::gcToEt(now()); // Use current date if end_date is null
+               if ($key > 0) {
+                   $previousExperience = $sortedExperiences[$key - 1];
+    
+                   if ($startDate < $previousExperience->end_date) {
+                       $startDate = $previousExperience->end_date;
+                   }
+               }
+               $years = $startDate->diff($endDate)->y;
+               $months = $startDate->diff($endDate)->m;
+               $days = $startDate->diff($endDate)->d;
+    
+               // Adjust for cases where months > 12
+               $years += intdiv($months, 12);
+               $months = $months % 12;
+    
+               // Adjust for cases where days > 29
+               if ($days > 29) {
+                   $months += intdiv($days, 30);
+                   $days = $days % 30;
+               }
+    
+               $totalExperiences[] = $years . ' years ' . $months . ' months ' . $days . ' days';
+           }
+    
+           return $totalExperiences;
+       }
+    
+       // Add a method to calculate the total sum of durations
+       public function calculateExTotalSum()
+       {
+           $totalSum = [
+               'years' => 0,
+               'months' => 0,
+               'days' => 0,
+           ];
+    
+           foreach ($this->totalExeternalExperiences() as $experience) {
+               preg_match('/(\d+) years (\d+) months (\d+) days/', $experience, $matches);
+    
+               $totalSum['years'] += (int)$matches[1];
+               $totalSum['months'] += (int)$matches[2];
+               $totalSum['days'] += (int)$matches[3];
+           }
+    
+           return $totalSum;
+       }
+
+
+
+public function getTotalExperience()
+{
+    $totalSumInternal = $this->calculateTotalSum();
+    $totalSumExternal = $this->calculateExTotalSum();
+    // Merge the arrays to combine internal and external experience durations
+    $totalSum = [
+        'years' => $totalSumInternal['years'] + $totalSumExternal['years'],
+        'months' => $totalSumInternal['months'] + $totalSumExternal['months'],
+        'days' => $totalSumInternal['days'] + $totalSumExternal['days'],
+    ];
+    // Adjust for cases where months > 12
+    $totalSum['years'] += intdiv($totalSum['months'], 12);
+    $totalSum['months'] = $totalSum['months'] % 12;
+
+    // Adjust for cases where days > 29
+    if ($totalSum['days'] > 29) {
+        $totalSum['months'] += intdiv($totalSum['days'], 30);
+        $totalSum['days'] = $totalSum['days'] % 30;
     }
+    return $totalSum;
+}
+
 
     /**
      * Get all of the addresses for the Employee

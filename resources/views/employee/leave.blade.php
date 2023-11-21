@@ -1,3 +1,4 @@
+
 <div class="modal fade modal-fullscreen" id="employee_leave" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-full" role="document">
@@ -22,70 +23,59 @@
             @canany(['employee.leave.icrud', 'employee.leave.create'])
 
             <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    <!--- ////////////////////// leave form ----------->
+            
                     <form action="{{ route('leave.create', []) }}" method="GET">
                         @csrf
-
                         <input type="hidden" name="employee" value="{{ $crud->entry->id }}">
+                        
                         <div class="card">
                             <div class="card-body">
-
-                                <div class="form-group col-sm-12 col-md-4">
-                                    <label for=""><i class="la la-user"></i> Why an employee shall be
-                                        leave?</label>
-                                    <select name="leave_type" style="width:100%;" id="leave"
-                                        class="form-control select2" required="required">
+                                <div class="form-group col-12 col-md-6">
+                                    <label for=""><i class="la la-user"></i> Why an employee shall be leave?</label>
+                                    <select name="leave_type" style="width:100%;" id="leave" class="form-control select2" required="required">
                                         <option value="">Select leave type </option>
                                         @foreach ($type_of_leaves as $type_of_leave)
                                             <option value="{{ $type_of_leave->id }}">{{ $type_of_leave->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-sm-12 col-md-4">
+            
+                                <div class="form-group col-12 col-md-6">
                                     <label for=""><i class="la la-calendar"></i> Leave date </label>
-                                    <input type="text" id="start" autocomplete="off" class="form-control"
-                                        name="ldate" required />
+                                    <input type="text" id="" autocomplete="off" class="form-control start" name="ldate" required />
                                 </div>
-
-                                <div class="form-group col-sm-12 col-md-4">
-                                    <label for=""><i class="la la-user-minus"></i> Total duration upon
-                                        leave-out(in days)</label>
-                                    <input type="number" min="1" max="724" class=" form-control"
-                                        name="days" required>
+            
+                                <div class="form-group col-12 col-md-6">
+                                    <label for=""><i class="la la-user-minus"></i> Total duration upon leave-out(in days)</label>
+                                    <input type="number" min="1" max="724" class=" form-control" name="days" required>
                                 </div>
-
-                                <div class="form-group col-sm-12 col-md-12">
+            
+                                <div class="form-group col-12 col-md-6">
                                     <label for=""><i class="la la-envelope"></i> Do you have comment?</label>
                                     <textarea type="text" required="required" cols="15" rows="5" class="form-control" name="comment"> </textarea>
                                 </div>
-
-
-
-
                             </div>
                         </div>
-
-
-
-
-                        <button type="submit" name="save" class="btn  btn-sm btn-primary float-right mr-1"> <i
-                                class="la la-plus"> </i>Save </button>
+            
+                        <button type="submit" name="save" class="btn btn-sm btn-primary float-right mr-1"> <i class="la la-plus"> </i>Save </button>
                     </form>
-
-
-                </div>
+             
             </div>
+            
+            <script>
+                // Initialize Select2 Elements
+                $(document).ready(function() {
+                    $('#leave').select2();
+                });
+            </script>
+         
+            
             @endcanany
             <!-- /////////////////////////////////////////////// -->
-
-            <!-- ///////////////////////////////////////////////--->
             <div class="modal-body">
 
-                {{-- <table class="table table-hover table-sm" cellpadding="0" cellspacing="0"> --}}
-                <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs mt-2"
-                    cellspacing="0">
-
+                <table class="table table-hover table-sm" cellpadding="0" cellspacing="0">
+    
                     <thead>
                         <tr style="background-color: lightblue;">
 
@@ -94,7 +84,9 @@
                             <th> Permitted by </th>
                             <th> Date of leave </th>
                             <th> Due date </th>
+                            <th> Total days </th>
                             <th> Remaining time </th>
+                        
                             <th> Current status </th>
                             <th> Action</th>
                         </tr>
@@ -114,13 +106,33 @@
                                 <td>{{ $leave->createdBy->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($leave->leave_date)->format('d, F Y') }} </td>
                                 <td>{{ $leave->due_date->format('d, F Y') }} </td>
-                                @if ($leave->status == 'Closed')
-                                    <td> {{ date_diff(new \Datetime($leave->due_date), new \DateTime('now'))->format(' %y Years,%m Months,%d days') }}
+
+                        
+                                  <td>
+                                    @php
+                                        $startDate = Carbon\Carbon::parse($leave->leave_date);
+                                        $dueDate = $leave->due_date;
+                                        $daysDifference = $dueDate->diffInDays($startDate);
+                                    @endphp
+                                    {{ $daysDifference }} days
+                                </td>
+                              
+
+                             
+                                    <td> 
+                                        @if ($leave->status == 'Closed')
+                                        
+                                        {{ date_diff(new \Datetime($leave->due_date), new \DateTime('now'))->format(' %y Years,%m Months,%d days') }}
+                                        @else
+                                        -
+                                        @endif
+
                                     </td>
-                                @else
-                                    <td> {{ '-' }} </td>
-                                @endif
+                            
+                                
+                            
                                 <td> {{ $leave->status }} </td>
+
                                 <td>
                                     <button type="button" data-toggle="modal" data-id="{{ $leave->id }}"
                                         data-target="#check-in" target="_top"
@@ -131,6 +143,8 @@
                                             class="la la-edit"></i> Edit</a>
 
                                 </td>
+
+
                             </tr>
                         @endforeach
                         @if (count($leaves) == 0)
@@ -196,3 +210,33 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('assets/calendar/js/jquery.plugin.js') }}"></script>
+<script src="{{ asset('assets/calendar/js/jquery.calendars.js') }}"></script>
+<script src="{{ asset('assets/calendar/js/jquery.calendars.plus.js') }}"></script>
+<script src="{{ asset('assets/calendar/js/jquery.calendars.picker.js') }}"></script>
+<script src="{{ asset('assets/calendar/js/jquery.calendars.ethiopian.js') }}"></script>
+<script src="{{ asset('assets/calendar/js/jquery.calendars.ethiopian-am.js') }}"></script>
+<script src="{{ asset('assets/calendar/js/jquery.calendars.picker-am.js') }}"></script>
+<script src="{{ asset('assets/select2/dist/js/select2.min.js') }}"></script>
+<script>
+$(document).ready(function() {
+    var calendar = $.calendars.instance('ethiopian', 'am');
+    
+    $('.start').calendarsPicker({
+        calendar: calendar
+    });
+
+ 
+});
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#collapseExample').on('shown.bs.collapse', function () {
+            // Initialize Select2 Elements
+            $('#leave').select2();
+        });
+    });
+</script>
+
