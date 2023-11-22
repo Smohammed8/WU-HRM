@@ -480,7 +480,6 @@ class Employee extends  Model
        public function totalExeternalExperiences()
        {
            $totalExperiences = [];
-    
            // Sort internal experiences by start date
            $sortedExperiences = $this->externalExperiences->sortBy('start_date');
     
