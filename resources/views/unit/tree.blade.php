@@ -78,7 +78,7 @@
 
                         
                             </div>
-                            <small style="text-align:right;">Figure 1.1 Top Jimma University structure    </small>
+                            <small style="text-align:right;">Figure 1.1 Top University structure    </small>
 
                           </div>
 
