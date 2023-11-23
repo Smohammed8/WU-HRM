@@ -49,8 +49,8 @@ class Constants
         9 => 'SPORT ACADEMY'
     ];
     const LOGO_PATH = 'logo.jpg';
-    const ORG_SHORT = 'JU';
-    const ORG_LONG = 'Jimma University';
+    const ORG_SHORT = 'WU';
+    const ORG_LONG = 'Wollega University';
 
     const PLACEMENT_ROUND_STATUS_OPENED = 0;
     const PLACEMENT_ROUND_STATUS_RANKED = 1;

@@ -132,15 +132,25 @@ for ($i = 0; $i < 12; $i++) {
         ];
         $totalEmployeeCount += $employeeCount;
     }
-    foreach ($percentage as &$dataPoint) {
-        $dataPoint['percentage'] = ($dataPoint['value'] / $totalEmployeeCount)*100;
+    // foreach ($percentage as &$dataPoint) {
+    //     $dataPoint['percentage'] = ($dataPoint['value'] / $totalEmployeeCount)*100;
      
+    // }
+
+    foreach ($percentage as &$dataPoint) {
+        if ($totalEmployeeCount > 0) {
+            $dataPoint['percentage'] = ($dataPoint['value'] / $totalEmployeeCount) * 100;
+        } else {
+            $dataPoint['percentage'] = 0;
+        }
     }
+
 
  
    ///////////////////////////////////////////////////////////////////////// 
     $colleges = HrBranch::all();
     $bycollege = [];
+    $totalCount = 0; // Initialize $totalCount outside the loop
     $totalEmployeeCounts = 0;
     foreach ($colleges as $hr) {
         $totalCount = Employee::where('hr_branch_id','=', $hr->id)->count();

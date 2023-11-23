@@ -94,7 +94,8 @@ class AuthController extends Controller
                 }
                 if (Auth::attempt($credentials)) {
       
-                    return view('auth.progress');
+                   // return view('auth.progress');
+                        return redirect(route('notice'));
                    }
                  //  return redirect()->intended($this->redirectPath());
                 //  return redirect(route('notice'));

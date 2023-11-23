@@ -55,6 +55,7 @@ Route::get('/', function () {
     if (backpack_user()->hasRole(Constants::USER_TYPE_EMPLOYEE)) {
         return redirect(route('home'));  
     }
+    
     return redirect(route('notice'));
     
 

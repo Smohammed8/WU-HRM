@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Progress</title>
-    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
     <style>
         body {
             margin: 0;
@@ -39,10 +38,8 @@
             100% { transform: rotate(360deg); }
         }
     </style>
-    <script src="{{ asset('assets/js/jquery-3.2.1.slim.min.js.js') }}"></script>
-    <script src="{{ asset('assets/js/axios.min.js.js') }}"></script>
-
-
+    <script src="{{ asset('assets/js/jquery-3.2.1.slim.min.js') }}"></script>
+    <script src="{{ asset('assets/js/axios.min.js') }}"></script>
 </head>
 <body>
 
@@ -83,11 +80,4 @@
 </script>
 
 </body>
-
 </html>
-
-
-
-
-
-
