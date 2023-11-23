@@ -7,7 +7,7 @@
         "bold": "poppins_bold_8fe618268f56b4b8f1e70e87a9e99fc0"
     },
     "ethiopian": {
-        "normal": "ethiopian_normal_97aa9b986f83fe5673253d0d5666ec3f"
+        "normal": "ethiopian_normal_f8132b0aff451b4b4934e3fa9a595fdf"
     },
     "ethiopian12": {
         "normal": "ethiopian12_normal_e884b6c3f344f8ccf46067bf5b307504"
@@ -19,16 +19,16 @@
         "bold": "roboto_serif_bold_b6b8e73687041fe636da5add17d24802"
     },
     "eb garamond": {
-        "italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_italic_c37a89ad3e52d9ea4332b72ce185ec93",
-        "500_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_500_italic_db096515176f9bc1ad8f0e80014ee4bc",
-        "600_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_600_italic_7643151417a3a80ae2c8ce16554fc897",
-        "bold_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_bold_italic_b74482801e818fa92fa0916ca6d85626",
-        "800_italic": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_800_italic_07943d20c195702324f7748121411df7",
-        "normal": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_normal_f29c47fec12bbca768541ec199a63e3d",
-        "500": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_500_de63dd15ef7fc2779d6a4e0a10a46a1a",
-        "600": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_600_4073b0bdd90fccd8e58bf59cb62f769a",
-        "bold": "\/var\/www\/ju-hrm\/storage\/fonts\/eb_garamond_bold_b51335225e8768547c66bb63d3e71b9e",
-        "800": "eb_garamond_800_e08fe6daee1f2b0b1df00257faaa00db"
+        "italic": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_italic_c37a89ad3e52d9ea4332b72ce185ec93",
+        "500_italic": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_500_italic_db096515176f9bc1ad8f0e80014ee4bc",
+        "600_italic": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_600_italic_7643151417a3a80ae2c8ce16554fc897",
+        "bold_italic": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_bold_italic_b74482801e818fa92fa0916ca6d85626",
+        "800_italic": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_800_italic_07943d20c195702324f7748121411df7",
+        "normal": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_normal_f29c47fec12bbca768541ec199a63e3d",
+        "500": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_500_de63dd15ef7fc2779d6a4e0a10a46a1a",
+        "600": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_600_4073b0bdd90fccd8e58bf59cb62f769a",
+        "bold": "eb_garamond_bold_b51335225e8768547c66bb63d3e71b9e",
+        "800": "\/home\/bexanetcom\/hrms.bexanet.com\/storage\/fonts\/eb_garamond_800_e08fe6daee1f2b0b1df00257faaa00db"
     },
     "droid sans ethiopic": {
         "normal": "droid_sans_ethiopic_normal_94f3eb64161a37bcbbbad13223d4f011",
