@@ -11,7 +11,7 @@
         <div class="card-header" >
 
 
-            <div class="panel-heading"><i class="fa fa-university"> </i>  <b>  New Jimma University Structure  </b>          <span class="float-right"><i class="fa fa-download"> </i> <b> <a  href="{{ route('structure-pdf') }}"> Download Structure(PDF)  </a> </b> </span> </div>
+            <div class="panel-heading"><i class="fa fa-university"> </i>  <b> University Structure  </b>          <span class="float-right"><i class="fa fa-download"> </i> <b> <a  href="{{ route('structure-pdf') }}"> Download Structure(PDF)  </a> </b> </span> </div>
 
    
 
